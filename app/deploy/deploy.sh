@@ -1,21 +1,28 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 umask 077
+trap 'echo "LENSA deployment stopped at line $LINENO. No other stack was changed." >&2' ERR
 cd /srv/stacks/lensa
 exec 9>.deploy.lock
 flock -n 9 || { echo 'Another LENSA deployment is running.' >&2; exit 1; }
 compose=(docker compose --project-name lensa --file compose.yml --env-file .env)
-test -f compose.yml && test -f .env
-test -f /storage/data/lensa/census/se2026.sqlite
-test -f /storage/data/lensa/state/portal.sqlite
-test -d /storage/data/lensa/backups
+test -f compose.yml || { echo 'Missing compose.yml' >&2; exit 1; }
+test -f .env || { echo 'Missing .env' >&2; exit 1; }
+test -f /storage/data/lensa/census/se2026.sqlite || { echo 'Missing census database' >&2; exit 1; }
+# State files are intentionally inaccessible to the SSH user (directory mode 700,
+# owner 10001). The backup container below checks/reads them as the correct UID.
+test -d /storage/data/lensa/backups || { echo 'Missing backups directory' >&2; exit 1; }
 docker network inspect cloudflared-net >/dev/null
 if [[ -n "${1:-}" ]]; then
   [[ "$1" =~ ^ghcr\.io/pradanain/lensa:(sha-[0-9a-f]{40}|latest)$ || "$1" =~ ^ghcr\.io/pradanain/lensa@sha256:[0-9a-f]{64}$ ]] || { echo 'Invalid LENSA image reference.' >&2; exit 1; }
   export LENSA_IMAGE="$1"
 fi
-if [[ -f /srv/stacks/lensa/.docker/config.json ]]; then
-  export DOCKER_CONFIG=/srv/stacks/lensa/.docker
+registry_config=${LENSA_REGISTRY_CONFIG:-}
+if [[ -z "$registry_config" ]]; then
+  registry_config=/srv/stacks/lensa/.docker-anonymous
+  mkdir -p "$registry_config"
+  chmod 700 "$registry_config"
+  printf '{}\n' > "$registry_config/config.json"
 fi
 "${compose[@]}" config --quiet
 "${compose[@]}" config --format json | python3 -c 'import json,subprocess,sys; d=json.load(sys.stdin); a=d["services"]["lensa"]["environment"]["FORWARDED_ALLOW_IPS"]; n=json.loads(subprocess.check_output(["docker","network","inspect","cloudflared-net"]))[0]; assert a in [v["Subnet"] for v in n["IPAM"]["Config"]], "TRUSTED_PROXY_SUBNET_MISMATCH"'
@@ -29,9 +36,11 @@ if [[ -n "$old_id" ]]; then
   rollback_image="ghcr.io/pradanain/lensa:rollback-$stamp"
   docker image tag "$old_image" "$rollback_image"
 fi
-"${compose[@]}" pull lensa
 image=$("${compose[@]}" config --format json | python3 -c 'import json,sys; print(json.load(sys.stdin)["services"]["lensa"]["image"])')
+echo 'Pulling LENSA image with isolated registry configuration...'
+docker --config "$registry_config" pull "$image"
 # SQLite backup API is safe with the running app's WAL. The census mount is never written.
+echo 'Checking private state and creating consistent backups as UID 10001...'
 docker run --rm --network none --user 10001:10001 --read-only --cap-drop ALL --security-opt no-new-privileges \
   --mount type=bind,src=/storage/data/lensa/state,dst=/state,readonly \
   --mount type=bind,src=/storage/data/lensa/backups,dst=/backup \
@@ -42,11 +51,12 @@ tar -cz compose.yml .env deploy.sh | docker run --rm -i --network none --user 10
 rollback() {
   if [[ -n "$rollback_image" ]]; then
     echo 'LENSA health failed; restoring previous image. Database backup retained.' >&2
-    LENSA_IMAGE="$rollback_image" "${compose[@]}" up -d --no-deps lensa || echo 'Rollback also failed; inspect only the LENSA stack.' >&2
+    LENSA_IMAGE="$rollback_image" "${compose[@]}" up -d --no-deps --pull never lensa || echo 'Rollback also failed; inspect only the LENSA stack.' >&2
   fi
 }
 trap 'rollback' ERR
-"${compose[@]}" up -d --no-deps lensa
+echo 'Starting only the LENSA service...'
+"${compose[@]}" up -d --no-deps --pull never lensa
 healthy=false
 for _ in $(seq 1 120); do
   cid=$("${compose[@]}" ps --quiet lensa)

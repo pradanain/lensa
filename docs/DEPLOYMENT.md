@@ -82,7 +82,7 @@ unset GHCR_TOKEN
 chmod 600 /srv/stacks/lensa/.docker/config.json
 ```
 
-Gunakan `DOCKER_CONFIG=/srv/stacks/lensa/.docker` pada pull/bootstrap jika registry private.
+Jika registry private, gunakan `DOCKER_CONFIG=/srv/stacks/lensa/.docker` pada pull/bootstrap dan `LENSA_REGISTRY_CONFIG=/srv/stacks/lensa/.docker ./deploy.sh` saat deploy. Secara default script memakai konfigurasi anonim tersendiri untuk image publik, sehingga kredensial GHCR lama pada Docker global tidak mengganggu pull dan tidak diubah. Compose memakai image yang sudah ditarik (`--pull never`).
 
 ## Deploy/update
 
@@ -139,3 +139,6 @@ Database sensus read-only harus memiliki backup privat tersendiri. Backup akun/F
 - GHCR denied: cek visibility/package access atau gunakan kredensial read:packages pada konfigurasi Docker khusus LENSA.
 
 Dasar konfigurasi build/publish dan precedence environment: [Docker GitHub Actions](https://docs.docker.com/build/ci/github-actions/push-multi-registries/), [Compose environment precedence](https://docs.docker.com/compose/how-tos/environment-variables/envvars-precedence/).
+
+
+Pemeriksaan database aplikasi dan backup dilakukan sebagai UID container 10001. Folder state/backups mode 700 memang tidak dapat dibaca langsung oleh SSH user; jangan melonggarkan permission untuk mengatasi hal ini. Script tidak memakai host test -f pada database state. CI juga menjalankan rehearsal script di runner Linux sementara dengan folder state privat dan kredensial GHCR global sintetis yang salah untuk memeriksa kondisi ini.

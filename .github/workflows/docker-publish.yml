@@ -41,6 +41,34 @@ jobs:
         env:
           SE2026_TEST_PYTHON: ${{ env.pythonLocation }}/bin/python
           SE2026_BROWSER_CHANNEL: chromium
+      - name: Rehearse deploy with private UID state and stale global registry credentials
+        shell: bash
+        run: |
+          test ! -e /srv/stacks/lensa/compose.yml
+          test ! -e /storage/data/lensa/state/portal.sqlite
+          python app/scripts/maintenance/production_smoke.py --prepare .cache/deploy-rehearsal
+          sudo mkdir -p /srv/stacks/lensa /storage/data/lensa/{census,state,backups}
+          sudo chown "$USER:$USER" /srv/stacks/lensa
+          cp app/deploy/{compose.yml,deploy.sh} /srv/stacks/lensa/
+          chmod 700 /srv/stacks/lensa/deploy.sh
+          sudo install -o root -g 10001 -m 640 .cache/deploy-rehearsal/census.sqlite /storage/data/lensa/census/se2026.sqlite
+          sudo install -o 10001 -g 10001 -m 600 .cache/deploy-rehearsal/state/portal.sqlite /storage/data/lensa/state/portal.sqlite
+          sudo chown 10001:10001 /storage/data/lensa/{state,backups}
+          sudo chmod 700 /storage/data/lensa/{state,backups}
+          docker network create cloudflared-net
+          subnet=$(docker network inspect cloudflared-net --format '{{(index .IPAM.Config 0).Subnet}}')
+          printf 'LENSA_IMAGE=ghcr.io/pradanain/lensa:sha-83511b339a45570897012b76a4f59fc4436d12a7
+          LENSA_TRUSTED_PROXIES=%s
+          ' "$subnet" > /srv/stacks/lensa/.env
+          mkdir -p .cache/stale-registry
+          printf '{"auths":{"ghcr.io":{"auth":"c3ludGhldGljOnN5bnRoZXRpYw=="}}}' > .cache/stale-registry/config.json
+          before=$(sha256sum .cache/stale-registry/config.json)
+          DOCKER_CONFIG="$PWD/.cache/stale-registry" /srv/stacks/lensa/deploy.sh
+          test "$before" = "$(sha256sum .cache/stale-registry/config.json)"
+          sudo test -n "$(sudo find /storage/data/lensa/backups -name 'portal-*.sqlite' -print -quit)"
+          sudo test -n "$(sudo find /storage/data/lensa/backups -name 'config-*.tar.gz' -print -quit)"
+          docker compose -p lensa -f /srv/stacks/lensa/compose.yml --env-file /srv/stacks/lensa/.env down
+          docker network rm cloudflared-net
   publish:
     needs: verify
     if: github.ref == 'refs/heads/main'
