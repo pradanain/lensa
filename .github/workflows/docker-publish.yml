@@ -30,6 +30,10 @@ jobs:
       - run: npm run build && npm run lint && npm test
         working-directory: app/web
       - run: python -m pytest app/tests -q
+      - name: Validate production Compose and deployment script
+        run: |
+          bash -n app/deploy/deploy.sh
+          docker compose --env-file app/deploy/production.env.example -f app/deploy/compose.yml config --quiet
       - run: npx playwright install --with-deps chromium
         working-directory: app/web
       - run: npm run test:e2e

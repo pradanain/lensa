@@ -2,6 +2,8 @@
 set -Eeuo pipefail
 umask 077
 cd /srv/stacks/lensa
+exec 9>.deploy.lock
+flock -n 9 || { echo 'Another LENSA deployment is running.' >&2; exit 1; }
 compose=(docker compose --project-name lensa --file compose.yml --env-file .env)
 test -f compose.yml && test -f .env
 test -f /storage/data/lensa/census/se2026.sqlite
@@ -34,12 +36,13 @@ docker run --rm --network none --user 10001:10001 --read-only --cap-drop ALL --s
   --mount type=bind,src=/storage/data/lensa/state,dst=/state,readonly \
   --mount type=bind,src=/storage/data/lensa/backups,dst=/backup \
   --entrypoint python "$image" -c 'import sqlite3,sys; a=sqlite3.connect("file:/state/portal.sqlite?mode=ro",uri=True); b=sqlite3.connect("/backup/portal-"+sys.argv[1]+".sqlite"); a.backup(b); assert b.execute("PRAGMA quick_check").fetchone()[0]=="ok"; b.close(); a.close()' "$stamp"
-tar -czf "/storage/data/lensa/backups/config-$stamp.tar.gz" compose.yml .env deploy.sh
-chmod 600 "/storage/data/lensa/backups/config-$stamp.tar.gz"
+tar -cz compose.yml .env deploy.sh | docker run --rm -i --network none --user 10001:10001 --read-only --cap-drop ALL \
+  --mount type=bind,src=/storage/data/lensa/backups,dst=/backup \
+  --entrypoint python "$image" -c 'import os,shutil,sys; p="/backup/config-"+sys.argv[1]+".tar.gz"; f=open(p,"xb"); shutil.copyfileobj(sys.stdin.buffer,f); f.close(); os.chmod(p,0o600)' "$stamp"
 rollback() {
   if [[ -n "$rollback_image" ]]; then
     echo 'LENSA health failed; restoring previous image. Database backup retained.' >&2
-    LENSA_IMAGE="$rollback_image" "${compose[@]}" up -d --no-deps lensa
+    LENSA_IMAGE="$rollback_image" "${compose[@]}" up -d --no-deps lensa || echo 'Rollback also failed; inspect only the LENSA stack.' >&2
   fi
 }
 trap 'rollback' ERR
