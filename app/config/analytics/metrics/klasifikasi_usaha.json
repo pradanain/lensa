@@ -1,0 +1,217 @@
+[
+  {
+    "metric_id": "usaha.kbli_distribution",
+    "name": "Distribusi kbli usaha",
+    "description": "Distribusi kbli usaha dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "klasifikasi_usaha",
+    "source": "usaha",
+    "source_mart": "mart_usaha",
+    "kind": "distribution",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "COUNT unit sumber",
+    "denominator_definition": "Total COUNT respons pada cohort terfilter, sebelum pemisahan kategori",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "record unit-versi",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls",
+      "status",
+      "kbli",
+      "kategori"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "KBLI lima digit dan kategori huruf diamati secara lokal; missing/invalid bucket tetap dihitung. Tidak memverifikasi ketepatan kegiatan atau mengubah kode.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT e.\"kbli\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"kode_keberadaan_usaha\",\"kbli\",\"kategori\" FROM \"mart_usaha\" LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"kbli\"",
+    "sql_bindings": [],
+    "distribution_dimension": "kbli",
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.kategori_distribution",
+    "name": "Distribusi kategori usaha",
+    "description": "Distribusi kategori usaha dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "klasifikasi_usaha",
+    "source": "usaha",
+    "source_mart": "mart_usaha",
+    "kind": "distribution",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "COUNT unit sumber",
+    "denominator_definition": "Total COUNT respons pada cohort terfilter, sebelum pemisahan kategori",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "record unit-versi",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls",
+      "status",
+      "kbli",
+      "kategori"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "KBLI lima digit dan kategori huruf diamati secara lokal; missing/invalid bucket tetap dihitung. Tidak memverifikasi ketepatan kegiatan atau mengubah kode.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT e.\"kategori\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"kode_keberadaan_usaha\",\"kbli\",\"kategori\" FROM \"mart_usaha\" LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"kategori\"",
+    "sql_bindings": [],
+    "distribution_dimension": "kategori",
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.kbli_distribution",
+    "name": "Distribusi kbli ub",
+    "description": "Distribusi kbli ub dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "klasifikasi_usaha",
+    "source": "ub",
+    "source_mart": "mart_ub_integrated",
+    "kind": "distribution",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "COUNT unit sumber",
+    "denominator_definition": "Total COUNT respons pada cohort terfilter, sebelum pemisahan kategori",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "record unit-versi",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls",
+      "status",
+      "kbli",
+      "kategori"
+    ],
+    "location_concepts": [
+      "assignment",
+      "response_desa"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "KBLI lima digit dan kategori huruf diamati secara lokal; missing/invalid bucket tetap dihitung. Tidak memverifikasi ketepatan kegiatan atau mengubah kode.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT e.\"kbli_akhir\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"assignment_id\",\"status_keberadaan\",\"kbli_akhir\",\"kategori_kbli\",\"has_assignment_ub\",\"has_ub_a\",\"has_ub_b\",\"has_ub_c\" FROM \"mart_ub_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"kbli_akhir\"",
+    "sql_bindings": [],
+    "distribution_dimension": "kbli",
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.kategori_distribution",
+    "name": "Distribusi kategori ub",
+    "description": "Distribusi kategori ub dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "klasifikasi_usaha",
+    "source": "ub",
+    "source_mart": "mart_ub_integrated",
+    "kind": "distribution",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "COUNT unit sumber",
+    "denominator_definition": "Total COUNT respons pada cohort terfilter, sebelum pemisahan kategori",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "record unit-versi",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls",
+      "status",
+      "kbli",
+      "kategori"
+    ],
+    "location_concepts": [
+      "assignment",
+      "response_desa"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "KBLI lima digit dan kategori huruf diamati secara lokal; missing/invalid bucket tetap dihitung. Tidak memverifikasi ketepatan kegiatan atau mengubah kode.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT e.\"kategori_kbli\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"assignment_id\",\"status_keberadaan\",\"kbli_akhir\",\"kategori_kbli\",\"has_assignment_ub\",\"has_ub_a\",\"has_ub_b\",\"has_ub_c\" FROM \"mart_ub_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"kategori_kbli\"",
+    "sql_bindings": [],
+    "distribution_dimension": "kategori",
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.kbli_coverage",
+    "name": "Proporsi usaha dengan format KBLI lima digit",
+    "description": "Proporsi usaha dengan format KBLI lima digit dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "klasifikasi_usaha",
+    "source": "usaha",
+    "source_mart": "mart_usaha",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "kbli_valid",
+      "column": "kbli"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls",
+      "status",
+      "kbli",
+      "kategori"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Mengukur format/ketersediaan kode, bukan validitas substantif klasifikasi.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND KBLI_VALID(e.\"kbli\")=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"kode_keberadaan_usaha\",\"kbli\",\"kategori\" FROM \"mart_usaha\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  }
+]

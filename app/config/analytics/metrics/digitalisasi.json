@@ -1,0 +1,113 @@
+[
+  {
+    "metric_id": "usaha.internet_yes_rate",
+    "name": "Proporsi penggunaan internet dari jawaban valid",
+    "description": "Proporsi penggunaan internet dari jawaban valid dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "digitalisasi",
+    "source": "digital_usaha",
+    "source_mart": "mart_digital_usaha",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "in",
+      "column": "kode_menggunakan_internet",
+      "values": [
+        "1",
+        "2"
+      ]
+    },
+    "positive": {
+      "op": "eq",
+      "column": "kode_menggunakan_internet",
+      "value": "1"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record modul digital; SQL historis membatasi usaha ditemukan/baru pada waktu ekstraksi.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Kode 1/2 diverifikasi terhadap label Ya/Tidak lokal. NULL atau kode lain dikeluarkan denominator, bukan dianggap Tidak.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"kode_menggunakan_internet\" IN (?,?) AND e.\"kode_menggunakan_internet\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"kode_menggunakan_internet\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"kode_menggunakan_internet\" FROM \"mart_digital_usaha\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      "1",
+      "2",
+      "1",
+      "1",
+      "2"
+    ],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.internet_yes_rate",
+    "name": "Proporsi UB menggunakan internet dari jawaban valid",
+    "description": "Proporsi UB menggunakan internet dari jawaban valid dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "digitalisasi",
+    "source": "ub_digital",
+    "source_mart": "mart_ub_c",
+    "kind": "rate",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "in",
+      "column": "menggunakan_internet",
+      "values": [
+        "1. Ya",
+        "2. Tidak"
+      ]
+    },
+    "positive": {
+      "op": "eq",
+      "column": "menggunakan_internet",
+      "value": "1. Ya"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment",
+      "response_desa"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Hanya label valid yang diamati di modul UB. Denominator bukan otomatis 226; versi historis hanya provenance non-blocking.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"menggunakan_internet\" IN (?,?) AND e.\"menggunakan_internet\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"menggunakan_internet\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"menggunakan_internet\",\"assignment_id\" FROM \"mart_ub_c\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      "1. Ya",
+      "2. Tidak",
+      "1. Ya",
+      "1. Ya",
+      "2. Tidak"
+    ],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  }
+]

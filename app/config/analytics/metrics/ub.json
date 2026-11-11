@@ -1,0 +1,85 @@
+[
+  {
+    "metric_id": "ub.count",
+    "name": "Jumlah UB terintegrasi",
+    "description": "Jumlah UB terintegrasi dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "ub",
+    "source": "ub",
+    "source_mart": "mart_ub_integrated",
+    "kind": "count",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "COUNT unit sumber",
+    "denominator_definition": "COUNT record eligible (konteks hitungan; bukan rate)",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "assignment",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls",
+      "status",
+      "kbli",
+      "kategori"
+    ],
+    "location_concepts": [
+      "assignment",
+      "response_desa"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Deskriptif baseline lokal; bukan estimasi populasi resmi atau bukti cakupan lengkap SQL Lab.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"assignment_id\",\"status_keberadaan\",\"kbli_akhir\",\"kategori_kbli\",\"has_assignment_ub\",\"has_ub_a\",\"has_ub_b\",\"has_ub_c\" FROM \"mart_ub_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.existence_distribution",
+    "name": "Distribusi status keberadaan ub",
+    "description": "Distribusi status keberadaan ub dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "ub",
+    "source": "ub",
+    "source_mart": "mart_ub_integrated",
+    "kind": "distribution",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "COUNT unit sumber",
+    "denominator_definition": "Total COUNT respons pada cohort terfilter, sebelum pemisahan kategori",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "record unit-versi",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls",
+      "status",
+      "kbli",
+      "kategori"
+    ],
+    "location_concepts": [
+      "assignment",
+      "response_desa"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Semua status dan kategori kosong/tidak dikenali tetap menjadi bucket; kode 00 usaha tidak diubah menjadi kode geografis/identitas lain.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT e.\"status_keberadaan\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"assignment_id\",\"status_keberadaan\",\"kbli_akhir\",\"kategori_kbli\",\"has_assignment_ub\",\"has_ub_a\",\"has_ub_b\",\"has_ub_c\" FROM \"mart_ub_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"status_keberadaan\"",
+    "sql_bindings": [],
+    "distribution_dimension": "status",
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  }
+]

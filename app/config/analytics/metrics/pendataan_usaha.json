@@ -1,0 +1,85 @@
+[
+  {
+    "metric_id": "usaha.enumerated_count",
+    "name": "Usaha TGR selesai atau disetujui",
+    "description": "Usaha ditemukan/baru dan assignment selesai atau disetujui, sesuai definisi pengguna.",
+    "domain": "usaha",
+    "source": "usaha_enumerated",
+    "source_mart": "mart_usaha",
+    "kind": "count",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "COUNT unit sumber",
+    "denominator_definition": "COUNT record eligible (konteks hitungan; bukan rate)",
+    "eligibility_rule": "DTD kode keberadaan 1/2; UB ditemukan dan masih aktif. Assignment berstatus APPROVED BY Pengawas atau COMPLETED BY Admin Kabupaten. EXISTS mempertahankan grain sumber.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "record pada grain sumber",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls",
+      "status",
+      "kbli",
+      "kategori"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Status penyelesaian bersifat operasional pada assignment; tidak membuktikan kesamaan snapshot, versi atau seluruh jawaban lengkap. DTD dan UB tidak dijumlahkan. Status UB data dari kantor pusat tetap terpisah, bukan otomatis usaha aktif.",
+    "validation_status": "VALIDATED_LOCAL_USER_DEFINITION",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT u.\"__row_id\",u.\"__import_id\",u.\"__clean_hash\",u.\"__key\",u.\"__version_normalized\",u.\"__key_valid\",u.\"__conflict\",u.\"assignment_id\",u.\"assignment_date_modified\",u.\"index1\",u.\"code_identity\",u.\"is_prelist2\",u.\"kecamatan\",u.\"desa_kelurahan\",u.\"kode_sls_subsls\",u.\"sls_subsls\",u.\"nomor_bangunan\",u.\"nomor_usaha\",u.\"nama_usaha\",u.\"nama_komersial\",u.\"kode_keberadaan_usaha\",u.\"keberadaan_usaha\",u.\"alamat_usaha\",u.\"jenis_usaha\",u.\"nama_pengusaha_pj\",u.\"kegiatan_utama\",u.\"produk_utama\",u.\"kbli\",u.\"kategori\",u.\"skala_usaha\",u.\"geotag_latitude\",u.\"geotag_longitude\",u.\"__batch_id\",u.\"__source_sha256\" FROM mart_usaha u WHERE u.kode_keberadaan_usaha IN ('1','2') AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=u.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/app/enumerated_business_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.enumerated_count",
+    "name": "Usaha berhasil didata (UB)",
+    "description": "Usaha ditemukan/baru dan assignment selesai atau disetujui, sesuai definisi pengguna.",
+    "domain": "ub",
+    "source": "ub_enumerated",
+    "source_mart": "mart_ub_integrated",
+    "kind": "count",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "COUNT unit sumber",
+    "denominator_definition": "COUNT record eligible (konteks hitungan; bukan rate)",
+    "eligibility_rule": "DTD kode keberadaan 1/2; UB ditemukan dan masih aktif. Assignment berstatus APPROVED BY Pengawas atau COMPLETED BY Admin Kabupaten. EXISTS mempertahankan grain sumber.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "assignment",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls",
+      "status",
+      "kbli",
+      "kategori"
+    ],
+    "location_concepts": [
+      "assignment",
+      "response_desa"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Status penyelesaian bersifat operasional pada assignment; tidak membuktikan kesamaan snapshot, versi atau seluruh jawaban lengkap. DTD dan UB tidak dijumlahkan. Status UB data dari kantor pusat tetap terpisah, bukan otomatis usaha aktif.",
+    "validation_status": "VALIDATED_LOCAL_USER_DEFINITION",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT u.\"assignment_id\",u.\"__row_id\",u.\"__import_id\",u.\"__clean_hash\",u.\"__key\",u.\"__version_normalized\",u.\"__key_valid\",u.\"__conflict\",u.\"id_penghubung\",u.\"nama_usaha\",u.\"nama_komersial\",u.\"status_keberadaan\",u.\"kode_desa\",u.\"kecamatan\",u.\"desa_kelurahan\",u.\"alamat_usaha\",u.\"link_google_maps\",u.\"id_sbr\",u.\"nib\",u.\"badan_usaha\",u.\"kbli_akhir\",u.\"kategori_kbli\",u.\"kegiatan_utama\",u.\"produk_utama\",u.\"jaringan_usaha\",u.\"nama_kantor_pusat\",u.\"alamat_kantor_pusat\",u.\"nama_penanggung_jawab\",u.\"nik_penanggung_jawab\",u.\"jenis_kelamin_penanggung_jawab\",u.\"umur_penanggung_jawab\",u.\"nomor_hp_usaha\",u.\"email_usaha\",u.\"__batch_id\",u.\"__source_sha256\",u.\"integration_status\",u.\"questionnaire_version_status\",u.\"assignment_ub__assignment_date_modified\",u.\"assignment_ub__code_identity\",u.\"assignment_ub__listing_assignment\",u.\"assignment_ub__mode\",u.\"assignment_ub__status_assignment\",u.\"assignment_ub__kode_status_assignment\",u.\"assignment_ub__tanggal_dibuat\",u.\"assignment_ub__tanggal_diubah\",u.\"assignment_ub__done\",u.\"assignment_ub__external_done\",u.\"assignment_ub__source_from\",u.\"assignment_ub__kode_kabupaten\",u.\"assignment_ub__kode_kecamatan\",u.\"assignment_ub__kecamatan\",u.\"assignment_ub__kode_desa\",u.\"assignment_ub__desa_kelurahan\",u.\"assignment_ub__kode_sls\",u.\"assignment_ub__sls\",u.\"assignment_ub__kode_subsls\",u.\"assignment_ub__subsls\",u.\"assignment_ub__latitude_assignment\",u.\"assignment_ub__longitude_assignment\",u.\"assignment_ub__versi_root_terbaru\",u.\"assignment_ub__status_kuesioner\",u.\"assignment_ub__source_sha256\",u.\"assignment_ub__batch_id\",u.\"assignment_ub__row_id\",u.\"assignment_ub__import_id\",u.\"ub_b__tahun_operasi\",u.\"ub_b__pekerja_laki_laki\",u.\"ub_b__pekerja_perempuan\",u.\"ub_b__jumlah_pekerja\",u.\"ub_b__pendapatan_utama\",u.\"ub_b__pendapatan_lainnya\",u.\"ub_b__total_pendapatan\",u.\"ub_b__gaji_dan_jaminan_sosial\",u.\"ub_b__biaya_produksi\",u.\"ub_b__biaya_pembelian_barang\",u.\"ub_b__biaya_operasional\",u.\"ub_b__biaya_non_operasional\",u.\"ub_b__total_pengeluaran\",u.\"ub_b__memiliki_catatan_keuangan\",u.\"ub_b__aset_tanah_bangunan\",u.\"ub_b__aset_selain_tanah_bangunan\",u.\"ub_b__total_aset\",u.\"ub_b__luas_tanah_m2\",u.\"ub_b__modal_pribadi_persen\",u.\"ub_b__modal_nonprofit_persen\",u.\"ub_b__modal_korporasi_publik_persen\",u.\"ub_b__modal_korporasi_nonpublik_persen\",u.\"ub_b__modal_pemerintah_persen\",u.\"ub_b__modal_asing_persen\",u.\"ub_b__source_sha256\",u.\"ub_b__batch_id\",u.\"ub_b__row_id\",u.\"ub_b__import_id\",u.\"ub_c__negara_kantor_pusat\",u.\"ub_c__jumlah_kantor_cabang\",u.\"ub_c__jenis_kawasan\",u.\"ub_c__nama_kawasan\",u.\"ub_c__nama_kek_ki\",u.\"ub_c__memiliki_nib\",u.\"ub_c__alasan_tanpa_nib\",u.\"ub_c__produk_bersertifikat_halal\",u.\"ub_c__memiliki_izin_edar\",u.\"ub_c__website\",u.\"ub_c__menggunakan_internet\",u.\"ub_c__internet_pesanan\",u.\"ub_c__internet_produksi\",u.\"ub_c__internet_distribusi\",u.\"ub_c__internet_pembelian\",u.\"ub_c__internet_promosi\",u.\"ub_c__persentase_pendapatan_online\",u.\"ub_c__memanfaatkan_teknologi_digital\",u.\"ub_c__produksi_barang_di_lokasi\",u.\"ub_c__menghasilkan_produk_ramah_lingkungan\",u.\"ub_c__perlindungan_lingkungan\",u.\"ub_c__penggunaan_produk_seni_budaya\",u.\"ub_c__kemitraan_kdkmp\",u.\"ub_c__keterlibatan_mbg\",u.\"ub_c__source_sha256\",u.\"ub_c__batch_id\",u.\"ub_c__row_id\",u.\"ub_c__import_id\",u.\"has_assignment_ub\",u.\"has_ub_a\",u.\"has_ub_b\",u.\"has_ub_c\" FROM mart_ub_integrated u WHERE u.status_keberadaan='1. Ditemukan dan masih aktif' AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=u.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/app/enumerated_business_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  }
+]

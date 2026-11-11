@@ -1,0 +1,1615 @@
+﻿kode;nama@1;alias;alias_clean;kategori_alias;bobot_awal
+0;000. Tidak Bekerja;tidak bekerja;tidak bekerja;nama_profesi;8
+0;000. Tidak Bekerja;belum bekerja;belum bekerja;manual_seed;10
+0;000. Tidak Bekerja;pengangguran;pengangguran;manual_seed;10
+0;000. Tidak Bekerja;menganggur;menganggur;manual_seed;10
+0;000. Tidak Bekerja;tidak punya pekerjaan;tidak punya pekerjaan;manual_seed;9
+0;000. Tidak Bekerja;ibu rumah tangga tidak bekerja;ibu rumah tangga tidak bekerja;manual_seed;9
+0;000. Tidak Bekerja;pelajar tidak bekerja;pelajar tidak bekerja;manual_seed;9
+0;000. Tidak Bekerja;pensiunan tidak bekerja;pensiunan tidak bekerja;manual_seed;9
+0;000. Tidak Bekerja;tidak ada pekerjaan;tidak ada pekerjaan;manual_seed;9
+0;000. Tidak Bekerja;sedang mencari kerja;sedang mencari kerja;manual_seed;9
+1;001. Agen Tenaga Kerja;agen tenaga kerja;agen tenaga kerja;nama_profesi;8
+1;001. Agen Tenaga Kerja;penyalur tenaga kerja;penyalur tenaga kerja;manual_seed;9
+1;001. Agen Tenaga Kerja;perekrut pekerja;perekrut pekerja;manual_seed;10
+1;001. Agen Tenaga Kerja;rekruter;rekruter;manual_seed;10
+1;001. Agen Tenaga Kerja;headhunter;headhunter;manual_seed;10
+1;001. Agen Tenaga Kerja;agency tenaga kerja;agency tenaga kerja;manual_seed;9
+1;001. Agen Tenaga Kerja;outsourcing tenaga kerja;outsourcing tenaga kerja;manual_seed;9
+1;001. Agen Tenaga Kerja;calo kerja;calo kerja;manual_seed;10
+1;001. Agen Tenaga Kerja;penyalur kerja;penyalur kerja;manual_seed;10
+1;001. Agen Tenaga Kerja;job placement;job placement;manual_seed;10
+2;002. Ahli Sejarah dan Cagar budaya;ahli sejarah;ahli sejarah;nama_profesi;8
+2;002. Ahli Sejarah dan Cagar budaya;sejarawan;sejarawan;manual_seed;10
+2;002. Ahli Sejarah dan Cagar budaya;ahli cagar budaya;ahli cagar budaya;manual_seed;9
+2;002. Ahli Sejarah dan Cagar budaya;pelestari cagar budaya;pelestari cagar budaya;manual_seed;9
+2;002. Ahli Sejarah dan Cagar budaya;arkeolog budaya;arkeolog budaya;manual_seed;10
+2;002. Ahli Sejarah dan Cagar budaya;peneliti sejarah;peneliti sejarah;manual_seed;10
+2;002. Ahli Sejarah dan Cagar budaya;konservator sejarah;konservator sejarah;manual_seed;10
+2;002. Ahli Sejarah dan Cagar budaya;ahli heritage;ahli heritage;manual_seed;10
+2;002. Ahli Sejarah dan Cagar budaya;kurator sejarah;kurator sejarah;manual_seed;10
+2;002. Ahli Sejarah dan Cagar budaya;penulis sejarah;penulis sejarah;manual_seed;10
+2;002. Ahli Sejarah dan Cagar budaya;ahli sejarah dan cagar budaya;ahli sejarah dan cagar budaya;nama_profesi;8
+2;002. Ahli Sejarah dan Cagar budaya;cagar budaya;cagar budaya;nama_profesi;8
+3;003. Akuntan;akuntan;akuntan;nama_profesi;8
+3;003. Akuntan;accountant;accountant;manual_seed;10
+3;003. Akuntan;staf akuntansi;staf akuntansi;manual_seed;10
+3;003. Akuntan;pembukuan;pembukuan;manual_seed;10
+3;003. Akuntan;bookkeeper;bookkeeper;manual_seed;10
+3;003. Akuntan;audit laporan keuangan;audit laporan keuangan;manual_seed;9
+3;003. Akuntan;auditor akuntansi;auditor akuntansi;manual_seed;10
+3;003. Akuntan;jasa akuntansi;jasa akuntansi;manual_seed;10
+3;003. Akuntan;konsultan pajak akuntansi;konsultan pajak akuntansi;manual_seed;9
+3;003. Akuntan;laporan keuangan;laporan keuangan;manual_seed;10
+4;004. Analis Keuangan;analis keuangan;analis keuangan;nama_profesi;8
+4;004. Analis Keuangan;financial analyst;financial analyst;manual_seed;10
+4;004. Analis Keuangan;analisa keuangan;analisa keuangan;manual_seed;10
+4;004. Analis Keuangan;analis investasi;analis investasi;manual_seed;10
+4;004. Analis Keuangan;risk analyst;risk analyst;manual_seed;10
+4;004. Analis Keuangan;credit analyst;credit analyst;manual_seed;10
+4;004. Analis Keuangan;perencana keuangan;perencana keuangan;manual_seed;10
+4;004. Analis Keuangan;analisis portofolio;analisis portofolio;manual_seed;10
+4;004. Analis Keuangan;analis kredit;analis kredit;manual_seed;10
+4;004. Analis Keuangan;staf finance analisis;staf finance analisis;manual_seed;9
+5;005. Anggota DPD;anggota dpd;anggota dpd;nama_profesi;8
+5;005. Anggota DPD;dpd ri;dpd ri;manual_seed;10
+5;005. Anggota DPD;senator;senator;manual_seed;10
+5;005. Anggota DPD;anggota dewan perwakilan daerah;anggota dewan perwakilan daerah;manual_seed;9
+5;005. Anggota DPD;wakil daerah pusat;wakil daerah pusat;manual_seed;9
+5;005. Anggota DPD;legislator dpd;legislator dpd;manual_seed;10
+6;006. Anggota DPR RI/MPR RI;anggota dpr;anggota dpr;manual_seed;10
+6;006. Anggota DPR RI/MPR RI;dpr ri;dpr ri;manual_seed;10
+6;006. Anggota DPR RI/MPR RI;mpr ri;mpr ri;nama_profesi;8
+6;006. Anggota DPR RI/MPR RI;anggota mpr;anggota mpr;manual_seed;10
+6;006. Anggota DPR RI/MPR RI;anggota dewan pusat;anggota dewan pusat;manual_seed;9
+6;006. Anggota DPR RI/MPR RI;legislator nasional;legislator nasional;manual_seed;10
+6;006. Anggota DPR RI/MPR RI;wakil rakyat pusat;wakil rakyat pusat;manual_seed;9
+6;006. Anggota DPR RI/MPR RI;anggota dpr ri mpr ri;anggota dpr ri mpr ri;nama_profesi;8
+6;006. Anggota DPR RI/MPR RI;anggota dpr ri;anggota dpr ri;nama_profesi;8
+7;007. Anggota DPRD Provinsi/ Anggota DPRD Kabupaten/Kota;anggota dprd;anggota dprd;manual_seed;10
+7;007. Anggota DPRD Provinsi/ Anggota DPRD Kabupaten/Kota;dprd provinsi;dprd provinsi;manual_seed;10
+7;007. Anggota DPRD Provinsi/ Anggota DPRD Kabupaten/Kota;dprd kabupaten;dprd kabupaten;manual_seed;10
+7;007. Anggota DPRD Provinsi/ Anggota DPRD Kabupaten/Kota;dprd kota;dprd kota;manual_seed;10
+7;007. Anggota DPRD Provinsi/ Anggota DPRD Kabupaten/Kota;anggota dewan daerah;anggota dewan daerah;manual_seed;9
+7;007. Anggota DPRD Provinsi/ Anggota DPRD Kabupaten/Kota;legislator daerah;legislator daerah;manual_seed;10
+7;007. Anggota DPRD Provinsi/ Anggota DPRD Kabupaten/Kota;wakil rakyat daerah;wakil rakyat daerah;manual_seed;9
+7;007. Anggota DPRD Provinsi/ Anggota DPRD Kabupaten/Kota;anggota dprd provinsi anggota dprd kabupaten kota;anggota dprd provinsi anggota dprd kabupaten kota;nama_profesi;8
+7;007. Anggota DPRD Provinsi/ Anggota DPRD Kabupaten/Kota;anggota dprd provinsi;anggota dprd provinsi;nama_profesi;8
+7;007. Anggota DPRD Provinsi/ Anggota DPRD Kabupaten/Kota;anggota dprd kabupaten;anggota dprd kabupaten;nama_profesi;8
+7;007. Anggota DPRD Provinsi/ Anggota DPRD Kabupaten/Kota;kota;kota;nama_profesi;8
+8;008. Apoteker;apoteker;apoteker;nama_profesi;8
+8;008. Apoteker;pharmacist;pharmacist;manual_seed;10
+8;008. Apoteker;farmasis;farmasis;manual_seed;10
+8;008. Apoteker;penanggung jawab apotek;penanggung jawab apotek;manual_seed;9
+8;008. Apoteker;apoteker apotek;apoteker apotek;manual_seed;10
+8;008. Apoteker;apoteker rumah sakit;apoteker rumah sakit;manual_seed;9
+8;008. Apoteker;meracik obat apoteker;meracik obat apoteker;manual_seed;9
+8;008. Apoteker;pelayanan kefarmasian;pelayanan kefarmasian;manual_seed;10
+9;009. Arsiparis;arsiparis;arsiparis;nama_profesi;8
+9;009. Arsiparis;pengelola arsip;pengelola arsip;manual_seed;10
+9;009. Arsiparis;petugas arsip;petugas arsip;manual_seed;10
+9;009. Arsiparis;archivist;archivist;manual_seed;10
+9;009. Arsiparis;arsip kantor;arsip kantor;manual_seed;10
+9;009. Arsiparis;arsip dokumen;arsip dokumen;manual_seed;10
+9;009. Arsiparis;manajemen arsip;manajemen arsip;manual_seed;10
+9;009. Arsiparis;penata arsip;penata arsip;manual_seed;10
+10;010. Arsitek;arsitek;arsitek;nama_profesi;8
+10;010. Arsitek;architect;architect;manual_seed;10
+10;010. Arsitek;desain bangunan;desain bangunan;manual_seed;10
+10;010. Arsitek;perancang bangunan;perancang bangunan;manual_seed;10
+10;010. Arsitek;gambar arsitektur;gambar arsitektur;manual_seed;10
+10;010. Arsitek;konsultan arsitektur;konsultan arsitektur;manual_seed;10
+10;010. Arsitek;desain rumah;desain rumah;manual_seed;10
+10;010. Arsitek;perencana arsitektur;perencana arsitektur;manual_seed;10
+11;011. Asisten Apoteker;asisten apoteker;asisten apoteker;nama_profesi;8
+11;011. Asisten Apoteker;tenaga teknis kefarmasian;tenaga teknis kefarmasian;manual_seed;9
+11;011. Asisten Apoteker;ttk farmasi;ttk farmasi;manual_seed;10
+11;011. Asisten Apoteker;helper apotek;helper apotek;manual_seed;10
+11;011. Asisten Apoteker;staf apotek;staf apotek;manual_seed;10
+11;011. Asisten Apoteker;juru obat;juru obat;manual_seed;10
+11;011. Asisten Apoteker;membantu apoteker;membantu apoteker;manual_seed;10
+11;011. Asisten Apoteker;pelayanan obat apotek;pelayanan obat apotek;manual_seed;9
+12;012. Atase;atase;atase;nama_profesi;8
+12;012. Atase;attaché;attaché;manual_seed;10
+12;012. Atase;staf kedutaan;staf kedutaan;manual_seed;10
+12;012. Atase;pejabat diplomatik teknis;pejabat diplomatik teknis;manual_seed;9
+12;012. Atase;atase perdagangan;atase perdagangan;manual_seed;10
+12;012. Atase;atase pertahanan;atase pertahanan;manual_seed;10
+12;012. Atase;atase pendidikan;atase pendidikan;manual_seed;10
+12;012. Atase;perwakilan diplomatik;perwakilan diplomatik;manual_seed;10
+13;013. Atlet/Olahragawan;atlet;atlet;nama_profesi;8
+13;013. Atlet/Olahragawan;olahragawan;olahragawan;nama_profesi;8
+13;013. Atlet/Olahragawan;olahragawati;olahragawati;manual_seed;10
+13;013. Atlet/Olahragawan;pemain bola;pemain bola;manual_seed;10
+13;013. Atlet/Olahragawan;pemain sepak bola;pemain sepak bola;manual_seed;9
+13;013. Atlet/Olahragawan;pemain voli;pemain voli;manual_seed;10
+13;013. Atlet/Olahragawan;pemain badminton;pemain badminton;manual_seed;10
+13;013. Atlet/Olahragawan;atlet profesional;atlet profesional;manual_seed;10
+13;013. Atlet/Olahragawan;pemain esports olahraga;pemain esports olahraga;manual_seed;9
+13;013. Atlet/Olahragawan;petinju;petinju;manual_seed;10
+13;013. Atlet/Olahragawan;pelari;pelari;manual_seed;10
+13;013. Atlet/Olahragawan;atlet olahragawan;atlet olahragawan;nama_profesi;8
+14;014. Awak Kapal;awak kapal;awak kapal;nama_profesi;8
+14;014. Awak Kapal;abk;abk;manual_seed;10
+14;014. Awak Kapal;anak buah kapal;anak buah kapal;manual_seed;9
+14;014. Awak Kapal;kelasi;kelasi;manual_seed;10
+14;014. Awak Kapal;crew kapal;crew kapal;manual_seed;10
+14;014. Awak Kapal;pekerja kapal;pekerja kapal;manual_seed;10
+14;014. Awak Kapal;awak perahu;awak perahu;manual_seed;10
+14;014. Awak Kapal;kapal niaga;kapal niaga;manual_seed;10
+14;014. Awak Kapal;kapal ikan awak;kapal ikan awak;manual_seed;9
+15;015. Bhikkhu;bhikkhu;bhikkhu;nama_profesi;8
+15;015. Bhikkhu;biksu;biksu;manual_seed;10
+15;015. Bhikkhu;rohaniwan buddha pria;rohaniwan buddha pria;manual_seed;9
+15;015. Bhikkhu;pemuka agama buddha;pemuka agama buddha;manual_seed;9
+15;015. Bhikkhu;sangha;sangha;manual_seed;10
+15;015. Bhikkhu;monk buddha;monk buddha;manual_seed;10
+16;016. Biarawan;biarawan;biarawan;nama_profesi;8
+16;016. Biarawan;bruder;bruder;manual_seed;10
+16;016. Biarawan;rohaniwan katolik pria;rohaniwan katolik pria;manual_seed;9
+16;016. Biarawan;frater;frater;manual_seed;10
+16;016. Biarawan;pastor bukan imam;pastor bukan imam;manual_seed;9
+16;016. Biarawan;anggota biara pria;anggota biara pria;manual_seed;9
+16;016. Biarawan;monk kristiani;monk kristiani;manual_seed;10
+17;017. Biarawati;biarawati;biarawati;nama_profesi;8
+17;017. Biarawati;suster;suster;manual_seed;10
+17;017. Biarawati;suster biara;suster biara;manual_seed;10
+17;017. Biarawati;rohaniwan katolik perempuan;rohaniwan katolik perempuan;manual_seed;9
+17;017. Biarawati;anggota biara perempuan;anggota biara perempuan;manual_seed;9
+17;017. Biarawati;nun;nun;manual_seed;10
+18;018. Bidan;bidan;bidan;nama_profesi;8
+18;018. Bidan;midwife;midwife;manual_seed;10
+18;018. Bidan;dukun bayi medis;dukun bayi medis;manual_seed;9
+18;018. Bidan;bidan desa;bidan desa;manual_seed;10
+18;018. Bidan;bidan puskesmas;bidan puskesmas;manual_seed;10
+18;018. Bidan;bidan praktek;bidan praktek;manual_seed;10
+18;018. Bidan;bidan praktik mandiri;bidan praktik mandiri;manual_seed;9
+18;018. Bidan;persalinan bidan;persalinan bidan;manual_seed;10
+18;018. Bidan;kesehatan ibu anak;kesehatan ibu anak;manual_seed;9
+19;019. Broker/Pialang Saham;broker saham;broker saham;manual_seed;10
+19;019. Broker/Pialang Saham;pialang saham;pialang saham;nama_profesi;8
+19;019. Broker/Pialang Saham;stock broker;stock broker;manual_seed;10
+19;019. Broker/Pialang Saham;trader saham profesional;trader saham profesional;manual_seed;9
+19;019. Broker/Pialang Saham;perantara efek;perantara efek;manual_seed;10
+19;019. Broker/Pialang Saham;broker efek;broker efek;manual_seed;10
+19;019. Broker/Pialang Saham;wakil perantara pedagang efek;wakil perantara pedagang efek;manual_seed;9
+19;019. Broker/Pialang Saham;jual beli saham;jual beli saham;manual_seed;9
+19;019. Broker/Pialang Saham;broker pialang saham;broker pialang saham;nama_profesi;8
+19;019. Broker/Pialang Saham;broker;broker;nama_profesi;8
+20;020. Bupati;bupati;bupati;nama_profesi;8
+20;020. Bupati;kepala daerah kabupaten;kepala daerah kabupaten;manual_seed;9
+20;020. Bupati;kepala kabupaten;kepala kabupaten;manual_seed;10
+20;020. Bupati;pejabat bupati;pejabat bupati;manual_seed;10
+20;020. Bupati;kepala pemda kabupaten;kepala pemda kabupaten;manual_seed;9
+21;021. Buruh Angkut Barang;buruh angkut;buruh angkut;manual_seed;10
+21;021. Buruh Angkut Barang;kuli angkut;kuli angkut;manual_seed;10
+21;021. Buruh Angkut Barang;porter;porter;manual_seed;10
+21;021. Buruh Angkut Barang;tukang pikul;tukang pikul;manual_seed;10
+21;021. Buruh Angkut Barang;bongkar muat;bongkar muat;manual_seed;10
+21;021. Buruh Angkut Barang;buruh bongkar muat;buruh bongkar muat;manual_seed;9
+21;021. Buruh Angkut Barang;angkat barang;angkat barang;manual_seed;10
+21;021. Buruh Angkut Barang;tenaga angkut;tenaga angkut;manual_seed;10
+21;021. Buruh Angkut Barang;kuli pasar;kuli pasar;manual_seed;10
+21;021. Buruh Angkut Barang;kuli pelabuhan;kuli pelabuhan;manual_seed;10
+21;021. Buruh Angkut Barang;buruh angkut barang;buruh angkut barang;nama_profesi;8
+22;022. Buruh Bangunan;buruh bangunan;buruh bangunan;nama_profesi;8
+22;022. Buruh Bangunan;kuli bangunan;kuli bangunan;manual_seed;10
+22;022. Buruh Bangunan;pekerja proyek;pekerja proyek;manual_seed;10
+22;022. Buruh Bangunan;kenek bangunan;kenek bangunan;manual_seed;10
+22;022. Buruh Bangunan;tukang kasar bangunan;tukang kasar bangunan;manual_seed;9
+22;022. Buruh Bangunan;pekerja konstruksi harian;pekerja konstruksi harian;manual_seed;9
+22;022. Buruh Bangunan;helper tukang;helper tukang;manual_seed;10
+22;022. Buruh Bangunan;tenaga bangunan;tenaga bangunan;manual_seed;10
+23;023. Buruh Industri;buruh industri;buruh industri;nama_profesi;8
+23;023. Buruh Industri;buruh pabrik;buruh pabrik;manual_seed;10
+23;023. Buruh Industri;pekerja pabrik;pekerja pabrik;manual_seed;10
+23;023. Buruh Industri;operator pabrik;operator pabrik;manual_seed;10
+23;023. Buruh Industri;buruh produksi;buruh produksi;manual_seed;10
+23;023. Buruh Industri;tenaga produksi;tenaga produksi;manual_seed;10
+23;023. Buruh Industri;karyawan pabrik;karyawan pabrik;manual_seed;10
+23;023. Buruh Industri;pekerja lini produksi;pekerja lini produksi;manual_seed;9
+24;024. Buruh Perikanan;buruh perikanan;buruh perikanan;nama_profesi;8
+24;024. Buruh Perikanan;buruh ikan;buruh ikan;manual_seed;10
+24;024. Buruh Perikanan;pekerja tambak;pekerja tambak;manual_seed;10
+24;024. Buruh Perikanan;buruh tambak;buruh tambak;manual_seed;10
+24;024. Buruh Perikanan;buruh kapal ikan;buruh kapal ikan;manual_seed;9
+24;024. Buruh Perikanan;pekerja pengolahan ikan;pekerja pengolahan ikan;manual_seed;9
+24;024. Buruh Perikanan;buruh nelayan;buruh nelayan;manual_seed;10
+24;024. Buruh Perikanan;buruh panen ikan;buruh panen ikan;manual_seed;9
+25;025. Buruh Pertambangan;buruh pertambangan;buruh pertambangan;nama_profesi;8
+25;025. Buruh Pertambangan;pekerja tambang;pekerja tambang;manual_seed;10
+25;025. Buruh Pertambangan;kuli tambang;kuli tambang;manual_seed;10
+25;025. Buruh Pertambangan;buruh batu bara;buruh batu bara;manual_seed;9
+25;025. Buruh Pertambangan;buruh nikel;buruh nikel;manual_seed;10
+25;025. Buruh Pertambangan;buruh galian;buruh galian;manual_seed;10
+25;025. Buruh Pertambangan;pekerja quarry;pekerja quarry;manual_seed;10
+25;025. Buruh Pertambangan;buruh penambangan;buruh penambangan;manual_seed;10
+26;026. Buruh Pertanian/Kehutanan;buruh pertanian;buruh pertanian;nama_profesi;8
+26;026. Buruh Pertanian/Kehutanan;buruh kehutanan;buruh kehutanan;manual_seed;10
+26;026. Buruh Pertanian/Kehutanan;buruh tani;buruh tani;manual_seed;10
+26;026. Buruh Pertanian/Kehutanan;buruh kebun;buruh kebun;manual_seed;10
+26;026. Buruh Pertanian/Kehutanan;pekerja ladang orang;pekerja ladang orang;manual_seed;9
+26;026. Buruh Pertanian/Kehutanan;kerja di sawah orang;kerja di sawah orang;manual_seed;9
+26;026. Buruh Pertanian/Kehutanan;kerja di kebun orang;kerja di kebun orang;manual_seed;9
+26;026. Buruh Pertanian/Kehutanan;upah panen;upah panen;manual_seed;10
+26;026. Buruh Pertanian/Kehutanan;mencangkul dibayar;mencangkul dibayar;manual_seed;10
+26;026. Buruh Pertanian/Kehutanan;buruh panen;buruh panen;manual_seed;10
+26;026. Buruh Pertanian/Kehutanan;penyadap upahan;penyadap upahan;manual_seed;10
+26;026. Buruh Pertanian/Kehutanan;tenaga panen;tenaga panen;manual_seed;10
+26;026. Buruh Pertanian/Kehutanan;buruh pertanian kehutanan;buruh pertanian kehutanan;nama_profesi;8
+26;026. Buruh Pertanian/Kehutanan;kehutanan;kehutanan;nama_profesi;8
+27;027. Buruh Peternakan;buruh peternakan;buruh peternakan;nama_profesi;8
+27;027. Buruh Peternakan;buruh ternak;buruh ternak;manual_seed;10
+27;027. Buruh Peternakan;pekerja kandang;pekerja kandang;manual_seed;10
+27;027. Buruh Peternakan;anak kandang;anak kandang;manual_seed;10
+27;027. Buruh Peternakan;buruh ayam;buruh ayam;manual_seed;10
+27;027. Buruh Peternakan;buruh sapi;buruh sapi;manual_seed;10
+27;027. Buruh Peternakan;buruh kambing;buruh kambing;manual_seed;10
+27;027. Buruh Peternakan;pekerja peternakan orang;pekerja peternakan orang;manual_seed;9
+27;027. Buruh Peternakan;upah merawat ternak;upah merawat ternak;manual_seed;9
+28;028. Camat;camat;camat;nama_profesi;8
+28;028. Camat;kepala kecamatan;kepala kecamatan;manual_seed;10
+28;028. Camat;pejabat kecamatan;pejabat kecamatan;manual_seed;10
+28;028. Camat;pimpinan kecamatan;pimpinan kecamatan;manual_seed;10
+28;028. Camat;kepala wilayah kecamatan;kepala wilayah kecamatan;manual_seed;9
+29;029. Chef;chef;chef;nama_profesi;8
+29;029. Chef;koki;koki;manual_seed;10
+29;029. Chef;juru masak profesional;juru masak profesional;manual_seed;9
+29;029. Chef;kepala dapur;kepala dapur;manual_seed;10
+29;029. Chef;executive chef;executive chef;manual_seed;10
+29;029. Chef;cook restoran;cook restoran;manual_seed;10
+29;029. Chef;chef hotel;chef hotel;manual_seed;10
+29;029. Chef;memasak restoran;memasak restoran;manual_seed;10
+30;030. Chief Executive Officer (CEO);ceo;ceo;manual_seed;10
+30;030. Chief Executive Officer (CEO);chief executive officer;chief executive officer;nama_profesi;8
+30;030. Chief Executive Officer (CEO);direktur utama;direktur utama;manual_seed;10
+30;030. Chief Executive Officer (CEO);dirut;dirut;manual_seed;10
+30;030. Chief Executive Officer (CEO);pemimpin perusahaan;pemimpin perusahaan;manual_seed;10
+30;030. Chief Executive Officer (CEO);pimpinan perusahaan;pimpinan perusahaan;manual_seed;10
+30;030. Chief Executive Officer (CEO);founder ceo;founder ceo;manual_seed;10
+30;030. Chief Executive Officer (CEO);direksi utama;direksi utama;manual_seed;10
+30;030. Chief Executive Officer (CEO);kepala eksekutif;kepala eksekutif;manual_seed;10
+30;030. Chief Executive Officer (CEO);chief executive officer ceo;chief executive officer ceo;nama_profesi;8
+31;031. Dokter Gigi;dokter gigi;dokter gigi;nama_profesi;8
+31;031. Dokter Gigi;dentist;dentist;manual_seed;10
+31;031. Dokter Gigi;dokter gigi umum;dokter gigi umum;manual_seed;9
+31;031. Dokter Gigi;praktek gigi;praktek gigi;manual_seed;10
+31;031. Dokter Gigi;klinik gigi;klinik gigi;manual_seed;10
+31;031. Dokter Gigi;perawatan gigi;perawatan gigi;manual_seed;10
+31;031. Dokter Gigi;cabut gigi dokter;cabut gigi dokter;manual_seed;9
+31;031. Dokter Gigi;tambal gigi dokter;tambal gigi dokter;manual_seed;9
+32;032. Dokter Hewan;dokter hewan;dokter hewan;nama_profesi;8
+32;032. Dokter Hewan;veteriner;veteriner;manual_seed;10
+32;032. Dokter Hewan;veterinarian;veterinarian;manual_seed;10
+32;032. Dokter Hewan;mantri hewan;mantri hewan;manual_seed;10
+32;032. Dokter Hewan;klinik hewan;klinik hewan;manual_seed;10
+32;032. Dokter Hewan;kesehatan hewan;kesehatan hewan;manual_seed;10
+32;032. Dokter Hewan;obat hewan dokter;obat hewan dokter;manual_seed;9
+32;032. Dokter Hewan;pemeriksa ternak;pemeriksa ternak;manual_seed;10
+33;033. Dokter Spesialis;dokter spesialis;dokter spesialis;nama_profesi;8
+33;033. Dokter Spesialis;spesialis penyakit dalam;spesialis penyakit dalam;manual_seed;9
+33;033. Dokter Spesialis;spesialis anak;spesialis anak;manual_seed;10
+33;033. Dokter Spesialis;dokter kandungan;dokter kandungan;manual_seed;10
+33;033. Dokter Spesialis;dokter bedah;dokter bedah;manual_seed;10
+33;033. Dokter Spesialis;dokter saraf;dokter saraf;manual_seed;10
+33;033. Dokter Spesialis;spog;spog;manual_seed;10
+33;033. Dokter Spesialis;spA;spa;manual_seed;10
+33;033. Dokter Spesialis;spPD;sppd;manual_seed;10
+33;033. Dokter Spesialis;spesialis rumah sakit;spesialis rumah sakit;manual_seed;9
+34;034. Dokter Umum;dokter umum;dokter umum;nama_profesi;8
+34;034. Dokter Umum;general practitioner;general practitioner;manual_seed;10
+34;034. Dokter Umum;dokter puskesmas;dokter puskesmas;manual_seed;10
+34;034. Dokter Umum;dokter klinik umum;dokter klinik umum;manual_seed;9
+34;034. Dokter Umum;dokter keluarga;dokter keluarga;manual_seed;10
+34;034. Dokter Umum;dokter praktek umum;dokter praktek umum;manual_seed;9
+34;034. Dokter Umum;dokter layanan primer;dokter layanan primer;manual_seed;9
+35;035. Dosen;dosen;dosen;nama_profesi;8
+35;035. Dosen;lecturer;lecturer;manual_seed;10
+35;035. Dosen;pengajar perguruan tinggi;pengajar perguruan tinggi;manual_seed;9
+35;035. Dosen;pengajar kampus;pengajar kampus;manual_seed;10
+35;035. Dosen;akademisi;akademisi;manual_seed;10
+35;035. Dosen;tenaga pengajar universitas;tenaga pengajar universitas;manual_seed;9
+35;035. Dosen;profesor mengajar;profesor mengajar;manual_seed;10
+35;035. Dosen;dosen tetap;dosen tetap;manual_seed;10
+35;035. Dosen;dosen honorer;dosen honorer;manual_seed;10
+36;036. Duta Besar;duta besar;duta besar;nama_profesi;8
+36;036. Duta Besar;ambassador;ambassador;manual_seed;10
+36;036. Duta Besar;kepala perwakilan diplomatik;kepala perwakilan diplomatik;manual_seed;9
+36;036. Duta Besar;dubbes;dubbes;manual_seed;10
+36;036. Duta Besar;kepala kedutaan;kepala kedutaan;manual_seed;10
+36;036. Duta Besar;perwakilan negara;perwakilan negara;manual_seed;10
+37;037. Empu Keris;empu keris;empu keris;nama_profesi;8
+37;037. Empu Keris;mpu keris;mpu keris;manual_seed;10
+37;037. Empu Keris;pembuat keris;pembuat keris;manual_seed;10
+37;037. Empu Keris;ahli keris;ahli keris;manual_seed;10
+37;037. Empu Keris;pandai keris;pandai keris;manual_seed;10
+37;037. Empu Keris;perajin keris;perajin keris;manual_seed;10
+37;037. Empu Keris;pusaka keris;pusaka keris;manual_seed;10
+37;037. Empu Keris;penempa keris;penempa keris;manual_seed;10
+38;038. Fotografer;fotografer;fotografer;nama_profesi;8
+38;038. Fotografer;photographer;photographer;manual_seed;10
+38;038. Fotografer;juru foto;juru foto;manual_seed;10
+38;038. Fotografer;tukang foto;tukang foto;manual_seed;10
+38;038. Fotografer;foto wedding;foto wedding;manual_seed;10
+38;038. Fotografer;foto studio;foto studio;manual_seed;10
+38;038. Fotografer;foto prewedding;foto prewedding;manual_seed;10
+38;038. Fotografer;fotografi produk;fotografi produk;manual_seed;10
+38;038. Fotografer;dokumentasi foto;dokumentasi foto;manual_seed;10
+39;039. Gembala;gembala;gembala;nama_profesi;8
+39;039. Gembala;penggembala;penggembala;manual_seed;10
+39;039. Gembala;penggembala ternak;penggembala ternak;manual_seed;10
+39;039. Gembala;menjaga ternak;menjaga ternak;manual_seed;10
+39;039. Gembala;menggembala sapi;menggembala sapi;manual_seed;10
+39;039. Gembala;menggembala kambing;menggembala kambing;manual_seed;10
+39;039. Gembala;menggiring ternak;menggiring ternak;manual_seed;10
+40;040. Gubernur;gubernur;gubernur;nama_profesi;8
+40;040. Gubernur;kepala daerah provinsi;kepala daerah provinsi;manual_seed;9
+40;040. Gubernur;kepala provinsi;kepala provinsi;manual_seed;10
+40;040. Gubernur;pejabat gubernur;pejabat gubernur;manual_seed;10
+40;040. Gubernur;pemimpin provinsi;pemimpin provinsi;manual_seed;10
+41;041. Guru;guru;guru;nama_profesi;8
+41;041. Guru;teacher;teacher;manual_seed;10
+41;041. Guru;pengajar sekolah;pengajar sekolah;manual_seed;10
+41;041. Guru;wali kelas;wali kelas;manual_seed;10
+41;041. Guru;guru sd;guru sd;manual_seed;10
+41;041. Guru;guru smp;guru smp;manual_seed;10
+41;041. Guru;guru sma;guru sma;manual_seed;10
+41;041. Guru;guru tk;guru tk;manual_seed;10
+41;041. Guru;guru honorer;guru honorer;manual_seed;10
+41;041. Guru;guru madrasah;guru madrasah;manual_seed;10
+41;041. Guru;ustaz mengajar sekolah;ustaz mengajar sekolah;manual_seed;9
+41;041. Guru;tenaga pendidik sekolah;tenaga pendidik sekolah;manual_seed;9
+42;042. Hakim;hakim;hakim;nama_profesi;8
+42;042. Hakim;judge;judge;manual_seed;10
+42;042. Hakim;hakim pengadilan;hakim pengadilan;manual_seed;10
+42;042. Hakim;hakim negeri;hakim negeri;manual_seed;10
+42;042. Hakim;hakim agama;hakim agama;manual_seed;10
+42;042. Hakim;hakim tata usaha negara;hakim tata usaha negara;manual_seed;9
+42;042. Hakim;hakim militer;hakim militer;manual_seed;10
+42;042. Hakim;memimpin sidang;memimpin sidang;manual_seed;10
+43;043. Hakim Agung;hakim agung;hakim agung;nama_profesi;8
+43;043. Hakim Agung;supreme court judge;supreme court judge;manual_seed;9
+43;043. Hakim Agung;mahkamah agung;mahkamah agung;manual_seed;10
+43;043. Hakim Agung;hakim ma;hakim ma;manual_seed;10
+43;043. Hakim Agung;hakim kasasi;hakim kasasi;manual_seed;10
+44;044. Imam Masjid;imam masjid;imam masjid;nama_profesi;8
+44;044. Imam Masjid;imam;imam;manual_seed;10
+44;044. Imam Masjid;imam shalat;imam shalat;manual_seed;10
+44;044. Imam Masjid;pemimpin sholat;pemimpin sholat;manual_seed;10
+44;044. Imam Masjid;marbot imam;marbot imam;manual_seed;10
+44;044. Imam Masjid;takmir imam;takmir imam;manual_seed;10
+44;044. Imam Masjid;pemuka masjid;pemuka masjid;manual_seed;10
+44;044. Imam Masjid;imam rawatib;imam rawatib;manual_seed;10
+45;045. Jaksa;jaksa;jaksa;nama_profesi;8
+45;045. Jaksa;prosecutor;prosecutor;manual_seed;10
+45;045. Jaksa;penuntut umum;penuntut umum;manual_seed;10
+45;045. Jaksa;jaksa penuntut umum;jaksa penuntut umum;manual_seed;9
+45;045. Jaksa;jpu;jpu;manual_seed;10
+45;045. Jaksa;kejaksaan;kejaksaan;manual_seed;10
+45;045. Jaksa;jaksa negeri;jaksa negeri;manual_seed;10
+45;045. Jaksa;jaksa pidana;jaksa pidana;manual_seed;10
+46;046. Jaksa Agung;jaksa agung;jaksa agung;nama_profesi;8
+46;046. Jaksa Agung;attorney general;attorney general;manual_seed;10
+46;046. Jaksa Agung;kepala kejaksaan;kepala kejaksaan;manual_seed;10
+46;046. Jaksa Agung;pimpinan kejaksaan agung;pimpinan kejaksaan agung;manual_seed;9
+47;047. Jiaosheng;jiaosheng;jiaosheng;nama_profesi;8
+47;047. Jiaosheng;chia sheng;chia sheng;manual_seed;10
+47;047. Jiaosheng;rohaniwan konghucu;rohaniwan konghucu;manual_seed;10
+47;047. Jiaosheng;guru agama konghucu;guru agama konghucu;manual_seed;9
+47;047. Jiaosheng;pemuka konghucu;pemuka konghucu;manual_seed;10
+47;047. Jiaosheng;pengajar liturgi konghucu;pengajar liturgi konghucu;manual_seed;9
+48;048. Juru Gambar Teknik/Drafter;drafter;drafter;nama_profesi;8
+48;048. Juru Gambar Teknik/Drafter;juru gambar teknik;juru gambar teknik;nama_profesi;8
+48;048. Juru Gambar Teknik/Drafter;draftsman;draftsman;manual_seed;10
+48;048. Juru Gambar Teknik/Drafter;gambar teknik;gambar teknik;manual_seed;10
+48;048. Juru Gambar Teknik/Drafter;autocad drafter;autocad drafter;manual_seed;10
+48;048. Juru Gambar Teknik/Drafter;cad operator;cad operator;manual_seed;10
+48;048. Juru Gambar Teknik/Drafter;gambar kerja;gambar kerja;manual_seed;10
+48;048. Juru Gambar Teknik/Drafter;gambar konstruksi;gambar konstruksi;manual_seed;10
+48;048. Juru Gambar Teknik/Drafter;gambar mesin teknik;gambar mesin teknik;manual_seed;9
+48;048. Juru Gambar Teknik/Drafter;juru gambar teknik drafter;juru gambar teknik drafter;nama_profesi;8
+49;049. Kameramen;kameramen;kameramen;nama_profesi;8
+49;049. Kameramen;cameraman;cameraman;manual_seed;10
+49;049. Kameramen;videografer;videografer;manual_seed;10
+49;049. Kameramen;operator kamera;operator kamera;manual_seed;10
+49;049. Kameramen;juru kamera;juru kamera;manual_seed;10
+49;049. Kameramen;shooting video;shooting video;manual_seed;10
+49;049. Kameramen;rekam video;rekam video;manual_seed;10
+49;049. Kameramen;kamera televisi;kamera televisi;manual_seed;10
+49;049. Kameramen;kamera acara;kamera acara;manual_seed;10
+50;050. Kapten Kapal;kapten kapal;kapten kapal;nama_profesi;8
+50;050. Kapten Kapal;captain kapal;captain kapal;manual_seed;10
+50;050. Kapten Kapal;kapten perahu;kapten perahu;manual_seed;10
+50;050. Kapten Kapal;pemimpin kapal;pemimpin kapal;manual_seed;10
+50;050. Kapten Kapal;nahkoda kecil;nahkoda kecil;manual_seed;10
+50;050. Kapten Kapal;komandan kapal;komandan kapal;manual_seed;10
+50;050. Kapten Kapal;kapten pelayaran;kapten pelayaran;manual_seed;10
+51;051. Kasir;kasir;kasir;nama_profesi;8
+51;051. Kasir;cashier;cashier;manual_seed;10
+51;051. Kasir;operator kasir;operator kasir;manual_seed;10
+51;051. Kasir;jaga kasir;jaga kasir;manual_seed;10
+51;051. Kasir;terima pembayaran;terima pembayaran;manual_seed;10
+51;051. Kasir;scan barang;scan barang;manual_seed;10
+51;051. Kasir;input transaksi toko;input transaksi toko;manual_seed;9
+51;051. Kasir;kasir minimarket;kasir minimarket;manual_seed;10
+51;051. Kasir;kasir restoran;kasir restoran;manual_seed;10
+52;052. Kepala Desa;kepala desa;kepala desa;nama_profesi;8
+52;052. Kepala Desa;kades;kades;manual_seed;10
+52;052. Kepala Desa;kepdes;kepdes;manual_seed;10
+52;052. Kepala Desa;lurah desa;lurah desa;manual_seed;10
+52;052. Kepala Desa;petinggi desa;petinggi desa;manual_seed;10
+52;052. Kepala Desa;pemimpin desa;pemimpin desa;manual_seed;10
+52;052. Kepala Desa;kepala pemerintahan desa;kepala pemerintahan desa;manual_seed;9
+53;053. Ketua Adat;ketua adat;ketua adat;nama_profesi;8
+53;053. Ketua Adat;kepala adat;kepala adat;manual_seed;10
+53;053. Ketua Adat;pemangku adat;pemangku adat;manual_seed;10
+53;053. Ketua Adat;tokoh adat;tokoh adat;manual_seed;10
+53;053. Ketua Adat;kepala suku;kepala suku;manual_seed;10
+53;053. Ketua Adat;datuk adat;datuk adat;manual_seed;10
+53;053. Ketua Adat;tetua adat;tetua adat;manual_seed;10
+53;053. Ketua Adat;pemimpin adat;pemimpin adat;manual_seed;10
+54;054. Ketua Organisasi;ketua organisasi;ketua organisasi;nama_profesi;8
+54;054. Ketua Organisasi;pimpinan organisasi;pimpinan organisasi;manual_seed;10
+54;054. Ketua Organisasi;ketua yayasan;ketua yayasan;manual_seed;10
+54;054. Ketua Organisasi;ketua lembaga;ketua lembaga;manual_seed;10
+54;054. Ketua Organisasi;ketua asosiasi;ketua asosiasi;manual_seed;10
+54;054. Ketua Organisasi;ketua komunitas;ketua komunitas;manual_seed;10
+54;054. Ketua Organisasi;pemimpin ormas;pemimpin ormas;manual_seed;10
+54;054. Ketua Organisasi;direktur organisasi;direktur organisasi;manual_seed;10
+55;055. Konsultan;konsultan;konsultan;nama_profesi;8
+55;055. Konsultan;consultant;consultant;manual_seed;10
+55;055. Konsultan;advisor profesional;advisor profesional;manual_seed;10
+55;055. Konsultan;penasihat bisnis;penasihat bisnis;manual_seed;10
+55;055. Konsultan;konsultan manajemen;konsultan manajemen;manual_seed;10
+55;055. Konsultan;konsultan hukum;konsultan hukum;manual_seed;10
+55;055. Konsultan;konsultan it;konsultan it;manual_seed;10
+55;055. Konsultan;konsultan pajak;konsultan pajak;manual_seed;10
+55;055. Konsultan;jasa konsultasi;jasa konsultasi;manual_seed;10
+56;056. Kreator Konten;kreator konten;kreator konten;nama_profesi;8
+56;056. Kreator Konten;content creator;content creator;manual_seed;10
+56;056. Kreator Konten;youtuber;youtuber;manual_seed;10
+56;056. Kreator Konten;tiktoker;tiktoker;manual_seed;10
+56;056. Kreator Konten;influencer;influencer;manual_seed;10
+56;056. Kreator Konten;streamer;streamer;manual_seed;10
+56;056. Kreator Konten;vlogger;vlogger;manual_seed;10
+56;056. Kreator Konten;pembuat konten;pembuat konten;manual_seed;10
+56;056. Kreator Konten;konten digital;konten digital;manual_seed;10
+56;056. Kreator Konten;selebgram;selebgram;manual_seed;10
+56;056. Kreator Konten;podcaster;podcaster;manual_seed;10
+57;057. Kurator;kurator;kurator;nama_profesi;8
+57;057. Kurator;curator;curator;manual_seed;10
+57;057. Kurator;kurator museum;kurator museum;manual_seed;10
+57;057. Kurator;kurator galeri;kurator galeri;manual_seed;10
+57;057. Kurator;pengelola koleksi;pengelola koleksi;manual_seed;10
+57;057. Kurator;kurasi pameran;kurasi pameran;manual_seed;10
+57;057. Kurator;kurator seni;kurator seni;manual_seed;10
+57;057. Kurator;kurator arsip budaya;kurator arsip budaya;manual_seed;9
+58;058. Kurir;kurir;kurir;nama_profesi;8
+58;058. Kurir;courier;courier;manual_seed;10
+58;058. Kurir;pengantar paket;pengantar paket;manual_seed;10
+58;058. Kurir;antar barang;antar barang;manual_seed;10
+58;058. Kurir;delivery;delivery;manual_seed;10
+58;058. Kurir;ojol antar barang;ojol antar barang;manual_seed;9
+58;058. Kurir;ekspedisi;ekspedisi;manual_seed;10
+58;058. Kurir;rider paket;rider paket;manual_seed;10
+58;058. Kurir;pengantar dokumen;pengantar dokumen;manual_seed;10
+58;058. Kurir;jasa kirim;jasa kirim;manual_seed;10
+59;059. Lurah;lurah;lurah;nama_profesi;8
+59;059. Lurah;kepala kelurahan;kepala kelurahan;manual_seed;10
+59;059. Lurah;pejabat kelurahan;pejabat kelurahan;manual_seed;10
+59;059. Lurah;pemimpin kelurahan;pemimpin kelurahan;manual_seed;10
+59;059. Lurah;kepala wilayah kelurahan;kepala wilayah kelurahan;manual_seed;9
+60;060. Makelar;makelar;makelar;nama_profesi;8
+60;060. Makelar;broker umum;broker umum;manual_seed;10
+60;060. Makelar;calo;calo;manual_seed;10
+60;060. Makelar;perantara jual beli;perantara jual beli;manual_seed;9
+60;060. Makelar;makelar tanah;makelar tanah;manual_seed;10
+60;060. Makelar;makelar mobil;makelar mobil;manual_seed;10
+60;060. Makelar;makelar rumah;makelar rumah;manual_seed;10
+60;060. Makelar;agen properti informal;agen properti informal;manual_seed;9
+60;060. Makelar;perantara dagang;perantara dagang;manual_seed;10
+61;061. Manajer;manajer;manajer;nama_profesi;8
+61;061. Manajer;manager;manager;manual_seed;10
+61;061. Manajer;kepala bagian;kepala bagian;manual_seed;10
+61;061. Manajer;kepala divisi;kepala divisi;manual_seed;10
+61;061. Manajer;kepala cabang;kepala cabang;manual_seed;10
+61;061. Manajer;store manager;store manager;manual_seed;10
+61;061. Manajer;pengelola operasional;pengelola operasional;manual_seed;10
+61;061. Manajer;manajer toko;manajer toko;manual_seed;10
+61;061. Manajer;manajer restoran;manajer restoran;manual_seed;10
+62;062. Masinis;masinis;masinis;nama_profesi;8
+62;062. Masinis;machinist kereta;machinist kereta;manual_seed;10
+62;062. Masinis;pengemudi kereta;pengemudi kereta;manual_seed;10
+62;062. Masinis;driver kereta;driver kereta;manual_seed;10
+62;062. Masinis;operator lokomotif;operator lokomotif;manual_seed;10
+62;062. Masinis;masinis kai;masinis kai;manual_seed;10
+62;062. Masinis;mengemudikan kereta;mengemudikan kereta;manual_seed;10
+63;063. Mekanik;mekanik;mekanik;nama_profesi;8
+63;063. Mekanik;montir;montir;manual_seed;10
+63;063. Mekanik;teknisi kendaraan;teknisi kendaraan;manual_seed;10
+63;063. Mekanik;bengkel motor;bengkel motor;manual_seed;10
+63;063. Mekanik;bengkel mobil;bengkel mobil;manual_seed;10
+63;063. Mekanik;servis motor;servis motor;manual_seed;10
+63;063. Mekanik;servis mobil;servis mobil;manual_seed;10
+63;063. Mekanik;perbaikan mesin kendaraan;perbaikan mesin kendaraan;manual_seed;9
+63;063. Mekanik;mekanik alat berat;mekanik alat berat;manual_seed;9
+64;064. Menteri/Kepala Badan (setingkat Menteri)/Wakil Menteri/Wakil Kepala Badan;menteri;menteri;nama_profesi;8
+64;064. Menteri/Kepala Badan (setingkat Menteri)/Wakil Menteri/Wakil Kepala Badan;kepala badan setingkat menteri;kepala badan setingkat menteri;manual_seed;9
+64;064. Menteri/Kepala Badan (setingkat Menteri)/Wakil Menteri/Wakil Kepala Badan;wakil menteri;wakil menteri;nama_profesi;8
+64;064. Menteri/Kepala Badan (setingkat Menteri)/Wakil Menteri/Wakil Kepala Badan;wakil kepala badan;wakil kepala badan;nama_profesi;8
+64;064. Menteri/Kepala Badan (setingkat Menteri)/Wakil Menteri/Wakil Kepala Badan;pejabat kementerian;pejabat kementerian;manual_seed;10
+64;064. Menteri/Kepala Badan (setingkat Menteri)/Wakil Menteri/Wakil Kepala Badan;anggota kabinet;anggota kabinet;manual_seed;10
+64;064. Menteri/Kepala Badan (setingkat Menteri)/Wakil Menteri/Wakil Kepala Badan;kepala lembaga negara;kepala lembaga negara;manual_seed;9
+64;064. Menteri/Kepala Badan (setingkat Menteri)/Wakil Menteri/Wakil Kepala Badan;menteri kepala badan setingkat menteri wakil menteri wakil kepala badan;menteri kepala badan setingkat menteri wakil menteri wakil kepala badan;nama_profesi;8
+64;064. Menteri/Kepala Badan (setingkat Menteri)/Wakil Menteri/Wakil Kepala Badan;kepala badan;kepala badan;nama_profesi;8
+64;064. Menteri/Kepala Badan (setingkat Menteri)/Wakil Menteri/Wakil Kepala Badan;menteri kepala badan wakil menteri wakil kepala badan;menteri kepala badan wakil menteri wakil kepala badan;nama_profesi;8
+65;065. Nakhoda;nakhoda;nakhoda;nama_profesi;8
+65;065. Nakhoda;nahkoda;nahkoda;manual_seed;10
+65;065. Nakhoda;skipper;skipper;manual_seed;10
+65;065. Nakhoda;master kapal;master kapal;manual_seed;10
+65;065. Nakhoda;pemimpin kapal;pemimpin kapal;manual_seed;10
+65;065. Nakhoda;nakhoda kapal;nakhoda kapal;manual_seed;10
+65;065. Nakhoda;juragan kapal;juragan kapal;manual_seed;10
+66;066. Nelayan;nelayan;nelayan;nama_profesi;8
+66;066. Nelayan;fisherman;fisherman;manual_seed;10
+66;066. Nelayan;pencari ikan;pencari ikan;manual_seed;10
+66;066. Nelayan;penangkap ikan;penangkap ikan;manual_seed;10
+66;066. Nelayan;melaut cari ikan;melaut cari ikan;manual_seed;9
+66;066. Nelayan;pemilik perahu nelayan;pemilik perahu nelayan;manual_seed;9
+66;066. Nelayan;nelayan tangkap;nelayan tangkap;manual_seed;10
+66;066. Nelayan;jaring ikan laut;jaring ikan laut;manual_seed;9
+66;066. Nelayan;mancing ikan untuk dijual;mancing ikan untuk dijual;manual_seed;9
+67;067. Notaris;notaris;notaris;nama_profesi;8
+67;067. Notaris;notary;notary;manual_seed;10
+67;067. Notaris;ppat notaris;ppat notaris;manual_seed;10
+67;067. Notaris;pejabat pembuat akta;pejabat pembuat akta;manual_seed;9
+67;067. Notaris;akta notaris;akta notaris;manual_seed;10
+67;067. Notaris;kantor notaris;kantor notaris;manual_seed;10
+67;067. Notaris;legalisasi dokumen;legalisasi dokumen;manual_seed;10
+68;068. Operator Layanan Pelanggan  (Customer Service);customer service;customer service;manual_seed;10
+68;068. Operator Layanan Pelanggan  (Customer Service);operator layanan pelanggan;operator layanan pelanggan;nama_profesi;8
+68;068. Operator Layanan Pelanggan  (Customer Service);cs;cs;manual_seed;10
+68;068. Operator Layanan Pelanggan  (Customer Service);call center;call center;manual_seed;10
+68;068. Operator Layanan Pelanggan  (Customer Service);layanan pelanggan;layanan pelanggan;manual_seed;10
+68;068. Operator Layanan Pelanggan  (Customer Service);operator telepon pelanggan;operator telepon pelanggan;manual_seed;9
+68;068. Operator Layanan Pelanggan  (Customer Service);helpdesk pelanggan;helpdesk pelanggan;manual_seed;10
+68;068. Operator Layanan Pelanggan  (Customer Service);frontliner layanan;frontliner layanan;manual_seed;10
+68;068. Operator Layanan Pelanggan  (Customer Service);operator layanan pelanggan customer service;operator layanan pelanggan customer service;nama_profesi;8
+69;069. Operator Mesin;operator mesin;operator mesin;nama_profesi;8
+69;069. Operator Mesin;machine operator;machine operator;manual_seed;10
+69;069. Operator Mesin;operator produksi mesin;operator produksi mesin;manual_seed;9
+69;069. Operator Mesin;operator alat;operator alat;manual_seed;10
+69;069. Operator Mesin;operator alat berat;operator alat berat;manual_seed;9
+69;069. Operator Mesin;mengoperasikan mesin;mengoperasikan mesin;manual_seed;10
+69;069. Operator Mesin;operator cnc;operator cnc;manual_seed;10
+69;069. Operator Mesin;operator forklift;operator forklift;manual_seed;10
+69;069. Operator Mesin;operator excavator;operator excavator;manual_seed;10
+70;070. Pandita;pandita;pandita;nama_profesi;8
+70;070. Pandita;pendeta buddha;pendeta buddha;manual_seed;10
+70;070. Pandita;pemuka agama buddha;pemuka agama buddha;manual_seed;9
+70;070. Pandita;rohaniwan buddha;rohaniwan buddha;manual_seed;10
+70;070. Pandita;pandita umat buddha;pandita umat buddha;manual_seed;9
+70;070. Pandita;dharmaduta;dharmaduta;manual_seed;10
+71;071. Panitera Pengadilan;panitera;panitera;manual_seed;10
+71;071. Panitera Pengadilan;panitera pengadilan;panitera pengadilan;nama_profesi;8
+71;071. Panitera Pengadilan;clerk pengadilan;clerk pengadilan;manual_seed;10
+71;071. Panitera Pengadilan;juru catat sidang;juru catat sidang;manual_seed;9
+71;071. Panitera Pengadilan;administrasi perkara;administrasi perkara;manual_seed;10
+71;071. Panitera Pengadilan;kepaniteraan;kepaniteraan;manual_seed;10
+71;071. Panitera Pengadilan;petugas kepaniteraan;petugas kepaniteraan;manual_seed;10
+72;072. Paraji;paraji;paraji;nama_profesi;8
+72;072. Paraji;dukun beranak;dukun beranak;manual_seed;10
+72;072. Paraji;dukun bayi;dukun bayi;manual_seed;10
+72;072. Paraji;bidan kampung tradisional;bidan kampung tradisional;manual_seed;9
+72;072. Paraji;penolong persalinan tradisional;penolong persalinan tradisional;manual_seed;9
+72;072. Paraji;membantu melahirkan tradisional;membantu melahirkan tradisional;manual_seed;9
+73;073. Paranormal;paranormal;paranormal;nama_profesi;8
+73;073. Paranormal;dukun;dukun;manual_seed;10
+73;073. Paranormal;orang pintar;orang pintar;manual_seed;10
+73;073. Paranormal;ahli supranatural;ahli supranatural;manual_seed;10
+73;073. Paranormal;jasa spiritual;jasa spiritual;manual_seed;10
+73;073. Paranormal;penerawang;penerawang;manual_seed;10
+73;073. Paranormal;praktisi supranatural;praktisi supranatural;manual_seed;10
+73;073. Paranormal;pengobatan gaib;pengobatan gaib;manual_seed;10
+74;074. Pastor;pastor;pastor;nama_profesi;8
+74;074. Pastor;romo;romo;manual_seed;10
+74;074. Pastor;imam katolik;imam katolik;manual_seed;10
+74;074. Pastor;pastor paroki;pastor paroki;manual_seed;10
+74;074. Pastor;pendeta katolik;pendeta katolik;manual_seed;10
+74;074. Pastor;rohaniwan katolik imam;rohaniwan katolik imam;manual_seed;9
+75;075. Pedagang;pedagang;pedagang;nama_profesi;8
+75;075. Pedagang;jualan;jualan;manual_seed;10
+75;075. Pedagang;berdagang;berdagang;manual_seed;10
+75;075. Pedagang;penjual;penjual;manual_seed;10
+75;075. Pedagang;warung;warung;manual_seed;10
+75;075. Pedagang;toko;toko;manual_seed;10
+75;075. Pedagang;kios;kios;manual_seed;10
+75;075. Pedagang;lapak;lapak;manual_seed;10
+75;075. Pedagang;pemilik warung;pemilik warung;manual_seed;10
+75;075. Pedagang;usaha dagang;usaha dagang;manual_seed;10
+75;075. Pedagang;jual beli;jual beli;manual_seed;10
+75;075. Pedagang;dagang sembako;dagang sembako;manual_seed;10
+75;075. Pedagang;coffeeshop;coffeeshop;manual_seed;10
+75;075. Pedagang;kedai kopi;kedai kopi;manual_seed;10
+75;075. Pedagang;usaha kafe;usaha kafe;manual_seed;10
+76;076. Pedagang Asongan/Keliling Makanan;pedagang asongan makanan;pedagang asongan makanan;manual_seed;9
+76;076. Pedagang Asongan/Keliling Makanan;pedagang keliling makanan;pedagang keliling makanan;manual_seed;9
+76;076. Pedagang Asongan/Keliling Makanan;jualan makanan keliling;jualan makanan keliling;manual_seed;9
+76;076. Pedagang Asongan/Keliling Makanan;jualan bakso keliling;jualan bakso keliling;manual_seed;9
+76;076. Pedagang Asongan/Keliling Makanan;jualan siomay keliling;jualan siomay keliling;manual_seed;9
+76;076. Pedagang Asongan/Keliling Makanan;jualan gorengan keliling;jualan gorengan keliling;manual_seed;9
+76;076. Pedagang Asongan/Keliling Makanan;asongan makanan;asongan makanan;manual_seed;10
+76;076. Pedagang Asongan/Keliling Makanan;gerobak makanan;gerobak makanan;manual_seed;10
+76;076. Pedagang Asongan/Keliling Makanan;penjual makanan keliling;penjual makanan keliling;manual_seed;9
+76;076. Pedagang Asongan/Keliling Makanan;pedagang asongan keliling makanan;pedagang asongan keliling makanan;nama_profesi;8
+76;076. Pedagang Asongan/Keliling Makanan;pedagang asongan;pedagang asongan;nama_profesi;8
+76;076. Pedagang Asongan/Keliling Makanan;keliling makanan;keliling makanan;nama_profesi;8
+77;077. Pedagang Asongan/Keliling Nonmakanan;pedagang asongan nonmakanan;pedagang asongan nonmakanan;manual_seed;9
+77;077. Pedagang Asongan/Keliling Nonmakanan;pedagang keliling nonmakanan;pedagang keliling nonmakanan;manual_seed;9
+77;077. Pedagang Asongan/Keliling Nonmakanan;jualan mainan keliling;jualan mainan keliling;manual_seed;9
+77;077. Pedagang Asongan/Keliling Nonmakanan;jualan aksesoris keliling;jualan aksesoris keliling;manual_seed;9
+77;077. Pedagang Asongan/Keliling Nonmakanan;jualan pakaian keliling;jualan pakaian keliling;manual_seed;9
+77;077. Pedagang Asongan/Keliling Nonmakanan;asongan rokok;asongan rokok;manual_seed;10
+77;077. Pedagang Asongan/Keliling Nonmakanan;asongan tisu;asongan tisu;manual_seed;10
+77;077. Pedagang Asongan/Keliling Nonmakanan;penjual keliling barang;penjual keliling barang;manual_seed;9
+77;077. Pedagang Asongan/Keliling Nonmakanan;pedagang asongan keliling nonmakanan;pedagang asongan keliling nonmakanan;nama_profesi;8
+77;077. Pedagang Asongan/Keliling Nonmakanan;pedagang asongan;pedagang asongan;nama_profesi;8
+77;077. Pedagang Asongan/Keliling Nonmakanan;keliling nonmakanan;keliling nonmakanan;nama_profesi;8
+78;078. Pedagang Online;pedagang online;pedagang online;nama_profesi;8
+78;078. Pedagang Online;jualan online;jualan online;manual_seed;10
+78;078. Pedagang Online;online shop;online shop;manual_seed;10
+78;078. Pedagang Online;olshop;olshop;manual_seed;10
+78;078. Pedagang Online;seller marketplace;seller marketplace;manual_seed;10
+78;078. Pedagang Online;reseller online;reseller online;manual_seed;10
+78;078. Pedagang Online;dropshipper;dropshipper;manual_seed;10
+78;078. Pedagang Online;jualan shopee;jualan shopee;manual_seed;10
+78;078. Pedagang Online;jualan tokopedia;jualan tokopedia;manual_seed;10
+78;078. Pedagang Online;live shopping;live shopping;manual_seed;10
+78;078. Pedagang Online;jualan instagram;jualan instagram;manual_seed;10
+79;079. Pegawai Pemerintah dengan Perjanjian Kerja (PPPK);pppk;pppk;manual_seed;10
+79;079. Pegawai Pemerintah dengan Perjanjian Kerja (PPPK);pegawai pemerintah dengan perjanjian kerja;pegawai pemerintah dengan perjanjian kerja;nama_profesi;8
+79;079. Pegawai Pemerintah dengan Perjanjian Kerja (PPPK);p3k;p3k;manual_seed;10
+79;079. Pegawai Pemerintah dengan Perjanjian Kerja (PPPK);pegawai kontrak pemerintah;pegawai kontrak pemerintah;manual_seed;9
+79;079. Pegawai Pemerintah dengan Perjanjian Kerja (PPPK);asn pppk;asn pppk;manual_seed;10
+79;079. Pegawai Pemerintah dengan Perjanjian Kerja (PPPK);guru pppk;guru pppk;manual_seed;10
+79;079. Pegawai Pemerintah dengan Perjanjian Kerja (PPPK);tenaga pppk;tenaga pppk;manual_seed;10
+79;079. Pegawai Pemerintah dengan Perjanjian Kerja (PPPK);pegawai pemerintah dengan perjanjian kerja pppk;pegawai pemerintah dengan perjanjian kerja pppk;nama_profesi;8
+80;080. Pekerja Garmen/Konveksi;pekerja garmen;pekerja garmen;nama_profesi;8
+80;080. Pekerja Garmen/Konveksi;pekerja konveksi;pekerja konveksi;manual_seed;10
+80;080. Pekerja Garmen/Konveksi;buruh jahit pabrik;buruh jahit pabrik;manual_seed;9
+80;080. Pekerja Garmen/Konveksi;operator jahit;operator jahit;manual_seed;10
+80;080. Pekerja Garmen/Konveksi;pabrik pakaian;pabrik pakaian;manual_seed;10
+80;080. Pekerja Garmen/Konveksi;produksi baju;produksi baju;manual_seed;10
+80;080. Pekerja Garmen/Konveksi;jahit konveksi;jahit konveksi;manual_seed;10
+80;080. Pekerja Garmen/Konveksi;garment worker;garment worker;manual_seed;10
+80;080. Pekerja Garmen/Konveksi;pekerja garmen konveksi;pekerja garmen konveksi;nama_profesi;8
+80;080. Pekerja Garmen/Konveksi;konveksi;konveksi;nama_profesi;8
+81;081. Pekerja Percetakan;pekerja percetakan;pekerja percetakan;nama_profesi;8
+81;081. Pekerja Percetakan;operator percetakan;operator percetakan;manual_seed;10
+81;081. Pekerja Percetakan;printing;printing;manual_seed;10
+81;081. Pekerja Percetakan;cetak spanduk;cetak spanduk;manual_seed;10
+81;081. Pekerja Percetakan;cetak buku;cetak buku;manual_seed;10
+81;081. Pekerja Percetakan;cetak undangan;cetak undangan;manual_seed;10
+81;081. Pekerja Percetakan;digital printing;digital printing;manual_seed;10
+81;081. Pekerja Percetakan;mesin cetak;mesin cetak;manual_seed;10
+81;081. Pekerja Percetakan;offset printing;offset printing;manual_seed;10
+82;"082. Pekerja Profesional Penjualan (agen asuransi; sales penjualan; dll)";sales;sales;manual_seed;10
+82;"082. Pekerja Profesional Penjualan (agen asuransi; sales penjualan; dll)";salesman;salesman;manual_seed;10
+82;"082. Pekerja Profesional Penjualan (agen asuransi; sales penjualan; dll)";sales penjualan;sales penjualan;manual_seed;10
+82;"082. Pekerja Profesional Penjualan (agen asuransi; sales penjualan; dll)";agen asuransi;agen asuransi;manual_seed;10
+82;"082. Pekerja Profesional Penjualan (agen asuransi; sales penjualan; dll)";marketing penjualan;marketing penjualan;manual_seed;10
+82;"082. Pekerja Profesional Penjualan (agen asuransi; sales penjualan; dll)";tenaga penjualan;tenaga penjualan;manual_seed;10
+82;"082. Pekerja Profesional Penjualan (agen asuransi; sales penjualan; dll)";account executive;account executive;manual_seed;10
+82;"082. Pekerja Profesional Penjualan (agen asuransi; sales penjualan; dll)";sales motor;sales motor;manual_seed;10
+82;"082. Pekerja Profesional Penjualan (agen asuransi; sales penjualan; dll)";sales mobil;sales mobil;manual_seed;10
+82;"082. Pekerja Profesional Penjualan (agen asuransi; sales penjualan; dll)";agen properti formal;agen properti formal;manual_seed;9
+82;"082. Pekerja Profesional Penjualan (agen asuransi; sales penjualan; dll)";promotor produk;promotor produk;manual_seed;10
+82;"082. Pekerja Profesional Penjualan (agen asuransi; sales penjualan; dll)";pekerja profesional penjualan agen asuransi sales penjualan dll;pekerja profesional penjualan agen asuransi sales penjualan dll;nama_profesi;8
+82;"082. Pekerja Profesional Penjualan (agen asuransi; sales penjualan; dll)";pekerja profesional penjualan;pekerja profesional penjualan;nama_profesi;8
+83;083. Pekerja Sosial;pekerja sosial;pekerja sosial;nama_profesi;8
+83;083. Pekerja Sosial;social worker;social worker;manual_seed;10
+83;083. Pekerja Sosial;pendamping sosial;pendamping sosial;manual_seed;10
+83;083. Pekerja Sosial;relawan sosial profesional;relawan sosial profesional;manual_seed;9
+83;083. Pekerja Sosial;pekerja panti;pekerja panti;manual_seed;10
+83;083. Pekerja Sosial;pendamping keluarga;pendamping keluarga;manual_seed;10
+83;083. Pekerja Sosial;pendamping disabilitas;pendamping disabilitas;manual_seed;10
+83;083. Pekerja Sosial;pendamping masyarakat;pendamping masyarakat;manual_seed;10
+84;084. Pelaku Ekosistem Musik;musisi;musisi;manual_seed;10
+84;084. Pelaku Ekosistem Musik;penyanyi;penyanyi;manual_seed;10
+84;084. Pelaku Ekosistem Musik;pemain band;pemain band;manual_seed;10
+84;084. Pelaku Ekosistem Musik;komposer;komposer;manual_seed;10
+84;084. Pelaku Ekosistem Musik;aransemen musik;aransemen musik;manual_seed;10
+84;084. Pelaku Ekosistem Musik;produser musik;produser musik;manual_seed;10
+84;084. Pelaku Ekosistem Musik;dj;dj;manual_seed;10
+84;084. Pelaku Ekosistem Musik;sound engineer musik;sound engineer musik;manual_seed;9
+84;084. Pelaku Ekosistem Musik;pelaku musik;pelaku musik;manual_seed;10
+84;084. Pelaku Ekosistem Musik;pemain musik;pemain musik;manual_seed;10
+84;084. Pelaku Ekosistem Musik;pelaku ekosistem musik;pelaku ekosistem musik;nama_profesi;8
+85;085. Pelaku Ekosistem Perfilman;pelaku film;pelaku film;manual_seed;10
+85;085. Pelaku Ekosistem Perfilman;sineas;sineas;manual_seed;10
+85;085. Pelaku Ekosistem Perfilman;pembuat film;pembuat film;manual_seed;10
+85;085. Pelaku Ekosistem Perfilman;sutradara;sutradara;manual_seed;10
+85;085. Pelaku Ekosistem Perfilman;produser film;produser film;manual_seed;10
+85;085. Pelaku Ekosistem Perfilman;editor film;editor film;manual_seed;10
+85;085. Pelaku Ekosistem Perfilman;crew film;crew film;manual_seed;10
+85;085. Pelaku Ekosistem Perfilman;aktor film;aktor film;manual_seed;10
+85;085. Pelaku Ekosistem Perfilman;perfilman;perfilman;manual_seed;10
+85;085. Pelaku Ekosistem Perfilman;cinematographer;cinematographer;manual_seed;10
+85;085. Pelaku Ekosistem Perfilman;pelaku ekosistem perfilman;pelaku ekosistem perfilman;nama_profesi;8
+86;086. Pelaku Ekosistem Seni Pertunjukan;seni pertunjukan;seni pertunjukan;manual_seed;10
+86;086. Pelaku Ekosistem Seni Pertunjukan;penari;penari;manual_seed;10
+86;086. Pelaku Ekosistem Seni Pertunjukan;teater;teater;manual_seed;10
+86;086. Pelaku Ekosistem Seni Pertunjukan;aktor panggung;aktor panggung;manual_seed;10
+86;086. Pelaku Ekosistem Seni Pertunjukan;pemain teater;pemain teater;manual_seed;10
+86;086. Pelaku Ekosistem Seni Pertunjukan;dalang pertunjukan;dalang pertunjukan;manual_seed;10
+86;086. Pelaku Ekosistem Seni Pertunjukan;performer;performer;manual_seed;10
+86;086. Pelaku Ekosistem Seni Pertunjukan;pentas seni;pentas seni;manual_seed;10
+86;086. Pelaku Ekosistem Seni Pertunjukan;koreografer;koreografer;manual_seed;10
+86;086. Pelaku Ekosistem Seni Pertunjukan;seniman panggung;seniman panggung;manual_seed;10
+86;086. Pelaku Ekosistem Seni Pertunjukan;pelaku ekosistem seni pertunjukan;pelaku ekosistem seni pertunjukan;nama_profesi;8
+87;087. Pelaku Ekosistem Seni Rupa dan Kriya;seni rupa;seni rupa;manual_seed;10
+87;087. Pelaku Ekosistem Seni Rupa dan Kriya;kriya;kriya;nama_profesi;8
+87;087. Pelaku Ekosistem Seni Rupa dan Kriya;pelukis;pelukis;manual_seed;10
+87;087. Pelaku Ekosistem Seni Rupa dan Kriya;perupa;perupa;manual_seed;10
+87;087. Pelaku Ekosistem Seni Rupa dan Kriya;pematung;pematung;manual_seed;10
+87;087. Pelaku Ekosistem Seni Rupa dan Kriya;perajin seni;perajin seni;manual_seed;10
+87;087. Pelaku Ekosistem Seni Rupa dan Kriya;kerajinan tangan seni;kerajinan tangan seni;manual_seed;9
+87;087. Pelaku Ekosistem Seni Rupa dan Kriya;desainer kriya;desainer kriya;manual_seed;10
+87;087. Pelaku Ekosistem Seni Rupa dan Kriya;seniman rupa;seniman rupa;manual_seed;10
+87;087. Pelaku Ekosistem Seni Rupa dan Kriya;handmade craft;handmade craft;manual_seed;10
+87;087. Pelaku Ekosistem Seni Rupa dan Kriya;pelaku ekosistem seni rupa dan kriya;pelaku ekosistem seni rupa dan kriya;nama_profesi;8
+87;087. Pelaku Ekosistem Seni Rupa dan Kriya;pelaku ekosistem seni rupa;pelaku ekosistem seni rupa;nama_profesi;8
+88;088. Pelatih/ Instruktur Olahraga;pelatih olahraga;pelatih olahraga;manual_seed;10
+88;088. Pelatih/ Instruktur Olahraga;instruktur olahraga;instruktur olahraga;nama_profesi;8
+88;088. Pelatih/ Instruktur Olahraga;coach;coach;manual_seed;10
+88;088. Pelatih/ Instruktur Olahraga;trainer olahraga;trainer olahraga;manual_seed;10
+88;088. Pelatih/ Instruktur Olahraga;personal trainer;personal trainer;manual_seed;10
+88;088. Pelatih/ Instruktur Olahraga;pelatih bola;pelatih bola;manual_seed;10
+88;088. Pelatih/ Instruktur Olahraga;pelatih futsal;pelatih futsal;manual_seed;10
+88;088. Pelatih/ Instruktur Olahraga;pelatih renang;pelatih renang;manual_seed;10
+88;088. Pelatih/ Instruktur Olahraga;instruktur senam;instruktur senam;manual_seed;10
+88;088. Pelatih/ Instruktur Olahraga;instruktur fitness;instruktur fitness;manual_seed;10
+88;088. Pelatih/ Instruktur Olahraga;pelatih instruktur olahraga;pelatih instruktur olahraga;nama_profesi;8
+88;088. Pelatih/ Instruktur Olahraga;pelatih;pelatih;nama_profesi;8
+89;089. Pelayan Toko;pelayan toko;pelayan toko;nama_profesi;8
+89;089. Pelayan Toko;pramuniaga;pramuniaga;manual_seed;10
+89;089. Pelayan Toko;shopkeeper;shopkeeper;manual_seed;10
+89;089. Pelayan Toko;jaga toko;jaga toko;manual_seed;10
+89;089. Pelayan Toko;penjaga toko;penjaga toko;manual_seed;10
+89;089. Pelayan Toko;melayani pembeli;melayani pembeli;manual_seed;10
+89;089. Pelayan Toko;sales counter;sales counter;manual_seed;10
+89;089. Pelayan Toko;pegawai toko;pegawai toko;manual_seed;10
+89;089. Pelayan Toko;display barang toko;display barang toko;manual_seed;9
+90;090. Pembantu/Asisten Rumah Tangga;pembantu rumah tangga;pembantu rumah tangga;manual_seed;9
+90;090. Pembantu/Asisten Rumah Tangga;asisten rumah tangga;asisten rumah tangga;nama_profesi;8
+90;090. Pembantu/Asisten Rumah Tangga;prt;prt;manual_seed;10
+90;090. Pembantu/Asisten Rumah Tangga;art;art;manual_seed;10
+90;090. Pembantu/Asisten Rumah Tangga;pembantu;pembantu;nama_profesi;8
+90;090. Pembantu/Asisten Rumah Tangga;maid;maid;manual_seed;10
+90;090. Pembantu/Asisten Rumah Tangga;pekerja rumah tangga;pekerja rumah tangga;manual_seed;9
+90;090. Pembantu/Asisten Rumah Tangga;membersihkan rumah majikan;membersihkan rumah majikan;manual_seed;9
+90;090. Pembantu/Asisten Rumah Tangga;asisten domestik;asisten domestik;manual_seed;10
+90;090. Pembantu/Asisten Rumah Tangga;pembantu asisten rumah tangga;pembantu asisten rumah tangga;nama_profesi;8
+91;091. Pemberi Pinjaman;pemberi pinjaman;pemberi pinjaman;nama_profesi;8
+91;091. Pemberi Pinjaman;rentenir;rentenir;manual_seed;10
+91;091. Pemberi Pinjaman;pinjaman uang;pinjaman uang;manual_seed;10
+91;091. Pemberi Pinjaman;kredit uang pribadi;kredit uang pribadi;manual_seed;9
+91;091. Pemberi Pinjaman;money lender;money lender;manual_seed;10
+91;091. Pemberi Pinjaman;meminjamkan uang;meminjamkan uang;manual_seed;10
+91;091. Pemberi Pinjaman;jasa pinjaman;jasa pinjaman;manual_seed;10
+91;091. Pemberi Pinjaman;pinjaman berbunga;pinjaman berbunga;manual_seed;10
+92;092. Pembuat Makanan/Juru Masak;pembuat makanan;pembuat makanan;nama_profesi;8
+92;092. Pembuat Makanan/Juru Masak;juru masak;juru masak;nama_profesi;8
+92;092. Pembuat Makanan/Juru Masak;memasak makanan;memasak makanan;manual_seed;10
+92;092. Pembuat Makanan/Juru Masak;membuat kue;membuat kue;manual_seed;10
+92;092. Pembuat Makanan/Juru Masak;pembuat roti;pembuat roti;manual_seed;10
+92;092. Pembuat Makanan/Juru Masak;katering rumahan;katering rumahan;manual_seed;10
+92;092. Pembuat Makanan/Juru Masak;jual nasi masak sendiri;jual nasi masak sendiri;manual_seed;9
+92;092. Pembuat Makanan/Juru Masak;membuat gorengan;membuat gorengan;manual_seed;10
+92;092. Pembuat Makanan/Juru Masak;masak lauk;masak lauk;manual_seed;10
+92;092. Pembuat Makanan/Juru Masak;produksi makanan;produksi makanan;manual_seed;10
+92;092. Pembuat Makanan/Juru Masak;pembuat makanan juru masak;pembuat makanan juru masak;nama_profesi;8
+93;"093. Pembuat Minuman (Barista; Bartender; dll)";pembuat minuman;pembuat minuman;nama_profesi;8
+93;"093. Pembuat Minuman (Barista; Bartender; dll)";barista;barista;manual_seed;10
+93;"093. Pembuat Minuman (Barista; Bartender; dll)";bartender;bartender;manual_seed;10
+93;"093. Pembuat Minuman (Barista; Bartender; dll)";membuat kopi;membuat kopi;manual_seed;10
+93;"093. Pembuat Minuman (Barista; Bartender; dll)";meracik kopi;meracik kopi;manual_seed;10
+93;"093. Pembuat Minuman (Barista; Bartender; dll)";bikin minuman;bikin minuman;manual_seed;10
+93;"093. Pembuat Minuman (Barista; Bartender; dll)";mixologist;mixologist;manual_seed;10
+93;"093. Pembuat Minuman (Barista; Bartender; dll)";penjual minuman membuat sendiri;penjual minuman membuat sendiri;manual_seed;9
+93;"093. Pembuat Minuman (Barista; Bartender; dll)";kedai kopi barista;kedai kopi barista;manual_seed;9
+93;"093. Pembuat Minuman (Barista; Bartender; dll)";coffeeshop barista;coffeeshop barista;manual_seed;10
+93;"093. Pembuat Minuman (Barista; Bartender; dll)";pembuat minuman barista bartender dll;pembuat minuman barista bartender dll;nama_profesi;8
+94;094. Pembuat Rokok/Cerutu/Tembakau Gulung;pembuat rokok;pembuat rokok;nama_profesi;8
+94;094. Pembuat Rokok/Cerutu/Tembakau Gulung;pembuat cerutu;pembuat cerutu;manual_seed;10
+94;094. Pembuat Rokok/Cerutu/Tembakau Gulung;pelinting rokok;pelinting rokok;manual_seed;10
+94;094. Pembuat Rokok/Cerutu/Tembakau Gulung;tembakau gulung;tembakau gulung;nama_profesi;8
+94;094. Pembuat Rokok/Cerutu/Tembakau Gulung;gulung rokok;gulung rokok;manual_seed;10
+94;094. Pembuat Rokok/Cerutu/Tembakau Gulung;buruh rokok;buruh rokok;manual_seed;10
+94;094. Pembuat Rokok/Cerutu/Tembakau Gulung;produksi rokok;produksi rokok;manual_seed;10
+94;094. Pembuat Rokok/Cerutu/Tembakau Gulung;pabrik rokok manual;pabrik rokok manual;manual_seed;9
+94;094. Pembuat Rokok/Cerutu/Tembakau Gulung;pembuat rokok cerutu tembakau gulung;pembuat rokok cerutu tembakau gulung;nama_profesi;8
+94;094. Pembuat Rokok/Cerutu/Tembakau Gulung;cerutu;cerutu;nama_profesi;8
+95;095. Pembuat Sepatu dan Tas;pembuat sepatu;pembuat sepatu;nama_profesi;8
+95;095. Pembuat Sepatu dan Tas;pembuat tas;pembuat tas;manual_seed;10
+95;095. Pembuat Sepatu dan Tas;pengrajin sepatu;pengrajin sepatu;manual_seed;10
+95;095. Pembuat Sepatu dan Tas;pengrajin tas;pengrajin tas;manual_seed;10
+95;095. Pembuat Sepatu dan Tas;produksi sepatu;produksi sepatu;manual_seed;10
+95;095. Pembuat Sepatu dan Tas;produksi tas;produksi tas;manual_seed;10
+95;095. Pembuat Sepatu dan Tas;repair tas sepatu;repair tas sepatu;manual_seed;9
+95;095. Pembuat Sepatu dan Tas;kerajinan tas;kerajinan tas;manual_seed;10
+95;095. Pembuat Sepatu dan Tas;kerajinan sepatu;kerajinan sepatu;manual_seed;10
+95;095. Pembuat Sepatu dan Tas;pembuat sepatu dan tas;pembuat sepatu dan tas;nama_profesi;8
+95;095. Pembuat Sepatu dan Tas;tas;tas;nama_profesi;8
+96;096. Pembudi Daya Ikan dan Biota Air Lainnya;pembudi daya ikan;pembudi daya ikan;nama_profesi;8
+96;096. Pembudi Daya Ikan dan Biota Air Lainnya;budidaya ikan;budidaya ikan;manual_seed;10
+96;096. Pembudi Daya Ikan dan Biota Air Lainnya;petani ikan;petani ikan;manual_seed;10
+96;096. Pembudi Daya Ikan dan Biota Air Lainnya;tambak ikan;tambak ikan;manual_seed;10
+96;096. Pembudi Daya Ikan dan Biota Air Lainnya;kolam ikan;kolam ikan;manual_seed;10
+96;096. Pembudi Daya Ikan dan Biota Air Lainnya;ternak ikan;ternak ikan;manual_seed;10
+96;096. Pembudi Daya Ikan dan Biota Air Lainnya;lele;lele;manual_seed;10
+96;096. Pembudi Daya Ikan dan Biota Air Lainnya;nila;nila;manual_seed;10
+96;096. Pembudi Daya Ikan dan Biota Air Lainnya;gurame;gurame;manual_seed;10
+96;096. Pembudi Daya Ikan dan Biota Air Lainnya;udang tambak;udang tambak;manual_seed;10
+96;096. Pembudi Daya Ikan dan Biota Air Lainnya;biota air;biota air;manual_seed;10
+96;096. Pembudi Daya Ikan dan Biota Air Lainnya;pembesaran ikan;pembesaran ikan;manual_seed;10
+96;096. Pembudi Daya Ikan dan Biota Air Lainnya;pembudi daya ikan dan biota air lainnya;pembudi daya ikan dan biota air lainnya;nama_profesi;8
+96;096. Pembudi Daya Ikan dan Biota Air Lainnya;biota air lainnya;biota air lainnya;nama_profesi;8
+97;097. Pemulung;pemulung;pemulung;nama_profesi;8
+97;097. Pemulung;pengumpul barang bekas;pengumpul barang bekas;manual_seed;9
+97;097. Pemulung;pencari barang bekas;pencari barang bekas;manual_seed;9
+97;097. Pemulung;rongsokan;rongsokan;manual_seed;10
+97;097. Pemulung;scavenger;scavenger;manual_seed;10
+97;097. Pemulung;mengais sampah;mengais sampah;manual_seed;10
+97;097. Pemulung;pemilah sampah;pemilah sampah;manual_seed;10
+97;097. Pemulung;botol bekas;botol bekas;manual_seed;10
+97;097. Pemulung;kardus bekas;kardus bekas;manual_seed;10
+98;098. Penagih Hutang (Debt Collector);penagih hutang;penagih hutang;nama_profesi;8
+98;098. Penagih Hutang (Debt Collector);debt collector;debt collector;manual_seed;10
+98;098. Penagih Hutang (Debt Collector);kolektor utang;kolektor utang;manual_seed;10
+98;098. Penagih Hutang (Debt Collector);penagihan kredit;penagihan kredit;manual_seed;10
+98;098. Penagih Hutang (Debt Collector);collector leasing;collector leasing;manual_seed;10
+98;098. Penagih Hutang (Debt Collector);tagih cicilan;tagih cicilan;manual_seed;10
+98;098. Penagih Hutang (Debt Collector);penagih pinjaman;penagih pinjaman;manual_seed;10
+98;098. Penagih Hutang (Debt Collector);field collector;field collector;manual_seed;10
+98;098. Penagih Hutang (Debt Collector);penagih hutang debt collector;penagih hutang debt collector;nama_profesi;8
+99;099. Penasihat Spiritual;penasihat spiritual;penasihat spiritual;nama_profesi;8
+99;099. Penasihat Spiritual;spiritual advisor;spiritual advisor;manual_seed;10
+99;099. Penasihat Spiritual;pembimbing spiritual;pembimbing spiritual;manual_seed;10
+99;099. Penasihat Spiritual;konselor spiritual;konselor spiritual;manual_seed;10
+99;099. Penasihat Spiritual;guru spiritual;guru spiritual;manual_seed;10
+99;099. Penasihat Spiritual;konsultasi rohani;konsultasi rohani;manual_seed;10
+99;099. Penasihat Spiritual;pembimbing rohani;pembimbing rohani;manual_seed;10
+99;099. Penasihat Spiritual;mentor spiritual;mentor spiritual;manual_seed;10
+100;100. Penata Busana;penata busana;penata busana;nama_profesi;8
+100;100. Penata Busana;fashion stylist;fashion stylist;manual_seed;10
+100;100. Penata Busana;wardrobe stylist;wardrobe stylist;manual_seed;10
+100;100. Penata Busana;stylist pakaian;stylist pakaian;manual_seed;10
+100;100. Penata Busana;kostum panggung;kostum panggung;manual_seed;10
+100;100. Penata Busana;penata kostum;penata kostum;manual_seed;10
+100;100. Penata Busana;wardrobe film;wardrobe film;manual_seed;10
+100;100. Penata Busana;styling busana;styling busana;manual_seed;10
+101;101. Penata Rambut;penata rambut;penata rambut;nama_profesi;8
+101;101. Penata Rambut;hair stylist;hair stylist;manual_seed;10
+101;101. Penata Rambut;kapster;kapster;manual_seed;10
+101;101. Penata Rambut;salon rambut;salon rambut;manual_seed;10
+101;101. Penata Rambut;tukang rambut salon;tukang rambut salon;manual_seed;9
+101;101. Penata Rambut;potong rambut salon;potong rambut salon;manual_seed;9
+101;101. Penata Rambut;styling rambut;styling rambut;manual_seed;10
+101;101. Penata Rambut;hairdresser;hairdresser;manual_seed;10
+102;102. Penata Rias;penata rias;penata rias;nama_profesi;8
+102;102. Penata Rias;makeup artist;makeup artist;manual_seed;10
+102;102. Penata Rias;mua;mua;manual_seed;10
+102;102. Penata Rias;perias pengantin;perias pengantin;manual_seed;10
+102;102. Penata Rias;rias wajah;rias wajah;manual_seed;10
+102;102. Penata Rias;make up;make up;manual_seed;10
+102;102. Penata Rias;tata rias;tata rias;manual_seed;10
+102;102. Penata Rias;salon rias;salon rias;manual_seed;10
+103;103. Penata Suara;penata suara;penata suara;nama_profesi;8
+103;103. Penata Suara;soundman;soundman;manual_seed;10
+103;103. Penata Suara;sound engineer;sound engineer;manual_seed;10
+103;103. Penata Suara;audio engineer;audio engineer;manual_seed;10
+103;103. Penata Suara;operator sound system;operator sound system;manual_seed;9
+103;103. Penata Suara;teknisi audio;teknisi audio;manual_seed;10
+103;103. Penata Suara;mixing audio;mixing audio;manual_seed;10
+103;103. Penata Suara;sound acara;sound acara;manual_seed;10
+103;103. Penata Suara;penata audio;penata audio;manual_seed;10
+104;104. Pendeta;pendeta;pendeta;nama_profesi;8
+104;104. Pendeta;pastor protestan;pastor protestan;manual_seed;10
+104;104. Pendeta;rohaniwan kristen;rohaniwan kristen;manual_seed;10
+104;104. Pendeta;pemuka agama kristen;pemuka agama kristen;manual_seed;9
+104;104. Pendeta;gembala sidang;gembala sidang;manual_seed;10
+104;104. Pendeta;pendeta gereja;pendeta gereja;manual_seed;10
+104;104. Pendeta;pelayan jemaat;pelayan jemaat;manual_seed;10
+105;105. Peneliti;peneliti;peneliti;nama_profesi;8
+105;105. Peneliti;researcher;researcher;manual_seed;10
+105;105. Peneliti;ilmuwan;ilmuwan;manual_seed;10
+105;105. Peneliti;riset;riset;manual_seed;10
+105;105. Peneliti;staf riset;staf riset;manual_seed;10
+105;105. Peneliti;peneliti lembaga;peneliti lembaga;manual_seed;10
+105;105. Peneliti;peneliti kampus;peneliti kampus;manual_seed;10
+105;105. Peneliti;research scientist;research scientist;manual_seed;10
+105;105. Peneliti;kajian ilmiah;kajian ilmiah;manual_seed;10
+106;106. Penerjemah;penerjemah;penerjemah;nama_profesi;8
+106;106. Penerjemah;translator;translator;manual_seed;10
+106;106. Penerjemah;interpreter;interpreter;manual_seed;10
+106;106. Penerjemah;juru bahasa;juru bahasa;manual_seed;10
+106;106. Penerjemah;alih bahasa;alih bahasa;manual_seed;10
+106;106. Penerjemah;terjemahan dokumen;terjemahan dokumen;manual_seed;10
+106;106. Penerjemah;penerjemah lisan;penerjemah lisan;manual_seed;10
+106;106. Penerjemah;penerjemah tersumpah;penerjemah tersumpah;manual_seed;10
+107;107. Pengacara;pengacara;pengacara;nama_profesi;8
+107;107. Pengacara;advokat;advokat;manual_seed;10
+107;107. Pengacara;lawyer;lawyer;manual_seed;10
+107;107. Pengacara;kuasa hukum;kuasa hukum;manual_seed;10
+107;107. Pengacara;penasihat hukum;penasihat hukum;manual_seed;10
+107;107. Pengacara;litigator;litigator;manual_seed;10
+107;107. Pengacara;konsultan hukum perkara;konsultan hukum perkara;manual_seed;9
+107;107. Pengacara;membela klien;membela klien;manual_seed;10
+108;108. Pengasuh Anak (Baby Sitter);pengasuh anak;pengasuh anak;nama_profesi;8
+108;108. Pengasuh Anak (Baby Sitter);baby sitter;baby sitter;manual_seed;10
+108;108. Pengasuh Anak (Baby Sitter);babysitter;babysitter;manual_seed;10
+108;108. Pengasuh Anak (Baby Sitter);nanny;nanny;manual_seed;10
+108;108. Pengasuh Anak (Baby Sitter);mengasuh anak;mengasuh anak;manual_seed;10
+108;108. Pengasuh Anak (Baby Sitter);jaga anak;jaga anak;manual_seed;10
+108;108. Pengasuh Anak (Baby Sitter);perawat anak rumah;perawat anak rumah;manual_seed;9
+108;108. Pengasuh Anak (Baby Sitter);pengasuh balita;pengasuh balita;manual_seed;10
+108;108. Pengasuh Anak (Baby Sitter);pengasuh anak baby sitter;pengasuh anak baby sitter;nama_profesi;8
+109;109. Pengelola Gedung/Properti;pengelola gedung;pengelola gedung;nama_profesi;8
+109;109. Pengelola Gedung/Properti;pengelola properti;pengelola properti;manual_seed;10
+109;109. Pengelola Gedung/Properti;property manager;property manager;manual_seed;10
+109;109. Pengelola Gedung/Properti;building manager;building manager;manual_seed;10
+109;109. Pengelola Gedung/Properti;manajemen gedung;manajemen gedung;manual_seed;10
+109;109. Pengelola Gedung/Properti;pengurus apartemen;pengurus apartemen;manual_seed;10
+109;109. Pengelola Gedung/Properti;pengelola kos;pengelola kos;manual_seed;10
+109;109. Pengelola Gedung/Properti;pengelola ruko;pengelola ruko;manual_seed;10
+109;109. Pengelola Gedung/Properti;estate manager;estate manager;manual_seed;10
+109;109. Pengelola Gedung/Properti;pengelola gedung properti;pengelola gedung properti;nama_profesi;8
+109;109. Pengelola Gedung/Properti;properti;properti;nama_profesi;8
+110;110. Pengemudi Ojek Online;pengemudi ojek online;pengemudi ojek online;nama_profesi;8
+110;110. Pengemudi Ojek Online;ojek online;ojek online;manual_seed;10
+110;110. Pengemudi Ojek Online;ojol;ojol;manual_seed;10
+110;110. Pengemudi Ojek Online;driver gojek;driver gojek;manual_seed;10
+110;110. Pengemudi Ojek Online;driver grab;driver grab;manual_seed;10
+110;110. Pengemudi Ojek Online;driver maxim;driver maxim;manual_seed;10
+110;110. Pengemudi Ojek Online;gojek motor;gojek motor;manual_seed;10
+110;110. Pengemudi Ojek Online;grab bike;grab bike;manual_seed;10
+110;110. Pengemudi Ojek Online;antar penumpang aplikasi;antar penumpang aplikasi;manual_seed;9
+110;110. Pengemudi Ojek Online;ojek aplikasi;ojek aplikasi;manual_seed;10
+111;111. Pengemudi Ojek Pangkalan;pengemudi ojek pangkalan;pengemudi ojek pangkalan;nama_profesi;8
+111;111. Pengemudi Ojek Pangkalan;ojek pangkalan;ojek pangkalan;manual_seed;10
+111;111. Pengemudi Ojek Pangkalan;ojek konvensional;ojek konvensional;manual_seed;10
+111;111. Pengemudi Ojek Pangkalan;ojek biasa;ojek biasa;manual_seed;10
+111;111. Pengemudi Ojek Pangkalan;tukang ojek;tukang ojek;manual_seed;10
+111;111. Pengemudi Ojek Pangkalan;ojek offline;ojek offline;manual_seed;10
+111;111. Pengemudi Ojek Pangkalan;ojek kampung;ojek kampung;manual_seed;10
+112;112. Pengepul;pengepul;pengepul;nama_profesi;8
+112;112. Pengepul;penampung barang;penampung barang;manual_seed;10
+112;112. Pengepul;pengepul rongsok;pengepul rongsok;manual_seed;10
+112;112. Pengepul;pengepul hasil tani;pengepul hasil tani;manual_seed;9
+112;112. Pengepul;tengkulak;tengkulak;manual_seed;10
+112;112. Pengepul;pengepul ikan;pengepul ikan;manual_seed;10
+112;112. Pengepul;pengepul barang bekas;pengepul barang bekas;manual_seed;9
+112;112. Pengepul;pengepul sawit;pengepul sawit;manual_seed;10
+112;112. Pengepul;agen pengumpul;agen pengumpul;manual_seed;10
+113;113. Penjaga Keamanan/Satpam;satpam;satpam;nama_profesi;8
+113;113. Penjaga Keamanan/Satpam;penjaga keamanan;penjaga keamanan;nama_profesi;8
+113;113. Penjaga Keamanan/Satpam;security;security;manual_seed;10
+113;113. Penjaga Keamanan/Satpam;security guard;security guard;manual_seed;10
+113;113. Penjaga Keamanan/Satpam;penjaga malam;penjaga malam;manual_seed;10
+113;113. Penjaga Keamanan/Satpam;pengaman kantor;pengaman kantor;manual_seed;10
+113;113. Penjaga Keamanan/Satpam;petugas keamanan;petugas keamanan;manual_seed;10
+113;113. Penjaga Keamanan/Satpam;jaga pos keamanan;jaga pos keamanan;manual_seed;9
+113;113. Penjaga Keamanan/Satpam;penjaga keamanan satpam;penjaga keamanan satpam;nama_profesi;8
+114;114. Penjahit;penjahit;penjahit;nama_profesi;8
+114;114. Penjahit;tukang jahit;tukang jahit;manual_seed;10
+114;114. Penjahit;tailor;tailor;manual_seed;10
+114;114. Penjahit;jahit pakaian;jahit pakaian;manual_seed;10
+114;114. Penjahit;jahit baju;jahit baju;manual_seed;10
+114;114. Penjahit;konveksi rumahan;konveksi rumahan;manual_seed;10
+114;114. Penjahit;permakan baju;permakan baju;manual_seed;10
+114;114. Penjahit;alterasi pakaian;alterasi pakaian;manual_seed;10
+115;115. Penulis;penulis;penulis;nama_profesi;8
+115;115. Penulis;writer;writer;manual_seed;10
+115;115. Penulis;author;author;manual_seed;10
+115;115. Penulis;copywriter;copywriter;manual_seed;10
+115;115. Penulis;content writer;content writer;manual_seed;10
+115;115. Penulis;novelis;novelis;manual_seed;10
+115;115. Penulis;jurnalis tulis;jurnalis tulis;manual_seed;10
+115;115. Penulis;penulis buku;penulis buku;manual_seed;10
+115;115. Penulis;penulis artikel;penulis artikel;manual_seed;10
+115;115. Penulis;script writer;script writer;manual_seed;10
+116;116. Penyelenggara Acara (Event Organizer/EO);event organizer;event organizer;manual_seed;10
+116;116. Penyelenggara Acara (Event Organizer/EO);eo;eo;manual_seed;10
+116;116. Penyelenggara Acara (Event Organizer/EO);penyelenggara acara;penyelenggara acara;nama_profesi;8
+116;116. Penyelenggara Acara (Event Organizer/EO);organizer acara;organizer acara;manual_seed;10
+116;116. Penyelenggara Acara (Event Organizer/EO);wedding organizer;wedding organizer;manual_seed;10
+116;116. Penyelenggara Acara (Event Organizer/EO);panitia acara profesional;panitia acara profesional;manual_seed;9
+116;116. Penyelenggara Acara (Event Organizer/EO);event planner;event planner;manual_seed;10
+116;116. Penyelenggara Acara (Event Organizer/EO);event management;event management;manual_seed;10
+116;116. Penyelenggara Acara (Event Organizer/EO);mengatur acara;mengatur acara;manual_seed;10
+116;116. Penyelenggara Acara (Event Organizer/EO);penyelenggara acara event organizer eo;penyelenggara acara event organizer eo;nama_profesi;8
+117;117. Penyiar Radio;penyiar radio;penyiar radio;nama_profesi;8
+117;117. Penyiar Radio;radio announcer;radio announcer;manual_seed;10
+117;117. Penyiar Radio;host radio;host radio;manual_seed;10
+117;117. Penyiar Radio;dj radio;dj radio;manual_seed;10
+117;117. Penyiar Radio;pembawa acara radio;pembawa acara radio;manual_seed;9
+117;117. Penyiar Radio;siaran radio;siaran radio;manual_seed;10
+117;117. Penyiar Radio;announcer radio;announcer radio;manual_seed;10
+118;118. Penyiar Televisi;penyiar televisi;penyiar televisi;nama_profesi;8
+118;118. Penyiar Televisi;tv presenter;tv presenter;manual_seed;10
+118;118. Penyiar Televisi;news anchor;news anchor;manual_seed;10
+118;118. Penyiar Televisi;pembawa acara tv;pembawa acara tv;manual_seed;9
+118;118. Penyiar Televisi;host televisi;host televisi;manual_seed;10
+118;118. Penyiar Televisi;siaran televisi;siaran televisi;manual_seed;10
+118;118. Penyiar Televisi;presenter berita;presenter berita;manual_seed;10
+119;119. Perajin Batu;perajin batu;perajin batu;nama_profesi;8
+119;119. Perajin Batu;pengrajin batu;pengrajin batu;manual_seed;10
+119;119. Perajin Batu;tukang batu ukir;tukang batu ukir;manual_seed;9
+119;119. Perajin Batu;kerajinan batu;kerajinan batu;manual_seed;10
+119;119. Perajin Batu;pahat batu;pahat batu;manual_seed;10
+119;119. Perajin Batu;batu alam kerajinan;batu alam kerajinan;manual_seed;9
+119;119. Perajin Batu;pembuat patung batu;pembuat patung batu;manual_seed;9
+119;119. Perajin Batu;ukir batu;ukir batu;manual_seed;10
+120;"120. Perajin Kayu; Bambu; dan Anyaman";perajin kayu;perajin kayu;nama_profesi;8
+120;"120. Perajin Kayu; Bambu; dan Anyaman";perajin bambu;perajin bambu;manual_seed;10
+120;"120. Perajin Kayu; Bambu; dan Anyaman";perajin anyaman;perajin anyaman;manual_seed;10
+120;"120. Perajin Kayu; Bambu; dan Anyaman";pengrajin kayu;pengrajin kayu;manual_seed;10
+120;"120. Perajin Kayu; Bambu; dan Anyaman";pengrajin bambu;pengrajin bambu;manual_seed;10
+120;"120. Perajin Kayu; Bambu; dan Anyaman";anyaman rotan;anyaman rotan;manual_seed;10
+120;"120. Perajin Kayu; Bambu; dan Anyaman";kerajinan bambu;kerajinan bambu;manual_seed;10
+120;"120. Perajin Kayu; Bambu; dan Anyaman";ukir kayu;ukir kayu;manual_seed;10
+120;"120. Perajin Kayu; Bambu; dan Anyaman";produk kayu handmade;produk kayu handmade;manual_seed;9
+120;"120. Perajin Kayu; Bambu; dan Anyaman";perajin kayu bambu dan anyaman;perajin kayu bambu dan anyaman;nama_profesi;8
+120;"120. Perajin Kayu; Bambu; dan Anyaman";bambu;bambu;nama_profesi;8
+120;"120. Perajin Kayu; Bambu; dan Anyaman";anyaman;anyaman;nama_profesi;8
+121;121. Perajin Kulit dan Tekstil;perajin kulit;perajin kulit;nama_profesi;8
+121;121. Perajin Kulit dan Tekstil;perajin tekstil;perajin tekstil;manual_seed;10
+121;121. Perajin Kulit dan Tekstil;pengrajin kulit;pengrajin kulit;manual_seed;10
+121;121. Perajin Kulit dan Tekstil;pengrajin kain;pengrajin kain;manual_seed;10
+121;121. Perajin Kulit dan Tekstil;kerajinan kulit;kerajinan kulit;manual_seed;10
+121;121. Perajin Kulit dan Tekstil;kerajinan tekstil;kerajinan tekstil;manual_seed;10
+121;121. Perajin Kulit dan Tekstil;batik handmade;batik handmade;manual_seed;10
+121;121. Perajin Kulit dan Tekstil;tenun;tenun;manual_seed;10
+121;121. Perajin Kulit dan Tekstil;produk kulit;produk kulit;manual_seed;10
+121;121. Perajin Kulit dan Tekstil;craft tekstil;craft tekstil;manual_seed;10
+121;121. Perajin Kulit dan Tekstil;perajin kulit dan tekstil;perajin kulit dan tekstil;nama_profesi;8
+121;121. Perajin Kulit dan Tekstil;tekstil;tekstil;nama_profesi;8
+122;122. Perajin Logam;perajin logam;perajin logam;nama_profesi;8
+122;122. Perajin Logam;pengrajin logam;pengrajin logam;manual_seed;10
+122;122. Perajin Logam;kerajinan logam;kerajinan logam;manual_seed;10
+122;122. Perajin Logam;ukir logam;ukir logam;manual_seed;10
+122;122. Perajin Logam;tembaga kuningan;tembaga kuningan;manual_seed;10
+122;122. Perajin Logam;produk logam handmade;produk logam handmade;manual_seed;9
+122;122. Perajin Logam;pande logam;pande logam;manual_seed;10
+122;122. Perajin Logam;pembuat aksesoris logam;pembuat aksesoris logam;manual_seed;9
+123;123. Perajin Perhiasan;perajin perhiasan;perajin perhiasan;nama_profesi;8
+123;123. Perajin Perhiasan;pengrajin perhiasan;pengrajin perhiasan;manual_seed;10
+123;123. Perajin Perhiasan;pembuat perhiasan;pembuat perhiasan;manual_seed;10
+123;123. Perajin Perhiasan;emas perak;emas perak;manual_seed;10
+123;123. Perajin Perhiasan;jewelry maker;jewelry maker;manual_seed;10
+123;123. Perajin Perhiasan;pengrajin emas;pengrajin emas;manual_seed;10
+123;123. Perajin Perhiasan;pengrajin cincin;pengrajin cincin;manual_seed;10
+123;123. Perajin Perhiasan;aksesoris perhiasan;aksesoris perhiasan;manual_seed;10
+124;124. Perajin Tembikar/Keramik;perajin tembikar;perajin tembikar;nama_profesi;8
+124;124. Perajin Tembikar/Keramik;perajin keramik;perajin keramik;manual_seed;10
+124;124. Perajin Tembikar/Keramik;pengrajin keramik;pengrajin keramik;manual_seed;10
+124;124. Perajin Tembikar/Keramik;gerabah;gerabah;manual_seed;10
+124;124. Perajin Tembikar/Keramik;pembuat gerabah;pembuat gerabah;manual_seed;10
+124;124. Perajin Tembikar/Keramik;pembuat tembikar;pembuat tembikar;manual_seed;10
+124;124. Perajin Tembikar/Keramik;kerajinan tanah liat;kerajinan tanah liat;manual_seed;9
+124;124. Perajin Tembikar/Keramik;pottery;pottery;manual_seed;10
+124;124. Perajin Tembikar/Keramik;ceramic maker;ceramic maker;manual_seed;10
+124;124. Perajin Tembikar/Keramik;perajin tembikar keramik;perajin tembikar keramik;nama_profesi;8
+124;124. Perajin Tembikar/Keramik;keramik;keramik;nama_profesi;8
+125;125. Peramal;peramal;peramal;nama_profesi;8
+125;125. Peramal;fortune teller;fortune teller;manual_seed;10
+125;125. Peramal;tukang ramal;tukang ramal;manual_seed;10
+125;125. Peramal;ramal nasib;ramal nasib;manual_seed;10
+125;125. Peramal;astrolog;astrolog;manual_seed;10
+125;125. Peramal;pembaca tarot;pembaca tarot;manual_seed;10
+125;125. Peramal;pembaca garis tangan;pembaca garis tangan;manual_seed;9
+125;125. Peramal;prediksi nasib;prediksi nasib;manual_seed;10
+126;126. Perancang Busana/Desainer;perancang busana;perancang busana;nama_profesi;8
+126;126. Perancang Busana/Desainer;desainer busana;desainer busana;manual_seed;10
+126;126. Perancang Busana/Desainer;fashion designer;fashion designer;manual_seed;10
+126;126. Perancang Busana/Desainer;desainer pakaian;desainer pakaian;manual_seed;10
+126;126. Perancang Busana/Desainer;merancang baju;merancang baju;manual_seed;10
+126;126. Perancang Busana/Desainer;rancangan mode;rancangan mode;manual_seed;10
+126;126. Perancang Busana/Desainer;desain fashion;desain fashion;manual_seed;10
+126;126. Perancang Busana/Desainer;desainer butik;desainer butik;manual_seed;10
+126;126. Perancang Busana/Desainer;perancang busana desainer;perancang busana desainer;nama_profesi;8
+126;126. Perancang Busana/Desainer;desainer;desainer;nama_profesi;8
+127;127. Perangkat Desa;perangkat desa;perangkat desa;nama_profesi;8
+127;127. Perangkat Desa;sekretaris desa;sekretaris desa;manual_seed;10
+127;127. Perangkat Desa;sekdes;sekdes;manual_seed;10
+127;127. Perangkat Desa;kaur desa;kaur desa;manual_seed;10
+127;127. Perangkat Desa;kasi desa;kasi desa;manual_seed;10
+127;127. Perangkat Desa;staf desa;staf desa;manual_seed;10
+127;127. Perangkat Desa;pegawai kantor desa;pegawai kantor desa;manual_seed;9
+127;127. Perangkat Desa;aparat desa;aparat desa;manual_seed;10
+127;127. Perangkat Desa;kepala dusun;kepala dusun;manual_seed;10
+128;128. Perawat;perawat;perawat;nama_profesi;8
+128;128. Perawat;nurse;nurse;manual_seed;10
+128;128. Perawat;suster medis;suster medis;manual_seed;10
+128;128. Perawat;perawat rumah sakit;perawat rumah sakit;manual_seed;9
+128;128. Perawat;perawat puskesmas;perawat puskesmas;manual_seed;10
+128;128. Perawat;home care perawat;home care perawat;manual_seed;9
+128;128. Perawat;merawat pasien;merawat pasien;manual_seed;10
+128;128. Perawat;tenaga keperawatan;tenaga keperawatan;manual_seed;10
+129;129. Petani/Pekebun/Petani Hutan;petani;petani;nama_profesi;8
+129;129. Petani/Pekebun/Petani Hutan;pekebun;pekebun;nama_profesi;8
+129;129. Petani/Pekebun/Petani Hutan;petani hutan;petani hutan;nama_profesi;8
+129;129. Petani/Pekebun/Petani Hutan;bertani;bertani;manual_seed;10
+129;129. Petani/Pekebun/Petani Hutan;berkebun;berkebun;manual_seed;10
+129;129. Petani/Pekebun/Petani Hutan;ladang;ladang;manual_seed;10
+129;129. Petani/Pekebun/Petani Hutan;sawah;sawah;manual_seed;10
+129;129. Petani/Pekebun/Petani Hutan;kebun;kebun;manual_seed;10
+129;129. Petani/Pekebun/Petani Hutan;punya sawah;punya sawah;manual_seed;10
+129;129. Petani/Pekebun/Petani Hutan;punya kebun;punya kebun;manual_seed;10
+129;129. Petani/Pekebun/Petani Hutan;menggarap lahan sendiri;menggarap lahan sendiri;manual_seed;9
+129;129. Petani/Pekebun/Petani Hutan;tanam padi;tanam padi;manual_seed;10
+129;129. Petani/Pekebun/Petani Hutan;tanam jagung;tanam jagung;manual_seed;10
+129;129. Petani/Pekebun/Petani Hutan;kebun sawit;kebun sawit;manual_seed;10
+129;129. Petani/Pekebun/Petani Hutan;kebun karet;kebun karet;manual_seed;10
+129;129. Petani/Pekebun/Petani Hutan;kebun kakao;kebun kakao;manual_seed;10
+129;129. Petani/Pekebun/Petani Hutan;penyadap karet sendiri;penyadap karet sendiri;manual_seed;9
+129;129. Petani/Pekebun/Petani Hutan;petani hortikultura;petani hortikultura;manual_seed;10
+129;129. Petani/Pekebun/Petani Hutan;petani pekebun petani hutan;petani pekebun petani hutan;nama_profesi;8
+130;130. Peternak;peternak;peternak;nama_profesi;8
+130;130. Peternak;ternak;ternak;manual_seed;10
+130;130. Peternak;beternak;beternak;manual_seed;10
+130;130. Peternak;punya sapi;punya sapi;manual_seed;10
+130;130. Peternak;punya kambing;punya kambing;manual_seed;10
+130;130. Peternak;ternak ayam;ternak ayam;manual_seed;10
+130;130. Peternak;ternak bebek;ternak bebek;manual_seed;10
+130;130. Peternak;ternak babi;ternak babi;manual_seed;10
+130;130. Peternak;usaha kandang;usaha kandang;manual_seed;10
+130;130. Peternak;budidaya ternak;budidaya ternak;manual_seed;10
+130;130. Peternak;memelihara ternak untuk dijual;memelihara ternak untuk dijual;manual_seed;9
+131;131. Petugas Pemadam Kebakaran;pemadam kebakaran;pemadam kebakaran;manual_seed;10
+131;131. Petugas Pemadam Kebakaran;damkar;damkar;manual_seed;10
+131;131. Petugas Pemadam Kebakaran;petugas damkar;petugas damkar;manual_seed;10
+131;131. Petugas Pemadam Kebakaran;firefighter;firefighter;manual_seed;10
+131;131. Petugas Pemadam Kebakaran;pemadam api;pemadam api;manual_seed;10
+131;131. Petugas Pemadam Kebakaran;petugas penyelamatan;petugas penyelamatan;manual_seed;10
+131;131. Petugas Pemadam Kebakaran;rescue damkar;rescue damkar;manual_seed;10
+131;131. Petugas Pemadam Kebakaran;petugas pemadam kebakaran;petugas pemadam kebakaran;nama_profesi;8
+132;132. Petugas Stasiun Pengisian Bahan Bakar;petugas spbu;petugas spbu;manual_seed;10
+132;132. Petugas Stasiun Pengisian Bahan Bakar;operator spbu;operator spbu;manual_seed;10
+132;132. Petugas Stasiun Pengisian Bahan Bakar;pom bensin;pom bensin;manual_seed;10
+132;132. Petugas Stasiun Pengisian Bahan Bakar;petugas pom bensin;petugas pom bensin;manual_seed;9
+132;132. Petugas Stasiun Pengisian Bahan Bakar;pengisi bbm;pengisi bbm;manual_seed;10
+132;132. Petugas Stasiun Pengisian Bahan Bakar;operator bensin;operator bensin;manual_seed;10
+132;132. Petugas Stasiun Pengisian Bahan Bakar;stasiun pengisian bahan bakar;stasiun pengisian bahan bakar;manual_seed;9
+132;132. Petugas Stasiun Pengisian Bahan Bakar;petugas stasiun pengisian bahan bakar;petugas stasiun pengisian bahan bakar;nama_profesi;8
+133;133. Pilot;pilot;pilot;nama_profesi;8
+133;133. Pilot;penerbang;penerbang;manual_seed;10
+133;133. Pilot;pilot pesawat;pilot pesawat;manual_seed;10
+133;133. Pilot;kapten pilot;kapten pilot;manual_seed;10
+133;133. Pilot;co pilot;co pilot;manual_seed;10
+133;133. Pilot;aviator;aviator;manual_seed;10
+133;133. Pilot;menerbangkan pesawat;menerbangkan pesawat;manual_seed;10
+133;133. Pilot;pilot komersial;pilot komersial;manual_seed;10
+134;134. Pinandita;pinandita;pinandita;nama_profesi;8
+134;134. Pinandita;pemangku hindu;pemangku hindu;manual_seed;10
+134;134. Pinandita;rohaniwan hindu;rohaniwan hindu;manual_seed;10
+134;134. Pinandita;pemuka agama hindu;pemuka agama hindu;manual_seed;9
+134;134. Pinandita;pinandita hindu;pinandita hindu;manual_seed;10
+134;134. Pinandita;pandita muda;pandita muda;manual_seed;10
+135;135. PNS Fungsional Tertentu;pns fungsional tertentu;pns fungsional tertentu;nama_profesi;8
+135;135. PNS Fungsional Tertentu;jabatan fungsional tertentu;jabatan fungsional tertentu;manual_seed;9
+135;135. PNS Fungsional Tertentu;jft;jft;manual_seed;10
+135;135. PNS Fungsional Tertentu;guru pns;guru pns;manual_seed;10
+135;135. PNS Fungsional Tertentu;dokter pns;dokter pns;manual_seed;10
+135;135. PNS Fungsional Tertentu;penyuluh pns;penyuluh pns;manual_seed;10
+135;135. PNS Fungsional Tertentu;statistisi pns;statistisi pns;manual_seed;10
+135;135. PNS Fungsional Tertentu;arsiparis pns;arsiparis pns;manual_seed;10
+135;135. PNS Fungsional Tertentu;pranata komputer pns;pranata komputer pns;manual_seed;9
+136;136. PNS Fungsional Umum;pns fungsional umum;pns fungsional umum;nama_profesi;8
+136;136. PNS Fungsional Umum;pns pelaksana;pns pelaksana;manual_seed;10
+136;136. PNS Fungsional Umum;staf pns;staf pns;manual_seed;10
+136;136. PNS Fungsional Umum;pegawai negeri umum;pegawai negeri umum;manual_seed;9
+136;136. PNS Fungsional Umum;administrasi pns;administrasi pns;manual_seed;10
+136;136. PNS Fungsional Umum;staf kantor pemerintah;staf kantor pemerintah;manual_seed;9
+136;136. PNS Fungsional Umum;pns non struktural;pns non struktural;manual_seed;9
+136;136. PNS Fungsional Umum;pns umum;pns umum;manual_seed;10
+137;137. PNS Struktural;pns struktural;pns struktural;nama_profesi;8
+137;137. PNS Struktural;pejabat struktural pns;pejabat struktural pns;manual_seed;9
+137;137. PNS Struktural;eselon;eselon;manual_seed;10
+137;137. PNS Struktural;kepala dinas;kepala dinas;manual_seed;10
+137;137. PNS Struktural;kepala bidang;kepala bidang;manual_seed;10
+137;137. PNS Struktural;kabid;kabid;manual_seed;10
+137;137. PNS Struktural;kasi;kasi;manual_seed;10
+137;137. PNS Struktural;sekretaris dinas;sekretaris dinas;manual_seed;10
+137;137. PNS Struktural;jabatan struktural;jabatan struktural;manual_seed;10
+138;138. Polisi;polisi;polisi;nama_profesi;8
+138;138. Polisi;polri;polri;manual_seed;10
+138;138. Polisi;anggota polisi;anggota polisi;manual_seed;10
+138;138. Polisi;brimob;brimob;manual_seed;10
+138;138. Polisi;polantas;polantas;manual_seed;10
+138;138. Polisi;reserse;reserse;manual_seed;10
+138;138. Polisi;bhabinkamtibmas;bhabinkamtibmas;manual_seed;10
+138;138. Polisi;aparat kepolisian;aparat kepolisian;manual_seed;10
+139;139. Pramugara/i;pramugara;pramugara;nama_profesi;8
+139;139. Pramugara/i;pramugari;pramugari;manual_seed;10
+139;139. Pramugara/i;awak kabin;awak kabin;manual_seed;10
+139;139. Pramugara/i;flight attendant;flight attendant;manual_seed;10
+139;139. Pramugara/i;cabin crew;cabin crew;manual_seed;10
+139;139. Pramugara/i;stewardess;stewardess;manual_seed;10
+139;139. Pramugara/i;steward;steward;manual_seed;10
+139;139. Pramugara/i;melayani penumpang pesawat;melayani penumpang pesawat;manual_seed;9
+139;139. Pramugara/i;pramugara i;pramugara i;nama_profesi;8
+140;140. Pramusaji;pramusaji;pramusaji;nama_profesi;8
+140;140. Pramusaji;waiter;waiter;manual_seed;10
+140;140. Pramusaji;waitress;waitress;manual_seed;10
+140;140. Pramusaji;pelayan restoran;pelayan restoran;manual_seed;10
+140;140. Pramusaji;pelayan kafe;pelayan kafe;manual_seed;10
+140;140. Pramusaji;server restoran;server restoran;manual_seed;10
+140;140. Pramusaji;melayani meja;melayani meja;manual_seed;10
+140;140. Pramusaji;antar makanan ke meja;antar makanan ke meja;manual_seed;9
+140;140. Pramusaji;pelayan rumah makan;pelayan rumah makan;manual_seed;9
+141;141. Presiden;presiden;presiden;nama_profesi;8
+141;141. Presiden;kepala negara;kepala negara;manual_seed;10
+141;141. Presiden;kepala pemerintahan nasional;kepala pemerintahan nasional;manual_seed;9
+141;141. Presiden;presiden ri;presiden ri;manual_seed;10
+141;141. Presiden;pemimpin negara;pemimpin negara;manual_seed;10
+142;142. Programer;programer;programer;nama_profesi;8
+142;142. Programer;programmer;programmer;manual_seed;10
+142;142. Programer;developer;developer;manual_seed;10
+142;142. Programer;software engineer;software engineer;manual_seed;10
+142;142. Programer;pengembang aplikasi;pengembang aplikasi;manual_seed;10
+142;142. Programer;web developer;web developer;manual_seed;10
+142;142. Programer;mobile developer;mobile developer;manual_seed;10
+142;142. Programer;coding;coding;manual_seed;10
+142;142. Programer;backend developer;backend developer;manual_seed;10
+142;142. Programer;frontend developer;frontend developer;manual_seed;10
+142;142. Programer;it programmer;it programmer;manual_seed;10
+143;143. Psikiater;psikiater;psikiater;nama_profesi;8
+143;143. Psikiater;psychiatrist;psychiatrist;manual_seed;10
+143;143. Psikiater;dokter jiwa;dokter jiwa;manual_seed;10
+143;143. Psikiater;spesialis kedokteran jiwa;spesialis kedokteran jiwa;manual_seed;9
+143;143. Psikiater;dokter kesehatan mental;dokter kesehatan mental;manual_seed;9
+143;143. Psikiater;spkj;spkj;manual_seed;10
+143;143. Psikiater;terapi psikiatri;terapi psikiatri;manual_seed;10
+144;144. Psikolog;psikolog;psikolog;nama_profesi;8
+144;144. Psikolog;psychologist;psychologist;manual_seed;10
+144;144. Psikolog;konselor psikologi;konselor psikologi;manual_seed;10
+144;144. Psikolog;tes psikologi;tes psikologi;manual_seed;10
+144;144. Psikolog;asesmen psikologi;asesmen psikologi;manual_seed;10
+144;144. Psikolog;terapi psikologis;terapi psikologis;manual_seed;10
+144;144. Psikolog;psikolog klinis;psikolog klinis;manual_seed;10
+144;144. Psikolog;psikolog pendidikan;psikolog pendidikan;manual_seed;10
+145;145. Pustakawan;pustakawan;pustakawan;nama_profesi;8
+145;145. Pustakawan;librarian;librarian;manual_seed;10
+145;145. Pustakawan;petugas perpustakaan;petugas perpustakaan;manual_seed;10
+145;145. Pustakawan;pengelola perpustakaan;pengelola perpustakaan;manual_seed;10
+145;145. Pustakawan;layanan perpustakaan;layanan perpustakaan;manual_seed;10
+145;145. Pustakawan;katalog buku;katalog buku;manual_seed;10
+145;145. Pustakawan;arsip buku;arsip buku;manual_seed;10
+146;146. Resepsionis;resepsionis;resepsionis;nama_profesi;8
+146;146. Resepsionis;receptionist;receptionist;manual_seed;10
+146;146. Resepsionis;front desk;front desk;manual_seed;10
+146;146. Resepsionis;penerima tamu;penerima tamu;manual_seed;10
+146;146. Resepsionis;admin depan;admin depan;manual_seed;10
+146;146. Resepsionis;lobi hotel;lobi hotel;manual_seed;10
+146;146. Resepsionis;front office;front office;manual_seed;10
+146;146. Resepsionis;meja resepsionis;meja resepsionis;manual_seed;10
+147;147. Sekretaris;sekretaris;sekretaris;nama_profesi;8
+147;147. Sekretaris;secretary;secretary;manual_seed;10
+147;147. Sekretaris;asisten pimpinan;asisten pimpinan;manual_seed;10
+147;147. Sekretaris;personal assistant;personal assistant;manual_seed;10
+147;147. Sekretaris;administrasi pimpinan;administrasi pimpinan;manual_seed;10
+147;147. Sekretaris;mengatur jadwal pimpinan;mengatur jadwal pimpinan;manual_seed;9
+147;147. Sekretaris;notulen pimpinan;notulen pimpinan;manual_seed;10
+148;148. Seniman/Artis;seniman;seniman;nama_profesi;8
+148;148. Seniman/Artis;artis;artis;nama_profesi;8
+148;148. Seniman/Artis;artist;artist;manual_seed;10
+148;148. Seniman/Artis;pelaku seni;pelaku seni;manual_seed;10
+148;148. Seniman/Artis;aktor;aktor;manual_seed;10
+148;148. Seniman/Artis;penyanyi artis;penyanyi artis;manual_seed;10
+148;148. Seniman/Artis;komedian;komedian;manual_seed;10
+148;148. Seniman/Artis;entertainer;entertainer;manual_seed;10
+148;148. Seniman/Artis;selebriti;selebriti;manual_seed;10
+148;148. Seniman/Artis;pekerja seni;pekerja seni;manual_seed;10
+148;148. Seniman/Artis;seniman artis;seniman artis;nama_profesi;8
+149;149. Sopir;sopir;sopir;nama_profesi;8
+149;149. Sopir;supir;supir;manual_seed;10
+149;149. Sopir;driver;driver;manual_seed;10
+149;149. Sopir;pengemudi mobil;pengemudi mobil;manual_seed;10
+149;149. Sopir;pengemudi truk;pengemudi truk;manual_seed;10
+149;149. Sopir;sopir angkot;sopir angkot;manual_seed;10
+149;149. Sopir;sopir bus;sopir bus;manual_seed;10
+149;149. Sopir;sopir travel;sopir travel;manual_seed;10
+149;149. Sopir;sopir pribadi;sopir pribadi;manual_seed;10
+149;149. Sopir;sopir logistik;sopir logistik;manual_seed;10
+150;150. Supervisor/Mandor;supervisor;supervisor;nama_profesi;8
+150;150. Supervisor/Mandor;mandor;mandor;nama_profesi;8
+150;150. Supervisor/Mandor;foreman;foreman;manual_seed;10
+150;150. Supervisor/Mandor;pengawas lapangan;pengawas lapangan;manual_seed;10
+150;150. Supervisor/Mandor;kepala regu;kepala regu;manual_seed;10
+150;150. Supervisor/Mandor;koordinator pekerja;koordinator pekerja;manual_seed;10
+150;150. Supervisor/Mandor;kepala shift;kepala shift;manual_seed;10
+150;150. Supervisor/Mandor;pengawas proyek;pengawas proyek;manual_seed;10
+150;150. Supervisor/Mandor;mandor bangunan;mandor bangunan;manual_seed;10
+150;150. Supervisor/Mandor;mandor kebun;mandor kebun;manual_seed;10
+150;150. Supervisor/Mandor;supervisor mandor;supervisor mandor;nama_profesi;8
+151;151. Tabib;tabib;tabib;nama_profesi;8
+151;151. Tabib;pengobat tradisional;pengobat tradisional;manual_seed;10
+151;151. Tabib;dukun pengobatan;dukun pengobatan;manual_seed;10
+151;151. Tabib;sinshe pengobatan;sinshe pengobatan;manual_seed;10
+151;151. Tabib;herbalis;herbalis;manual_seed;10
+151;151. Tabib;pengobatan alternatif;pengobatan alternatif;manual_seed;10
+151;151. Tabib;tukang obat tradisional;tukang obat tradisional;manual_seed;9
+151;151. Tabib;terapis tradisional;terapis tradisional;manual_seed;10
+152;152. Teknisi;teknisi;teknisi;nama_profesi;8
+152;152. Teknisi;technician;technician;manual_seed;10
+152;152. Teknisi;service elektronik;service elektronik;manual_seed;10
+152;152. Teknisi;teknisi komputer;teknisi komputer;manual_seed;10
+152;152. Teknisi;teknisi ac;teknisi ac;manual_seed;10
+152;152. Teknisi;teknisi hp;teknisi hp;manual_seed;10
+152;152. Teknisi;teknisi jaringan;teknisi jaringan;manual_seed;10
+152;152. Teknisi;instalasi perangkat;instalasi perangkat;manual_seed;10
+152;152. Teknisi;maintenance alat;maintenance alat;manual_seed;10
+152;152. Teknisi;repair alat;repair alat;manual_seed;10
+153;153. Teller Bank;teller bank;teller bank;nama_profesi;8
+153;153. Teller Bank;teller;teller;manual_seed;10
+153;153. Teller Bank;petugas teller;petugas teller;manual_seed;10
+153;153. Teller Bank;frontliner bank;frontliner bank;manual_seed;10
+153;153. Teller Bank;melayani transaksi bank;melayani transaksi bank;manual_seed;9
+153;153. Teller Bank;setor tunai bank;setor tunai bank;manual_seed;9
+153;153. Teller Bank;tarik tunai bank;tarik tunai bank;manual_seed;9
+153;153. Teller Bank;kasir bank;kasir bank;manual_seed;10
+154;154. Tenaga Cuci;tenaga cuci;tenaga cuci;nama_profesi;8
+154;154. Tenaga Cuci;laundry;laundry;manual_seed;10
+154;154. Tenaga Cuci;tukang cuci;tukang cuci;manual_seed;10
+154;154. Tenaga Cuci;buruh cuci;buruh cuci;manual_seed;10
+154;154. Tenaga Cuci;cuci baju;cuci baju;manual_seed;10
+154;154. Tenaga Cuci;jasa cuci;jasa cuci;manual_seed;10
+154;154. Tenaga Cuci;cuci setrika;cuci setrika;manual_seed;10
+154;154. Tenaga Cuci;pekerja laundry;pekerja laundry;manual_seed;10
+155;155. Tenaga Humas;tenaga humas;tenaga humas;nama_profesi;8
+155;155. Tenaga Humas;humas;humas;manual_seed;10
+155;155. Tenaga Humas;public relations;public relations;manual_seed;10
+155;155. Tenaga Humas;pr;pr;manual_seed;10
+155;155. Tenaga Humas;hubungan masyarakat;hubungan masyarakat;manual_seed;10
+155;155. Tenaga Humas;komunikasi publik;komunikasi publik;manual_seed;10
+155;155. Tenaga Humas;media relation;media relation;manual_seed;10
+155;155. Tenaga Humas;staf komunikasi;staf komunikasi;manual_seed;10
+155;155. Tenaga Humas;juru bicara;juru bicara;manual_seed;10
+156;156. Tenaga Kebersihan;tenaga kebersihan;tenaga kebersihan;nama_profesi;8
+156;156. Tenaga Kebersihan;cleaning service;cleaning service;manual_seed;10
+156;156. Tenaga Kebersihan;petugas kebersihan;petugas kebersihan;manual_seed;10
+156;156. Tenaga Kebersihan;janitor;janitor;manual_seed;10
+156;156. Tenaga Kebersihan;office boy kebersihan;office boy kebersihan;manual_seed;9
+156;156. Tenaga Kebersihan;tukang bersih;tukang bersih;manual_seed;10
+156;156. Tenaga Kebersihan;bersih-bersih kantor;bersih-bersih kantor;manual_seed;10
+156;156. Tenaga Kebersihan;cleaner;cleaner;manual_seed;10
+156;156. Tenaga Kebersihan;penyapu jalan;penyapu jalan;manual_seed;10
+157;157. Tenaga Tata Usaha;tenaga tata usaha;tenaga tata usaha;nama_profesi;8
+157;157. Tenaga Tata Usaha;tata usaha;tata usaha;manual_seed;10
+157;157. Tenaga Tata Usaha;tu sekolah;tu sekolah;manual_seed;10
+157;157. Tenaga Tata Usaha;staf administrasi;staf administrasi;manual_seed;10
+157;157. Tenaga Tata Usaha;admin kantor;admin kantor;manual_seed;10
+157;157. Tenaga Tata Usaha;administrasi umum;administrasi umum;manual_seed;10
+157;157. Tenaga Tata Usaha;clerk;clerk;manual_seed;10
+157;157. Tenaga Tata Usaha;staf tata usaha;staf tata usaha;manual_seed;9
+157;157. Tenaga Tata Usaha;operator administrasi;operator administrasi;manual_seed;10
+158;158. Tentara Nasional Indonesia (TNI);tni;tni;manual_seed;10
+158;158. Tentara Nasional Indonesia (TNI);tentara;tentara;manual_seed;10
+158;158. Tentara Nasional Indonesia (TNI);anggota tni;anggota tni;manual_seed;10
+158;158. Tentara Nasional Indonesia (TNI);militer;militer;manual_seed;10
+158;158. Tentara Nasional Indonesia (TNI);angkatan darat;angkatan darat;manual_seed;10
+158;158. Tentara Nasional Indonesia (TNI);angkatan laut;angkatan laut;manual_seed;10
+158;158. Tentara Nasional Indonesia (TNI);angkatan udara;angkatan udara;manual_seed;10
+158;158. Tentara Nasional Indonesia (TNI);prajurit;prajurit;manual_seed;10
+158;158. Tentara Nasional Indonesia (TNI);babinsa;babinsa;manual_seed;10
+158;158. Tentara Nasional Indonesia (TNI);marinir;marinir;manual_seed;10
+158;158. Tentara Nasional Indonesia (TNI);tentara nasional indonesia tni;tentara nasional indonesia tni;nama_profesi;8
+158;158. Tentara Nasional Indonesia (TNI);tentara nasional indonesia;tentara nasional indonesia;nama_profesi;8
+159;159. Tukang Bangunan;tukang bangunan;tukang bangunan;nama_profesi;8
+159;159. Tukang Bangunan;tukang batu;tukang batu;manual_seed;10
+159;159. Tukang Bangunan;tukang konstruksi;tukang konstruksi;manual_seed;10
+159;159. Tukang Bangunan;membangun rumah;membangun rumah;manual_seed;10
+159;159. Tukang Bangunan;renovasi rumah;renovasi rumah;manual_seed;10
+159;159. Tukang Bangunan;pasang bata;pasang bata;manual_seed;10
+159;159. Tukang Bangunan;plester dinding;plester dinding;manual_seed;10
+159;159. Tukang Bangunan;tukang proyek;tukang proyek;manual_seed;10
+159;159. Tukang Bangunan;tukang rumah;tukang rumah;manual_seed;10
+160;160. Tukang Cat;tukang cat;tukang cat;nama_profesi;8
+160;160. Tukang Cat;pengecat;pengecat;manual_seed;10
+160;160. Tukang Cat;cat rumah;cat rumah;manual_seed;10
+160;160. Tukang Cat;cat tembok;cat tembok;manual_seed;10
+160;160. Tukang Cat;cat bangunan;cat bangunan;manual_seed;10
+160;160. Tukang Cat;painting worker;painting worker;manual_seed;10
+160;160. Tukang Cat;cat mobil;cat mobil;manual_seed;10
+160;160. Tukang Cat;finishing cat;finishing cat;manual_seed;10
+161;161. Tukang Cukur;tukang cukur;tukang cukur;nama_profesi;8
+161;161. Tukang Cukur;barber;barber;manual_seed;10
+161;161. Tukang Cukur;pangkas rambut;pangkas rambut;manual_seed;10
+161;161. Tukang Cukur;cukur rambut;cukur rambut;manual_seed;10
+161;161. Tukang Cukur;potong rambut pria;potong rambut pria;manual_seed;9
+161;161. Tukang Cukur;barbershop;barbershop;manual_seed;10
+161;161. Tukang Cukur;tukang pangkas;tukang pangkas;manual_seed;10
+161;161. Tukang Cukur;salon cukur;salon cukur;manual_seed;10
+162;162. Tukang Fotokopi;tukang fotokopi;tukang fotokopi;nama_profesi;8
+162;162. Tukang Fotokopi;fotocopy;fotocopy;manual_seed;10
+162;162. Tukang Fotokopi;fotokopi;fotokopi;manual_seed;10
+162;162. Tukang Fotokopi;jasa fotokopi;jasa fotokopi;manual_seed;10
+162;162. Tukang Fotokopi;copy center;copy center;manual_seed;10
+162;162. Tukang Fotokopi;print fotokopi;print fotokopi;manual_seed;10
+162;162. Tukang Fotokopi;operator fotokopi;operator fotokopi;manual_seed;10
+162;162. Tukang Fotokopi;scan print;scan print;manual_seed;10
+163;163. Tukang Gigi;tukang gigi;tukang gigi;nama_profesi;8
+163;163. Tukang Gigi;ahli gigi informal;ahli gigi informal;manual_seed;9
+163;163. Tukang Gigi;pembuat gigi palsu;pembuat gigi palsu;manual_seed;9
+163;163. Tukang Gigi;pasang gigi palsu;pasang gigi palsu;manual_seed;9
+163;163. Tukang Gigi;perbaiki gigi palsu;perbaiki gigi palsu;manual_seed;9
+163;163. Tukang Gigi;jasa gigi non dokter;jasa gigi non dokter;manual_seed;9
+164;164. Tukang Kaca;tukang kaca;tukang kaca;nama_profesi;8
+164;164. Tukang Kaca;pasang kaca;pasang kaca;manual_seed;10
+164;164. Tukang Kaca;potong kaca;potong kaca;manual_seed;10
+164;164. Tukang Kaca;pemasangan aluminium kaca;pemasangan aluminium kaca;manual_seed;9
+164;164. Tukang Kaca;kaca jendela;kaca jendela;manual_seed;10
+164;164. Tukang Kaca;etalase kaca;etalase kaca;manual_seed;10
+164;164. Tukang Kaca;kanopi kaca;kanopi kaca;manual_seed;10
+164;164. Tukang Kaca;jasa kaca;jasa kaca;manual_seed;10
+165;165. Tukang Kayu;tukang kayu;tukang kayu;nama_profesi;8
+165;165. Tukang Kayu;carpenter;carpenter;manual_seed;10
+165;165. Tukang Kayu;mebel kayu;mebel kayu;manual_seed;10
+165;165. Tukang Kayu;furniture kayu;furniture kayu;manual_seed;10
+165;165. Tukang Kayu;kusen;kusen;manual_seed;10
+165;165. Tukang Kayu;pintu kayu;pintu kayu;manual_seed;10
+165;165. Tukang Kayu;lemari kayu;lemari kayu;manual_seed;10
+165;165. Tukang Kayu;pekerjaan kayu;pekerjaan kayu;manual_seed;10
+165;165. Tukang Kayu;tukang mebel;tukang mebel;manual_seed;10
+166;166. Tukang Kunci;tukang kunci;tukang kunci;nama_profesi;8
+166;166. Tukang Kunci;duplikat kunci;duplikat kunci;manual_seed;10
+166;166. Tukang Kunci;ahli kunci;ahli kunci;manual_seed;10
+166;166. Tukang Kunci;locksmith;locksmith;manual_seed;10
+166;166. Tukang Kunci;buka kunci;buka kunci;manual_seed;10
+166;166. Tukang Kunci;servis kunci;servis kunci;manual_seed;10
+166;166. Tukang Kunci;kunci rumah;kunci rumah;manual_seed;10
+166;166. Tukang Kunci;kunci kendaraan;kunci kendaraan;manual_seed;10
+167;167. Tukang Las/Pandai Besi;tukang las;tukang las;nama_profesi;8
+167;167. Tukang Las/Pandai Besi;pandai besi;pandai besi;nama_profesi;8
+167;167. Tukang Las/Pandai Besi;welder;welder;manual_seed;10
+167;167. Tukang Las/Pandai Besi;las listrik;las listrik;manual_seed;10
+167;167. Tukang Las/Pandai Besi;las karbit;las karbit;manual_seed;10
+167;167. Tukang Las/Pandai Besi;bengkel las;bengkel las;manual_seed;10
+167;167. Tukang Las/Pandai Besi;pembuat pagar besi;pembuat pagar besi;manual_seed;9
+167;167. Tukang Las/Pandai Besi;tralis besi;tralis besi;manual_seed;10
+167;167. Tukang Las/Pandai Besi;penempa besi;penempa besi;manual_seed;10
+167;167. Tukang Las/Pandai Besi;tukang las pandai besi;tukang las pandai besi;nama_profesi;8
+168;168. Tukang Listrik;tukang listrik;tukang listrik;nama_profesi;8
+168;168. Tukang Listrik;electrician;electrician;manual_seed;10
+168;168. Tukang Listrik;instalasi listrik;instalasi listrik;manual_seed;10
+168;168. Tukang Listrik;perbaikan listrik;perbaikan listrik;manual_seed;10
+168;168. Tukang Listrik;pasang kabel;pasang kabel;manual_seed;10
+168;168. Tukang Listrik;servis listrik rumah;servis listrik rumah;manual_seed;9
+168;168. Tukang Listrik;panel listrik;panel listrik;manual_seed;10
+168;168. Tukang Listrik;jaringan listrik rumah;jaringan listrik rumah;manual_seed;9
+169;169. Tukang Pijat;tukang pijat;tukang pijat;nama_profesi;8
+169;169. Tukang Pijat;pemijat;pemijat;manual_seed;10
+169;169. Tukang Pijat;massage;massage;manual_seed;10
+169;169. Tukang Pijat;urut;urut;manual_seed;10
+169;169. Tukang Pijat;terapis pijat;terapis pijat;manual_seed;10
+169;169. Tukang Pijat;pijat tradisional;pijat tradisional;manual_seed;10
+169;169. Tukang Pijat;pijat refleksi;pijat refleksi;manual_seed;10
+169;169. Tukang Pijat;jasa pijat;jasa pijat;manual_seed;10
+170;170. Tukang Pipa;tukang pipa;tukang pipa;nama_profesi;8
+170;170. Tukang Pipa;plumber;plumber;manual_seed;10
+170;170. Tukang Pipa;instalasi pipa;instalasi pipa;manual_seed;10
+170;170. Tukang Pipa;perbaikan pipa;perbaikan pipa;manual_seed;10
+170;170. Tukang Pipa;saluran air;saluran air;manual_seed;10
+170;170. Tukang Pipa;pipa bocor;pipa bocor;manual_seed;10
+170;170. Tukang Pipa;ledeng;ledeng;manual_seed;10
+170;170. Tukang Pipa;sanitasi pipa;sanitasi pipa;manual_seed;10
+171;171. Tukang Sablon;tukang sablon;tukang sablon;nama_profesi;8
+171;171. Tukang Sablon;sablon;sablon;manual_seed;10
+171;171. Tukang Sablon;screen printing;screen printing;manual_seed;10
+171;171. Tukang Sablon;cetak kaos;cetak kaos;manual_seed;10
+171;171. Tukang Sablon;sablon baju;sablon baju;manual_seed;10
+171;171. Tukang Sablon;sablon manual;sablon manual;manual_seed;10
+171;171. Tukang Sablon;printing kaos;printing kaos;manual_seed;10
+171;171. Tukang Sablon;sablon spanduk;sablon spanduk;manual_seed;10
+172;172. Tukang Sol Sepatu;tukang sol sepatu;tukang sol sepatu;nama_profesi;8
+172;172. Tukang Sol Sepatu;sol sepatu;sol sepatu;manual_seed;10
+172;172. Tukang Sol Sepatu;reparasi sepatu;reparasi sepatu;manual_seed;10
+172;172. Tukang Sol Sepatu;perbaiki sepatu;perbaiki sepatu;manual_seed;10
+172;172. Tukang Sol Sepatu;tambal sepatu;tambal sepatu;manual_seed;10
+172;172. Tukang Sol Sepatu;jahit sepatu rusak;jahit sepatu rusak;manual_seed;9
+172;172. Tukang Sol Sepatu;shoe repair;shoe repair;manual_seed;10
+173;173. Tukang Tambal Ban;tukang tambal ban;tukang tambal ban;nama_profesi;8
+173;173. Tukang Tambal Ban;tambal ban;tambal ban;manual_seed;10
+173;173. Tukang Tambal Ban;bengkel ban;bengkel ban;manual_seed;10
+173;173. Tukang Tambal Ban;tambal ban motor;tambal ban motor;manual_seed;9
+173;173. Tukang Tambal Ban;tambal ban mobil;tambal ban mobil;manual_seed;9
+173;173. Tukang Tambal Ban;pompa ban;pompa ban;manual_seed;10
+173;173. Tukang Tambal Ban;service ban;service ban;manual_seed;10
+173;173. Tukang Tambal Ban;vulkanisir kecil;vulkanisir kecil;manual_seed;10
+174;174. Tukang Tebang Kayu;tukang tebang kayu;tukang tebang kayu;nama_profesi;8
+174;174. Tukang Tebang Kayu;penebang pohon;penebang pohon;manual_seed;10
+174;174. Tukang Tebang Kayu;tebang pohon;tebang pohon;manual_seed;10
+174;174. Tukang Tebang Kayu;logging;logging;manual_seed;10
+174;174. Tukang Tebang Kayu;penebang kayu;penebang kayu;manual_seed;10
+174;174. Tukang Tebang Kayu;chainsaw kayu;chainsaw kayu;manual_seed;10
+174;174. Tukang Tebang Kayu;buruh tebang kayu;buruh tebang kayu;manual_seed;9
+174;174. Tukang Tebang Kayu;menebang hutan;menebang hutan;manual_seed;10
+175;175. Uskup;uskup;uskup;nama_profesi;8
+175;175. Uskup;bishop;bishop;manual_seed;10
+175;175. Uskup;pemimpin keuskupan;pemimpin keuskupan;manual_seed;10
+175;175. Uskup;uskup gereja;uskup gereja;manual_seed;10
+175;175. Uskup;rohaniwan katolik uskup;rohaniwan katolik uskup;manual_seed;9
+176;176. Ustaz/Mubalig;ustaz;ustaz;nama_profesi;8
+176;176. Ustaz/Mubalig;ustadz;ustadz;manual_seed;10
+176;176. Ustaz/Mubalig;mubalig;mubalig;nama_profesi;8
+176;176. Ustaz/Mubalig;mubaligh;mubaligh;manual_seed;10
+176;176. Ustaz/Mubalig;penceramah islam;penceramah islam;manual_seed;10
+176;176. Ustaz/Mubalig;dai;dai;manual_seed;10
+176;176. Ustaz/Mubalig;da'i;da'i;manual_seed;10
+176;176. Ustaz/Mubalig;guru ngaji;guru ngaji;manual_seed;10
+176;176. Ustaz/Mubalig;pengajar agama islam;pengajar agama islam;manual_seed;9
+176;176. Ustaz/Mubalig;ceramah agama;ceramah agama;manual_seed;10
+176;176. Ustaz/Mubalig;ustazah;ustazah;manual_seed;10
+176;176. Ustaz/Mubalig;ustaz mubalig;ustaz mubalig;nama_profesi;8
+177;177. Wakil Bupati;wakil bupati;wakil bupati;nama_profesi;8
+177;177. Wakil Bupati;wabup;wabup;manual_seed;10
+177;177. Wakil Bupati;deputy regent;deputy regent;manual_seed;10
+177;177. Wakil Bupati;wakil kepala daerah kabupaten;wakil kepala daerah kabupaten;manual_seed;9
+178;178. Wakil Gubernur;wakil gubernur;wakil gubernur;nama_profesi;8
+178;178. Wakil Gubernur;wagub;wagub;manual_seed;10
+178;178. Wakil Gubernur;deputy governor;deputy governor;manual_seed;10
+178;178. Wakil Gubernur;wakil kepala daerah provinsi;wakil kepala daerah provinsi;manual_seed;9
+179;179. Wakil Presiden;wakil presiden;wakil presiden;nama_profesi;8
+179;179. Wakil Presiden;wapres;wapres;manual_seed;10
+179;179. Wakil Presiden;vice president negara;vice president negara;manual_seed;9
+179;179. Wakil Presiden;wakil kepala negara;wakil kepala negara;manual_seed;9
+179;179. Wakil Presiden;wakil presiden ri;wakil presiden ri;manual_seed;9
+180;180. Wakil Walikota;wakil walikota;wakil walikota;nama_profesi;8
+180;180. Wakil Walikota;wawali;wawali;manual_seed;10
+180;180. Wakil Walikota;wakil wali kota;wakil wali kota;manual_seed;9
+180;180. Wakil Walikota;deputy mayor;deputy mayor;manual_seed;10
+180;180. Wakil Walikota;wakil kepala daerah kota;wakil kepala daerah kota;manual_seed;9
+181;181. Walikota;walikota;walikota;nama_profesi;8
+181;181. Walikota;wali kota;wali kota;manual_seed;10
+181;181. Walikota;mayor;mayor;manual_seed;10
+181;181. Walikota;kepala daerah kota;kepala daerah kota;manual_seed;9
+181;181. Walikota;pemimpin kota;pemimpin kota;manual_seed;10
+181;181. Walikota;kepala pemda kota;kepala pemda kota;manual_seed;9
+182;182. Wartawan;wartawan;wartawan;nama_profesi;8
+182;182. Wartawan;jurnalis;jurnalis;manual_seed;10
+182;182. Wartawan;reporter;reporter;manual_seed;10
+182;182. Wartawan;journalist;journalist;manual_seed;10
+182;182. Wartawan;pencari berita;pencari berita;manual_seed;10
+182;182. Wartawan;peliput berita;peliput berita;manual_seed;10
+182;182. Wartawan;redaktur berita;redaktur berita;manual_seed;10
+182;182. Wartawan;jurnalis online;jurnalis online;manual_seed;10
+182;182. Wartawan;reporter tv;reporter tv;manual_seed;10
+182;182. Wartawan;reporter koran;reporter koran;manual_seed;10
+183;183. Wenshi;wenshi;wenshi;nama_profesi;8
+183;183. Wenshi;wen shi;wen shi;manual_seed;10
+183;183. Wenshi;rohaniwan konghucu wenshi;rohaniwan konghucu wenshi;manual_seed;9
+183;183. Wenshi;pemuka konghucu;pemuka konghucu;manual_seed;10
+183;183. Wenshi;guru agama konghucu tingkat wenshi;guru agama konghucu tingkat wenshi;manual_seed;9
+184;184. Xueshi;xueshi;xueshi;nama_profesi;8
+184;184. Xueshi;xue shi;xue shi;manual_seed;10
+184;184. Xueshi;rohaniwan konghucu xueshi;rohaniwan konghucu xueshi;manual_seed;9
+184;184. Xueshi;pemuka konghucu;pemuka konghucu;manual_seed;10
+184;184. Xueshi;guru agama konghucu tingkat xueshi;guru agama konghucu tingkat xueshi;manual_seed;9
+185;185. Lainnya (tuliskan….......);lainnya;lainnya;nama_profesi;8
+185;185. Lainnya (tuliskan….......);profesi lainnya;profesi lainnya;manual_seed;10
+185;185. Lainnya (tuliskan….......);pekerjaan lain;pekerjaan lain;manual_seed;10
+185;185. Lainnya (tuliskan….......);tidak ada di daftar;tidak ada di daftar;manual_seed;9
+185;185. Lainnya (tuliskan….......);pekerjaan tidak tercantum;pekerjaan tidak tercantum;manual_seed;9
+185;185. Lainnya (tuliskan….......);kode lain;kode lain;manual_seed;10
+185;185. Lainnya (tuliskan….......);lain-lain;lain-lain;manual_seed;10
+185;185. Lainnya (tuliskan….......);lainnya tuliskan;lainnya tuliskan;nama_profesi;8
+999;999. Tidak Tahu;tidak tahu;tidak tahu;nama_profesi;8
+999;999. Tidak Tahu;tidak diketahui;tidak diketahui;manual_seed;10
+999;999. Tidak Tahu;unknown;unknown;manual_seed;10
+999;999. Tidak Tahu;belum jelas;belum jelas;manual_seed;10
+999;999. Tidak Tahu;tidak menjawab;tidak menjawab;manual_seed;10
+999;999. Tidak Tahu;responden tidak tahu;responden tidak tahu;manual_seed;9
+999;999. Tidak Tahu;informasi tidak cukup;informasi tidak cukup;manual_seed;9
+999;999. Tidak Tahu;pekerjaan tidak diketahui;pekerjaan tidak diketahui;manual_seed;9

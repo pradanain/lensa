@@ -1,0 +1,128 @@
+[
+  {
+    "metric_id": "usaha.enumerated_family_count",
+    "name": "Usaha selesai/disetujui dalam keluarga",
+    "description": "Usaha selesai/disetujui dalam keluarga",
+    "domain": "usaha",
+    "source": "enumerated_family",
+    "source_mart": "mart_usaha",
+    "kind": "count",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "COUNT unit sumber",
+    "denominator_definition": "COUNT record eligible (konteks hitungan; bukan rate)",
+    "eligibility_rule": "EXISTS (SELECT 1 FROM mart_keluarga f WHERE f.assignment_id=u.assignment_id AND f.__version_normalized=u.__version_normalized) AND NOT EXISTS (SELECT 1 FROM mart_bku b WHERE b.assignment_id=u.assignment_id AND b.__version_normalized=u.__version_normalized AND b.kode_penggunaan_bangunan='1')",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "record pada grain sumber",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls",
+      "status",
+      "kbli",
+      "kategori"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Unit roster usaha, bukan jumlah keluarga/bangunan. Parent harus assignment dan versi tepat. Skala kosong tetap dihitung; judul UMKM adalah kelompok tampilan, bukan klasifikasi skala hukum. Kelompok di luar keluarga/bangunan khusus tetap dipertahankan dan ditampilkan terpisah.",
+    "validation_status": "VALIDATED_LOCAL_USER_DEFINITION",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT u.\"__row_id\",u.\"__import_id\",u.\"__clean_hash\",u.\"__key\",u.\"__version_normalized\",u.\"__key_valid\",u.\"__conflict\",u.\"assignment_id\",u.\"assignment_date_modified\",u.\"index1\",u.\"code_identity\",u.\"is_prelist2\",u.\"kecamatan\",u.\"desa_kelurahan\",u.\"kode_sls_subsls\",u.\"sls_subsls\",u.\"nomor_bangunan\",u.\"nomor_usaha\",u.\"nama_usaha\",u.\"nama_komersial\",u.\"kode_keberadaan_usaha\",u.\"keberadaan_usaha\",u.\"alamat_usaha\",u.\"jenis_usaha\",u.\"nama_pengusaha_pj\",u.\"kegiatan_utama\",u.\"produk_utama\",u.\"kbli\",u.\"kategori\",u.\"skala_usaha\",u.\"geotag_latitude\",u.\"geotag_longitude\",u.\"__batch_id\",u.\"__source_sha256\" FROM (SELECT u.\"__row_id\",u.\"__import_id\",u.\"__clean_hash\",u.\"__key\",u.\"__version_normalized\",u.\"__key_valid\",u.\"__conflict\",u.\"assignment_id\",u.\"assignment_date_modified\",u.\"index1\",u.\"code_identity\",u.\"is_prelist2\",u.\"kecamatan\",u.\"desa_kelurahan\",u.\"kode_sls_subsls\",u.\"sls_subsls\",u.\"nomor_bangunan\",u.\"nomor_usaha\",u.\"nama_usaha\",u.\"nama_komersial\",u.\"kode_keberadaan_usaha\",u.\"keberadaan_usaha\",u.\"alamat_usaha\",u.\"jenis_usaha\",u.\"nama_pengusaha_pj\",u.\"kegiatan_utama\",u.\"produk_utama\",u.\"kbli\",u.\"kategori\",u.\"skala_usaha\",u.\"geotag_latitude\",u.\"geotag_longitude\",u.\"__batch_id\",u.\"__source_sha256\" FROM mart_usaha u WHERE u.kode_keberadaan_usaha IN ('1','2') AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=u.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) u WHERE EXISTS (SELECT 1 FROM mart_keluarga f WHERE f.assignment_id=u.assignment_id AND f.__version_normalized=u.__version_normalized) AND NOT EXISTS (SELECT 1 FROM mart_bku b WHERE b.assignment_id=u.assignment_id AND b.__version_normalized=u.__version_normalized AND b.kode_penggunaan_bangunan='1')) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/app/BUSINESS_SUMMARY_GROUPS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.enumerated_bku_count",
+    "name": "Usaha selesai/disetujui dalam bangunan khusus usaha",
+    "description": "Usaha selesai/disetujui dalam bangunan khusus usaha",
+    "domain": "usaha",
+    "source": "enumerated_bku",
+    "source_mart": "mart_usaha",
+    "kind": "count",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "COUNT unit sumber",
+    "denominator_definition": "COUNT record eligible (konteks hitungan; bukan rate)",
+    "eligibility_rule": "EXISTS (SELECT 1 FROM mart_bku b WHERE b.assignment_id=u.assignment_id AND b.__version_normalized=u.__version_normalized AND b.kode_penggunaan_bangunan='1') AND NOT EXISTS (SELECT 1 FROM mart_keluarga f WHERE f.assignment_id=u.assignment_id AND f.__version_normalized=u.__version_normalized)",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "record pada grain sumber",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls",
+      "status",
+      "kbli",
+      "kategori"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Unit roster usaha, bukan jumlah keluarga/bangunan. Parent harus assignment dan versi tepat. Skala kosong tetap dihitung; judul UMKM adalah kelompok tampilan, bukan klasifikasi skala hukum. Kelompok di luar keluarga/bangunan khusus tetap dipertahankan dan ditampilkan terpisah.",
+    "validation_status": "VALIDATED_LOCAL_USER_DEFINITION",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT u.\"__row_id\",u.\"__import_id\",u.\"__clean_hash\",u.\"__key\",u.\"__version_normalized\",u.\"__key_valid\",u.\"__conflict\",u.\"assignment_id\",u.\"assignment_date_modified\",u.\"index1\",u.\"code_identity\",u.\"is_prelist2\",u.\"kecamatan\",u.\"desa_kelurahan\",u.\"kode_sls_subsls\",u.\"sls_subsls\",u.\"nomor_bangunan\",u.\"nomor_usaha\",u.\"nama_usaha\",u.\"nama_komersial\",u.\"kode_keberadaan_usaha\",u.\"keberadaan_usaha\",u.\"alamat_usaha\",u.\"jenis_usaha\",u.\"nama_pengusaha_pj\",u.\"kegiatan_utama\",u.\"produk_utama\",u.\"kbli\",u.\"kategori\",u.\"skala_usaha\",u.\"geotag_latitude\",u.\"geotag_longitude\",u.\"__batch_id\",u.\"__source_sha256\" FROM (SELECT u.\"__row_id\",u.\"__import_id\",u.\"__clean_hash\",u.\"__key\",u.\"__version_normalized\",u.\"__key_valid\",u.\"__conflict\",u.\"assignment_id\",u.\"assignment_date_modified\",u.\"index1\",u.\"code_identity\",u.\"is_prelist2\",u.\"kecamatan\",u.\"desa_kelurahan\",u.\"kode_sls_subsls\",u.\"sls_subsls\",u.\"nomor_bangunan\",u.\"nomor_usaha\",u.\"nama_usaha\",u.\"nama_komersial\",u.\"kode_keberadaan_usaha\",u.\"keberadaan_usaha\",u.\"alamat_usaha\",u.\"jenis_usaha\",u.\"nama_pengusaha_pj\",u.\"kegiatan_utama\",u.\"produk_utama\",u.\"kbli\",u.\"kategori\",u.\"skala_usaha\",u.\"geotag_latitude\",u.\"geotag_longitude\",u.\"__batch_id\",u.\"__source_sha256\" FROM mart_usaha u WHERE u.kode_keberadaan_usaha IN ('1','2') AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=u.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) u WHERE EXISTS (SELECT 1 FROM mart_bku b WHERE b.assignment_id=u.assignment_id AND b.__version_normalized=u.__version_normalized AND b.kode_penggunaan_bangunan='1') AND NOT EXISTS (SELECT 1 FROM mart_keluarga f WHERE f.assignment_id=u.assignment_id AND f.__version_normalized=u.__version_normalized)) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/app/BUSINESS_SUMMARY_GROUPS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.enumerated_unclassified_count",
+    "name": "Usaha selesai/disetujui di luar dua kelompok utama",
+    "description": "Usaha selesai/disetujui di luar dua kelompok utama",
+    "domain": "usaha",
+    "source": "enumerated_unclassified",
+    "source_mart": "mart_usaha",
+    "kind": "count",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "COUNT unit sumber",
+    "denominator_definition": "COUNT record eligible (konteks hitungan; bukan rate)",
+    "eligibility_rule": "NOT ((EXISTS (SELECT 1 FROM mart_keluarga f WHERE f.assignment_id=u.assignment_id AND f.__version_normalized=u.__version_normalized) AND NOT EXISTS (SELECT 1 FROM mart_bku b WHERE b.assignment_id=u.assignment_id AND b.__version_normalized=u.__version_normalized AND b.kode_penggunaan_bangunan='1')) OR (EXISTS (SELECT 1 FROM mart_bku b WHERE b.assignment_id=u.assignment_id AND b.__version_normalized=u.__version_normalized AND b.kode_penggunaan_bangunan='1') AND NOT EXISTS (SELECT 1 FROM mart_keluarga f WHERE f.assignment_id=u.assignment_id AND f.__version_normalized=u.__version_normalized)))",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "record pada grain sumber",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls",
+      "status",
+      "kbli",
+      "kategori"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Unit roster usaha, bukan jumlah keluarga/bangunan. Parent harus assignment dan versi tepat. Skala kosong tetap dihitung; judul UMKM adalah kelompok tampilan, bukan klasifikasi skala hukum. Kelompok di luar keluarga/bangunan khusus tetap dipertahankan dan ditampilkan terpisah.",
+    "validation_status": "VALIDATED_LOCAL_USER_DEFINITION",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT u.\"__row_id\",u.\"__import_id\",u.\"__clean_hash\",u.\"__key\",u.\"__version_normalized\",u.\"__key_valid\",u.\"__conflict\",u.\"assignment_id\",u.\"assignment_date_modified\",u.\"index1\",u.\"code_identity\",u.\"is_prelist2\",u.\"kecamatan\",u.\"desa_kelurahan\",u.\"kode_sls_subsls\",u.\"sls_subsls\",u.\"nomor_bangunan\",u.\"nomor_usaha\",u.\"nama_usaha\",u.\"nama_komersial\",u.\"kode_keberadaan_usaha\",u.\"keberadaan_usaha\",u.\"alamat_usaha\",u.\"jenis_usaha\",u.\"nama_pengusaha_pj\",u.\"kegiatan_utama\",u.\"produk_utama\",u.\"kbli\",u.\"kategori\",u.\"skala_usaha\",u.\"geotag_latitude\",u.\"geotag_longitude\",u.\"__batch_id\",u.\"__source_sha256\" FROM (SELECT u.\"__row_id\",u.\"__import_id\",u.\"__clean_hash\",u.\"__key\",u.\"__version_normalized\",u.\"__key_valid\",u.\"__conflict\",u.\"assignment_id\",u.\"assignment_date_modified\",u.\"index1\",u.\"code_identity\",u.\"is_prelist2\",u.\"kecamatan\",u.\"desa_kelurahan\",u.\"kode_sls_subsls\",u.\"sls_subsls\",u.\"nomor_bangunan\",u.\"nomor_usaha\",u.\"nama_usaha\",u.\"nama_komersial\",u.\"kode_keberadaan_usaha\",u.\"keberadaan_usaha\",u.\"alamat_usaha\",u.\"jenis_usaha\",u.\"nama_pengusaha_pj\",u.\"kegiatan_utama\",u.\"produk_utama\",u.\"kbli\",u.\"kategori\",u.\"skala_usaha\",u.\"geotag_latitude\",u.\"geotag_longitude\",u.\"__batch_id\",u.\"__source_sha256\" FROM mart_usaha u WHERE u.kode_keberadaan_usaha IN ('1','2') AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=u.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) u WHERE NOT ((EXISTS (SELECT 1 FROM mart_keluarga f WHERE f.assignment_id=u.assignment_id AND f.__version_normalized=u.__version_normalized) AND NOT EXISTS (SELECT 1 FROM mart_bku b WHERE b.assignment_id=u.assignment_id AND b.__version_normalized=u.__version_normalized AND b.kode_penggunaan_bangunan='1')) OR (EXISTS (SELECT 1 FROM mart_bku b WHERE b.assignment_id=u.assignment_id AND b.__version_normalized=u.__version_normalized AND b.kode_penggunaan_bangunan='1') AND NOT EXISTS (SELECT 1 FROM mart_keluarga f WHERE f.assignment_id=u.assignment_id AND f.__version_normalized=u.__version_normalized)))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/app/BUSINESS_SUMMARY_GROUPS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  }
+]

@@ -1,0 +1,426 @@
+[
+  {
+    "metric_id": "usaha.workers_total_valid",
+    "name": "Jumlah pekerja total pada respons konsisten",
+    "description": "Jumlah pekerja total pada respons konsisten dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "tenaga_kerja",
+    "source": "program_usaha",
+    "source_mart": "mart_program_usaha",
+    "kind": "decimal_sum",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "and",
+      "args": [
+        {
+          "op": "eq",
+          "column": "status_konsistensi_pekerja",
+          "value": "SESUAI"
+        },
+        {
+          "op": "worker_valid",
+          "columns": [
+            "pekerja_laki_laki",
+            "pekerja_perempuan",
+            "total_pekerja_jenis_kelamin"
+          ]
+        }
+      ]
+    },
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid total_pekerja_jenis_kelamin",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "orang dilaporkan",
+    "period": "periode pekerja tidak dinyatakan eksplisit pada SQL lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Kedua komponen dan total harus nonnegatif, integral, finite, dan jumlah komponen=total; usaha juga mensyaratkan flag SESUAI. Denominator record respons valid, bukan FTE atau pekerja unik lintas usaha.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"total_pekerja_jenis_kelamin\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"pekerja_laki_laki\",\"pekerja_perempuan\",\"total_pekerja_jenis_kelamin\",\"status_konsistensi_pekerja\" FROM \"mart_program_usaha\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      "SESUAI",
+      "SESUAI"
+    ],
+    "value_column": "total_pekerja_jenis_kelamin",
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.workers_male_valid",
+    "name": "Jumlah pekerja male pada respons konsisten",
+    "description": "Jumlah pekerja male pada respons konsisten dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "tenaga_kerja",
+    "source": "program_usaha",
+    "source_mart": "mart_program_usaha",
+    "kind": "decimal_sum",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "and",
+      "args": [
+        {
+          "op": "eq",
+          "column": "status_konsistensi_pekerja",
+          "value": "SESUAI"
+        },
+        {
+          "op": "worker_valid",
+          "columns": [
+            "pekerja_laki_laki",
+            "pekerja_perempuan",
+            "total_pekerja_jenis_kelamin"
+          ]
+        }
+      ]
+    },
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid pekerja_laki_laki",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "orang dilaporkan",
+    "period": "periode pekerja tidak dinyatakan eksplisit pada SQL lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Kedua komponen dan total harus nonnegatif, integral, finite, dan jumlah komponen=total; usaha juga mensyaratkan flag SESUAI. Denominator record respons valid, bukan FTE atau pekerja unik lintas usaha.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"pekerja_laki_laki\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"pekerja_laki_laki\",\"pekerja_perempuan\",\"total_pekerja_jenis_kelamin\",\"status_konsistensi_pekerja\" FROM \"mart_program_usaha\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      "SESUAI",
+      "SESUAI"
+    ],
+    "value_column": "pekerja_laki_laki",
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.workers_female_valid",
+    "name": "Jumlah pekerja female pada respons konsisten",
+    "description": "Jumlah pekerja female pada respons konsisten dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "tenaga_kerja",
+    "source": "program_usaha",
+    "source_mart": "mart_program_usaha",
+    "kind": "decimal_sum",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "and",
+      "args": [
+        {
+          "op": "eq",
+          "column": "status_konsistensi_pekerja",
+          "value": "SESUAI"
+        },
+        {
+          "op": "worker_valid",
+          "columns": [
+            "pekerja_laki_laki",
+            "pekerja_perempuan",
+            "total_pekerja_jenis_kelamin"
+          ]
+        }
+      ]
+    },
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid pekerja_perempuan",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "orang dilaporkan",
+    "period": "periode pekerja tidak dinyatakan eksplisit pada SQL lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Kedua komponen dan total harus nonnegatif, integral, finite, dan jumlah komponen=total; usaha juga mensyaratkan flag SESUAI. Denominator record respons valid, bukan FTE atau pekerja unik lintas usaha.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"pekerja_perempuan\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"pekerja_laki_laki\",\"pekerja_perempuan\",\"total_pekerja_jenis_kelamin\",\"status_konsistensi_pekerja\" FROM \"mart_program_usaha\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      "SESUAI",
+      "SESUAI"
+    ],
+    "value_column": "pekerja_perempuan",
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.workers_mean_valid",
+    "name": "Rata-rata pekerja per record respons valid",
+    "description": "Rata-rata pekerja per record respons valid dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "tenaga_kerja",
+    "source": "program_usaha",
+    "source_mart": "mart_program_usaha",
+    "kind": "decimal_mean",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "and",
+      "args": [
+        {
+          "op": "eq",
+          "column": "status_konsistensi_pekerja",
+          "value": "SESUAI"
+        },
+        {
+          "op": "worker_valid",
+          "columns": [
+            "pekerja_laki_laki",
+            "pekerja_perempuan",
+            "total_pekerja_jenis_kelamin"
+          ]
+        }
+      ]
+    },
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid total_pekerja_jenis_kelamin",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "orang per record valid",
+    "period": "periode pekerja tidak dinyatakan eksplisit pada SQL lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Rasio total pekerja dilaporkan / jumlah record valid; bukan rerata persentase wilayah, bukan FTE dan bukan produktivitas.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"total_pekerja_jenis_kelamin\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"pekerja_laki_laki\",\"pekerja_perempuan\",\"total_pekerja_jenis_kelamin\",\"status_konsistensi_pekerja\" FROM \"mart_program_usaha\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      "SESUAI",
+      "SESUAI"
+    ],
+    "value_column": "total_pekerja_jenis_kelamin",
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.workers_total_valid",
+    "name": "Jumlah pekerja total pada respons konsisten",
+    "description": "Jumlah pekerja total pada respons konsisten dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "tenaga_kerja",
+    "source": "ub_workers",
+    "source_mart": "mart_ub_b",
+    "kind": "decimal_sum",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "worker_valid",
+      "columns": [
+        "pekerja_laki_laki",
+        "pekerja_perempuan",
+        "jumlah_pekerja"
+      ]
+    },
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid jumlah_pekerja",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "orang dilaporkan",
+    "period": "periode pekerja tidak dinyatakan eksplisit pada SQL lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment",
+      "response_desa"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Kedua komponen dan total harus nonnegatif, integral, finite, dan jumlah komponen=total; usaha juga mensyaratkan flag SESUAI. Denominator record respons valid, bukan FTE atau pekerja unik lintas usaha.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"jumlah_pekerja\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"pekerja_laki_laki\",\"pekerja_perempuan\",\"jumlah_pekerja\",\"assignment_id\" FROM \"mart_ub_b\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "value_column": "jumlah_pekerja",
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.workers_male_valid",
+    "name": "Jumlah pekerja male pada respons konsisten",
+    "description": "Jumlah pekerja male pada respons konsisten dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "tenaga_kerja",
+    "source": "ub_workers",
+    "source_mart": "mart_ub_b",
+    "kind": "decimal_sum",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "worker_valid",
+      "columns": [
+        "pekerja_laki_laki",
+        "pekerja_perempuan",
+        "jumlah_pekerja"
+      ]
+    },
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid pekerja_laki_laki",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "orang dilaporkan",
+    "period": "periode pekerja tidak dinyatakan eksplisit pada SQL lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment",
+      "response_desa"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Kedua komponen dan total harus nonnegatif, integral, finite, dan jumlah komponen=total; usaha juga mensyaratkan flag SESUAI. Denominator record respons valid, bukan FTE atau pekerja unik lintas usaha.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"pekerja_laki_laki\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"pekerja_laki_laki\",\"pekerja_perempuan\",\"jumlah_pekerja\",\"assignment_id\" FROM \"mart_ub_b\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "value_column": "pekerja_laki_laki",
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.workers_female_valid",
+    "name": "Jumlah pekerja female pada respons konsisten",
+    "description": "Jumlah pekerja female pada respons konsisten dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "tenaga_kerja",
+    "source": "ub_workers",
+    "source_mart": "mart_ub_b",
+    "kind": "decimal_sum",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "worker_valid",
+      "columns": [
+        "pekerja_laki_laki",
+        "pekerja_perempuan",
+        "jumlah_pekerja"
+      ]
+    },
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid pekerja_perempuan",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "orang dilaporkan",
+    "period": "periode pekerja tidak dinyatakan eksplisit pada SQL lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment",
+      "response_desa"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Kedua komponen dan total harus nonnegatif, integral, finite, dan jumlah komponen=total; usaha juga mensyaratkan flag SESUAI. Denominator record respons valid, bukan FTE atau pekerja unik lintas usaha.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"pekerja_perempuan\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"pekerja_laki_laki\",\"pekerja_perempuan\",\"jumlah_pekerja\",\"assignment_id\" FROM \"mart_ub_b\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "value_column": "pekerja_perempuan",
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.workers_mean_valid",
+    "name": "Rata-rata pekerja per record respons valid",
+    "description": "Rata-rata pekerja per record respons valid dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "tenaga_kerja",
+    "source": "ub_workers",
+    "source_mart": "mart_ub_b",
+    "kind": "decimal_mean",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "worker_valid",
+      "columns": [
+        "pekerja_laki_laki",
+        "pekerja_perempuan",
+        "jumlah_pekerja"
+      ]
+    },
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid jumlah_pekerja",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "orang per record valid",
+    "period": "periode pekerja tidak dinyatakan eksplisit pada SQL lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment",
+      "response_desa"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Rasio total pekerja dilaporkan / jumlah record valid; bukan rerata persentase wilayah, bukan FTE dan bukan produktivitas.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"jumlah_pekerja\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"pekerja_laki_laki\",\"pekerja_perempuan\",\"jumlah_pekerja\",\"assignment_id\" FROM \"mart_ub_b\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "value_column": "jumlah_pekerja",
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  }
+]

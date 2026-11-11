@@ -1,0 +1,102 @@
+{
+  "annual2025.total_pendapatan_2025": {
+    "view": "mart_ekonomi_tahunan",
+    "column": "total_pendapatan_2025",
+    "numeric_policy": "EXPLICIT_DECIMAL",
+    "default_format": "canonical",
+    "unit": "UNVERIFIED_SOURCE_CURRENCY_TGR",
+    "period": "ANNUAL_2025",
+    "unit_verified": false,
+    "allow_implicit_annualization": false
+  },
+  "annual2025.total_pengeluaran_2025": {
+    "view": "mart_ekonomi_tahunan",
+    "column": "total_pengeluaran_2025",
+    "numeric_policy": "EXPLICIT_DECIMAL",
+    "default_format": "canonical",
+    "unit": "UNVERIFIED_SOURCE_CURRENCY_TGR",
+    "period": "ANNUAL_2025",
+    "unit_verified": false,
+    "allow_implicit_annualization": false
+  },
+  "annual2025.total_aset_2025": {
+    "view": "mart_ekonomi_tahunan",
+    "column": "total_aset_2025",
+    "numeric_policy": "EXPLICIT_DECIMAL",
+    "default_format": "canonical",
+    "unit": "UNVERIFIED_SOURCE_CURRENCY_TGR",
+    "period": "ANNUAL_2025",
+    "unit_verified": false,
+    "allow_implicit_annualization": false
+  },
+  "monthly_new2026.total_pendapatan_bln": {
+    "view": "mart_ekonomi_bulanan",
+    "column": "total_pendapatan_bln",
+    "numeric_policy": "EXPLICIT_DECIMAL",
+    "default_format": "canonical",
+    "unit": "UNVERIFIED_SOURCE_CURRENCY_TGR",
+    "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
+    "unit_verified": false,
+    "allow_implicit_annualization": false
+  },
+  "monthly_new2026.total_pengeluaran_bln": {
+    "view": "mart_ekonomi_bulanan",
+    "column": "total_pengeluaran_bln",
+    "numeric_policy": "EXPLICIT_DECIMAL",
+    "default_format": "canonical",
+    "unit": "UNVERIFIED_SOURCE_CURRENCY_TGR",
+    "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
+    "unit_verified": false,
+    "allow_implicit_annualization": false
+  },
+  "monthly_new2026.total_aset_bln": {
+    "view": "mart_ekonomi_bulanan",
+    "column": "total_aset_bln",
+    "numeric_policy": "EXPLICIT_DECIMAL",
+    "default_format": "auto_strict",
+    "unit": "UNVERIFIED_SOURCE_CURRENCY_TGR",
+    "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
+    "unit_verified": false,
+    "allow_implicit_annualization": false
+  },
+  "ub_financial.total_pendapatan": {
+    "view": "mart_ub_b",
+    "column": "total_pendapatan",
+    "numeric_policy": "EXPLICIT_DECIMAL",
+    "default_format": "canonical",
+    "unit": "UNVERIFIED_SOURCE_CURRENCY_UB",
+    "period": "UB_FINANCIAL_PERIOD_UNVERIFIED",
+    "unit_verified": false,
+    "allow_implicit_annualization": false
+  },
+  "ub_financial.total_pengeluaran": {
+    "view": "mart_ub_b",
+    "column": "total_pengeluaran",
+    "numeric_policy": "EXPLICIT_DECIMAL",
+    "default_format": "canonical",
+    "unit": "UNVERIFIED_SOURCE_CURRENCY_UB",
+    "period": "UB_FINANCIAL_PERIOD_UNVERIFIED",
+    "unit_verified": false,
+    "allow_implicit_annualization": false
+  },
+  "ub_financial.total_aset": {
+    "view": "mart_ub_b",
+    "column": "total_aset",
+    "numeric_policy": "EXPLICIT_DECIMAL",
+    "default_format": "canonical",
+    "unit": "UNVERIFIED_SOURCE_CURRENCY_UB",
+    "period": "UB_FINANCIAL_PERIOD_UNVERIFIED",
+    "unit_verified": false,
+    "allow_implicit_annualization": false
+  },
+  "p1_pekerjaan.nilai_pend_pekerjaan": {
+    "view": "mart_p1_pekerjaan",
+    "column": "nilai_pend_pekerjaan",
+    "numeric_policy": "OPAQUE_NON_NUMERIC",
+    "default_format": "not_applicable",
+    "unit": "NOT_A_NUMERIC_MEASURE",
+    "period": "NOT_APPLICABLE",
+    "unit_verified": false,
+    "allow_implicit_annualization": false
+  }
+}

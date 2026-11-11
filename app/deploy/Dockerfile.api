@@ -1,0 +1,11 @@
+FROM python:3.11-slim
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PYTHONPATH=/srv/app/src OTEL_SDK_DISABLED=true
+WORKDIR /srv
+COPY app/requirements/web.lock /srv/app/requirements/web.lock
+RUN pip install --no-cache-dir --require-hashes -r app/requirements/web.lock
+COPY app/src /srv/app/src
+COPY app/config /srv/app/config
+COPY app/sql /srv/app/sql
+RUN mkdir -p /srv/data/app && groupadd -r portal && useradd -r -g portal portal && chown portal:portal /srv/data/app
+USER portal
+CMD ["uvicorn","se2026.web.main:create_app","--factory","--host","0.0.0.0","--port","8000","--no-access-log","--no-proxy-headers"]

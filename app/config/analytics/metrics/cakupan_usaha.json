@@ -1,0 +1,317 @@
+[
+  {
+    "metric_id": "usaha_details.legalitas_usaha_coverage",
+    "name": "Cakupan tautan modul legalitas_usaha",
+    "description": "Cakupan tautan modul legalitas_usaha dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "cakupan_usaha",
+    "source": "usaha_details",
+    "source_mart": "mart_usaha_integrated",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "eq",
+      "column": "has_legalitas_usaha",
+      "value": 1
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_legalitas_usaha\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      1
+    ],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha_details.kegiatan_usaha_coverage",
+    "name": "Cakupan tautan modul kegiatan_usaha",
+    "description": "Cakupan tautan modul kegiatan_usaha dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "cakupan_usaha",
+    "source": "usaha_details",
+    "source_mart": "mart_usaha_integrated",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "eq",
+      "column": "has_kegiatan_usaha",
+      "value": 1
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_kegiatan_usaha\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      1
+    ],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha_details.digital_usaha_coverage",
+    "name": "Cakupan tautan modul digital_usaha",
+    "description": "Cakupan tautan modul digital_usaha dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "cakupan_usaha",
+    "source": "usaha_details",
+    "source_mart": "mart_usaha_integrated",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "eq",
+      "column": "has_digital_usaha",
+      "value": 1
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_digital_usaha\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      1
+    ],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha_details.program_usaha_coverage",
+    "name": "Cakupan tautan modul program_usaha",
+    "description": "Cakupan tautan modul program_usaha dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "cakupan_usaha",
+    "source": "usaha_details",
+    "source_mart": "mart_usaha_integrated",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "eq",
+      "column": "has_program_usaha",
+      "value": 1
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_program_usaha\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      1
+    ],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha_details.ekonomi_tahunan_coverage",
+    "name": "Cakupan tautan modul ekonomi_tahunan",
+    "description": "Cakupan tautan modul ekonomi_tahunan dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "cakupan_usaha",
+    "source": "usaha_details",
+    "source_mart": "mart_usaha_integrated",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "eq",
+      "column": "has_ekonomi_tahunan",
+      "value": 1
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_ekonomi_tahunan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      1
+    ],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha_details.ekonomi_bulanan_coverage",
+    "name": "Cakupan tautan modul ekonomi_bulanan",
+    "description": "Cakupan tautan modul ekonomi_bulanan dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "cakupan_usaha",
+    "source": "usaha_details",
+    "source_mart": "mart_usaha_integrated",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "eq",
+      "column": "has_ekonomi_bulanan",
+      "value": 1
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_ekonomi_bulanan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      1
+    ],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha_details.jaringan_usaha_coverage",
+    "name": "Cakupan tautan modul jaringan_usaha",
+    "description": "Cakupan tautan modul jaringan_usaha dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "cakupan_usaha",
+    "source": "usaha_details",
+    "source_mart": "mart_usaha_integrated",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "eq",
+      "column": "has_jaringan_usaha",
+      "value": 1
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_jaringan_usaha\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      1
+    ],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  }
+]

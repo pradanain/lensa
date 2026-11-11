@@ -1,0 +1,41 @@
+[
+  {
+    "metric_id": "bku.business_enumerated_count",
+    "name": "Bangunan khusus usaha selesai atau disetujui",
+    "description": "BKU penggunaan 1 (Bangunan Khusus Usaha), keberadaan 1/2, master assignment disetujui atau selesai.",
+    "domain": "bku",
+    "source": "bku_business_enumerated",
+    "source_mart": "mart_bku",
+    "kind": "count",
+    "grain": [
+      "assignment_id",
+      "__version_normalized"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "COUNT unit sumber",
+    "denominator_definition": "COUNT record eligible (konteks hitungan; bukan rate)",
+    "eligibility_rule": "b.kode_penggunaan_bangunan='1' AND b.kode_keberadaan_bku IN ('1','2') AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=b.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "bangunan-versi",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls",
+      "status"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Bukan jumlah unit usaha. Virtual office (kode 7), bangunan non-usaha dan penggunaan kosong tidak termasuk Bangunan Khusus Usaha (kode 1). Status operasional pada master snapshot lokal; keaktifan server sekarang tidak dapat diperiksa ulang. Versi berbeda tidak dipaksa menjadi sama.",
+    "validation_status": "VALIDATED_LOCAL_BUSINESS_BUILDINGS",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT b.\"__row_id\",b.\"__import_id\",b.\"__clean_hash\",b.\"__key\",b.\"__version_normalized\",b.\"__key_valid\",b.\"__conflict\",b.\"assignment_id\",b.\"assignment_date_modified\",b.\"code_identity\",b.\"listing_assignment\",b.\"kode_kecamatan\",b.\"kecamatan\",b.\"kode_desa\",b.\"desa_kelurahan\",b.\"kode_sls_subsls\",b.\"sls_subsls\",b.\"nomor_bangunan\",b.\"nama_bangunan_usaha\",b.\"nama_lookup_prelist\",b.\"alamat_prelist\",b.\"jalan_domisili\",b.\"kode_penggunaan_bangunan\",b.\"penggunaan_bangunan\",b.\"kode_keberadaan_bku\",b.\"keberadaan_bku\",b.\"kode_keberadaan_keluarga\",b.\"keberadaan_keluarga\",b.\"geotag_accuracy\",b.\"geotag_latitude\",b.\"geotag_longitude\",b.\"status_assignment\",b.\"__batch_id\",b.\"__source_sha256\" FROM mart_bku b WHERE b.kode_penggunaan_bangunan='1' AND b.kode_keberadaan_bku IN ('1','2') AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=b.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/app/BKU_BUSINESS_CARD.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  }
+]

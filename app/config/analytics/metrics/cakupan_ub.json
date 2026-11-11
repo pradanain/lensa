@@ -1,0 +1,72 @@
+[
+  {
+    "metric_id": "ub.complete_module_coverage",
+    "name": "Kelengkapan master dan A/B/C per assignment",
+    "description": "Kelengkapan master dan A/B/C per assignment dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "cakupan_ub",
+    "source": "ub",
+    "source_mart": "mart_ub_integrated",
+    "kind": "rate",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "and",
+      "args": [
+        {
+          "op": "eq",
+          "column": "has_assignment_ub",
+          "value": 1
+        },
+        {
+          "op": "eq",
+          "column": "has_ub_a",
+          "value": 1
+        },
+        {
+          "op": "eq",
+          "column": "has_ub_b",
+          "value": 1
+        },
+        {
+          "op": "eq",
+          "column": "has_ub_c",
+          "value": 1
+        }
+      ]
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls",
+      "status",
+      "kbli",
+      "kategori"
+    ],
+    "location_concepts": [
+      "assignment",
+      "response_desa"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "JOIN assignment_id saja; kehadiran modul berbeda dari keterisian variabel keuangan.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND (e.\"has_assignment_ub\"=? AND e.\"has_ub_a\"=? AND e.\"has_ub_b\"=? AND e.\"has_ub_c\"=?) THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"assignment_id\",\"status_keberadaan\",\"kbli_akhir\",\"kategori_kbli\",\"has_assignment_ub\",\"has_ub_a\",\"has_ub_b\",\"has_ub_c\" FROM \"mart_ub_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  }
+]

@@ -1,0 +1,1448 @@
+[
+  {
+    "metric_id": "usaha.completed_workers_total",
+    "name": "Pekerja total",
+    "description": "Pekerja total pada usaha selesai/disetujui.",
+    "domain": "tenaga_kerja",
+    "source": "dashboard_umkm_workers",
+    "source_mart": "mart_program_usaha",
+    "kind": "decimal_sum",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "and",
+      "args": [
+        {
+          "op": "eq",
+          "column": "status_konsistensi_pekerja",
+          "value": "SESUAI"
+        },
+        {
+          "op": "worker_valid",
+          "columns": [
+            "pekerja_laki_laki",
+            "pekerja_perempuan",
+            "total_pekerja_jenis_kelamin"
+          ]
+        }
+      ]
+    },
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid total_pekerja_jenis_kelamin",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "orang dilaporkan",
+    "period": "periode pekerja tidak dinyatakan eksplisit pada SQL lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"total_pekerja_jenis_kelamin\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"total_pekerja_jenis_kelamin\",p.\"status_konsistensi_pekerja\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.total_pekerja_jenis_kelamin,COALESCE(p.status_konsistensi_pekerja,'UNVERIFIED')) AS worker_band FROM mart_program_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      "SESUAI",
+      "SESUAI"
+    ],
+    "value_column": "total_pekerja_jenis_kelamin",
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.completed_workers_male",
+    "name": "Pekerja male",
+    "description": "Pekerja male pada usaha selesai/disetujui.",
+    "domain": "tenaga_kerja",
+    "source": "dashboard_umkm_workers",
+    "source_mart": "mart_program_usaha",
+    "kind": "decimal_sum",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "and",
+      "args": [
+        {
+          "op": "eq",
+          "column": "status_konsistensi_pekerja",
+          "value": "SESUAI"
+        },
+        {
+          "op": "worker_valid",
+          "columns": [
+            "pekerja_laki_laki",
+            "pekerja_perempuan",
+            "total_pekerja_jenis_kelamin"
+          ]
+        }
+      ]
+    },
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid pekerja_laki_laki",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "orang dilaporkan",
+    "period": "periode pekerja tidak dinyatakan eksplisit pada SQL lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"pekerja_laki_laki\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"total_pekerja_jenis_kelamin\",p.\"status_konsistensi_pekerja\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.total_pekerja_jenis_kelamin,COALESCE(p.status_konsistensi_pekerja,'UNVERIFIED')) AS worker_band FROM mart_program_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      "SESUAI",
+      "SESUAI"
+    ],
+    "value_column": "pekerja_laki_laki",
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.completed_workers_female",
+    "name": "Pekerja female",
+    "description": "Pekerja female pada usaha selesai/disetujui.",
+    "domain": "tenaga_kerja",
+    "source": "dashboard_umkm_workers",
+    "source_mart": "mart_program_usaha",
+    "kind": "decimal_sum",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "and",
+      "args": [
+        {
+          "op": "eq",
+          "column": "status_konsistensi_pekerja",
+          "value": "SESUAI"
+        },
+        {
+          "op": "worker_valid",
+          "columns": [
+            "pekerja_laki_laki",
+            "pekerja_perempuan",
+            "total_pekerja_jenis_kelamin"
+          ]
+        }
+      ]
+    },
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid pekerja_perempuan",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "orang dilaporkan",
+    "period": "periode pekerja tidak dinyatakan eksplisit pada SQL lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"pekerja_perempuan\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"total_pekerja_jenis_kelamin\",p.\"status_konsistensi_pekerja\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.total_pekerja_jenis_kelamin,COALESCE(p.status_konsistensi_pekerja,'UNVERIFIED')) AS worker_band FROM mart_program_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      "SESUAI",
+      "SESUAI"
+    ],
+    "value_column": "pekerja_perempuan",
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.completed_workers_mean",
+    "name": "Pekerja mean",
+    "description": "Pekerja mean pada usaha selesai/disetujui.",
+    "domain": "tenaga_kerja",
+    "source": "dashboard_umkm_workers",
+    "source_mart": "mart_program_usaha",
+    "kind": "decimal_mean",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "and",
+      "args": [
+        {
+          "op": "eq",
+          "column": "status_konsistensi_pekerja",
+          "value": "SESUAI"
+        },
+        {
+          "op": "worker_valid",
+          "columns": [
+            "pekerja_laki_laki",
+            "pekerja_perempuan",
+            "total_pekerja_jenis_kelamin"
+          ]
+        }
+      ]
+    },
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid total_pekerja_jenis_kelamin",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "orang per record valid",
+    "period": "periode pekerja tidak dinyatakan eksplisit pada SQL lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"total_pekerja_jenis_kelamin\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"total_pekerja_jenis_kelamin\",p.\"status_konsistensi_pekerja\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.total_pekerja_jenis_kelamin,COALESCE(p.status_konsistensi_pekerja,'UNVERIFIED')) AS worker_band FROM mart_program_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      "SESUAI",
+      "SESUAI"
+    ],
+    "value_column": "total_pekerja_jenis_kelamin",
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.completed_worker_bands",
+    "name": "Distribusi jumlah pekerja",
+    "description": "Distribusi jumlah pekerja pada usaha selesai/disetujui.",
+    "domain": "klasifikasi_usaha",
+    "source": "dashboard_umkm_workers",
+    "source_mart": "mart_program_usaha",
+    "kind": "distribution",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "COUNT unit sumber",
+    "denominator_definition": "Total COUNT respons pada cohort terfilter, sebelum pemisahan kategori",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "unit usaha",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls",
+      "worker_band"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT e.\"worker_band\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"total_pekerja_jenis_kelamin\",p.\"status_konsistensi_pekerja\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.total_pekerja_jenis_kelamin,COALESCE(p.status_konsistensi_pekerja,'UNVERIFIED')) AS worker_band FROM mart_program_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"worker_band\"",
+    "sql_bindings": [],
+    "distribution_dimension": "worker_band",
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.completed_workers_total",
+    "name": "Pekerja total",
+    "description": "Pekerja total pada usaha selesai/disetujui.",
+    "domain": "tenaga_kerja",
+    "source": "dashboard_ub_workers",
+    "source_mart": "mart_ub_b",
+    "kind": "decimal_sum",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "worker_valid",
+      "columns": [
+        "pekerja_laki_laki",
+        "pekerja_perempuan",
+        "jumlah_pekerja"
+      ]
+    },
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid jumlah_pekerja",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "orang dilaporkan",
+    "period": "periode pekerja tidak dinyatakan eksplisit pada SQL lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment",
+      "response_desa"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"jumlah_pekerja\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "value_column": "jumlah_pekerja",
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.completed_workers_male",
+    "name": "Pekerja male",
+    "description": "Pekerja male pada usaha selesai/disetujui.",
+    "domain": "tenaga_kerja",
+    "source": "dashboard_ub_workers",
+    "source_mart": "mart_ub_b",
+    "kind": "decimal_sum",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "worker_valid",
+      "columns": [
+        "pekerja_laki_laki",
+        "pekerja_perempuan",
+        "jumlah_pekerja"
+      ]
+    },
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid pekerja_laki_laki",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "orang dilaporkan",
+    "period": "periode pekerja tidak dinyatakan eksplisit pada SQL lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment",
+      "response_desa"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"pekerja_laki_laki\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "value_column": "pekerja_laki_laki",
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.completed_workers_female",
+    "name": "Pekerja female",
+    "description": "Pekerja female pada usaha selesai/disetujui.",
+    "domain": "tenaga_kerja",
+    "source": "dashboard_ub_workers",
+    "source_mart": "mart_ub_b",
+    "kind": "decimal_sum",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "worker_valid",
+      "columns": [
+        "pekerja_laki_laki",
+        "pekerja_perempuan",
+        "jumlah_pekerja"
+      ]
+    },
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid pekerja_perempuan",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "orang dilaporkan",
+    "period": "periode pekerja tidak dinyatakan eksplisit pada SQL lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment",
+      "response_desa"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"pekerja_perempuan\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "value_column": "pekerja_perempuan",
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.completed_workers_mean",
+    "name": "Pekerja mean",
+    "description": "Pekerja mean pada usaha selesai/disetujui.",
+    "domain": "tenaga_kerja",
+    "source": "dashboard_ub_workers",
+    "source_mart": "mart_ub_b",
+    "kind": "decimal_mean",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "worker_valid",
+      "columns": [
+        "pekerja_laki_laki",
+        "pekerja_perempuan",
+        "jumlah_pekerja"
+      ]
+    },
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid jumlah_pekerja",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "orang per record valid",
+    "period": "periode pekerja tidak dinyatakan eksplisit pada SQL lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment",
+      "response_desa"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"jumlah_pekerja\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "value_column": "jumlah_pekerja",
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.completed_worker_bands",
+    "name": "Distribusi jumlah pekerja",
+    "description": "Distribusi jumlah pekerja pada usaha selesai/disetujui.",
+    "domain": "klasifikasi_usaha",
+    "source": "dashboard_ub_workers",
+    "source_mart": "mart_ub_b",
+    "kind": "distribution",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "COUNT unit sumber",
+    "denominator_definition": "Total COUNT respons pada cohort terfilter, sebelum pemisahan kategori",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "unit usaha",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls",
+      "worker_band"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT e.\"worker_band\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"worker_band\"",
+    "sql_bindings": [],
+    "distribution_dimension": "worker_band",
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.completed_internet_rate",
+    "name": "Menggunakan internet",
+    "description": "Menggunakan internet pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_umkm_digital",
+    "source_mart": "mart_digital_usaha",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "in",
+      "column": "kode_menggunakan_internet",
+      "values": [
+        "1",
+        "2"
+      ]
+    },
+    "positive": {
+      "op": "eq",
+      "column": "kode_menggunakan_internet",
+      "value": "1"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"kode_menggunakan_internet\" IN (?,?) AND e.\"kode_menggunakan_internet\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"kode_menggunakan_internet\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"kode_menggunakan_internet\",p.\"internet_promosi\",p.\"internet_menerima_pesanan\",p.\"__key_valid\",p.\"__conflict\" FROM mart_digital_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      "1",
+      "2",
+      "1",
+      "1",
+      "2"
+    ],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.completed_promotion_rate",
+    "name": "Internet untuk promosi",
+    "description": "Internet untuk promosi pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_umkm_digital",
+    "source_mart": "mart_digital_usaha",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": {
+      "op": "eq",
+      "column": "kode_menggunakan_internet",
+      "value": "1"
+    },
+    "valid": {
+      "op": "in",
+      "column": "internet_promosi",
+      "values": [
+        "1",
+        "2"
+      ]
+    },
+    "positive": {
+      "op": "eq",
+      "column": "internet_promosi",
+      "value": "1"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"internet_promosi\" IN (?,?) AND e.\"internet_promosi\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"internet_promosi\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"kode_menggunakan_internet\",p.\"internet_promosi\",p.\"internet_menerima_pesanan\",p.\"__key_valid\",p.\"__conflict\" FROM mart_digital_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE e.\"kode_menggunakan_internet\"=?",
+    "sql_bindings": [
+      "1",
+      "2",
+      "1",
+      "1",
+      "2",
+      "1"
+    ],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.completed_orders_rate",
+    "name": "Internet untuk menerima pesanan",
+    "description": "Internet untuk menerima pesanan pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_umkm_digital",
+    "source_mart": "mart_digital_usaha",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": {
+      "op": "eq",
+      "column": "kode_menggunakan_internet",
+      "value": "1"
+    },
+    "valid": {
+      "op": "in",
+      "column": "internet_menerima_pesanan",
+      "values": [
+        "1",
+        "2"
+      ]
+    },
+    "positive": {
+      "op": "eq",
+      "column": "internet_menerima_pesanan",
+      "value": "1"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"internet_menerima_pesanan\" IN (?,?) AND e.\"internet_menerima_pesanan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"internet_menerima_pesanan\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"kode_menggunakan_internet\",p.\"internet_promosi\",p.\"internet_menerima_pesanan\",p.\"__key_valid\",p.\"__conflict\" FROM mart_digital_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE e.\"kode_menggunakan_internet\"=?",
+    "sql_bindings": [
+      "1",
+      "2",
+      "1",
+      "1",
+      "2",
+      "1"
+    ],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.completed_internet_rate",
+    "name": "Menggunakan internet",
+    "description": "Menggunakan internet pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_ub_digital",
+    "source_mart": "mart_ub_c",
+    "kind": "rate",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "in",
+      "column": "menggunakan_internet",
+      "values": [
+        "1. Ya",
+        "2. Tidak"
+      ]
+    },
+    "positive": {
+      "op": "eq",
+      "column": "menggunakan_internet",
+      "value": "1. Ya"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"menggunakan_internet\" IN (?,?) AND e.\"menggunakan_internet\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"menggunakan_internet\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"menggunakan_internet\",p.\"internet_promosi\",p.\"internet_pesanan\",p.\"memiliki_nib\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ub_c p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      "1. Ya",
+      "2. Tidak",
+      "1. Ya",
+      "1. Ya",
+      "2. Tidak"
+    ],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.completed_promotion_rate",
+    "name": "Internet untuk promosi",
+    "description": "Internet untuk promosi pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_ub_digital",
+    "source_mart": "mart_ub_c",
+    "kind": "rate",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": {
+      "op": "eq",
+      "column": "menggunakan_internet",
+      "value": "1. Ya"
+    },
+    "valid": {
+      "op": "in",
+      "column": "internet_promosi",
+      "values": [
+        "1. Ya",
+        "2. Tidak"
+      ]
+    },
+    "positive": {
+      "op": "eq",
+      "column": "internet_promosi",
+      "value": "1. Ya"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"internet_promosi\" IN (?,?) AND e.\"internet_promosi\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"internet_promosi\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"menggunakan_internet\",p.\"internet_promosi\",p.\"internet_pesanan\",p.\"memiliki_nib\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ub_c p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE e.\"menggunakan_internet\"=?",
+    "sql_bindings": [
+      "1. Ya",
+      "2. Tidak",
+      "1. Ya",
+      "1. Ya",
+      "2. Tidak",
+      "1. Ya"
+    ],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.completed_orders_rate",
+    "name": "Internet untuk menerima pesanan",
+    "description": "Internet untuk menerima pesanan pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_ub_digital",
+    "source_mart": "mart_ub_c",
+    "kind": "rate",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": {
+      "op": "eq",
+      "column": "menggunakan_internet",
+      "value": "1. Ya"
+    },
+    "valid": {
+      "op": "in",
+      "column": "internet_pesanan",
+      "values": [
+        "1. Ya",
+        "2. Tidak"
+      ]
+    },
+    "positive": {
+      "op": "eq",
+      "column": "internet_pesanan",
+      "value": "1. Ya"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"internet_pesanan\" IN (?,?) AND e.\"internet_pesanan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"internet_pesanan\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"menggunakan_internet\",p.\"internet_promosi\",p.\"internet_pesanan\",p.\"memiliki_nib\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ub_c p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE e.\"menggunakan_internet\"=?",
+    "sql_bindings": [
+      "1. Ya",
+      "2. Tidak",
+      "1. Ya",
+      "1. Ya",
+      "2. Tidak",
+      "1. Ya"
+    ],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.completed_nib_rate",
+    "name": "Memiliki NIB",
+    "description": "Memiliki NIB pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_umkm_legal",
+    "source_mart": "mart_legalitas_usaha",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "in",
+      "column": "punya_nib",
+      "values": [
+        "1",
+        "2"
+      ]
+    },
+    "positive": {
+      "op": "eq",
+      "column": "punya_nib",
+      "value": "1"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"punya_nib\" IN (?,?) AND e.\"punya_nib\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"punya_nib\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"punya_nib\",p.\"mempunyai_laporan_keuangan\",p.\"__key_valid\",p.\"__conflict\" FROM mart_legalitas_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      "1",
+      "2",
+      "1",
+      "1",
+      "2"
+    ],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.completed_nib_rate",
+    "name": "Memiliki NIB",
+    "description": "Memiliki NIB pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_ub_digital",
+    "source_mart": "mart_ub_c",
+    "kind": "rate",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "in",
+      "column": "memiliki_nib",
+      "values": [
+        "1. Ya",
+        "2. Tidak"
+      ]
+    },
+    "positive": {
+      "op": "eq",
+      "column": "memiliki_nib",
+      "value": "1. Ya"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"memiliki_nib\" IN (?,?) AND e.\"memiliki_nib\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"memiliki_nib\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"menggunakan_internet\",p.\"internet_promosi\",p.\"internet_pesanan\",p.\"memiliki_nib\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ub_c p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      "1. Ya",
+      "2. Tidak",
+      "1. Ya",
+      "1. Ya",
+      "2. Tidak"
+    ],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.completed_bookkeeping_rate",
+    "name": "Memiliki laporan keuangan",
+    "description": "Memiliki laporan keuangan pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_umkm_legal",
+    "source_mart": "mart_legalitas_usaha",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "in",
+      "column": "mempunyai_laporan_keuangan",
+      "values": [
+        "1",
+        "2"
+      ]
+    },
+    "positive": {
+      "op": "eq",
+      "column": "mempunyai_laporan_keuangan",
+      "value": "1"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"mempunyai_laporan_keuangan\" IN (?,?) AND e.\"mempunyai_laporan_keuangan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"mempunyai_laporan_keuangan\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"punya_nib\",p.\"mempunyai_laporan_keuangan\",p.\"__key_valid\",p.\"__conflict\" FROM mart_legalitas_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      "1",
+      "2",
+      "1",
+      "1",
+      "2"
+    ],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.completed_bookkeeping_rate",
+    "name": "Memiliki catatan keuangan",
+    "description": "Memiliki catatan keuangan pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_ub_workers",
+    "source_mart": "mart_ub_b",
+    "kind": "rate",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": {
+      "op": "in",
+      "column": "memiliki_catatan_keuangan",
+      "values": [
+        "1. Ya",
+        "2. Tidak"
+      ]
+    },
+    "positive": {
+      "op": "eq",
+      "column": "memiliki_catatan_keuangan",
+      "value": "1. Ya"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"memiliki_catatan_keuangan\" IN (?,?) AND e.\"memiliki_catatan_keuangan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"memiliki_catatan_keuangan\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      "1. Ya",
+      "2. Tidak",
+      "1. Ya",
+      "1. Ya",
+      "2. Tidak"
+    ],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.annual_income_coverage",
+    "name": "Isian income tercatat",
+    "description": "Isian income tercatat pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_umkm_annual",
+    "source_mart": "mart_ekonomi_tahunan",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "nonempty",
+      "column": "total_pendapatan_2025"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "Tahun 2025",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Proporsi isian tercatat pada modul yang tertaut; bukan validitas nominal, nilai uang, laba atau pertumbuhan. Satuan uang belum terverifikasi sehingga nominal tidak dijumlahkan. Periode tahunan/bulanan/UB tidak digabung. Missing modul bukan jawaban nol. Cohort usaha selesai/disetujui; wilayah assignment.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_pendapatan_2025\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"total_pendapatan_2025\",p.\"total_pengeluaran_2025\",p.\"total_aset_2025\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ekonomi_tahunan p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.annual_expense_coverage",
+    "name": "Isian expense tercatat",
+    "description": "Isian expense tercatat pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_umkm_annual",
+    "source_mart": "mart_ekonomi_tahunan",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "nonempty",
+      "column": "total_pengeluaran_2025"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "Tahun 2025",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Proporsi isian tercatat pada modul yang tertaut; bukan validitas nominal, nilai uang, laba atau pertumbuhan. Satuan uang belum terverifikasi sehingga nominal tidak dijumlahkan. Periode tahunan/bulanan/UB tidak digabung. Missing modul bukan jawaban nol. Cohort usaha selesai/disetujui; wilayah assignment.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_pengeluaran_2025\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"total_pendapatan_2025\",p.\"total_pengeluaran_2025\",p.\"total_aset_2025\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ekonomi_tahunan p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.annual_assets_coverage",
+    "name": "Isian assets tercatat",
+    "description": "Isian assets tercatat pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_umkm_annual",
+    "source_mart": "mart_ekonomi_tahunan",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "nonempty",
+      "column": "total_aset_2025"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "Tahun 2025",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Proporsi isian tercatat pada modul yang tertaut; bukan validitas nominal, nilai uang, laba atau pertumbuhan. Satuan uang belum terverifikasi sehingga nominal tidak dijumlahkan. Periode tahunan/bulanan/UB tidak digabung. Missing modul bukan jawaban nol. Cohort usaha selesai/disetujui; wilayah assignment.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_aset_2025\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"total_pendapatan_2025\",p.\"total_pengeluaran_2025\",p.\"total_aset_2025\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ekonomi_tahunan p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.monthly_income_coverage",
+    "name": "Isian income tercatat",
+    "description": "Isian income tercatat pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_umkm_monthly",
+    "source_mart": "mart_ekonomi_bulanan",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "nonempty",
+      "column": "total_pendapatan_bln"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "Bulan terakhir usaha mulai 2026",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Proporsi isian tercatat pada modul yang tertaut; bukan validitas nominal, nilai uang, laba atau pertumbuhan. Satuan uang belum terverifikasi sehingga nominal tidak dijumlahkan. Periode tahunan/bulanan/UB tidak digabung. Missing modul bukan jawaban nol. Cohort usaha selesai/disetujui; wilayah assignment.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_pendapatan_bln\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"total_pendapatan_bln\",p.\"total_pengeluaran_bln\",p.\"total_aset_bln\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ekonomi_bulanan p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.monthly_expense_coverage",
+    "name": "Isian expense tercatat",
+    "description": "Isian expense tercatat pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_umkm_monthly",
+    "source_mart": "mart_ekonomi_bulanan",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "nonempty",
+      "column": "total_pengeluaran_bln"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "Bulan terakhir usaha mulai 2026",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Proporsi isian tercatat pada modul yang tertaut; bukan validitas nominal, nilai uang, laba atau pertumbuhan. Satuan uang belum terverifikasi sehingga nominal tidak dijumlahkan. Periode tahunan/bulanan/UB tidak digabung. Missing modul bukan jawaban nol. Cohort usaha selesai/disetujui; wilayah assignment.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_pengeluaran_bln\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"total_pendapatan_bln\",p.\"total_pengeluaran_bln\",p.\"total_aset_bln\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ekonomi_bulanan p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "usaha.monthly_assets_coverage",
+    "name": "Isian assets tercatat",
+    "description": "Isian assets tercatat pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_umkm_monthly",
+    "source_mart": "mart_ekonomi_bulanan",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "nonempty",
+      "column": "total_aset_bln"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "Bulan terakhir usaha mulai 2026",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Proporsi isian tercatat pada modul yang tertaut; bukan validitas nominal, nilai uang, laba atau pertumbuhan. Satuan uang belum terverifikasi sehingga nominal tidak dijumlahkan. Periode tahunan/bulanan/UB tidak digabung. Missing modul bukan jawaban nol. Cohort usaha selesai/disetujui; wilayah assignment.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_aset_bln\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"total_pendapatan_bln\",p.\"total_pengeluaran_bln\",p.\"total_aset_bln\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ekonomi_bulanan p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.reported_income_coverage",
+    "name": "Isian income tercatat",
+    "description": "Isian income tercatat pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_ub_workers",
+    "source_mart": "mart_ub_b",
+    "kind": "rate",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "nonempty",
+      "column": "total_pendapatan"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "Periode sumber UB belum terverifikasi",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Proporsi isian tercatat pada modul yang tertaut; bukan validitas nominal, nilai uang, laba atau pertumbuhan. Satuan uang belum terverifikasi sehingga nominal tidak dijumlahkan. Periode tahunan/bulanan/UB tidak digabung. Missing modul bukan jawaban nol. Cohort usaha selesai/disetujui; wilayah assignment.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_pendapatan\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.reported_expense_coverage",
+    "name": "Isian expense tercatat",
+    "description": "Isian expense tercatat pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_ub_workers",
+    "source_mart": "mart_ub_b",
+    "kind": "rate",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "nonempty",
+      "column": "total_pengeluaran"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "Periode sumber UB belum terverifikasi",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Proporsi isian tercatat pada modul yang tertaut; bukan validitas nominal, nilai uang, laba atau pertumbuhan. Satuan uang belum terverifikasi sehingga nominal tidak dijumlahkan. Periode tahunan/bulanan/UB tidak digabung. Missing modul bukan jawaban nol. Cohort usaha selesai/disetujui; wilayah assignment.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_pengeluaran\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "ub.reported_assets_coverage",
+    "name": "Isian assets tercatat",
+    "description": "Isian assets tercatat pada usaha selesai/disetujui.",
+    "domain": "digitalisasi",
+    "source": "dashboard_ub_workers",
+    "source_mart": "mart_ub_b",
+    "kind": "rate",
+    "grain": [
+      "assignment_id"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "nonempty",
+      "column": "total_aset"
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Ditemukan/Baru (UB: aktif), master APPROVED BY Pengawas / COMPLETED BY Admin Kabupaten. Rincian UMKM pada versi dan indeks tepat; UB assignment ID saja.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "Periode sumber UB belum terverifikasi",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Proporsi isian tercatat pada modul yang tertaut; bukan validitas nominal, nilai uang, laba atau pertumbuhan. Satuan uang belum terverifikasi sehingga nominal tidak dijumlahkan. Periode tahunan/bulanan/UB tidak digabung. Missing modul bukan jawaban nol. Cohort usaha selesai/disetujui; wilayah assignment.",
+    "validation_status": "LOCAL_COMPLETED_COHORT",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_aset\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  }
+]

@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "fields": [
+    "kode_kabupaten",
+    "kode_kecamatan",
+    "kode_desa",
+    "kode_sls",
+    "kode_subsls"
+  ],
+  "levels": [
+    "kecamatan",
+    "desa",
+    "sls",
+    "subsls"
+  ],
+  "observed_code_lengths": {
+    "kode_kabupaten": 4,
+    "kode_kecamatan": 7,
+    "kode_desa": 10,
+    "kode_sls": 14,
+    "kode_subsls": 16
+  },
+  "scope_prefix": "6502",
+  "code_type": "TEXT",
+  "concepts": {
+    "assignment": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "response": [
+      "desa"
+    ]
+  },
+  "response_source": "mart_ub_a.kode_desa; no inferred parent/SLS codes",
+  "key": "system + concept + level + retained raw composite code path",
+  "unknown_policy": "Preserve missing/special/invalid/outside/hierarchy mismatch/unmatched buckets; never reassign or drop",
+  "status_not_official_certification": true
+}

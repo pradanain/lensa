@@ -1,0 +1,39 @@
+name: se2026-bulungan
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: app/deploy/Dockerfile.api
+    environment:
+      SE2026_AUTH_ENABLED: "${SE2026_AUTH_ENABLED:-false}"
+      SE2026_CENSUS_DB: /srv/data/processed/se2026.sqlite
+      SE2026_APP_DB: /srv/data/app/portal.sqlite
+      OTEL_SDK_DISABLED: "true"
+    volumes:
+      - type: bind
+        source: ./data/processed/se2026.sqlite
+        target: /srv/data/processed/se2026.sqlite
+        read_only: true
+      - portal-state:/srv/data/app
+      - type: bind
+        source: ./docs/reports
+        target: /srv/docs/reports
+        read_only: true
+    expose: ["8000"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD","python","-c","import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health')"]
+      interval: 15s
+      timeout: 5s
+      start_period: 120s
+  frontend:
+    build:
+      context: .
+      dockerfile: app/deploy/Dockerfile.web
+    ports: ["127.0.0.1:8080:80"]
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+volumes:
+  portal-state:

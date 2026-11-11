@@ -1,0 +1,55 @@
+name: lensa
+services:
+  lensa:
+    image: ${LENSA_IMAGE:-ghcr.io/pradanain/lensa:latest}
+    platform: linux/amd64
+    restart: unless-stopped
+    init: true
+    user: "10001:10001"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    cpus: 1.0
+    mem_limit: 2g
+    pids_limit: 128
+    tmpfs: [/tmp:size=134217728,mode=1777]
+    environment:
+      SE2026_ENVIRONMENT: production
+      SE2026_AUTH_ENABLED: "true"
+      SE2026_ALLOW_WEB_SETUP: "false"
+      SE2026_SECURE_COOKIES: "true"
+      SE2026_BUSINESS_FOCUS_ENABLED: "true"
+      SE2026_ALLOWED_HOSTS: '["lensa.pradanain.id","127.0.0.1","localhost"]'
+      SE2026_ALLOWED_ORIGINS: '["https://lensa.pradanain.id"]'
+      SE2026_CENSUS_DB: /srv/data/processed/se2026.sqlite
+      SE2026_APP_DB: /srv/data/app/portal.sqlite
+      SE2026_AGGREGATE_CACHE_SECONDS: "300"
+      FORWARDED_ALLOW_IPS: ${LENSA_TRUSTED_PROXIES:?Set the verified cloudflared-net subnet}
+      OTEL_SDK_DISABLED: "true"
+    volumes:
+      - type: bind
+        source: /storage/data/lensa/census/se2026.sqlite
+        target: /srv/data/processed/se2026.sqlite
+        read_only: true
+        bind: {create_host_path: false}
+      - type: bind
+        source: /storage/data/lensa/state
+        target: /srv/data/app
+        bind: {create_host_path: false}
+    networks: [cloudflared-net]
+    expose: ["8000"]
+    stop_grace_period: 30s
+    logging:
+      driver: json-file
+      options: {max-size: "5m", max-file: "3"}
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: cloudflared-net
+      traefik.http.routers.lensa.rule: Host(`lensa.pradanain.id`)
+      traefik.http.routers.lensa.entrypoints: web
+      traefik.http.routers.lensa.service: lensa
+      traefik.http.services.lensa.loadbalancer.server.port: "8000"
+networks:
+  cloudflared-net:
+    external: true
+    name: cloudflared-net

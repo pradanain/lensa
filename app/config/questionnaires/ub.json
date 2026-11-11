@@ -1,0 +1,1704 @@
+{
+  "form": "ub",
+  "reference": "Supplied UB PDF, 8 pages",
+  "sections": [
+    {
+      "section_id": "ub_i_1",
+      "title": "Blok I · Identitas perusahaan (r1–9)",
+      "pdf_page": 1,
+      "questions": [
+        {
+          "question_id": "ub.1",
+          "question_text": "1. Provinsi",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.2",
+          "question_text": "2. Kabupaten/Kota",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.3",
+          "question_text": "3. Kecamatan",
+          "source_object": "mart_ub_a",
+          "source_field": "kecamatan",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09A_IDENTITAS_WILAYAH_KBLI_PJ.sql",
+            "sql_sha256": "2a1d16a4814258ccfe93e19e1e643ec1f055f0e055f16d9f2cd07743dd416694",
+            "expression": "COALESCE(\n        CASE WHEN LOWER(TRIM(SUBSTRING_INDEX(r.kec_l_label, ']', -1))) IN ('', 'null', '-')\n             THEN NULL ELSE TRIM(SUBSTRING_INDEX(r.kec_l_label, ']', -1)) END,\n        CASE WHEN LOWER(TRIM(SUBSTRING_INDEX(a.level_3_name, ']', -1))) IN ('', 'null', '-')\n             THEN NULL ELSE TRIM(SUBSTRING_INDEX(a.level_3_name, ']', -1)) END,\n        '-'\n    ) AS kecamatan",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.4",
+          "question_text": "4. Desa/Kelurahan",
+          "source_object": "mart_ub_a",
+          "source_field": "desa_kelurahan",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09A_IDENTITAS_WILAYAH_KBLI_PJ.sql",
+            "sql_sha256": "2a1d16a4814258ccfe93e19e1e643ec1f055f0e055f16d9f2cd07743dd416694",
+            "expression": "COALESCE(\n        CASE WHEN LOWER(TRIM(SUBSTRING_INDEX(r.desa_l_label, ']', -1))) IN ('', 'null', '-')\n             THEN NULL ELSE TRIM(SUBSTRING_INDEX(r.desa_l_label, ']', -1)) END,\n        CASE WHEN LOWER(TRIM(SUBSTRING_INDEX(a.level_4_name, ']', -1))) IN ('', 'null', '-')\n             THEN NULL ELSE TRIM(SUBSTRING_INDEX(a.level_4_name, ']', -1)) END,\n        '-'\n    ) AS desa_kelurahan",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.5a",
+          "question_text": "5a. Nama perusahaan",
+          "source_object": "mart_ub_a",
+          "source_field": "nama_usaha",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09A_IDENTITAS_WILAYAH_KBLI_PJ.sql",
+            "sql_sha256": "2a1d16a4814258ccfe93e19e1e643ec1f055f0e055f16d9f2cd07743dd416694",
+            "expression": "r.nama_usaha AS nama_usaha",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.5b",
+          "question_text": "5b. Nama komersial",
+          "source_object": "mart_ub_a",
+          "source_field": "nama_komersial",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09A_IDENTITAS_WILAYAH_KBLI_PJ.sql",
+            "sql_sha256": "2a1d16a4814258ccfe93e19e1e643ec1f055f0e055f16d9f2cd07743dd416694",
+            "expression": "r.nama_komersial AS nama_komersial",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.5c",
+          "question_text": "5c. Alamat perusahaan",
+          "source_object": "mart_ub_a",
+          "source_field": "alamat_usaha",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09A_IDENTITAS_WILAYAH_KBLI_PJ.sql",
+            "sql_sha256": "2a1d16a4814258ccfe93e19e1e643ec1f055f0e055f16d9f2cd07743dd416694",
+            "expression": "r.alamat_usaha AS alamat_usaha",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.5d",
+          "question_text": "5d. Jenis kawasan",
+          "source_object": "mart_ub_c",
+          "source_field": "jenis_kawasan",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.jenis_kawasan_label, '<[^>]*>', '') AS jenis_kawasan",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.5e",
+          "question_text": "5e. Nama kawasan",
+          "source_object": "mart_ub_c",
+          "source_field": "nama_kawasan",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "r.nama_kawasan AS nama_kawasan",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.6a",
+          "question_text": "6a. Apakah memiliki NIB?",
+          "source_object": "mart_ub_c",
+          "source_field": "memiliki_nib",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.punya_nib_label, '<[^>]*>', '') AS memiliki_nib",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.6b",
+          "question_text": "6b. Nomor Induk Berusaha",
+          "source_object": "mart_ub_a",
+          "source_field": "nib",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09A_IDENTITAS_WILAYAH_KBLI_PJ.sql",
+            "sql_sha256": "2a1d16a4814258ccfe93e19e1e643ec1f055f0e055f16d9f2cd07743dd416694",
+            "expression": "NULLIF(TRIM(CAST(r.nib AS CHAR)), '') AS nib",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.6c",
+          "question_text": "6c. Alasan tidak memiliki NIB",
+          "source_object": "mart_ub_c",
+          "source_field": "alasan_tanpa_nib",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.alasan_nib_label, '<[^>]*>', '') AS alasan_tanpa_nib",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.7a",
+          "question_text": "7a. Status badan usaha",
+          "source_object": "mart_ub_a",
+          "source_field": "badan_usaha",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09A_IDENTITAS_WILAYAH_KBLI_PJ.sql",
+            "sql_sha256": "2a1d16a4814258ccfe93e19e1e643ec1f055f0e055f16d9f2cd07743dd416694",
+            "expression": "REGEXP_REPLACE(r.badan_usaha_label, '<[^>]*>', '') AS badan_usaha",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.7b",
+          "question_text": "7b. Apakah koperasi ini KDKMP?",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.7c",
+          "question_text": "7c. Jenis koperasi",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.7d",
+          "question_text": "7d. Mempunyai laporan/catatan keuangan",
+          "source_object": "mart_ub_b",
+          "source_field": "memiliki_catatan_keuangan",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "REGEXP_REPLACE(r.lap_keuangan_label, '<[^>]*>', '') AS memiliki_catatan_keuangan",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.8a",
+          "question_text": "8a. Nama pengusaha/penanggung jawab",
+          "source_object": "mart_ub_a",
+          "source_field": "nama_penanggung_jawab",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09A_IDENTITAS_WILAYAH_KBLI_PJ.sql",
+            "sql_sha256": "2a1d16a4814258ccfe93e19e1e643ec1f055f0e055f16d9f2cd07743dd416694",
+            "expression": "r.nama_pj AS nama_penanggung_jawab",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.8b",
+          "question_text": "8b. Jenis kelamin penanggung jawab",
+          "source_object": "mart_ub_a",
+          "source_field": "jenis_kelamin_penanggung_jawab",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09A_IDENTITAS_WILAYAH_KBLI_PJ.sql",
+            "sql_sha256": "2a1d16a4814258ccfe93e19e1e643ec1f055f0e055f16d9f2cd07743dd416694",
+            "expression": "REGEXP_REPLACE(r.jk_pj_label, '<[^>]*>', '') AS jenis_kelamin_penanggung_jawab",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.8c",
+          "question_text": "8c. Umur penanggung jawab",
+          "source_object": "mart_ub_a",
+          "source_field": "umur_penanggung_jawab",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09A_IDENTITAS_WILAYAH_KBLI_PJ.sql",
+            "sql_sha256": "2a1d16a4814258ccfe93e19e1e643ec1f055f0e055f16d9f2cd07743dd416694",
+            "expression": "r.umur_pj AS umur_penanggung_jawab",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.8d",
+          "question_text": "8d. NIK penanggung jawab",
+          "source_object": "mart_ub_a",
+          "source_field": "nik_penanggung_jawab",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09A_IDENTITAS_WILAYAH_KBLI_PJ.sql",
+            "sql_sha256": "2a1d16a4814258ccfe93e19e1e643ec1f055f0e055f16d9f2cd07743dd416694",
+            "expression": "NULLIF(TRIM(CAST(r.nik_pj AS CHAR)), '') AS nik_penanggung_jawab",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.9a",
+          "question_text": "9a. Kegiatan utama",
+          "source_object": "mart_ub_a",
+          "source_field": "kegiatan_utama",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09A_IDENTITAS_WILAYAH_KBLI_PJ.sql",
+            "sql_sha256": "2a1d16a4814258ccfe93e19e1e643ec1f055f0e055f16d9f2cd07743dd416694",
+            "expression": "r.keg_utama AS kegiatan_utama",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.9b1",
+          "question_text": "9b1. Memproduksi barang di lokasi ini",
+          "source_object": "mart_ub_c",
+          "source_field": "produksi_barang_di_lokasi",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.produk_sendiri_label, '<[^>]*>', '') AS produksi_barang_di_lokasi",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.9b2",
+          "question_text": "9b2. Layanan makan/minum",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.9b3",
+          "question_text": "9b3. Penjualan barang",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.9b4",
+          "question_text": "9b4. Aktivitas jasa/pertanian",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.9c",
+          "question_text": "9c. Lokasi kegiatan",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.9d",
+          "question_text": "9d. Input usaha",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.9e",
+          "question_text": "9e. Proses usaha",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.9f",
+          "question_text": "9f. Produk utama",
+          "source_object": "mart_ub_a",
+          "source_field": "produk_utama",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09A_IDENTITAS_WILAYAH_KBLI_PJ.sql",
+            "sql_sha256": "2a1d16a4814258ccfe93e19e1e643ec1f055f0e055f16d9f2cd07743dd416694",
+            "expression": "r.produk AS produk_utama",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.9g",
+          "question_text": "9g. Kode KBLI",
+          "source_object": "mart_ub_a",
+          "source_field": "kbli_akhir",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09A_IDENTITAS_WILAYAH_KBLI_PJ.sql",
+            "sql_sha256": "2a1d16a4814258ccfe93e19e1e643ec1f055f0e055f16d9f2cd07743dd416694",
+            "expression": "r.kbli_akhir AS kbli_akhir",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.9h",
+          "question_text": "9h. Kategori lapangan usaha",
+          "source_object": "mart_ub_a",
+          "source_field": "kategori_kbli",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09A_IDENTITAS_WILAYAH_KBLI_PJ.sql",
+            "sql_sha256": "2a1d16a4814258ccfe93e19e1e643ec1f055f0e055f16d9f2cd07743dd416694",
+            "expression": "CASE\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '01' AND '03' THEN 'A'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '05' AND '09' THEN 'B'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '10' AND '33' THEN 'C'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) = '35' THEN 'D'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '36' AND '39' THEN 'E'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '41' AND '43' THEN 'F'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '45' AND '47' THEN 'G'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '49' AND '53' THEN 'H'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '55' AND '56' THEN 'I'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '58' AND '60' THEN 'J'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '61' AND '63' THEN 'K'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '64' AND '66' THEN 'L'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) = '68' THEN 'M'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '69' AND '75' THEN 'N'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '77' AND '82' THEN 'O'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) = '84' THEN 'P'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) = '85' THEN 'Q'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '86' AND '88' THEN 'R'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '90' AND '93' THEN 'S'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '94' AND '96' THEN 'T'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '97' AND '98' THEN 'U'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) = '99' THEN 'V'\n        ELSE NULL\n    END AS kategori_kbli",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.9i",
+          "question_text": "9i. Klasifikasi akomodasi",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "section_id": "ub_i_2",
+      "title": "Blok I · Jaringan dan digital (r10–19)",
+      "pdf_page": 4,
+      "questions": [
+        {
+          "question_id": "ub.10a",
+          "question_text": "10a. Jaringan usaha",
+          "source_object": "mart_ub_a",
+          "source_field": "jaringan_usaha",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09A_IDENTITAS_WILAYAH_KBLI_PJ.sql",
+            "sql_sha256": "2a1d16a4814258ccfe93e19e1e643ec1f055f0e055f16d9f2cd07743dd416694",
+            "expression": "REGEXP_REPLACE(r.jaringan_label, '<[^>]*>', '') AS jaringan_usaha",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.10b",
+          "question_text": "10b. Jumlah kantor cabang/unit",
+          "source_object": "mart_ub_c",
+          "source_field": "jumlah_kantor_cabang",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "r.jml_kc AS jumlah_kantor_cabang",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.11a",
+          "question_text": "11a. Nama kantor pusat",
+          "source_object": "mart_ub_a",
+          "source_field": "nama_kantor_pusat",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09A_IDENTITAS_WILAYAH_KBLI_PJ.sql",
+            "sql_sha256": "2a1d16a4814258ccfe93e19e1e643ec1f055f0e055f16d9f2cd07743dd416694",
+            "expression": "r.nama_kp AS nama_kantor_pusat",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.11b",
+          "question_text": "11b. Alamat kantor pusat",
+          "source_object": "mart_ub_a",
+          "source_field": "alamat_kantor_pusat",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09A_IDENTITAS_WILAYAH_KBLI_PJ.sql",
+            "sql_sha256": "2a1d16a4814258ccfe93e19e1e643ec1f055f0e055f16d9f2cd07743dd416694",
+            "expression": "r.alamat_kp AS alamat_kantor_pusat",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.11d",
+          "question_text": "11d. Negara kantor pusat",
+          "source_object": "mart_ub_c",
+          "source_field": "negara_kantor_pusat",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.negara_kp_label, '<[^>]*>', '') AS negara_kantor_pusat",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.12a",
+          "question_text": "12a. Menggunakan internet",
+          "source_object": "mart_ub_c",
+          "source_field": "menggunakan_internet",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.internet_label, '<[^>]*>', '') AS menggunakan_internet",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.12b1",
+          "question_text": "12b1. Internet untuk pesanan",
+          "source_object": "mart_ub_c",
+          "source_field": "internet_pesanan",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": {
+            "source": "ub_c",
+            "field": "menggunakan_internet",
+            "not_applicable_values": [
+              "2"
+            ]
+          },
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.internet_pesanan_label, '<[^>]*>', '') AS internet_pesanan",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.12b2",
+          "question_text": "12b2. Internet untuk produksi",
+          "source_object": "mart_ub_c",
+          "source_field": "internet_produksi",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": {
+            "source": "ub_c",
+            "field": "menggunakan_internet",
+            "not_applicable_values": [
+              "2"
+            ]
+          },
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.internet_produksi_label, '<[^>]*>', '') AS internet_produksi",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.12b3",
+          "question_text": "12b3. Internet untuk distribusi",
+          "source_object": "mart_ub_c",
+          "source_field": "internet_distribusi",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": {
+            "source": "ub_c",
+            "field": "menggunakan_internet",
+            "not_applicable_values": [
+              "2"
+            ]
+          },
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.internet_distribusi_label, '<[^>]*>', '') AS internet_distribusi",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.12b4",
+          "question_text": "12b4. Internet untuk pembelian",
+          "source_object": "mart_ub_c",
+          "source_field": "internet_pembelian",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": {
+            "source": "ub_c",
+            "field": "menggunakan_internet",
+            "not_applicable_values": [
+              "2"
+            ]
+          },
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.internet_beli_label, '<[^>]*>', '') AS internet_pembelian",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.12b5",
+          "question_text": "12b5. Internet untuk promosi",
+          "source_object": "mart_ub_c",
+          "source_field": "internet_promosi",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": {
+            "source": "ub_c",
+            "field": "menggunakan_internet",
+            "not_applicable_values": [
+              "2"
+            ]
+          },
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.internet_promosi_label, '<[^>]*>', '') AS internet_promosi",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.12b6",
+          "question_text": "12b6. Internet tujuan lain",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": {
+            "source": "ub_c",
+            "field": "menggunakan_internet",
+            "not_applicable_values": [
+              "2"
+            ]
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.12c",
+          "question_text": "12c. Memanfaatkan teknologi digital",
+          "source_object": "mart_ub_c",
+          "source_field": "memanfaatkan_teknologi_digital",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.digital_label, '<[^>]*>', '') AS memanfaatkan_teknologi_digital",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.13a",
+          "question_text": "13a. Produk ramah lingkungan",
+          "source_object": "mart_ub_c",
+          "source_field": "menghasilkan_produk_ramah_lingkungan",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.produksi_lingkungan_label, '<[^>]*>', '') AS menghasilkan_produk_ramah_lingkungan",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.13b",
+          "question_text": "13b. Input untuk perlindungan lingkungan",
+          "source_object": "mart_ub_c",
+          "source_field": "perlindungan_lingkungan",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.perlindungan_lingkungan_label, '<[^>]*>', '') AS perlindungan_lingkungan",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.14",
+          "question_text": "14. Penggunaan produk seni/budaya",
+          "source_object": "mart_ub_c",
+          "source_field": "penggunaan_produk_seni_budaya",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.produk_seni_label, '<[^>]*>', '') AS penggunaan_produk_seni_budaya",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.15a",
+          "question_text": "15a. Produk bersertifikat halal",
+          "source_object": "mart_ub_c",
+          "source_field": "produk_bersertifikat_halal",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.sertifikat_halal_label, '<[^>]*>', '') AS produk_bersertifikat_halal",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.15b",
+          "question_text": "15b. Varian bersertifikat halal",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.15c",
+          "question_text": "15c. Varian belum halal",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.16a",
+          "question_text": "16a. Memiliki izin edar",
+          "source_object": "mart_ub_c",
+          "source_field": "memiliki_izin_edar",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.izin_edar_label, '<[^>]*>', '') AS memiliki_izin_edar",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.16b",
+          "question_text": "16b. Varian berizin edar",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.16c",
+          "question_text": "16c. Varian belum berizin",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.17",
+          "question_text": "17. Kemitraan KDKMP",
+          "source_object": "mart_ub_c",
+          "source_field": "kemitraan_kdkmp",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.mitra_kdkmp_label, '<[^>]*>', '') AS kemitraan_kdkmp",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.18",
+          "question_text": "18. Keterlibatan MBG",
+          "source_object": "mart_ub_c",
+          "source_field": "keterlibatan_mbg",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "REGEXP_REPLACE(r.peran_mbg_label, '<[^>]*>', '') AS keterlibatan_mbg",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.19a",
+          "question_text": "19a. Transaksi barang nonpenduduk",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.19b",
+          "question_text": "19b. Penjualan jasa nonpenduduk",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.19c",
+          "question_text": "19c. Pembelian jasa nonpenduduk",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "section_id": "ub_i_3",
+      "title": "Blok I · Pekerja dan ekonomi (r20–25)",
+      "pdf_page": 6,
+      "questions": [
+        {
+          "question_id": "ub.20a",
+          "question_text": "20a. Pekerja laki-laki",
+          "source_object": "mart_ub_b",
+          "source_field": "pekerja_laki_laki",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.tk_laki AS pekerja_laki_laki",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_COUNT"
+        },
+        {
+          "question_id": "ub.20b",
+          "question_text": "20b. Pekerja perempuan",
+          "source_object": "mart_ub_b",
+          "source_field": "pekerja_perempuan",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.tk_perempuan AS pekerja_perempuan",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_COUNT"
+        },
+        {
+          "question_id": "ub.20c",
+          "question_text": "20c. Total pekerja",
+          "source_object": "mart_ub_b",
+          "source_field": "jumlah_pekerja",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.tk_total AS jumlah_pekerja",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_COUNT"
+        },
+        {
+          "question_id": "ub.21",
+          "question_text": "21. Tahun mulai beroperasi",
+          "source_object": "mart_ub_b",
+          "source_field": "tahun_operasi",
+          "mapping_status": "VERIFIED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.tahun_operasi AS tahun_operasi",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.22a",
+          "question_text": "22a. Upah/gaji dan jaminan sosial",
+          "source_object": "mart_ub_b",
+          "source_field": "gaji_dan_jaminan_sosial",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.gaji AS gaji_dan_jaminan_sosial",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.22b",
+          "question_text": "22b. Biaya produksi",
+          "source_object": "mart_ub_b",
+          "source_field": "biaya_produksi",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.biaya_produksi AS biaya_produksi",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.22c",
+          "question_text": "22c. Biaya pembelian barang",
+          "source_object": "mart_ub_b",
+          "source_field": "biaya_pembelian_barang",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.biaya_pembelian AS biaya_pembelian_barang",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.22d",
+          "question_text": "22d. Biaya operasional",
+          "source_object": "mart_ub_b",
+          "source_field": "biaya_operasional",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.operasional AS biaya_operasional",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.22e",
+          "question_text": "22e. Biaya nonoperasional",
+          "source_object": "mart_ub_b",
+          "source_field": "biaya_non_operasional",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.non_operasional AS biaya_non_operasional",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.22f",
+          "question_text": "22f. Total pengeluaran",
+          "source_object": "mart_ub_b",
+          "source_field": "total_pengeluaran",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.total_pengeluaran AS total_pengeluaran",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.23a",
+          "question_text": "23a. Pendapatan utama",
+          "source_object": "mart_ub_b",
+          "source_field": "pendapatan_utama",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.nilai_pendapatan AS pendapatan_utama",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.23b",
+          "question_text": "23b. Pendapatan lainnya",
+          "source_object": "mart_ub_b",
+          "source_field": "pendapatan_lainnya",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.pendapatan_lain AS pendapatan_lainnya",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.23c",
+          "question_text": "23c. Total pendapatan",
+          "source_object": "mart_ub_b",
+          "source_field": "total_pendapatan",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.total_pendapatan AS total_pendapatan",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.23d",
+          "question_text": "23d. Persentase pendapatan online",
+          "source_object": "mart_ub_c",
+          "source_field": "persentase_pendapatan_online",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
+            "sql_sha256": "9d5fdf0d1983e99a49277cc5019b42373ab6dd433207578d429bb6d65a623d04",
+            "expression": "r.persen_online AS persentase_pendapatan_online",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "LOCAL_SNAPSHOT",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.24a",
+          "question_text": "24a. Aset tanah/bangunan",
+          "source_object": "mart_ub_b",
+          "source_field": "aset_tanah_bangunan",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.aset_tanah AS aset_tanah_bangunan",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.24b",
+          "question_text": "24b. Aset selain tanah/bangunan",
+          "source_object": "mart_ub_b",
+          "source_field": "aset_selain_tanah_bangunan",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.aset_non_tanah AS aset_selain_tanah_bangunan",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.24c",
+          "question_text": "24c. Total aset",
+          "source_object": "mart_ub_b",
+          "source_field": "total_aset",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.aset_total AS total_aset",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.24c1",
+          "question_text": "24c1. Rentang aset",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.24d",
+          "question_text": "24d. Luas tanah",
+          "source_object": "mart_ub_b",
+          "source_field": "luas_tanah_m2",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.luas_tanah AS luas_tanah_m2",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.25a",
+          "question_text": "25a. Modal pribadi",
+          "source_object": "mart_ub_b",
+          "source_field": "modal_pribadi_persen",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.milik_sendiri AS modal_pribadi_persen",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.25b",
+          "question_text": "25b. Modal nonprofit",
+          "source_object": "mart_ub_b",
+          "source_field": "modal_nonprofit_persen",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.non_profit AS modal_nonprofit_persen",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.25c",
+          "question_text": "25c. Modal korporasi publik",
+          "source_object": "mart_ub_b",
+          "source_field": "modal_korporasi_publik_persen",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.publik AS modal_korporasi_publik_persen",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.25d",
+          "question_text": "25d. Modal korporasi nonpublik",
+          "source_object": "mart_ub_b",
+          "source_field": "modal_korporasi_nonpublik_persen",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.non_publik AS modal_korporasi_nonpublik_persen",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.25e",
+          "question_text": "25e. Modal pemerintah",
+          "source_object": "mart_ub_b",
+          "source_field": "modal_pemerintah_persen",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.pemerintah AS modal_pemerintah_persen",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        },
+        {
+          "question_id": "ub.25f",
+          "question_text": "25f. Modal asing",
+          "source_object": "mart_ub_b",
+          "source_field": "modal_asing_persen",
+          "mapping_status": "VERIFIED",
+          "converter": "decimal",
+          "sensitive": true,
+          "roster": null,
+          "visibility_rule": null,
+          "label_field": null,
+          "note": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/UB/09B_PEKERJA_EKONOMI_MODAL.sql",
+            "sql_sha256": "7e220d7802db3e07bc74fbe6a18beadec09576cd078a5d157c3722eb8b62f08f",
+            "expression": "r.asing AS modal_asing_persen",
+            "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
+          },
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "unit": "SOURCE_UNIT_UNVERIFIED"
+        }
+      ]
+    },
+    {
+      "section_id": "ub_ii",
+      "title": "Blok II · Catatan",
+      "pdf_page": 8,
+      "questions": [
+        {
+          "question_id": "ub.II",
+          "question_text": "II. Catatan",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "section_id": "ub_iii",
+      "title": "Blok III · Pemberi jawaban",
+      "pdf_page": 8,
+      "questions": [
+        {
+          "question_id": "ub.III.1",
+          "question_text": "III.1. Nama pemberi jawaban",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.III.2",
+          "question_text": "III.2. NIP/NMS petugas",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.III.3",
+          "question_text": "III.3. Nomor telepon",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.III.4",
+          "question_text": "III.4. Email",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.III.5",
+          "question_text": "III.5. Tanggal pelaksanaan",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        },
+        {
+          "question_id": "ub.III.6",
+          "question_text": "III.6. Tanda tangan",
+          "source_object": null,
+          "source_field": null,
+          "mapping_status": "NOT_EXPORTED",
+          "converter": "text",
+          "sensitive": false,
+          "roster": null,
+          "visibility_rule": null,
+          "period": "LOCAL_SNAPSHOT"
+        }
+      ]
+    }
+  ]
+}

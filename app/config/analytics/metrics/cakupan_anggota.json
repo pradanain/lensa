@@ -1,0 +1,227 @@
+[
+  {
+    "metric_id": "sosial_details.sosial_p0_coverage",
+    "name": "Cakupan tautan modul sosial_p0",
+    "description": "Cakupan tautan modul sosial_p0 dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "cakupan_anggota",
+    "source": "sosial_details",
+    "source_mart": "mart_sosial_p0_p1",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "eq",
+      "column": "has_sosial_p0",
+      "value": 1
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_sosial_p0\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (-- Narrow read-only social key/has_* projection; preserves exact normalized version.\n-- UNION and indexed EXISTS prevent row multiplication and avoid SHA-order payload scans.\nWITH keys AS (\nSELECT assignment_id,__version_normalized,index1 FROM clean_sosial_p0 INDEXED BY ix_join_sosial_p0 WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='sosial_p0') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_pekerjaan INDEXED BY ix_join_p1_pekerjaan WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_pekerjaan') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_disabilitas INDEXED BY ix_join_p1_disabilitas WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_disabilitas') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_kronis_a INDEXED BY ix_join_p1_kronis_a WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_a') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_kronis_b INDEXED BY ix_join_p1_kronis_b WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_b') AND __key_valid=1 AND __conflict=0\n)\nSELECT k.assignment_id,\n       k.__version_normalized,\n       k.index1,\n       EXISTS(SELECT 1 FROM clean_sosial_p0 p INDEXED BY ix_join_sosial_p0 WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='sosial_p0') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_sosial_p0,\n       EXISTS(SELECT 1 FROM clean_p1_pekerjaan p INDEXED BY ix_join_p1_pekerjaan WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_pekerjaan') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_pekerjaan,\n       EXISTS(SELECT 1 FROM clean_p1_disabilitas p INDEXED BY ix_join_p1_disabilitas WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_disabilitas') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_disabilitas,\n       EXISTS(SELECT 1 FROM clean_p1_kronis_a p INDEXED BY ix_join_p1_kronis_a WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_a') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_kronis_a,\n       EXISTS(SELECT 1 FROM clean_p1_kronis_b p INDEXED BY ix_join_p1_kronis_b WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_b') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_kronis_b\nFROM keys k) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      1
+    ],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "sosial_details.p1_pekerjaan_coverage",
+    "name": "Cakupan tautan modul p1_pekerjaan",
+    "description": "Cakupan tautan modul p1_pekerjaan dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "cakupan_anggota",
+    "source": "sosial_details",
+    "source_mart": "mart_sosial_p0_p1",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "eq",
+      "column": "has_p1_pekerjaan",
+      "value": 1
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_p1_pekerjaan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (-- Narrow read-only social key/has_* projection; preserves exact normalized version.\n-- UNION and indexed EXISTS prevent row multiplication and avoid SHA-order payload scans.\nWITH keys AS (\nSELECT assignment_id,__version_normalized,index1 FROM clean_sosial_p0 INDEXED BY ix_join_sosial_p0 WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='sosial_p0') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_pekerjaan INDEXED BY ix_join_p1_pekerjaan WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_pekerjaan') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_disabilitas INDEXED BY ix_join_p1_disabilitas WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_disabilitas') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_kronis_a INDEXED BY ix_join_p1_kronis_a WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_a') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_kronis_b INDEXED BY ix_join_p1_kronis_b WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_b') AND __key_valid=1 AND __conflict=0\n)\nSELECT k.assignment_id,\n       k.__version_normalized,\n       k.index1,\n       EXISTS(SELECT 1 FROM clean_sosial_p0 p INDEXED BY ix_join_sosial_p0 WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='sosial_p0') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_sosial_p0,\n       EXISTS(SELECT 1 FROM clean_p1_pekerjaan p INDEXED BY ix_join_p1_pekerjaan WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_pekerjaan') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_pekerjaan,\n       EXISTS(SELECT 1 FROM clean_p1_disabilitas p INDEXED BY ix_join_p1_disabilitas WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_disabilitas') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_disabilitas,\n       EXISTS(SELECT 1 FROM clean_p1_kronis_a p INDEXED BY ix_join_p1_kronis_a WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_a') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_kronis_a,\n       EXISTS(SELECT 1 FROM clean_p1_kronis_b p INDEXED BY ix_join_p1_kronis_b WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_b') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_kronis_b\nFROM keys k) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      1
+    ],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "sosial_details.p1_disabilitas_coverage",
+    "name": "Cakupan tautan modul p1_disabilitas",
+    "description": "Cakupan tautan modul p1_disabilitas dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "cakupan_anggota",
+    "source": "sosial_details",
+    "source_mart": "mart_sosial_p0_p1",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "eq",
+      "column": "has_p1_disabilitas",
+      "value": 1
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_p1_disabilitas\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (-- Narrow read-only social key/has_* projection; preserves exact normalized version.\n-- UNION and indexed EXISTS prevent row multiplication and avoid SHA-order payload scans.\nWITH keys AS (\nSELECT assignment_id,__version_normalized,index1 FROM clean_sosial_p0 INDEXED BY ix_join_sosial_p0 WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='sosial_p0') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_pekerjaan INDEXED BY ix_join_p1_pekerjaan WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_pekerjaan') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_disabilitas INDEXED BY ix_join_p1_disabilitas WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_disabilitas') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_kronis_a INDEXED BY ix_join_p1_kronis_a WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_a') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_kronis_b INDEXED BY ix_join_p1_kronis_b WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_b') AND __key_valid=1 AND __conflict=0\n)\nSELECT k.assignment_id,\n       k.__version_normalized,\n       k.index1,\n       EXISTS(SELECT 1 FROM clean_sosial_p0 p INDEXED BY ix_join_sosial_p0 WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='sosial_p0') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_sosial_p0,\n       EXISTS(SELECT 1 FROM clean_p1_pekerjaan p INDEXED BY ix_join_p1_pekerjaan WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_pekerjaan') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_pekerjaan,\n       EXISTS(SELECT 1 FROM clean_p1_disabilitas p INDEXED BY ix_join_p1_disabilitas WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_disabilitas') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_disabilitas,\n       EXISTS(SELECT 1 FROM clean_p1_kronis_a p INDEXED BY ix_join_p1_kronis_a WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_a') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_kronis_a,\n       EXISTS(SELECT 1 FROM clean_p1_kronis_b p INDEXED BY ix_join_p1_kronis_b WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_b') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_kronis_b\nFROM keys k) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      1
+    ],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "sosial_details.p1_kronis_a_coverage",
+    "name": "Cakupan tautan modul p1_kronis_a",
+    "description": "Cakupan tautan modul p1_kronis_a dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "cakupan_anggota",
+    "source": "sosial_details",
+    "source_mart": "mart_sosial_p0_p1",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "eq",
+      "column": "has_p1_kronis_a",
+      "value": 1
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_p1_kronis_a\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (-- Narrow read-only social key/has_* projection; preserves exact normalized version.\n-- UNION and indexed EXISTS prevent row multiplication and avoid SHA-order payload scans.\nWITH keys AS (\nSELECT assignment_id,__version_normalized,index1 FROM clean_sosial_p0 INDEXED BY ix_join_sosial_p0 WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='sosial_p0') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_pekerjaan INDEXED BY ix_join_p1_pekerjaan WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_pekerjaan') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_disabilitas INDEXED BY ix_join_p1_disabilitas WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_disabilitas') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_kronis_a INDEXED BY ix_join_p1_kronis_a WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_a') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_kronis_b INDEXED BY ix_join_p1_kronis_b WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_b') AND __key_valid=1 AND __conflict=0\n)\nSELECT k.assignment_id,\n       k.__version_normalized,\n       k.index1,\n       EXISTS(SELECT 1 FROM clean_sosial_p0 p INDEXED BY ix_join_sosial_p0 WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='sosial_p0') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_sosial_p0,\n       EXISTS(SELECT 1 FROM clean_p1_pekerjaan p INDEXED BY ix_join_p1_pekerjaan WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_pekerjaan') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_pekerjaan,\n       EXISTS(SELECT 1 FROM clean_p1_disabilitas p INDEXED BY ix_join_p1_disabilitas WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_disabilitas') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_disabilitas,\n       EXISTS(SELECT 1 FROM clean_p1_kronis_a p INDEXED BY ix_join_p1_kronis_a WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_a') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_kronis_a,\n       EXISTS(SELECT 1 FROM clean_p1_kronis_b p INDEXED BY ix_join_p1_kronis_b WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_b') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_kronis_b\nFROM keys k) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      1
+    ],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "sosial_details.p1_kronis_b_coverage",
+    "name": "Cakupan tautan modul p1_kronis_b",
+    "description": "Cakupan tautan modul p1_kronis_b dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "cakupan_anggota",
+    "source": "sosial_details",
+    "source_mart": "mart_sosial_p0_p1",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized",
+      "index1"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "eq",
+      "column": "has_p1_kronis_b",
+      "value": 1
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_p1_kronis_b\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (-- Narrow read-only social key/has_* projection; preserves exact normalized version.\n-- UNION and indexed EXISTS prevent row multiplication and avoid SHA-order payload scans.\nWITH keys AS (\nSELECT assignment_id,__version_normalized,index1 FROM clean_sosial_p0 INDEXED BY ix_join_sosial_p0 WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='sosial_p0') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_pekerjaan INDEXED BY ix_join_p1_pekerjaan WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_pekerjaan') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_disabilitas INDEXED BY ix_join_p1_disabilitas WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_disabilitas') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_kronis_a INDEXED BY ix_join_p1_kronis_a WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_a') AND __key_valid=1 AND __conflict=0\nUNION\nSELECT assignment_id,__version_normalized,index1 FROM clean_p1_kronis_b INDEXED BY ix_join_p1_kronis_b WHERE __import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_b') AND __key_valid=1 AND __conflict=0\n)\nSELECT k.assignment_id,\n       k.__version_normalized,\n       k.index1,\n       EXISTS(SELECT 1 FROM clean_sosial_p0 p INDEXED BY ix_join_sosial_p0 WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='sosial_p0') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_sosial_p0,\n       EXISTS(SELECT 1 FROM clean_p1_pekerjaan p INDEXED BY ix_join_p1_pekerjaan WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_pekerjaan') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_pekerjaan,\n       EXISTS(SELECT 1 FROM clean_p1_disabilitas p INDEXED BY ix_join_p1_disabilitas WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_disabilitas') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_disabilitas,\n       EXISTS(SELECT 1 FROM clean_p1_kronis_a p INDEXED BY ix_join_p1_kronis_a WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_a') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_kronis_a,\n       EXISTS(SELECT 1 FROM clean_p1_kronis_b p INDEXED BY ix_join_p1_kronis_b WHERE p.__import_id=(SELECT import_id FROM active_imports WHERE source_id='p1_kronis_b') AND p.assignment_id=k.assignment_id AND p.index1=k.index1 AND p.__version_normalized=k.__version_normalized AND p.__key_valid=1 AND p.__conflict=0) AS has_p1_kronis_b\nFROM keys k) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      1
+    ],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  }
+]

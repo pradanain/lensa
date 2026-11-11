@@ -1,0 +1,5 @@
+# SQL evidence checksums depend on exact source bytes, including original line endings.
+app/sql/** -text
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf

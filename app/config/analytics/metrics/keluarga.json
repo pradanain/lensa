@@ -1,0 +1,368 @@
+[
+  {
+    "metric_id": "keluarga.count",
+    "name": "Jumlah Keluarga",
+    "description": "Jumlah Keluarga dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "keluarga",
+    "source": "keluarga",
+    "source_mart": "mart_keluarga",
+    "kind": "count",
+    "grain": [
+      "assignment_id",
+      "__version_normalized"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "COUNT unit sumber",
+    "denominator_definition": "COUNT record eligible (konteks hitungan; bukan rate)",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "record pada grain sumber",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls",
+      "status"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Deskriptif baseline lokal; bukan estimasi populasi resmi atau bukti cakupan lengkap SQL Lab.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"kode_keberadaan_keluarga\" FROM \"mart_keluarga\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "keluarga.existence_distribution",
+    "name": "Distribusi status keberadaan keluarga",
+    "description": "Distribusi status keberadaan keluarga dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "keluarga",
+    "source": "keluarga",
+    "source_mart": "mart_keluarga",
+    "kind": "distribution",
+    "grain": [
+      "assignment_id",
+      "__version_normalized"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "COUNT unit sumber",
+    "denominator_definition": "Total COUNT respons pada cohort terfilter, sebelum pemisahan kategori",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber.",
+    "unit": "record unit-versi",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls",
+      "status"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Semua status dan kategori kosong/tidak dikenali tetap menjadi bucket; kode 00 usaha tidak diubah menjadi kode geografis/identitas lain.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT e.\"kode_keberadaan_keluarga\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"kode_keberadaan_keluarga\" FROM \"mart_keluarga\" LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"kode_keberadaan_keluarga\"",
+    "sql_bindings": [],
+    "distribution_dimension": "status",
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "family_rosters.count",
+    "name": "Jumlah keluarga setelah pre-aggregation roster",
+    "description": "Jumlah keluarga setelah pre-aggregation roster dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "keluarga",
+    "source": "family_rosters",
+    "source_mart": "READ_ONLY_FAMILY_ROSTER_CTE",
+    "kind": "count",
+    "grain": [
+      "assignment_id",
+      "__version_normalized"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "COUNT unit sumber",
+    "denominator_definition": "COUNT record eligible (konteks hitungan; bukan rate)",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Zero linked_* berarti tidak ada baris anak tertaut pada key-versi ini, bukan isian jawaban responden.",
+    "unit": "record unit-versi",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Deskriptif baseline lokal; bukan estimasi populasi resmi atau bukti cakupan lengkap SQL Lab.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (-- Local read-only relation. Each roster is aggregated BEFORE joining family.\n-- Zero means no linked roster rows on this exact family-version, not a filled answer.\nWITH member_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_member_rows\n    FROM mart_anggota GROUP BY assignment_id,__version_normalized\n), meter_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_meter_rows\n    FROM mart_meteran GROUP BY assignment_id,__version_normalized\n), business_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_business_rows\n    FROM mart_usaha GROUP BY assignment_id,__version_normalized\n)\nSELECT f.assignment_id,f.__version_normalized,\n       COALESCE(m.linked_member_rows,0) AS linked_member_rows,\n       COALESCE(p.linked_meter_rows,0) AS linked_meter_rows,\n       COALESCE(u.linked_business_rows,0) AS linked_business_rows\nFROM mart_keluarga f\nLEFT JOIN member_counts m ON f.assignment_id=m.assignment_id AND f.__version_normalized=m.__version_normalized\nLEFT JOIN meter_counts p ON f.assignment_id=p.assignment_id AND f.__version_normalized=p.__version_normalized\nLEFT JOIN business_counts u ON f.assignment_id=u.assignment_id AND f.__version_normalized=u.__version_normalized) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "family_rosters.anggota_linked_rows",
+    "name": "Jumlah baris anggota tertaut ke keluarga-versi",
+    "description": "Jumlah baris anggota tertaut ke keluarga-versi dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "keluarga",
+    "source": "family_rosters",
+    "source_mart": "READ_ONLY_FAMILY_ROSTER_CTE",
+    "kind": "decimal_sum",
+    "grain": [
+      "assignment_id",
+      "__version_normalized"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid linked_member_rows",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Zero linked_* berarti tidak ada baris anak tertaut pada key-versi ini, bukan isian jawaban responden.",
+    "unit": "baris roster tertaut",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Anak diagregasikan pada assignment_id+versi sebelum JOIN. Hanya tautan exact-version ke keluarga; unmatched tetap pada mart anak.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN 1=1 THEN e.\"linked_member_rows\" END) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (-- Local read-only relation. Each roster is aggregated BEFORE joining family.\n-- Zero means no linked roster rows on this exact family-version, not a filled answer.\nWITH member_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_member_rows\n    FROM mart_anggota GROUP BY assignment_id,__version_normalized\n), meter_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_meter_rows\n    FROM mart_meteran GROUP BY assignment_id,__version_normalized\n), business_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_business_rows\n    FROM mart_usaha GROUP BY assignment_id,__version_normalized\n)\nSELECT f.assignment_id,f.__version_normalized,\n       COALESCE(m.linked_member_rows,0) AS linked_member_rows,\n       COALESCE(p.linked_meter_rows,0) AS linked_meter_rows,\n       COALESCE(u.linked_business_rows,0) AS linked_business_rows\nFROM mart_keluarga f\nLEFT JOIN member_counts m ON f.assignment_id=m.assignment_id AND f.__version_normalized=m.__version_normalized\nLEFT JOIN meter_counts p ON f.assignment_id=p.assignment_id AND f.__version_normalized=p.__version_normalized\nLEFT JOIN business_counts u ON f.assignment_id=u.assignment_id AND f.__version_normalized=u.__version_normalized) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "value_column": "linked_member_rows",
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "family_rosters.anggota_presence",
+    "name": "Proporsi keluarga memiliki tautan roster anggota",
+    "description": "Proporsi keluarga memiliki tautan roster anggota dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "keluarga",
+    "source": "family_rosters",
+    "source_mart": "READ_ONLY_FAMILY_ROSTER_CTE",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "gt",
+      "column": "linked_member_rows",
+      "value": 0
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator. Zero linked_* berarti tidak ada baris anak tertaut pada key-versi ini, bukan isian jawaban responden.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Ada baris roster yang tertaut, bukan pengisian jawaban jumlah anak/anggota/usaha. Tidak mencakup usaha pada assignment BKU.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"linked_member_rows\">? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (-- Local read-only relation. Each roster is aggregated BEFORE joining family.\n-- Zero means no linked roster rows on this exact family-version, not a filled answer.\nWITH member_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_member_rows\n    FROM mart_anggota GROUP BY assignment_id,__version_normalized\n), meter_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_meter_rows\n    FROM mart_meteran GROUP BY assignment_id,__version_normalized\n), business_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_business_rows\n    FROM mart_usaha GROUP BY assignment_id,__version_normalized\n)\nSELECT f.assignment_id,f.__version_normalized,\n       COALESCE(m.linked_member_rows,0) AS linked_member_rows,\n       COALESCE(p.linked_meter_rows,0) AS linked_meter_rows,\n       COALESCE(u.linked_business_rows,0) AS linked_business_rows\nFROM mart_keluarga f\nLEFT JOIN member_counts m ON f.assignment_id=m.assignment_id AND f.__version_normalized=m.__version_normalized\nLEFT JOIN meter_counts p ON f.assignment_id=p.assignment_id AND f.__version_normalized=p.__version_normalized\nLEFT JOIN business_counts u ON f.assignment_id=u.assignment_id AND f.__version_normalized=u.__version_normalized) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      0
+    ],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "family_rosters.meteran_linked_rows",
+    "name": "Jumlah baris meteran tertaut ke keluarga-versi",
+    "description": "Jumlah baris meteran tertaut ke keluarga-versi dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "keluarga",
+    "source": "family_rosters",
+    "source_mart": "READ_ONLY_FAMILY_ROSTER_CTE",
+    "kind": "decimal_sum",
+    "grain": [
+      "assignment_id",
+      "__version_normalized"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid linked_meter_rows",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Zero linked_* berarti tidak ada baris anak tertaut pada key-versi ini, bukan isian jawaban responden.",
+    "unit": "baris roster tertaut",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Anak diagregasikan pada assignment_id+versi sebelum JOIN. Hanya tautan exact-version ke keluarga; unmatched tetap pada mart anak.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN 1=1 THEN e.\"linked_meter_rows\" END) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (-- Local read-only relation. Each roster is aggregated BEFORE joining family.\n-- Zero means no linked roster rows on this exact family-version, not a filled answer.\nWITH member_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_member_rows\n    FROM mart_anggota GROUP BY assignment_id,__version_normalized\n), meter_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_meter_rows\n    FROM mart_meteran GROUP BY assignment_id,__version_normalized\n), business_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_business_rows\n    FROM mart_usaha GROUP BY assignment_id,__version_normalized\n)\nSELECT f.assignment_id,f.__version_normalized,\n       COALESCE(m.linked_member_rows,0) AS linked_member_rows,\n       COALESCE(p.linked_meter_rows,0) AS linked_meter_rows,\n       COALESCE(u.linked_business_rows,0) AS linked_business_rows\nFROM mart_keluarga f\nLEFT JOIN member_counts m ON f.assignment_id=m.assignment_id AND f.__version_normalized=m.__version_normalized\nLEFT JOIN meter_counts p ON f.assignment_id=p.assignment_id AND f.__version_normalized=p.__version_normalized\nLEFT JOIN business_counts u ON f.assignment_id=u.assignment_id AND f.__version_normalized=u.__version_normalized) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "value_column": "linked_meter_rows",
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "family_rosters.meteran_presence",
+    "name": "Proporsi keluarga memiliki tautan roster meteran",
+    "description": "Proporsi keluarga memiliki tautan roster meteran dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "keluarga",
+    "source": "family_rosters",
+    "source_mart": "READ_ONLY_FAMILY_ROSTER_CTE",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "gt",
+      "column": "linked_meter_rows",
+      "value": 0
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator. Zero linked_* berarti tidak ada baris anak tertaut pada key-versi ini, bukan isian jawaban responden.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Ada baris roster yang tertaut, bukan pengisian jawaban jumlah anak/anggota/usaha. Tidak mencakup usaha pada assignment BKU.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"linked_meter_rows\">? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (-- Local read-only relation. Each roster is aggregated BEFORE joining family.\n-- Zero means no linked roster rows on this exact family-version, not a filled answer.\nWITH member_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_member_rows\n    FROM mart_anggota GROUP BY assignment_id,__version_normalized\n), meter_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_meter_rows\n    FROM mart_meteran GROUP BY assignment_id,__version_normalized\n), business_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_business_rows\n    FROM mart_usaha GROUP BY assignment_id,__version_normalized\n)\nSELECT f.assignment_id,f.__version_normalized,\n       COALESCE(m.linked_member_rows,0) AS linked_member_rows,\n       COALESCE(p.linked_meter_rows,0) AS linked_meter_rows,\n       COALESCE(u.linked_business_rows,0) AS linked_business_rows\nFROM mart_keluarga f\nLEFT JOIN member_counts m ON f.assignment_id=m.assignment_id AND f.__version_normalized=m.__version_normalized\nLEFT JOIN meter_counts p ON f.assignment_id=p.assignment_id AND f.__version_normalized=p.__version_normalized\nLEFT JOIN business_counts u ON f.assignment_id=u.assignment_id AND f.__version_normalized=u.__version_normalized) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      0
+    ],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "family_rosters.usaha_linked_rows",
+    "name": "Jumlah baris usaha tertaut ke keluarga-versi",
+    "description": "Jumlah baris usaha tertaut ke keluarga-versi dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "keluarga",
+    "source": "family_rosters",
+    "source_mart": "READ_ONLY_FAMILY_ROSTER_CTE",
+    "kind": "decimal_sum",
+    "grain": [
+      "assignment_id",
+      "__version_normalized"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": null,
+    "numerator_definition": "SUM kontribusi valid linked_business_rows",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Zero linked_* berarti tidak ada baris anak tertaut pada key-versi ini, bukan isian jawaban responden.",
+    "unit": "baris roster tertaut",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "RESTRICTED_AGGREGATE",
+    "interpretation_limits": "Anak diagregasikan pada assignment_id+versi sebelum JOIN. Hanya tautan exact-version ke keluarga; unmatched tetap pada mart anak.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN 1=1 THEN e.\"linked_business_rows\" END) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (-- Local read-only relation. Each roster is aggregated BEFORE joining family.\n-- Zero means no linked roster rows on this exact family-version, not a filled answer.\nWITH member_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_member_rows\n    FROM mart_anggota GROUP BY assignment_id,__version_normalized\n), meter_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_meter_rows\n    FROM mart_meteran GROUP BY assignment_id,__version_normalized\n), business_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_business_rows\n    FROM mart_usaha GROUP BY assignment_id,__version_normalized\n)\nSELECT f.assignment_id,f.__version_normalized,\n       COALESCE(m.linked_member_rows,0) AS linked_member_rows,\n       COALESCE(p.linked_meter_rows,0) AS linked_meter_rows,\n       COALESCE(u.linked_business_rows,0) AS linked_business_rows\nFROM mart_keluarga f\nLEFT JOIN member_counts m ON f.assignment_id=m.assignment_id AND f.__version_normalized=m.__version_normalized\nLEFT JOIN meter_counts p ON f.assignment_id=p.assignment_id AND f.__version_normalized=p.__version_normalized\nLEFT JOIN business_counts u ON f.assignment_id=u.assignment_id AND f.__version_normalized=u.__version_normalized) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [],
+    "value_column": "linked_business_rows",
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  },
+  {
+    "metric_id": "family_rosters.usaha_presence",
+    "name": "Proporsi keluarga memiliki tautan roster usaha",
+    "description": "Proporsi keluarga memiliki tautan roster usaha dalam cakupan sumber lokal yang dinyatakan.",
+    "domain": "keluarga",
+    "source": "family_rosters",
+    "source_mart": "READ_ONLY_FAMILY_ROSTER_CTE",
+    "kind": "rate",
+    "grain": [
+      "assignment_id",
+      "__version_normalized"
+    ],
+    "eligibility": null,
+    "valid": null,
+    "positive": {
+      "op": "gt",
+      "column": "linked_business_rows",
+      "value": 0
+    },
+    "numerator_definition": "COUNT respons/modul positif dan valid",
+    "denominator_definition": "COUNT respons valid pada cohort/filter yang sama",
+    "eligibility_rule": "Seluruh record pada mart snapshot aktif, semua status yang terdapat pada mart; filter opsional terikat SQL.",
+    "null_skip_rule": "NULL/kosong tidak diisi nol; skip/ketiadaan rincian tidak disimpulkan sebagai jawaban tidak. Tidak mengubah sumber. Denominator hanya valid predicate; numerator selalu subset denominator. Zero linked_* berarti tidak ada baris anak tertaut pada key-versi ini, bukan isian jawaban responden.",
+    "unit": "persen",
+    "period": "snapshot baseline lokal",
+    "dimensions": [
+      "kecamatan",
+      "desa",
+      "sls",
+      "subsls"
+    ],
+    "location_concepts": [
+      "assignment"
+    ],
+    "sensitivity": "INTERNAL_AGGREGATE",
+    "interpretation_limits": "Ada baris roster yang tertaut, bukan pengisian jawaban jumlah anak/anggota/usaha. Tidak mencakup usaha pada assignment BKU.",
+    "validation_status": "VALIDATED_LOCAL",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"linked_business_rows\">? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (-- Local read-only relation. Each roster is aggregated BEFORE joining family.\n-- Zero means no linked roster rows on this exact family-version, not a filled answer.\nWITH member_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_member_rows\n    FROM mart_anggota GROUP BY assignment_id,__version_normalized\n), meter_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_meter_rows\n    FROM mart_meteran GROUP BY assignment_id,__version_normalized\n), business_counts AS (\n    SELECT assignment_id,__version_normalized,COUNT(*) AS linked_business_rows\n    FROM mart_usaha GROUP BY assignment_id,__version_normalized\n)\nSELECT f.assignment_id,f.__version_normalized,\n       COALESCE(m.linked_member_rows,0) AS linked_member_rows,\n       COALESCE(p.linked_meter_rows,0) AS linked_meter_rows,\n       COALESCE(u.linked_business_rows,0) AS linked_business_rows\nFROM mart_keluarga f\nLEFT JOIN member_counts m ON f.assignment_id=m.assignment_id AND f.__version_normalized=m.__version_normalized\nLEFT JOIN meter_counts p ON f.assignment_id=p.assignment_id AND f.__version_normalized=p.__version_normalized\nLEFT JOIN business_counts u ON f.assignment_id=u.assignment_id AND f.__version_normalized=u.__version_normalized) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_bindings": [
+      0
+    ],
+    "validation_evidence": "docs/reports/analytics/foundation_validation.json",
+    "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
+  }
+]
