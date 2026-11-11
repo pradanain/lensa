@@ -36,8 +36,8 @@ class Settings(BaseSettings):
     @model_validator(mode="after")
     def separate_databases(self):
         if self.environment == "production":
-            if not self.auth_enabled or not self.secure_cookies or self.allow_web_setup:
-                raise ValueError("PRODUCTION_REQUIRES_AUTH_SECURE_COOKIES_AND_PRIVATE_SETUP")
+            if not self.secure_cookies or self.allow_web_setup:
+                raise ValueError("PRODUCTION_REQUIRES_SECURE_COOKIES_AND_PRIVATE_SETUP")
             if not self.allowed_origins or any(
                 not origin.startswith("https://") for origin in self.allowed_origins
             ):

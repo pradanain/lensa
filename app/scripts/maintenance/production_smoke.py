@@ -42,12 +42,10 @@ def verify(base):
     else:
         raise RuntimeError("IMAGE_NOT_READY")
     for path in ("/api/v1/analytics/business-summary", "/api/v1/kbli/tree"):
-        try:
-            urllib.request.urlopen(base + path)
-        except urllib.error.HTTPError as exc:
-            assert exc.code == 401
-        else:
-            raise AssertionError("UNAUTHENTICATED_DATA_ACCESS")
+        with urllib.request.urlopen(base + path) as response:
+            assert response.status == 200
+    session = json.load(urllib.request.urlopen(base + "/api/v1/auth/session"))
+    assert session["auth_enabled"] is False and session["setup_required"] is False
     html = urllib.request.urlopen(base + "/usaha").read().decode()
     import re
 
@@ -56,7 +54,7 @@ def verify(base):
     for asset in assets:
         with urllib.request.urlopen(base + asset) as response:
             assert response.status == 200
-    print("Production image: ready, frontend assets available, anonymous data access denied.")
+    print("Production image: ready, frontend assets available, login deferred.")
 
 
 if __name__ == "__main__":

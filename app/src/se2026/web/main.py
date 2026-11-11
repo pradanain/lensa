@@ -23,7 +23,7 @@ def create_app(settings=None):
 
     @asynccontextmanager
     async def lifespan(app):
-        if settings.environment == "production":
+        if settings.environment == "production" and settings.auth_enabled:
             with app.state.app_db.connection() as con:
                 if not con.execute("SELECT 1 FROM users WHERE role='admin' AND active=1 LIMIT 1").fetchone():
                     raise RuntimeError("PRODUCTION_ADMIN_NOT_PROVISIONED")
@@ -106,6 +106,7 @@ def create_app(settings=None):
             with app.state.app_db.connection() as con:
                 if (
                     settings.environment == "production"
+                    and settings.auth_enabled
                     and not con.execute(
                         "SELECT 1 FROM users WHERE role='admin' AND active=1 LIMIT 1"
                     ).fetchone()

@@ -15,7 +15,7 @@ services:
     tmpfs: ["/tmp:size=134217728,mode=1777"]
     environment:
       SE2026_ENVIRONMENT: production
-      SE2026_AUTH_ENABLED: "true"
+      SE2026_AUTH_ENABLED: "${LENSA_AUTH_ENABLED:-false}"
       SE2026_ALLOW_WEB_SETUP: "false"
       SE2026_SECURE_COOKIES: "true"
       SE2026_BUSINESS_FOCUS_ENABLED: "true"

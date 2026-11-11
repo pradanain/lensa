@@ -67,6 +67,7 @@ jobs:
           docker network create cloudflared-net
           subnet=$(docker network inspect cloudflared-net --format '{{(index .IPAM.Config 0).Subnet}}')
           printf 'LENSA_IMAGE=ghcr.io/pradanain/lensa:sha-83511b339a45570897012b76a4f59fc4436d12a7
+          LENSA_AUTH_ENABLED=true
           LENSA_TRUSTED_PROXIES=%s
           ' "$subnet" > /srv/stacks/lensa/.env
           mkdir -p .cache/stale-registry

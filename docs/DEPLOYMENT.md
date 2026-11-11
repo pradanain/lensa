@@ -54,7 +54,9 @@ Pastikan directory induk dapat dilalui UID 10001. Jangan mengubah permission dir
 
 ## Akun production
 
-Production mewajibkan login, secure cookies, origin HTTPS dan setup akun privat. Pengaturan lokal tanpa login tetap dipertahankan untuk penggunaan lokal. Endpoint setup web ditutup di production; container menolak startup bila belum ada admin aktif.
+Login ditunda sesuai keputusan pengguna. Default image dan Compose memakai `LENSA_AUTH_ENABLED=false`; halaman Usaha, direktori, detail dan ekspor dapat digunakan tanpa akun. Akun dan sesi existing tetap disimpan. Setup web tetap ditutup, HTTPS, secure cookies dan perlindungan CSRF tetap aktif. Tidak perlu bootstrap akun untuk penggunaan tanpa login.
+
+Untuk mengaktifkan login kelak, tetapkan `LENSA_AUTH_ENABLED=true` pada `.env`. Hanya pada mode tersebut startup dan readiness mensyaratkan admin aktif. Bagian bootstrap berikut bersifat opsional untuk persiapan mode login.
 
 Jika state production sudah memiliki akun, pertahankan file tersebut. Untuk state baru, provision satu admin secara interaktif di server sebelum menjalankan service (password tidak masuk argumen, log atau shell history):
 
@@ -93,7 +95,7 @@ cd /srv/stacks/lensa
 
 Tanpa argumen, script memakai image dari `.env`. Script memeriksa Compose, network/subnet proxy dan ruang kosong, menarik image GHCR, mengambil backup SQLite konsisten melalui backup API, menyimpan konfigurasi privat, lalu memperbarui hanya service LENSA. Tidak ada cleanup global, penghapusan volume, atau build di server. Image lama dipertahankan dengan tag rollback; kegagalan health memulihkan image lama jika sebelumnya ada.
 
-`/api/ready` memeriksa koneksi database dan admin. Health check tidak mengeluarkan path, akun atau data responden. Start period 180 detik memberi waktu pembuatan index cache aplikasi pertama; tidak ada rebuild database sensus. Batas default: satu worker, CPU 1, RAM 2 GiB, PID 128, root filesystem read-only, temporary storage 128 MiB, tanpa capabilities.
+`/api/ready` memeriksa koneksi database; admin hanya diperiksa jika login aktif. Health check tidak mengeluarkan path, akun atau data responden. Start period 180 detik memberi waktu pembuatan index cache aplikasi pertama; tidak ada rebuild database sensus. Batas default: satu worker, CPU 1, RAM 2 GiB, PID 128, root filesystem read-only, temporary storage 128 MiB, tanpa capabilities.
 
 ## Routing dan HTTPS
 
@@ -112,9 +114,9 @@ curl --max-time 20 https://lensa.pradanain.id/api/ready
 curl -o /dev/null -w '%{http_code}\n' https://lensa.pradanain.id/api/v1/analytics/business-summary
 ```
 
-Permintaan terakhir tanpa sesi harus 401. Periksa frontend, seluruh aset JavaScript, login HTTPS, navigasi Usaha, filter wilayah/KBLI, halaman kuesioner dan ekspor. Tes data production hanya dilakukan di browser privat; jangan mengunggah screenshot/data responden ke GitHub atau telemetry. HTTP 200 saja tidak membuktikan seluruh aplikasi berfungsi.
+Permintaan terakhir tanpa sesi harus 200 ketika login ditunda (401 jika login diaktifkan). Periksa frontend, seluruh aset JavaScript, akses tanpa login, navigasi Usaha, filter wilayah/KBLI, halaman kuesioner dan ekspor. Tes data production hanya dilakukan di browser privat; jangan mengunggah screenshot/data responden ke GitHub atau telemetry. HTTP 200 saja tidak membuktikan seluruh aplikasi berfungsi.
 
-Menu Dashboard, Keluarga dan Raw Data sementara 403 sesuai keputusan pengembangan. Login tidak membuka halaman tersebut. Endpoint bersama tetap tunduk pada autentikasi dan RBAC.
+Menu Dashboard, Keluarga dan Raw Data sementara 403 sesuai keputusan pengembangan. Login tidak membuka halaman tersebut. Isolasi halaman tersebut tetap berlaku ketika login ditunda.
 
 ## Operasional dan rollback
 
