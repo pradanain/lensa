@@ -78,9 +78,6 @@ jobs:
             -p 127.0.0.1:18800:8000 \
             --mount type=bind,src="$PWD/.cache/image-smoke/census.sqlite",dst=/srv/data/processed/se2026.sqlite,readonly \
             --mount type=bind,src="$PWD/.cache/image-smoke/state",dst=/srv/data/app \
-            -e SE2026_ENVIRONMENT=production -e SE2026_AUTH_ENABLED=true -e SE2026_ALLOW_WEB_SETUP=false \
-            -e SE2026_SECURE_COOKIES=true -e 'SE2026_ALLOWED_HOSTS=["127.0.0.1","localhost"]' \
-            -e 'SE2026_ALLOWED_ORIGINS=["https://lensa.pradanain.id"]' \
             ghcr.io/pradanain/lensa:sha-${{ github.sha }}
           python app/scripts/maintenance/production_smoke.py --verify http://127.0.0.1:18800
           docker rm -f lensa-smoke

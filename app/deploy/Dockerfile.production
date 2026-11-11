@@ -8,6 +8,9 @@ RUN npm run build
 
 FROM python:3.11-slim-bookworm AS runtime
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PYTHONPATH=/srv/app/src OTEL_SDK_DISABLED=true
+ENV SE2026_ENVIRONMENT=production SE2026_AUTH_ENABLED=true SE2026_ALLOW_WEB_SETUP=false SE2026_SECURE_COOKIES=true \
+    SE2026_ALLOWED_HOSTS='["lensa.pradanain.id","127.0.0.1","localhost"]' \
+    SE2026_ALLOWED_ORIGINS='["https://lensa.pradanain.id"]'
 WORKDIR /srv
 COPY app/requirements/web.lock /srv/app/requirements/web.lock
 RUN --mount=type=cache,target=/root/.cache/pip pip install --require-hashes -r app/requirements/web.lock \
