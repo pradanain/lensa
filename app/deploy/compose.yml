@@ -12,7 +12,7 @@ services:
     cpus: 1.0
     mem_limit: 2g
     pids_limit: 128
-    tmpfs: [/tmp:size=134217728,mode=1777]
+    tmpfs: ["/tmp:size=134217728,mode=1777"]
     environment:
       SE2026_ENVIRONMENT: production
       SE2026_AUTH_ENABLED: "true"
