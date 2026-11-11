@@ -868,6 +868,7 @@ tbody tr .button { margin: -6px 0; }
 .sector-composition { display: grid; grid-template-columns: minmax(230px,.8fr) minmax(0,1.4fr); align-items: start; gap: 28px; }
 .composition-plot { position: relative; min-width: 0; }
 .sector-composition .composition-plot { position: sticky; top: 100px; }
+.sector-composition .composition-plot { overflow: hidden; }
 .sector-composition .insight-chart { height: 360px; }
 .sector-donut-total { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; gap: 5px; }
 .sector-donut-total span, .sector-donut-total small { color: var(--muted); font-size: 12px; }

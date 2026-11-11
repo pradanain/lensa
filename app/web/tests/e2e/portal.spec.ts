@@ -691,7 +691,7 @@ test('sector donut shows readable counts and shares and opens the selected categ
   await expect(page.locator('.sector-row').last()).toBeDisabled()
   await page.screenshot({path:'../../docs/reports/app/screenshots/sector-donut-desktop-synthetic.png',fullPage:true})
   await page.setViewportSize({width:390,height:844})
-  expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
+  await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
   await page.screenshot({path:'../../docs/reports/app/screenshots/sector-donut-mobile-synthetic.png',fullPage:true})
   await page.locator('.sector-row').first().click()
   await expect(page.getByRole('heading',{name:'KBLI 5 digit terbanyak',exact:true})).toBeVisible()

@@ -12,7 +12,9 @@ if [[ -n "${1:-}" ]]; then
   [[ "$1" =~ ^ghcr\.io/pradanain/lensa:(sha-[0-9a-f]{40}|latest)$ || "$1" =~ ^ghcr\.io/pradanain/lensa@sha256:[0-9a-f]{64}$ ]] || { echo 'Invalid LENSA image reference.' >&2; exit 1; }
   export LENSA_IMAGE="$1"
 fi
-export DOCKER_CONFIG=/srv/stacks/lensa/.docker
+if [[ -f /srv/stacks/lensa/.docker/config.json ]]; then
+  export DOCKER_CONFIG=/srv/stacks/lensa/.docker
+fi
 "${compose[@]}" config --quiet
 "${compose[@]}" config --format json | python3 -c 'import json,subprocess,sys; d=json.load(sys.stdin); a=d["services"]["lensa"]["environment"]["FORWARDED_ALLOW_IPS"]; n=json.loads(subprocess.check_output(["docker","network","inspect","cloudflared-net"]))[0]; assert a in [v["Subnet"] for v in n["IPAM"]["Config"]], "TRUSTED_PROXY_SUBNET_MISMATCH"'
 available=$(df --output=avail -B1 /storage/data/lensa | tail -1 | tr -d ' ')

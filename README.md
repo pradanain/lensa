@@ -1,6 +1,6 @@
 # LENSA SE2026
 
-Eksplorasi dan Analisis SE2026 ? BPS Kabupaten Bulungan.
+Eksplorasi dan Analisis SE2026 - BPS Kabupaten Bulungan.
 
 Aplikasi FastAPI + React/TypeScript untuk direktori usaha UMKM/UB, komposisi sektor, distribusi wilayah, pencarian KBLI 2025 dan ekspor Excel. Halaman Dashboard, Keluarga dan Raw Data sementara dibatasi dengan 403. Sensus dibaca dari SQLite existing; akun, cache, FTS dan audit memakai database aplikasi terpisah.
 
