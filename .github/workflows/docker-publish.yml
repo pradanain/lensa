@@ -34,13 +34,13 @@ jobs:
         run: |
           bash -n app/deploy/deploy.sh
           docker compose --env-file app/deploy/production.env.example -f app/deploy/compose.yml config --quiet
-      - run: npx playwright install --with-deps chromium
-        working-directory: app/web
+      - name: Verify runner Chrome for browser tests
+        run: google-chrome --version
       - run: npm run test:e2e
         working-directory: app/web
         env:
           SE2026_TEST_PYTHON: ${{ env.pythonLocation }}/bin/python
-          SE2026_BROWSER_CHANNEL: chromium
+          SE2026_BROWSER_CHANNEL: chrome
   deploy-check:
     runs-on: ubuntu-latest
     timeout-minutes: 10
