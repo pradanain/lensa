@@ -41,3 +41,12 @@ app/web/playwright-report/
 *.tar.gz
 *.pem
 *.key
+/archive/project_history/*
+!/archive/project_history/scripts/
+/archive/project_history/scripts/*
+!/archive/project_history/scripts/reconcile_validation_blockers.py
+!/archive/project_history/scripts/apply_ub_assignment_policy.py
+/docs/*
+!/docs/DEPLOYMENT.md
+/AGENTS.md
+/app/README.md

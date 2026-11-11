@@ -1,42 +1,59 @@
-# LENSA SE2026 Kabupaten Bulungan
+# LENSA SE2026
 
-**Eksplorasi dan Analisis SE2026** - BPS Kabupaten Bulungan. [Standar penamaan](docs/app/APP_IDENTITY.md).
+Eksplorasi dan Analisis SE2026 ? BPS Kabupaten Bulungan.
 
-Portal eksplorasi SE2026 dengan fokus Usaha, direktori, komposisi sektor dan KBLI 2025. Menu Dashboard, Keluarga dan Raw Data sementara dibatasi dengan 403. Database sensus hanya dibaca; data responden tidak disertakan dalam repository atau image.
+Aplikasi FastAPI + React/TypeScript untuk direktori usaha UMKM/UB, komposisi sektor, distribusi wilayah, pencarian KBLI 2025 dan ekspor Excel. Halaman Dashboard, Keluarga dan Raw Data sementara dibatasi dengan 403. Sensus dibaca dari SQLite existing; akun, cache, FTS dan audit memakai database aplikasi terpisah.
 
-Klik **`JALANKAN_PORTAL.cmd`**, lalu buka **http://127.0.0.1:8000**. Aplikasi langsung terbuka tanpa login. Login disimpan untuk tahap berikutnya. [Panduan portal](docs/app/README.md) dan [hasil implementasi](docs/reports/app/IMPLEMENTATION_REPORT.md).
+## Production
 
-Untuk production: [panduan deployment](docs/DEPLOYMENT.md). Workflow GitHub membangun satu image `ghcr.io/pradanain/lensa` untuk amd64. Gunakan `app/deploy/compose.yml` pada network Traefik existing `cloudflared-net`. Mode production mewajibkan login, secure cookies, serta akun administrator yang disiapkan secara privat; setup web ditutup. Penggunaan lokal tanpa login tetap tersedia.
+Image amd64: `ghcr.io/pradanain/lensa:latest`, dengan tag immutable `sha-<commit>`.
 
-## Empat kelompok utama
+**[Panduan deployment, persiapan akun, update dan rollback](docs/DEPLOYMENT.md)**
 
-| Folder | Isi | Dipakai untuk |
-| --- | --- | --- |
-| **`app/`** | Kode, konfigurasi, query, skrip dan tes | Menjalankan dan mengembangkan aplikasi |
-| **`data/`** | Database aktif, RAW, incoming dan metadata | Data lokal serta provenance |
-| **`docs/`** | Panduan, rancangan, referensi dan laporan per domain | Membaca dokumentasi dan bukti pengujian |
-| **`archive/`** | Kode/query historis, paket dan backup | Penelusuran riwayat atau pemulihan |
+- Satu container menyajikan API dan frontend pada port internal 8000.
+- Network Traefik existing: `cloudflared-net`; tidak ada port host yang dipublikasikan.
+- Compose production: `app/deploy/compose.yml`; file `compose.yaml` root hanya untuk pengembangan.
+- Mode production mewajibkan autentikasi, cookie Secure, HTTPS origin dan akun admin privat. Setup web ditutup.
+- Workflow GitHub menguji source, membangun image, melakukan smoke test memakai data sintetis, lalu menerbitkan image SHA dan latest ke GHCR. Server hanya pull dan menjalankan image.
+- Repository dan image tidak membawa dataset sensus, RAW, akun, password atau backup privat. Dataset dan state ditransfer secara privat ke server.
 
-Folder `SE2026_BULUNGAN_WORKSPACE/` dan dua berkas referensi ekspor di root adalah sumber asli yang dilindungi manifest; posisinya tetap dipertahankan. `.cache/` berisi cache pengembangan.
+## Lokal
 
-## Menjalankan
-
-Gunakan Python 3.11+ dari folder ini:
+Klik `JALANKAN_PORTAL.cmd`, kemudian buka `http://127.0.0.1:8000/usaha`. Mode lokal tetap mendukung penggunaan tanpa login. Python 3.11+ dan Node 22.20+ dibutuhkan untuk instalasi/build pertama.
 
 ```powershell
-python app/scripts/analytics_query.py --list
-python app/scripts/analytics_query.py --metric keluarga.count --group-by kecamatan
-python app/scripts/analytics_query.py --metric usaha.internet_yes_rate
-.cache/venv/Scripts/python.exe -B -m pytest -q --junitxml=docs/reports/app/python_tests.xml
+python -m pip install --require-hashes -r app/requirements/dev.lock
+cd app/web
+npm ci
+npm run build
+cd ../..
+python -B app/scripts/run_portal.py
 ```
 
-Aplikasi menggunakan `se2026.analytics.Analytics` dari `app/src/`. Pipeline lokal tetap tersedia melalui `python main.py --help`. Audit, sinkronisasi dan builder registry tidak perlu dijalankan saat membuka aplikasi. Dependensi tes: `pytest` dan `openpyxl`; runtime CLI analitik memakai standard library. Runtime web memakai `app/requirements/web.lock`; tes lengkap memakai `dev.lock`. API/UI ada di `app/src/se2026/web/` dan `app/web/`.
+Lokasi default dataset privat: `data/processed/se2026.sqlite`; database aplikasi: `data/app/portal.sqlite`. Jangan menjalankan builder/sinkronisasi sebagai startup portal.
 
-- [Panduan portal dan akun lokal](docs/app/README.md)
-- [Struktur dan peran setiap folder](docs/PROJECT_STRUCTURE.md)
-- [API analitik](docs/analytics/ANALYTICAL_QUERY_API.md)
-- [Registry metrik](docs/analytics/METRIC_REGISTRY.md)
-- [Indeks laporan](docs/reports/README.md)
-- [Roadmap dashboard](docs/analytics/ANALYTICAL_DEVELOPMENT_ROADMAP.md)
+## Pengujian
 
-SQL Lab ditutup permanen. Seluruh pengembangan memakai data lokal, dengan UB berdasarkan assignment_id dan anggota TGR pada versi yang sama. Gunakan API agregat publik dengan denominator serta pengendalian sel kecil; data responden tidak diunggah ke layanan eksternal.
+```powershell
+python -m pytest app/tests -q
+cd app/web
+npm run build
+npm run lint
+npm test
+npm run test:e2e
+```
+
+Browser tests memakai database sintetis dan server test tersendiri. Kode pipeline historis yang diperlukan tes tetap dipertahankan; tidak menjadi alur startup. SQL sumber hanya evidence historis. Akses SQL Lab tidak diperlukan atau digunakan.
+
+## Struktur source
+
+| Lokasi | Isi |
+|---|---|
+| `app/src/se2026/web` | API, autentikasi, direktori, ekspor XLSX dan kuesioner |
+| `app/src/se2026/analytics` | API agregat dengan grain, denominator dan supresi |
+| `app/web` | UI React dan pengujian browser |
+| `app/config`, `app/sql` | Registry metrik, master referensi dan evidence SQL |
+| `app/deploy` | Dockerfile production, Compose dan script deploy |
+| `.github/workflows` | Validasi dan build/publish GHCR |
+
+Data privat dan laporan operasional lokal sengaja tidak dipublikasikan. Tidak ada deduplikasi berdasarkan nama; UB menggunakan assignment ID dan roster keluarga tetap mengikuti versi yang tepat.
