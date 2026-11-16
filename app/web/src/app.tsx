@@ -38,7 +38,7 @@ export function Root(){
     </div></header>
     {mobile&&<button className="navigation-backdrop" aria-label="Tutup navigasi" onClick={()=>setMobile(false)}/>}
     <main id="main-content" className={'content '+(current==='questionnaire'?'content-wide':['usaha','keluarga','data'].includes(current)?'content-domain':'')}>
-      <nav className="page-breadcrumb" aria-label="Jejak navigasi"><Link to="/dashboard">Beranda</Link><ChevronRight size={13}/><span aria-current="page">{titles[current]||'Dashboard'}</span></nav>
+      {current!=='questionnaire'&&<nav className="page-breadcrumb" aria-label="Jejak navigasi"><Link to="/dashboard">Beranda</Link><ChevronRight size={13}/><span aria-current="page">{titles[current]||'Dashboard'}</span></nav>}
       {session.business_focus_enabled&&['dashboard','keluarga','data'].includes(current)?<section className="module-unavailable" role="alert"><span>403</span><h1>Halaman belum tersedia</h1><p>Halaman ini sedang disiapkan.</p><Link to="/usaha" className="button button-default">Buka Usaha</Link></section>:<Outlet/>}
     </main>
     <footer className="app-footer"><p>Made with <Heart size={14} aria-label="love" className="footer-heart"/> and <Coffee size={14} aria-label="coffee"/> by <span>Novanni Indi Pradana</span></p></footer>
