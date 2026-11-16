@@ -17,7 +17,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b0.kunjungan_1",
@@ -30,7 +31,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b0.catatan_1",
@@ -43,7 +45,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b0.kunjungan_2",
@@ -56,7 +59,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b0.catatan_2",
@@ -69,7 +73,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b0.kunjungan_3",
@@ -82,7 +87,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b0.alasan_nr",
@@ -95,7 +101,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b0.catatan_3",
@@ -108,7 +115,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b0.kunjungan_pml",
@@ -121,7 +129,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b0.catatan_pml",
@@ -134,9 +143,11 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         }
-      ]
+      ],
+      "assignment_scope": "common"
     },
     {
       "section_id": "b1_p",
@@ -153,7 +164,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b1_p.kab",
@@ -166,7 +178,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b1_p.kec",
@@ -179,7 +192,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b1_p.desa",
@@ -192,7 +206,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b1_p.ubah_wilayah",
@@ -205,7 +220,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b1_p.kab_baru",
@@ -218,7 +234,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b1_p.kec_baru",
@@ -231,7 +248,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b1_p.desa_baru",
@@ -244,7 +262,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b1_p.klas_desa",
@@ -257,7 +276,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b1_p.kode_sls",
@@ -270,7 +290,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b1_p.nama_sls",
@@ -283,7 +304,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b1_p.ubah_sls",
@@ -296,7 +318,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b1_p.nama_sls_lap",
@@ -309,7 +332,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b1_p.kodepos",
@@ -322,9 +346,11 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         }
-      ]
+      ],
+      "assignment_scope": "common"
     },
     {
       "section_id": "b5",
@@ -349,7 +375,8 @@
             "expression": "r.nama_usaha_bang AS nama_bangunan_usaha",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "bku"
         },
         {
           "question_id": "b5.no_kk",
@@ -370,7 +397,8 @@
             "expression": "COALESCE(\n        NULLIF(TRIM(r.dtsen_no_kk), ''),\n        NULLIF(TRIM(r.no_kk), ''),\n        NULLIF(TRIM(r.no_kk_prelist), '')\n    ) AS no_kk",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.nik",
@@ -391,7 +419,8 @@
             "expression": "COALESCE(\n        NULLIF(TRIM(r.nik_kk), ''),\n        NULLIF(TRIM(r.nik), ''),\n        NULLIF(TRIM(r.nik_prelist), '')\n    ) AS nik_kk",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.nama_kk",
@@ -412,7 +441,8 @@
             "expression": "COALESCE(\n        NULLIF(TRIM(r.dtsen_nama_kk), ''),\n        NULLIF(TRIM(r.nama_kk), '')\n    ) AS nama_kk",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.nama_ak_lain",
@@ -425,7 +455,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.jumlah_usaha_prelist",
@@ -446,7 +477,8 @@
             "expression": "r.jumlah_usaha_prelist",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.ada_keluarga",
@@ -467,7 +499,8 @@
             "expression": "r.ada_keluarga_value AS kode_keberadaan_keluarga",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.ada_bang_usaha",
@@ -488,33 +521,67 @@
             "expression": "r.ada_bang_usaha_value AS kode_keberadaan_bku",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "bku"
         },
         {
           "question_id": "b5.alamat_prelist",
           "question_text": "Alamat (Prelist)",
           "template_key": "alamat_prelist",
-          "source_object": null,
-          "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "source_object": "mart_bku",
+          "source_field": "alamat_prelist",
+          "mapping_status": "VERIFIED",
           "converter": "text",
-          "sensitive": false,
+          "sensitive": true,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common",
+          "label_field": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/BKU/01_BKU_MASTER_SEMUA_STATUS.sql",
+            "sql_sha256": "a818869d551a1f1a282049565a4e754ce7eb36ba3393e1ba8d473450843b22f8",
+            "expression": "r.alamat_prelist",
+            "reference": "DTD template 7.1.2; shared root field at exact assignment and version"
+          },
+          "exported_scopes": [
+            "bku"
+          ]
         },
         {
           "question_id": "b5.jalan_domisili",
           "question_text": "Nama Jalan/Gang/Komplek/Gedung/dll (Tuliskan dengan rinci)",
           "template_key": "jalan_domisili",
-          "source_object": null,
-          "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "source_object": "mart_keluarga",
+          "source_field": "alamat_keluarga",
+          "mapping_status": "VERIFIED",
           "converter": "text",
-          "sensitive": false,
+          "sensitive": true,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "label_field": null,
+          "evidence": {
+            "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/Keluarga/01_master_keluarga.sql",
+            "sql_sha256": "ce1f08498f93322751fc6b7aeca8685293ab36e157455e377503bcd4fd015e52",
+            "expression": "COALESCE(\n        NULLIF(TRIM(r.alamat_klrg), ''),\n        NULLIF(TRIM(r.jalan_domisili), ''),\n        NULLIF(TRIM(r.alamat_prelist), '')\n    ) AS alamat_keluarga",
+            "reference": "DTD template 7.1.2; shared root field at exact assignment and version"
+          },
+          "source_variants": [
+            {
+              "source_object": "mart_bku",
+              "source_field": "jalan_domisili",
+              "label_field": null,
+              "evidence": {
+                "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/BKU/01_BKU_MASTER_SEMUA_STATUS.sql",
+                "sql_sha256": "a818869d551a1f1a282049565a4e754ce7eb36ba3393e1ba8d473450843b22f8",
+                "expression": "r.jalan_domisili",
+                "reference": "DTD template 7.1.2; shared root field at exact assignment and version"
+              }
+            }
+          ],
+          "note": "Alamat keluarga mengikuti COALESCE alamat hasil pendataan/jalan/prelist pada SQL sumber.",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b5.nomor_domisili",
@@ -527,7 +594,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b5.domisili",
@@ -540,7 +608,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.daftar_kp",
@@ -553,7 +622,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "bku"
         },
         {
           "question_id": "b5.no_bang",
@@ -574,7 +644,21 @@
             "expression": "r.no_bang AS nomor_bangunan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "source_variants": [
+            {
+              "source_object": "mart_bku",
+              "source_field": "nomor_bangunan",
+              "label_field": null,
+              "evidence": {
+                "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/BKU/01_BKU_MASTER_SEMUA_STATUS.sql",
+                "sql_sha256": "a818869d551a1f1a282049565a4e754ce7eb36ba3393e1ba8d473450843b22f8",
+                "expression": "r.no_bang AS nomor_bangunan",
+                "reference": "DTD template 7.1.2; shared root field at exact assignment and version"
+              }
+            }
+          ],
+          "assignment_scope": "common"
         },
         {
           "question_id": "b5.kode_bang",
@@ -595,7 +679,21 @@
             "expression": "r.kode_bang_value AS kode_penggunaan_bangunan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "source_variants": [
+            {
+              "source_object": "mart_bku",
+              "source_field": "kode_penggunaan_bangunan",
+              "label_field": "penggunaan_bangunan",
+              "evidence": {
+                "sql_path": "app/sql/source_queries/02_Dataset_Siap_Analisis/BKU/01_BKU_MASTER_SEMUA_STATUS.sql",
+                "sql_sha256": "a818869d551a1f1a282049565a4e754ce7eb36ba3393e1ba8d473450843b22f8",
+                "expression": "r.kode_bang_value AS kode_penggunaan_bangunan",
+                "reference": "DTD template 7.1.2; shared root field at exact assignment and version"
+              }
+            }
+          ],
+          "assignment_scope": "common"
         },
         {
           "question_id": "b5.no_banr",
@@ -608,7 +706,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "b5.jumlah_ak_kk",
@@ -629,7 +728,8 @@
             "expression": "r.jml_kk AS jumlah_anggota_sesuai_kk",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.jumlah_ak",
@@ -650,7 +750,8 @@
             "expression": "r.jumlah_ak AS jumlah_anggota_listing",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.usaha_kos",
@@ -671,7 +772,8 @@
             "expression": "r.usaha_kos_value\n        AS usaha_kos_kontrakan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.usaha_keliling",
@@ -692,7 +794,8 @@
             "expression": "r.usaha_keliling_value\n        AS usaha_keliling",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.usaha_online",
@@ -713,7 +816,8 @@
             "expression": "r.usaha_online_value\n        AS usaha_online",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.usaha_bongkar",
@@ -734,7 +838,8 @@
             "expression": "r.usaha_bongkar_value\n        AS usaha_bongkar_pasang",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.usaha_konstruksi",
@@ -755,7 +860,8 @@
             "expression": "r.usaha_konstruksi_value\n        AS usaha_konstruksi_penggalian",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.usaha_lain",
@@ -776,7 +882,8 @@
             "expression": "r.usaha_lain_value\n        AS usaha_lainnya",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.tanaman_pangan",
@@ -797,7 +904,8 @@
             "expression": "r.tanaman_pangan_value\n        AS usaha_tanaman_pangan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.hortikultura",
@@ -818,7 +926,8 @@
             "expression": "r.hortikultura_value\n        AS usaha_hortikultura",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.perkebunan",
@@ -839,7 +948,8 @@
             "expression": "r.perkebunan_value\n        AS usaha_perkebunan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.peternakan",
@@ -860,7 +970,8 @@
             "expression": "r.peternakan_value\n        AS usaha_peternakan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.kehutanan",
@@ -881,7 +992,8 @@
             "expression": "r.kehutanan_value\n        AS usaha_kehutanan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.perikanan",
@@ -902,7 +1014,8 @@
             "expression": "r.perikanan_value\n        AS usaha_perikanan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b5.jasa_pertanian",
@@ -923,9 +1036,11 @@
             "expression": "r.jasa_pertanian_value\n        AS usaha_jasa_pertanian",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         }
-      ]
+      ],
+      "assignment_scope": "common"
     },
     {
       "section_id": "b_ak",
@@ -950,7 +1065,8 @@
             "expression": "d.no_urut_kk\n        AS nomor_urut_anggota",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.nama_dtsen",
@@ -971,7 +1087,8 @@
             "expression": "NULLIF(TRIM(d.nama_dtsen), '')\n        AS nama_anggota",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.nik_dtsen",
@@ -992,7 +1109,8 @@
             "expression": "NULLIF(TRIM(d.nik_dtsen), '')\n        AS nik_anggota",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.hubungan",
@@ -1013,7 +1131,8 @@
             "expression": "d.hubungan_value\n        AS kode_hubungan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.keberadaan_dtsen",
@@ -1034,7 +1153,8 @@
             "expression": "d.keberadaan_dtsen_value\n        AS kode_keberadaan_anggota",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.alamat_dn",
@@ -1047,7 +1167,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.prov_dn",
@@ -1068,7 +1189,8 @@
             "expression": "d.prov_dn_value\n        AS provinsi_domisili",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.kab_dn",
@@ -1089,7 +1211,8 @@
             "expression": "d.kab_dn_value\n        AS kabupaten_domisili",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.domisili_ln",
@@ -1110,7 +1233,8 @@
             "expression": "d.domisili_ln_value\n        AS negara_domisili_luar_negeri",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.status_kawin",
@@ -1131,7 +1255,8 @@
             "expression": "d.status_kawin_value\n        AS kode_status_perkawinan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.jk_dtsen",
@@ -1152,7 +1277,8 @@
             "expression": "d.jk_dtsen_value\n        AS kode_jenis_kelamin",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.tgl_lahir",
@@ -1173,7 +1299,8 @@
             "expression": "d.tgl_lahir\n        AS tanggal_lahir_hari",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.bln_lahir",
@@ -1194,7 +1321,8 @@
             "expression": "d.bln_lahir_value\n        AS bulan_lahir",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.thn_lahir",
@@ -1215,7 +1343,8 @@
             "expression": "d.thn_lahir\n        AS tahun_lahir",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.umur_ak",
@@ -1236,7 +1365,8 @@
             "expression": "d.umur_ak\n        AS umur",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.art_ada_usaha",
@@ -1257,7 +1387,8 @@
             "expression": "d.art_ada_usaha_value\n        AS kode_memiliki_usaha",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.usaha_tinggal_ak",
@@ -1270,7 +1401,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.usaha_keliling_ak",
@@ -1283,7 +1415,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.usaha_bongkar_ak",
@@ -1296,7 +1429,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.usaha_konstruksi_ak",
@@ -1309,7 +1443,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.usaha_sewa_ak",
@@ -1322,7 +1457,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.usaha_tanaman_ak",
@@ -1335,7 +1471,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.usaha_hortikultura_ak",
@@ -1348,7 +1485,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.usaha_perkebunan_ak",
@@ -1361,7 +1499,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.usaha_peternakan_ak",
@@ -1374,7 +1513,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.usaha_kehutanan_ak",
@@ -1387,7 +1527,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.usaha_perikanan_ak",
@@ -1400,7 +1541,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak.usaha_jasa_tani_ak",
@@ -1413,9 +1555,12 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         }
-      ]
+      ],
+      "assignment_scope": "family",
+      "scope_evidence": "DTD 7.1.2: enableCondition ec_keluarga_respons"
     },
     {
       "section_id": "blokl",
@@ -1432,7 +1577,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.no_bang_l",
@@ -1453,7 +1599,8 @@
             "expression": "u.no_bang_l AS nomor_bangunan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.no_usaha",
@@ -1474,7 +1621,8 @@
             "expression": "u.no_usaha AS nomor_usaha",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.nama_usaha",
@@ -1495,7 +1643,8 @@
             "expression": "COALESCE(\n        NULLIF(TRIM(u.nama_usaha_edit), ''),\n        NULLIF(TRIM(u.nama_usaha), '')\n    ) AS nama_usaha",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.keberadaan_usaha",
@@ -1516,7 +1665,8 @@
             "expression": "u.keberadaan_usaha_value AS kode_keberadaan_usaha",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.nama_komersial",
@@ -1537,7 +1687,8 @@
             "expression": "u.nama_komersial",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.alamat_usaha_view",
@@ -1550,7 +1701,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.alamat_usaha_var",
@@ -1571,7 +1723,8 @@
             "expression": "COALESCE(\n        NULLIF(TRIM(u.alamat_usaha), ''),\n        NULLIF(TRIM(u.alamat_usaha_var), ''),\n        NULLIF(TRIM(u.alamat_usaha_view), '')\n    ) AS alamat_usaha",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.rt",
@@ -1584,7 +1737,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.rw",
@@ -1597,7 +1751,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kode_area",
@@ -1610,7 +1765,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.no_telp",
@@ -1631,7 +1787,8 @@
             "expression": "NULLIF(TRIM(u.no_telp), '') AS nomor_telepon",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.eks",
@@ -1644,7 +1801,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.email",
@@ -1665,7 +1823,8 @@
             "expression": "NULLIF(TRIM(u.email), '') AS email",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.hp",
@@ -1686,7 +1845,8 @@
             "expression": "NULLIF(TRIM(u.hp), '') AS nomor_hp_whatsapp",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.website",
@@ -1707,7 +1867,8 @@
             "expression": "NULLIF(TRIM(u.website), '') AS website",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.jenis_kawasan",
@@ -1728,7 +1889,8 @@
             "expression": "u.jenis_kawasan_value AS jenis_kawasan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.nama_kek_ki",
@@ -1749,7 +1911,8 @@
             "expression": "u.nama_kek_ki_value AS kode_nama_kek_ki",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.nama_kawasan",
@@ -1770,7 +1933,8 @@
             "expression": "NULLIF(TRIM(u.nama_kawasan), '') AS nama_kawasan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.jenis_usaha",
@@ -1791,7 +1955,8 @@
             "expression": "u.jenis_usaha_value AS jenis_usaha",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "blokl.alamat_usaha_utama",
@@ -1804,7 +1969,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.prov_usaha_utama",
@@ -1817,7 +1983,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kab_usaha_utama",
@@ -1830,7 +1997,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.punya_nib",
@@ -1851,7 +2019,8 @@
             "expression": "u.punya_nib_value AS punya_nib",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.nib",
@@ -1872,7 +2041,8 @@
             "expression": "NULLIF(TRIM(u.nib), '') AS nib",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.tidak_nib",
@@ -1893,7 +2063,8 @@
             "expression": "u.tidak_nib_value AS alasan_tidak_punya_nib",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.nib_lainnya",
@@ -1914,7 +2085,8 @@
             "expression": "NULLIF(TRIM(u.nib_lainnya), '') AS alasan_nib_lainnya",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.badan_usaha",
@@ -1935,7 +2107,8 @@
             "expression": "u.badan_usaha_value AS badan_usaha",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.koperasi_kdkmp",
@@ -1956,7 +2129,8 @@
             "expression": "u.koperasi_kdkmp_value AS koperasi_kdkmp",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.jenis_koperasi",
@@ -1977,7 +2151,8 @@
             "expression": "u.jenis_koperasi_value AS jenis_koperasi",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.lap_keuangan",
@@ -1998,7 +2173,8 @@
             "expression": "u.lap_keuangan_value AS mempunyai_laporan_keuangan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.pengusaha",
@@ -2019,7 +2195,8 @@
             "expression": "COALESCE(\n        NULLIF(TRIM(u.pengusaha), ''),\n        NULLIF(TRIM(u.pengusaha_var_label), '')\n    ) AS nama_pengusaha_pj",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.jk",
@@ -2040,7 +2217,8 @@
             "expression": "CASE\n        WHEN TRIM(CAST(u.jk_value AS STRING)) = '1' THEN '1'\n        WHEN TRIM(CAST(u.jk_value AS STRING)) = '2' THEN '2'\n\n        WHEN CAST(u.jk_var AS STRING) LIKE '%value=1%' THEN '1'\n        WHEN CAST(u.jk_var AS STRING) LIKE '%value=2%' THEN '2'\n\n        WHEN TRIM(CAST(u.jk_var AS STRING)) = '1' THEN '1'\n        WHEN TRIM(CAST(u.jk_var AS STRING)) = '2' THEN '2'\n\n        ELSE NULL\n    END AS jenis_kelamin_pj",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.umur",
@@ -2061,7 +2239,8 @@
             "expression": "COALESCE(\n        u.umur,\n        u.umur_pj_var\n    ) AS umur_pj",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.nik_pengusaha",
@@ -2082,7 +2261,8 @@
             "expression": "COALESCE(\n        NULLIF(TRIM(u.nik_pengusaha), ''),\n        NULLIF(TRIM(u.nik_pengusaha_var), '')\n    ) AS nik_pengusaha_pj",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.keg_utama",
@@ -2103,7 +2283,8 @@
             "expression": "u.keg_utama AS kegiatan_utama",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.produk_sendiri",
@@ -2124,7 +2305,8 @@
             "expression": "u.produk_sendiri_value\n        AS memproduksi_barang",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.layanan_mamin",
@@ -2145,7 +2327,8 @@
             "expression": "u.layanan_mamin_value\n        AS layanan_makan_minum",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.keg_penjualan",
@@ -2166,7 +2349,8 @@
             "expression": "u.keg_penjualan_value\n        AS melakukan_penjualan_barang",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.keg_jasa",
@@ -2187,7 +2371,8 @@
             "expression": "u.keg_jasa_value\n        AS aktivitas_jasa",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.lokasi_usaha",
@@ -2208,7 +2393,8 @@
             "expression": "u.lokasi_usaha_value\n        AS lokasi_kegiatan_usaha",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.input",
@@ -2221,7 +2407,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.proses",
@@ -2234,7 +2421,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.produk",
@@ -2255,7 +2443,8 @@
             "expression": "u.produk AS produk_utama",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kbli_genai",
@@ -2268,7 +2457,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kbli",
@@ -2289,7 +2479,8 @@
             "expression": "COALESCE(\n        NULLIF(TRIM(u.kbli_akhir), ''),\n        NULLIF(TRIM(u.kbli_value), ''),\n        NULLIF(TRIM(u.kbli_prelist), '')\n    ) AS kbli",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kategori",
@@ -2310,7 +2501,8 @@
             "expression": "COALESCE(\n        NULLIF(TRIM(u.kategori_2025), ''),\n        NULLIF(TRIM(u.kategori), '')\n    ) AS kategori",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.klasifikasi",
@@ -2323,7 +2515,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.jaringan",
@@ -2344,7 +2537,8 @@
             "expression": "u.jaringan_value\n        AS kode_jaringan_usaha",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.jumlah_kc",
@@ -2365,7 +2559,8 @@
             "expression": "u.jumlah_kc\n        AS jumlah_kantor_cabang_unit",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.nama_kp",
@@ -2386,7 +2581,8 @@
             "expression": "NULLIF(TRIM(u.nama_kp), '')\n        AS nama_kantor_pusat",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.alamat_kp",
@@ -2399,7 +2595,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.email_kp",
@@ -2412,7 +2609,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.negara_kp",
@@ -2433,7 +2631,8 @@
             "expression": "u.negara_kp_value\n        AS kode_negara_kantor_pusat",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.prov_kp",
@@ -2454,7 +2653,8 @@
             "expression": "u.prov_kp_value\n        AS kode_provinsi_kantor_pusat",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kab_kp",
@@ -2475,7 +2675,8 @@
             "expression": "u.kab_kp_value\n        AS kode_kabupaten_kantor_pusat",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.internet",
@@ -2496,7 +2697,8 @@
             "expression": "u.internet_value\n        AS kode_menggunakan_internet",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.internet_pesanan",
@@ -2523,7 +2725,8 @@
             "expression": "u.internet_pesanan_value\n        AS internet_menerima_pesanan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.internet_produksi",
@@ -2550,7 +2753,8 @@
             "expression": "u.internet_produksi_value\n        AS internet_produksi",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.internet_distribusi",
@@ -2577,7 +2781,8 @@
             "expression": "u.internet_distribusi_value\n        AS internet_distribusi",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.internet_beli",
@@ -2604,7 +2809,8 @@
             "expression": "u.internet_beli_value\n        AS internet_pembelian_bahan_baku",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.internet_promosi",
@@ -2631,7 +2837,8 @@
             "expression": "u.internet_promosi_value\n        AS internet_promosi",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.internet_lainnya",
@@ -2658,7 +2865,8 @@
             "expression": "u.internet_lainnya_value\n        AS internet_lainnya",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.digital",
@@ -2679,7 +2887,8 @@
             "expression": "u.digital_label\n        AS teknologi_digital",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.produksi_lingkungan",
@@ -2700,7 +2909,8 @@
             "expression": "u.produksi_lingkungan_value\n        AS memproduksi_produk_ramah_lingkungan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.perlindungan_lingkungan",
@@ -2721,7 +2931,8 @@
             "expression": "u.perlindungan_lingkungan_value\n        AS menggunakan_input_perlindungan_lingkungan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.produk_seni",
@@ -2742,7 +2953,8 @@
             "expression": "u.produk_seni_value\n        AS menggunakan_produk_seni_budaya_teknologi",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.halal",
@@ -2763,7 +2975,8 @@
             "expression": "u.halal_value\n        AS mempunyai_produk_bersertifikat_halal",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.sudah_halal",
@@ -2784,7 +2997,8 @@
             "expression": "u.sudah_halal\n        AS jumlah_varian_sudah_halal",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.belum_halal",
@@ -2805,7 +3019,8 @@
             "expression": "u.belum_halal\n        AS jumlah_varian_belum_halal",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.izin_edar",
@@ -2826,7 +3041,8 @@
             "expression": "u.izin_edar_value\n        AS mempunyai_izin_edar",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.sudah_bpom",
@@ -2847,7 +3063,8 @@
             "expression": "u.sudah_bpom\n        AS jumlah_varian_sudah_bpom",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.belum_bpom",
@@ -2868,7 +3085,8 @@
             "expression": "u.belum_bpom\n        AS jumlah_varian_belum_bpom",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.mitra_kdkmp",
@@ -2889,7 +3107,8 @@
             "expression": "u.mitra_kdkmp_value\n        AS bermitra_kdkmp",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.peran_mbg",
@@ -2910,7 +3129,8 @@
             "expression": "u.peran_mbg_value\n        AS terlibat_program_mbg",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.barang_non_pddk",
@@ -2931,7 +3151,8 @@
             "expression": "u.barang_non_pddk_value\n        AS transaksi_barang_nonpenduduk",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.jasa_non_pddk",
@@ -2952,7 +3173,8 @@
             "expression": "u.jasa_non_pddk_value\n        AS penjualan_jasa_nonpenduduk",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.beli_jasa_non_pddk",
@@ -2973,7 +3195,8 @@
             "expression": "u.beli_jasa_non_pddk_value\n        AS pembelian_jasa_nonpenduduk",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.tk_laki",
@@ -2994,7 +3217,8 @@
             "expression": "u.tk_laki\n        AS pekerja_laki_laki",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.tk_pr",
@@ -3015,7 +3239,8 @@
             "expression": "u.tk_pr\n        AS pekerja_perempuan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.total_tk_jk",
@@ -3036,7 +3261,8 @@
             "expression": "u.total_tk_jk\n        AS total_pekerja_jenis_kelamin",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.tk_dibayar",
@@ -3057,7 +3283,8 @@
             "expression": "u.tk_dibayar\n        AS pekerja_dibayar",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.tk_tdk_dibayar",
@@ -3078,7 +3305,8 @@
             "expression": "u.tk_tdk_dibayar\n        AS pekerja_tidak_dibayar",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.total_tk_bayar",
@@ -3099,7 +3327,8 @@
             "expression": "u.total_tk_bayar\n        AS total_pekerja_status_bayar",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.tahun_operasi",
@@ -3120,7 +3349,8 @@
             "expression": "u.tahun_operasi\n        AS tahun_mulai_operasi",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.gaji",
@@ -3142,7 +3372,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "ANNUAL_2025",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.biaya_produksi",
@@ -3164,7 +3395,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "ANNUAL_2025",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.biaya_pembelian",
@@ -3186,7 +3418,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "ANNUAL_2025",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.operasional",
@@ -3208,7 +3441,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "ANNUAL_2025",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.non_operasional",
@@ -3230,7 +3464,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "ANNUAL_2025",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.total_pengeluaran",
@@ -3252,7 +3487,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "ANNUAL_2025",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.nilai_pendapatan",
@@ -3274,7 +3510,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "ANNUAL_2025",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.pendapatan_lain",
@@ -3296,7 +3533,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "ANNUAL_2025",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.total_pendapatan",
@@ -3318,7 +3556,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "ANNUAL_2025",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.pendapatan_online",
@@ -3340,7 +3579,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "ANNUAL_2025",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.aset_usaha_thn",
@@ -3362,7 +3602,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "ANNUAL_2025",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.aset_lain_thn",
@@ -3384,7 +3625,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "ANNUAL_2025",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.total_aset_thn",
@@ -3406,7 +3648,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "ANNUAL_2025",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.rentang_aset_thn",
@@ -3428,7 +3671,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "ANNUAL_2025",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.luas_tanah_thn",
@@ -3450,7 +3694,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "ANNUAL_2025",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.pribadi",
@@ -3463,7 +3708,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.non_profit",
@@ -3476,7 +3722,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.publik",
@@ -3489,7 +3736,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.non_publik",
@@ -3502,7 +3750,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.pemerintah",
@@ -3515,7 +3764,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.asing",
@@ -3528,7 +3778,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.info_total",
@@ -3541,7 +3792,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.gaji_bln",
@@ -3563,7 +3815,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.biaya_produksi_bln",
@@ -3585,7 +3838,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.biaya_pembelian_bln",
@@ -3607,7 +3861,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.operasional_bln",
@@ -3629,7 +3884,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.non_operasional_bln",
@@ -3651,7 +3907,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.total_pengeluaran_bln",
@@ -3673,7 +3930,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.nilai_pendapatan_bln",
@@ -3695,7 +3953,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.pendapatan_lain_bln",
@@ -3717,7 +3976,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.total_pendapatan_bln",
@@ -3739,7 +3999,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.pendapatan_online_bln",
@@ -3761,7 +4022,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.aset_tanah_bln",
@@ -3783,7 +4045,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.aset_lain_bln",
@@ -3805,7 +4068,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.total_aset_bln",
@@ -3827,7 +4091,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.rentang_aset_bln",
@@ -3840,7 +4105,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.luas_tanah_bln",
@@ -3862,7 +4128,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.pribadi_didirikan",
@@ -3884,7 +4151,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.nonprofit_didirikan",
@@ -3906,7 +4174,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.publik_didirikan",
@@ -3928,7 +4197,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.nonpublik_didirikan",
@@ -3950,7 +4220,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.pemerintah_didirikan",
@@ -3972,7 +4243,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.asing_didirikan",
@@ -3994,7 +4266,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.info_total_didirikan",
@@ -4007,7 +4280,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.metod_isi",
@@ -4020,7 +4294,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kp_unit",
@@ -4041,7 +4316,8 @@
             "expression": "k.kp_unit AS nama_kantor_unit",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kp_jenis",
@@ -4062,7 +4338,8 @@
             "expression": "k.kp_jenis_label AS jenis_unit",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kp_prov",
@@ -4083,7 +4360,8 @@
             "expression": "k.kp_prov_label AS provinsi_unit",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kp_kab",
@@ -4104,7 +4382,8 @@
             "expression": "k.kp_kab_label AS kabupaten_unit",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kp_alamat",
@@ -4117,7 +4396,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kp_produksi_lingkungan",
@@ -4130,7 +4410,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kp_perlindungan_lingkungan",
@@ -4143,7 +4424,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kp_tk",
@@ -4164,7 +4446,8 @@
             "expression": "k.kp_tk AS jumlah_pekerja_unit_2025",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kp_kbli",
@@ -4177,7 +4460,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kp_total_pengeluaran",
@@ -4199,7 +4483,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kp_total_pendapatan",
@@ -4221,7 +4506,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kp_total_aset",
@@ -4243,7 +4529,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "common"
         },
         {
           "question_id": "blokl.kp_cat",
@@ -4256,9 +4543,11 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         }
-      ]
+      ],
+      "assignment_scope": "common"
     },
     {
       "section_id": "b_ak_lanjutan",
@@ -4283,7 +4572,8 @@
             "expression": "COALESCE(\n        NULLIF(TRIM(r.dtsen_nama_kk), ''),\n        NULLIF(TRIM(r.nama_kk), '')\n    ) AS nama_kk",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.nik_kk",
@@ -4304,7 +4594,8 @@
             "expression": "COALESCE(\n        NULLIF(TRIM(r.nik_kk), ''),\n        NULLIF(TRIM(r.nik), ''),\n        NULLIF(TRIM(r.nik_prelist), '')\n    ) AS nik_kk",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.dtsen_no_kk",
@@ -4325,7 +4616,8 @@
             "expression": "COALESCE(\n        NULLIF(TRIM(r.dtsen_no_kk), ''),\n        NULLIF(TRIM(r.no_kk), ''),\n        NULLIF(TRIM(r.no_kk_prelist), '')\n    ) AS no_kk",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.jml_kk",
@@ -4346,7 +4638,8 @@
             "expression": "r.jml_kk AS jumlah_anggota_sesuai_kk",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.jml_kk_update",
@@ -4367,7 +4660,8 @@
             "expression": "r.jml_kk_update AS jumlah_anggota_hasil_pendataan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.sekolah",
@@ -4388,7 +4682,8 @@
             "expression": "v.sekolah_value\n        AS kode_partisipasi_sekolah",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.ijazah",
@@ -4413,7 +4708,8 @@
             "expression": "v.ijazah_value\n        AS kode_ijazah_tertinggi",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.profesi",
@@ -4438,7 +4734,8 @@
             "expression": "v.profesi_value\n        AS kode_profesi_utama",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.profesi_lainnya",
@@ -4459,7 +4756,8 @@
             "expression": "v.`profesi_lainnya`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.status_kerja",
@@ -4480,7 +4778,8 @@
             "expression": "v.`status_kerja_label`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.nilai_pend_pekerjaan_cawi",
@@ -4493,7 +4792,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.pendapatan_pekerjaan",
@@ -4514,7 +4814,8 @@
             "expression": "v.`pendapatan_pekerjaan_label`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.pend_gaji",
@@ -4536,7 +4837,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.pend_tunjangan",
@@ -4558,7 +4860,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.pend_uangmkn",
@@ -4580,7 +4883,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.pend_honor",
@@ -4602,7 +4906,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.pend_lembur",
@@ -4624,7 +4929,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.pend_lainnya",
@@ -4646,7 +4952,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.nilai_pend_pekerjaan",
@@ -4668,7 +4975,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.pendapatan_usaha",
@@ -4689,7 +4997,8 @@
             "expression": "v.`pendapatan_usaha_label`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.pend_usaha",
@@ -4711,7 +5020,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.pend_usaha_lain",
@@ -4732,7 +5042,8 @@
             "expression": "v.`pend_usaha_lain_label`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.nilai_pend_lain",
@@ -4754,7 +5065,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.rekening",
@@ -4775,7 +5087,8 @@
             "expression": "v.`rekening_label`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.disabilitas_kel",
@@ -4788,7 +5101,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.dis_fisik",
@@ -4809,7 +5123,8 @@
             "expression": "v.`dis_fisik_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.dis_mental",
@@ -4830,7 +5145,8 @@
             "expression": "v.`dis_mental_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.dis_intelek",
@@ -4851,7 +5167,8 @@
             "expression": "v.`dis_intelek_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.dis_netra",
@@ -4872,7 +5189,8 @@
             "expression": "v.`dis_netra_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.dis_rungu",
@@ -4893,7 +5211,8 @@
             "expression": "v.`dis_rungu_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.dis_wicara",
@@ -4914,7 +5233,8 @@
             "expression": "v.`dis_wicara_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.kesehatan_kel",
@@ -4927,7 +5247,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_hipertensi",
@@ -4948,7 +5269,8 @@
             "expression": "v.`sakit_hipertensi_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_rematik",
@@ -4969,7 +5291,8 @@
             "expression": "v.`sakit_rematik_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_asma",
@@ -4990,7 +5313,8 @@
             "expression": "v.`sakit_asma_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_jantung",
@@ -5011,7 +5335,8 @@
             "expression": "v.`sakit_jantung_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_diabetes",
@@ -5032,7 +5357,8 @@
             "expression": "v.`sakit_diabetes_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_tbc",
@@ -5053,7 +5379,8 @@
             "expression": "v.`sakit_tbc_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_stroke",
@@ -5074,7 +5401,8 @@
             "expression": "v.`sakit_stroke_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_kanker",
@@ -5095,7 +5423,8 @@
             "expression": "v.`sakit_kanker_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_ginjal",
@@ -5116,7 +5445,8 @@
             "expression": "v.`sakit_ginjal_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_hemofilia",
@@ -5137,7 +5467,8 @@
             "expression": "v.`sakit_hemofilia_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_hiv",
@@ -5158,7 +5489,8 @@
             "expression": "v.`sakit_hiv_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_kolestrol",
@@ -5179,7 +5511,8 @@
             "expression": "v.`sakit_kolestrol_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_sirosis",
@@ -5200,7 +5533,8 @@
             "expression": "v.`sakit_sirosis_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_talasemia",
@@ -5221,7 +5555,8 @@
             "expression": "v.`sakit_talasemia_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_leukemia",
@@ -5242,7 +5577,8 @@
             "expression": "v.`sakit_leukemia_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_alzheimer",
@@ -5263,7 +5599,8 @@
             "expression": "v.`sakit_alzheimer_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_lainnya",
@@ -5284,7 +5621,8 @@
             "expression": "v.`sakit_lainnya_value`",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_ak_lanjutan.penyakit_lainnya",
@@ -5297,9 +5635,12 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         }
-      ]
+      ],
+      "assignment_scope": "family",
+      "scope_evidence": "DTD 7.1.2: enableCondition ec_keluarga_respons"
     },
     {
       "section_id": "b_perumahan",
@@ -5324,7 +5665,8 @@
             "expression": "r.jns_bangunan_value AS jenis_bangunan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.jns_bangunan_lain",
@@ -5345,7 +5687,8 @@
             "expression": "r.jns_bangunan_lain AS jenis_bangunan_lainnya",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.nm_apt",
@@ -5366,7 +5709,8 @@
             "expression": "r.nm_apt AS nama_apartemen_rusun",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.jml_ak_tinggal",
@@ -5379,7 +5723,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.status_kepemilikan",
@@ -5400,7 +5745,8 @@
             "expression": "r.status_kepemilikan_value AS status_kepemilikan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.status_kepemilikan_lain",
@@ -5413,7 +5759,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.bukti_kepemilikan",
@@ -5434,7 +5781,8 @@
             "expression": "r.bukti_kepemilikan_value AS bukti_kepemilikan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.sewa_sendiri",
@@ -5456,7 +5804,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.sewa_kontrak",
@@ -5478,7 +5827,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.sewa_dinas",
@@ -5500,7 +5850,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.luas_lantai",
@@ -5521,7 +5872,8 @@
             "expression": "r.luas_lantai",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.jns_lantai",
@@ -5542,7 +5894,8 @@
             "expression": "r.jns_lantai_value AS jenis_lantai",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.kondisi_lantai",
@@ -5563,7 +5916,8 @@
             "expression": "r.kondisi_lantai_value AS kondisi_lantai",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.jns_dinding",
@@ -5584,7 +5938,8 @@
             "expression": "r.jns_dinding_value AS jenis_dinding",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.kondisi_dinding",
@@ -5605,7 +5960,8 @@
             "expression": "r.kondisi_dinding_value AS kondisi_dinding",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.jns_atap",
@@ -5626,7 +5982,8 @@
             "expression": "r.jns_atap_value AS jenis_atap",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.kondisi_atap",
@@ -5647,7 +6004,8 @@
             "expression": "r.kondisi_atap_value AS kondisi_atap",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.tempat_bab",
@@ -5668,7 +6026,8 @@
             "expression": "r.tempat_bab_value AS fasilitas_bab",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.jns_closet",
@@ -5689,7 +6048,8 @@
             "expression": "r.jns_closet_value AS jenis_kloset",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.buang_tinja",
@@ -5710,7 +6070,8 @@
             "expression": "r.buang_tinja_value AS pembuangan_akhir_tinja",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.air_minum",
@@ -5731,7 +6092,8 @@
             "expression": "r.air_minum_value AS sumber_air_minum",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.sumber_penerangan",
@@ -5752,7 +6114,8 @@
             "expression": "r.sumber_penerangan_value AS sumber_penerangan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.jml_meteran",
@@ -5773,7 +6136,8 @@
             "expression": "r.jml_meteran AS jumlah_meteran",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.daya_terpasang",
@@ -5794,7 +6158,8 @@
             "expression": "m.daya_terpasang_value\n        AS kode_daya_terpasang",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.id_pln_pilih",
@@ -5815,7 +6180,8 @@
             "expression": "m.id_pln_pilih_value\n        AS kode_jenis_identitas_pln",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.id_pelanggan",
@@ -5836,7 +6202,8 @@
             "expression": "NULLIF(TRIM(m.id_pelanggan), '')\n        AS id_pelanggan_pln",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.no_meteran",
@@ -5857,7 +6224,8 @@
             "expression": "NULLIF(TRIM(m.no_meteran), '')\n        AS nomor_meteran",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.listrik_sebulan",
@@ -5879,7 +6247,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.pulsa_sebulan",
@@ -5901,7 +6270,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.pengeluaran_makanan_mingguan",
@@ -5923,7 +6293,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.pengeluaran_non_makan_bulanan",
@@ -5945,7 +6316,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.pengeluaran_non_makan_tahunan",
@@ -5967,7 +6339,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.total_pendapatan_keluarga_sebulan_tampil",
@@ -5989,7 +6362,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.total_pengeluaran_keluarga_sebulan_tampil",
@@ -6011,7 +6385,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.selisih_pendapatan_pengeluaran_tampil",
@@ -6024,7 +6399,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.jumlah_tabung3kg_new",
@@ -6045,7 +6421,8 @@
             "expression": "r.jumlah_tabung3kg_new\n        AS jumlah_tabung_lpg_3kg",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.jumlah_tabung5kg_new",
@@ -6066,7 +6443,8 @@
             "expression": "r.jumlah_tabung5kg_new\n        AS jumlah_tabung_lpg_5kg_lebih",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.jumlah_kulkas_new",
@@ -6087,7 +6465,8 @@
             "expression": "r.jumlah_kulkas_new\n        AS jumlah_kulkas",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.jumlah_ac_new",
@@ -6108,7 +6487,8 @@
             "expression": "r.jumlah_ac_new\n        AS jumlah_ac",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.jumlah_emas_new",
@@ -6129,7 +6509,8 @@
             "expression": "r.jumlah_emas_new\n        AS jumlah_emas_gram",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.jumlah_laptop_new",
@@ -6150,7 +6531,8 @@
             "expression": "r.jumlah_laptop_new\n        AS jumlah_komputer_laptop_tablet",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.jumlah_motor_new",
@@ -6171,7 +6553,8 @@
             "expression": "r.jumlah_motor_new\n        AS jumlah_sepeda_motor",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.nilai_motor",
@@ -6193,7 +6576,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.jumlah_mobil_new",
@@ -6214,7 +6598,8 @@
             "expression": "r.jumlah_mobil_new\n        AS jumlah_mobil",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.nilai_mobil",
@@ -6236,7 +6621,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.jumlah_lahan_new",
@@ -6257,7 +6643,8 @@
             "expression": "r.jumlah_lahan_new\n        AS jumlah_lahan_lain",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.nilai_lahan",
@@ -6279,7 +6666,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.jumlah_rumah_new",
@@ -6300,7 +6688,8 @@
             "expression": "r.jumlah_rumah_new\n        AS jumlah_rumah_bangunan_lain",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "b_perumahan.nilai_rumah",
@@ -6322,9 +6711,12 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "assignment_scope": "family"
         }
-      ]
+      ],
+      "assignment_scope": "family",
+      "scope_evidence": "DTD 7.1.2: enableCondition ec_keluarga_respons"
     },
     {
       "section_id": "ket_jawaban",
@@ -6341,7 +6733,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "ket_jawaban.nama_lain",
@@ -6354,7 +6747,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "ket_jawaban.telp_info",
@@ -6367,7 +6761,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "ket_jawaban.email_info",
@@ -6380,9 +6775,11 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         }
-      ]
+      ],
+      "assignment_scope": "common"
     },
     {
       "section_id": "cat",
@@ -6399,7 +6796,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "cat.catatan_anomali_admin",
@@ -6412,7 +6810,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "cat.waktu_selesai",
@@ -6425,9 +6824,11 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         }
-      ]
+      ],
+      "assignment_scope": "common"
     },
     {
       "section_id": "anomali_section",
@@ -6444,7 +6845,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "anomali_section.anomali_2_penjelasan",
@@ -6457,7 +6859,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "anomali_section.anomali_3_penjelasan",
@@ -6470,7 +6873,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "anomali_section.anomali_4_penjelasan",
@@ -6483,7 +6887,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "anomali_section.anomali_5_penjelasan",
@@ -6496,7 +6901,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "anomali_section.anomali_6_penjelasan",
@@ -6509,7 +6915,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "anomali_section.anomali_7_penjelasan",
@@ -6522,7 +6929,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         },
         {
           "question_id": "anomali_section.anomali_8_penjelasan",
@@ -6535,9 +6943,11 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "common"
         }
-      ]
+      ],
+      "assignment_scope": "common"
     },
     {
       "section_id": "anomali_keluarga",
@@ -6554,7 +6964,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "anomali_keluarga.anomali_2_dtsen_penjelasan",
@@ -6567,7 +6978,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "anomali_keluarga.anomali_3_dtsen_penjelasan",
@@ -6580,7 +6992,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "anomali_keluarga.anomali_4_dtsen_penjelasan",
@@ -6593,7 +7006,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "anomali_keluarga.anomali_5_dtsen_penjelasan",
@@ -6606,7 +7020,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "anomali_keluarga.anomali_6_dtsen_penjelasan",
@@ -6619,7 +7034,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         },
         {
           "question_id": "anomali_keluarga.anomali_7_dtsen_penjelasan",
@@ -6632,9 +7048,12 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "assignment_scope": "family"
         }
-      ]
+      ],
+      "assignment_scope": "family",
+      "scope_evidence": "DTD 7.1.2: family anomaly section"
     }
   ]
 }

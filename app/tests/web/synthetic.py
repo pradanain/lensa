@@ -194,10 +194,81 @@ def make_database(path, root=ROOT):
         )
     con.commit()
     con.close()
-    path.with_suffix('.sls.json').write_text(json.dumps({
-        'period':'2025_2', 'rows':[
-            {'code':'6502010001000101','sls':'65020100010001','label':'RT 001 / RW 002','rt':'001','rw':'002','kind':'SLS'},
-            {'code':'6502010001000102','sls':'65020100010001','label':'RT 001 / RW 002','rt':'001','rw':'002','kind':'SLS'},
-        ]
-    }),encoding='utf-8')
+    path.with_suffix(".sls.json").write_text(
+        json.dumps(
+            {
+                "period": "2025_2",
+                "rows": [
+                    {
+                        "code": "6502010001000101",
+                        "sls": "65020100010001",
+                        "label": "RT 001 / RW 002",
+                        "rt": "001",
+                        "rw": "002",
+                        "kind": "SLS",
+                    },
+                    {
+                        "code": "6502010001000102",
+                        "sls": "65020100010001",
+                        "label": "RT 001 / RW 002",
+                        "rt": "001",
+                        "rw": "002",
+                        "kind": "SLS",
+                    },
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
     return path
+
+
+def prepare_questionnaire_scope_cases(con):
+    """Distinct root contexts in a temporary synthetic database, without changing default fixtures."""
+    family_sources = (
+        "keluarga",
+        "anggota",
+        "perumahan",
+        "aset_keluarga",
+        "screening",
+        "meteran",
+        "sosial_p0",
+        "p1_pekerjaan",
+        "p1_disabilitas",
+        "p1_kronis_a",
+        "p1_kronis_b",
+    )
+    con.execute("DELETE FROM mart_bku WHERE assignment_id='DTD-0002'")
+    con.execute(
+        "UPDATE mart_keluarga SET nomor_bangunan='0010',kode_penggunaan_bangunan='2',alamat_keluarga='SYNTHETIC_PRIVATE_FAMILY_ADDRESS' WHERE assignment_id='DTD-0002'"
+    )
+    for aid in ("DTD-0003", "DTD-0004"):
+        for source in family_sources:
+            con.execute('DELETE FROM "mart_' + source + '" WHERE assignment_id=?', (aid,))
+    con.execute(
+        "UPDATE mart_bku SET nomor_bangunan='0007',kode_penggunaan_bangunan='1',jalan_domisili='SYNTHETIC_PRIVATE_BKU_ADDRESS' WHERE assignment_id='DTD-0003'"
+    )
+    con.execute("DELETE FROM mart_bku WHERE assignment_id='DTD-0004'")
+    # Old family and current BKU roots must not be combined across versions.
+    for source in (
+        "bku",
+        "usaha",
+        "legalitas_usaha",
+        "kegiatan_usaha",
+        "digital_usaha",
+        "program_usaha",
+        "ekonomi_tahunan",
+        "ekonomi_bulanan",
+        "jaringan_usaha",
+        "kantor_unit",
+        "kantor_pusat",
+    ):
+        con.execute(
+            'UPDATE "mart_' + source + '" SET __version_normalized=? WHERE assignment_id=?', (V2, "DTD-0005")
+        )
+    con.execute("UPDATE mart_bku SET nomor_bangunan='0009' WHERE assignment_id='DTD-0005'")
+    for aid in ("DTD-0002", "DTD-0003"):
+        con.execute(
+            "UPDATE mart_legalitas_usaha SET nama_pengusaha_pj='PJ SINTETIS BERSAMA',jenis_kelamin_pj='1',umur_pj='40',nik_pengusaha_pj='SYNTHETIC_PRIVATE_PJ' WHERE assignment_id=?",
+            (aid,),
+        )

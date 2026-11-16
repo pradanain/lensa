@@ -13,5 +13,6 @@ export default defineConfig({
     {command:'"'+python+'" -B app/tests/web/serve.py --port 8766 --empty-users',cwd:root,url:'http://127.0.0.1:8766/api/health',reuseExistingServer:false,timeout:60000},
     {command:'"'+python+'" -B app/tests/web/serve.py --port 8767 --no-login',cwd:root,url:'http://127.0.0.1:8767/api/health',reuseExistingServer:false,timeout:60000},
     {command:'"'+python+'" -B app/tests/web/serve.py --port 8768 --no-login --business-focus',cwd:root,url:'http://127.0.0.1:8768/api/health',reuseExistingServer:false,timeout:60000},
+    {command:'"'+python+'" -B app/tests/web/serve.py --port 8769 --no-login --questionnaire-scopes',cwd:root,url:'http://127.0.0.1:8769/api/health',reuseExistingServer:false,timeout:60000},
   ],
 })

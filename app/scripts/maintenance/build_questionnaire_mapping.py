@@ -38,6 +38,95 @@ SOURCE_FILES = {
 }
 
 
+def review_dtd_assignment_scopes(sections, schemas, proofs):
+    """Enrich the existing registry with reviewed root scopes and shared projections."""
+    family_sections = {"b_ak", "b_ak_lanjutan", "b_perumahan", "anomali_keluarga"}
+    bku_fields = {"nama_usaha_bang", "ada_bang_usaha", "daftar_kp"}
+    family_fields = {
+        "no_kk",
+        "nik",
+        "nama_kk",
+        "nama_ak_lain",
+        "jumlah_usaha_prelist",
+        "ada_keluarga",
+        "domisili",
+        "jumlah_ak_kk",
+        "jumlah_ak",
+        "usaha_kos",
+        "usaha_keliling",
+        "usaha_online",
+        "usaha_bongkar",
+        "usaha_konstruksi",
+        "usaha_lain",
+        "tanaman_pangan",
+        "hortikultura",
+        "perkebunan",
+        "peternakan",
+        "kehutanan",
+        "perikanan",
+        "jasa_pertanian",
+    }
+
+    def projection(source, field, label=None):
+        for column in (field, label):
+            if column and (column not in schemas[source] or column not in proofs[source]):
+                raise ValueError("UNPROVEN_MAPPING: " + source + "." + column)
+        sql = SQL_ROOT / SOURCE_FILES[source]
+        return dict(
+            source_object="mart_" + source,
+            source_field=field,
+            label_field=label,
+            evidence=dict(
+                sql_path=sql.relative_to(ROOT).as_posix(),
+                sql_sha256=hashlib.sha256(sql.read_bytes()).hexdigest(),
+                expression=proofs[source][field],
+                reference="DTD template 7.1.2; shared root field at exact assignment and version",
+            ),
+        )
+
+    for section in sections:
+        section["assignment_scope"] = "family" if section["section_id"] in family_sections else "common"
+        if section["assignment_scope"] == "family":
+            section["scope_evidence"] = (
+                "DTD 7.1.2: family anomaly section"
+                if section["section_id"] == "anomali_keluarga"
+                else "DTD 7.1.2: enableCondition ec_keluarga_respons"
+            )
+        for field in section["questions"]:
+            scope = section["assignment_scope"]
+            if section["section_id"] == "b5":
+                key = field["template_key"]
+                scope = "family" if key in family_fields else "bku" if key in bku_fields else "common"
+                if key in {"no_bang", "kode_bang"}:
+                    column = "nomor_bangunan" if key == "no_bang" else "kode_penggunaan_bangunan"
+                    field["source_variants"] = [
+                        projection("bku", column, "penggunaan_bangunan" if key == "kode_bang" else None)
+                    ]
+                elif key == "alamat_prelist":
+                    field.update(
+                        projection("bku", "alamat_prelist"),
+                        mapping_status="VERIFIED",
+                        sensitive=True,
+                        roster=None,
+                        exported_scopes=["bku"],
+                    )
+                elif key == "jalan_domisili":
+                    field.update(
+                        projection("keluarga", "alamat_keluarga"),
+                        mapping_status="VERIFIED",
+                        sensitive=True,
+                        roster=None,
+                    )
+                    field["source_variants"] = [projection("bku", "jalan_domisili")]
+                    field["note"] = (
+                        "Alamat keluarga mengikuti COALESCE alamat hasil pendataan/jalan/prelist pada SQL sumber."
+                    )
+            if section["section_id"] == "blokl" and field["template_key"] == "jenis_usaha":
+                scope = "family"  # Template: kode_bang 2/3 or is_cawi_keluarga.
+            # PJ projections already consolidate manual BKU and family roster values in source SQL.
+            field["assignment_scope"] = scope
+
+
 def projections(text):
     text = re.sub(
         r"'(?:''|[^'])*'|\"(?:\"\"|[^\"])*\"|/\*.*?\*/|--[^\n]*",
@@ -449,6 +538,7 @@ def build():
             ]
         dtd.append(dict(section_id=section["section_key"], title=section["section_label"], questions=fields))
 
+    review_dtd_assignment_scopes(dtd, schemas, proofs)
     ub = []
     groups = [
         ("ub_i_1", "Blok I · Identitas perusahaan (r1–9)", 1),

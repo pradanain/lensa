@@ -45,8 +45,8 @@ function QuestionnaireContent() {
     gcTime: 0,
   })
   const form = query.data
-  const sections = form?.sections.filter(item => !['anomali_section', 'anomali_keluarga'].includes(item.section_id)) || []
-  const section = sections.find(item => item.section_id === block) || sections[0]
+  const sections = form?.sections.filter(item => item.applicability !== 'NOT_APPLICABLE' && !['anomali_section', 'anomali_keluarga'].includes(item.section_id)) || []
+  const section = sections.find(item => item.section_id === block) || sections.find(item => item.section_id === 'blokl') || sections[0]
   const activeBlock = section?.section_id || block
   const sectionIndex = sections.findIndex(item => item.section_id === activeBlock)
   const scrollKey = JSON.stringify([system, assignmentId, activeBlock, form?.version, form?.selections])
@@ -84,7 +84,8 @@ function QuestionnaireContent() {
   // Only proven family fields precede the member card; unmapped member questions stay in source order.
   const rootFields = section.questions.filter(field => activeBlock === 'b_ak_lanjutan' ? field.source_object === 'mart_keluarga' : recordKind === 'meters' ? field.roster !== 'meters' : false)
   const recordFields = section.questions.filter(field => !rootFields.includes(field))
-  const description = blockDescriptions[activeBlock]
+  const description = activeBlock === 'b5' && form.assignment_context?.kind === 'BKU'
+    ? {badge: 'P', description: 'Keterangan bangunan dan usaha'} : blockDescriptions[activeBlock]
   const offices = activeBlock === 'blokl' ? form.rosters.offices || [] : []
 
   return <div className={'questionnaire-page form-reader ' + (expanded ? 'is-expanded' : '')} onKeyDown={event => {
@@ -100,6 +101,7 @@ function QuestionnaireContent() {
         <div className="reader-source-body">
           <p>{[form.assignment.desa_kelurahan, form.assignment.kecamatan].filter(Boolean).join(' / ')}</p>
           <p>Assignment ID <code>{assignmentId}</code></p>
+          {form.assignment_context && <p>Jenis assignment: {{KELUARGA:'Keluarga',BKU:'Bangunan khusus usaha (BKU)',KELUARGA_BKU:'Keluarga dan BKU',UNKNOWN:'Belum dapat dipastikan pada versi ini',UB:'Usaha Besar'}[form.assignment_context.kind]}</p>}
           {system === 'dtd' && <label>Versi kuesioner<SearchSelect aria-label="Versi kuesioner" value={form.version || ''} onValueChange={version => select({version, business: undefined, member: undefined, meter: undefined, office: undefined})}>
             {form.available_versions.map(version => <option value={version} key={version}>{version}</option>)}
             {!form.available_versions.length && <option value="">Tidak ada versi rincian</option>}
@@ -144,7 +146,7 @@ const missingAnswers: Record<string, string> = {BLANK_OR_MISSING: 'Belum terisi'
 const presentationOnlyQuestions = new Set(['blokl.pilih_umkm_sls', 'blokl.alamat_usaha_view'])
 
 function QuestionFields({fields}: {fields: Question[]}) {
-  const questions = fields.filter(field => !presentationOnlyQuestions.has(field.question_id) || field.status !== 'UNVERIFIED_MAPPING')
+  const questions = fields.filter(field => field.applicability !== 'NOT_APPLICABLE' && (!presentationOnlyQuestions.has(field.question_id) || field.status !== 'UNVERIFIED_MAPPING'))
   if (!questions.length) return null
   return <div className="question-list">{questions.map(field => {
     const context = [periodLabels[field.period || ''], field.unit === 'SOURCE_UNIT_UNVERIFIED' ? 'Satuan belum terverifikasi' : field.unit === 'SOURCE_COUNT' ? 'Jumlah' : field.unit].filter(Boolean).join(' / ')
@@ -156,7 +158,7 @@ function QuestionFields({fields}: {fields: Question[]}) {
         {field.reference_label && <p className="reference-answer">{field.reference_label}</p>}
         {field.parse_status && field.parse_status !== 'VALID' && <p className="parse-warning">Format angka perlu diperiksa.</p>}
         {context && <small className="answer-context">{context}</small>}
-      </> : <p className="unavailable-answer answer-state">{missingAnswers[field.status] || missingAnswers.UNVERIFIED_MAPPING}</p>}</div>
+      </> : <p className="unavailable-answer answer-state">{field.source_conflict ? 'Jawaban berbeda antar sumber' : missingAnswers[field.status] || missingAnswers.UNVERIFIED_MAPPING}</p>}</div>
     </div>
   })}</div>
 }

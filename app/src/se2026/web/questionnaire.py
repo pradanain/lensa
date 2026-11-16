@@ -31,6 +31,10 @@ def choice_code(value):
     return match[1] if match else str(value).strip()
 
 
+def mapping_variants(schema):
+    return [schema, *(dict(schema, **variant) for variant in schema.get("source_variants", []))]
+
+
 class Questionnaires:
     def __init__(self, settings, references):
         self.settings, self.references = settings, references
@@ -53,23 +57,24 @@ class Questionnaires:
             for form in self.forms.values():
                 ids = set()
                 for section in form["sections"]:
-                    for field in section["questions"]:
-                        if field["question_id"] in ids:
+                    for original in section["questions"]:
+                        if original["question_id"] in ids:
                             raise ValueError("DUPLICATE_QUESTION_ID")
-                        ids.add(field["question_id"])
-                        if field["mapping_status"] != "VERIFIED":
-                            continue
-                        sid = field["source_object"].removeprefix("mart_")
-                        if sid not in self.schemas or field["source_field"] not in self.schemas[sid]:
-                            raise ValueError("QUESTIONNAIRE_SCHEMA_DRIFT")
-                        if field.get("label_field") and field["label_field"] not in self.schemas[sid]:
-                            raise ValueError("QUESTIONNAIRE_LABEL_DRIFT")
-                        evidence = field["evidence"]
-                        path = settings.root / evidence["sql_path"]
-                        if evidence["sql_path"] not in verified:
-                            verified[evidence["sql_path"]] = hashlib.sha256(path.read_bytes()).hexdigest()
-                        if verified[evidence["sql_path"]] != evidence["sql_sha256"]:
-                            raise ValueError("QUESTIONNAIRE_SQL_EVIDENCE_DRIFT")
+                        ids.add(original["question_id"])
+                        for field in mapping_variants(original):
+                            if field["mapping_status"] != "VERIFIED":
+                                continue
+                            sid = field["source_object"].removeprefix("mart_")
+                            if sid not in self.schemas or field["source_field"] not in self.schemas[sid]:
+                                raise ValueError("QUESTIONNAIRE_SCHEMA_DRIFT")
+                            if field.get("label_field") and field["label_field"] not in self.schemas[sid]:
+                                raise ValueError("QUESTIONNAIRE_LABEL_DRIFT")
+                            evidence = field["evidence"]
+                            path = settings.root / evidence["sql_path"]
+                            if evidence["sql_path"] not in verified:
+                                verified[evidence["sql_path"]] = hashlib.sha256(path.read_bytes()).hexdigest()
+                            if verified[evidence["sql_path"]] != evidence["sql_sha256"]:
+                                raise ValueError("QUESTIONNAIRE_SQL_EVIDENCE_DRIFT")
 
     def schema_summary(self):
         return {
@@ -101,7 +106,9 @@ class Questionnaires:
             columns.add(roster_label)
         for form in self.forms.values():
             for section in form["sections"]:
-                for field in section["questions"]:
+                for field in (
+                    variant for original in section["questions"] for variant in mapping_variants(original)
+                ):
                     if (
                         field["mapping_status"] == "VERIFIED"
                         and field["source_object"] == "mart_" + name
@@ -198,6 +205,60 @@ class Questionnaires:
                     other_keys[sid] = (key_columns, other)
                     if other:
                         other_versions.add(sid)
+        family_root = rows.get("keluarga", [])
+        bku_root = rows.get("bku", [])
+        family_modules = any(
+            rows.get(sid)
+            for sid in (
+                "anggota",
+                "perumahan",
+                "aset_keluarga",
+                "screening",
+                "meteran",
+                "sosial_p0",
+                "p1_pekerjaan",
+                "p1_disabilitas",
+                "p1_kronis_a",
+                "p1_kronis_b",
+            )
+        )
+        root_conflict = len(family_root) > 1 or len(bku_root) > 1
+        kind = (
+            "UB"
+            if system == "ub"
+            else "UNKNOWN"
+            if root_conflict
+            else "KELUARGA_BKU"
+            if bku_root and (family_root or family_modules)
+            else "KELUARGA"
+            if family_root
+            else "BKU"
+            if bku_root
+            else "UNKNOWN"
+        )
+        assignment_context = dict(
+            kind=kind,
+            family_root_present=bool(family_root),
+            bku_root_present=bool(bku_root),
+            status="ASSIGNMENT_KEY_VERIFIED"
+            if system == "ub"
+            else "ROOT_CONFLICT"
+            if root_conflict
+            else "EXACT_VERSION_ROOT"
+            if family_root or bku_root
+            else "FAMILY_MODULES_WITHOUT_ROOT"
+            if family_modules
+            else "ROOT_NOT_AVAILABLE",
+        )
+
+        def applicability(scope):
+            if scope == "common" or not scope:
+                return "APPLICABLE"
+            if kind == "UNKNOWN":
+                return "UNKNOWN"
+            applies = kind in ({"KELUARGA", "KELUARGA_BKU"} if scope == "family" else {"BKU", "KELUARGA_BKU"})
+            return "APPLICABLE" if applies else "NOT_APPLICABLE"
+
         rosters = {"businesses": {}, "members": {}, "meters": {}, "offices": {}}
         for sid in ["anggota", "sosial_p0", "p1_pekerjaan", "p1_disabilitas", "p1_kronis_a", "p1_kronis_b"]:
             for row in rows.get(sid, []):
@@ -302,17 +363,65 @@ class Questionnaires:
                     ]
                 }
                 result.update(value=None, label=None, status="UNVERIFIED_MAPPING", parse_status=None)
-                sid = (schema.get("source_object") or "").removeprefix("mart_")
+                result["applicability"] = applicability(schema.get("assignment_scope"))
                 if schema["mapping_status"] == "NOT_EXPORTED":
                     result["status"] = "NOT_EXPORTED"
                 elif schema.get("sensitive") and not can_sensitive:
                     result["status"] = "RESTRICTED"
+                elif (
+                    schema.get("exported_scopes")
+                    and kind in {"KELUARGA", "BKU"}
+                    and ("family" if kind == "KELUARGA" else "bku") not in schema["exported_scopes"]
+                ):
+                    result["status"] = "NOT_EXPORTED"
                 elif schema["mapping_status"] == "VERIFIED":
-                    row = selected(sid, schema.get("roster"))
+                    variants = mapping_variants(schema)
+                    candidates = [
+                        (
+                            variant,
+                            selected(variant["source_object"].removeprefix("mart_"), variant.get("roster")),
+                        )
+                        for variant in variants
+                    ]
+                    available = [(variant, row) for variant, row in candidates if row is not None]
+                    conflicting = (
+                        len(
+                            {
+                                str(row.get(variant["source_field"]))
+                                if present(row.get(variant["source_field"]))
+                                else None
+                                for variant, row in available
+                            }
+                        )
+                        > 1
+                    )
+                    duplicate_root = any(
+                        not variant.get("roster")
+                        and len(rows.get(variant["source_object"].removeprefix("mart_"), [])) > 1
+                        for variant in variants
+                    )
+                    if conflicting or duplicate_root:
+                        result.update(
+                            source_conflict=True,
+                            note="Jawaban berbeda atau kunci ganda pada sumber versi terpilih.",
+                            source_candidates=[
+                                dict(source_object=v["source_object"], source_field=v["source_field"])
+                                for v in variants
+                            ],
+                        )
+                        fields.append(result)
+                        continue
+                    effective, row = available[0] if available else (schema, None)
+                    sid = effective["source_object"].removeprefix("mart_")
+                    result.update(
+                        source_object=effective["source_object"], source_field=effective["source_field"]
+                    )
                     result["status"] = "BLANK_OR_MISSING"
                     if row:
-                        value = row.get(schema["source_field"])
-                        label = row.get(schema.get("label_field")) if schema.get("label_field") else None
+                        value = row.get(effective["source_field"])
+                        label = (
+                            row.get(effective.get("label_field")) if effective.get("label_field") else None
+                        )
                         if present(value) or present(label):
                             result.update(
                                 value=str(value) if value is not None else None,
@@ -343,15 +452,28 @@ class Questionnaires:
                         result["provenance"] = {
                             k: row.get(k) for k in ["__source_sha256", "__batch_id", "__version_normalized"]
                         }
-                    elif has_other_version(sid, schema.get("roster")):
+                    elif any(
+                        has_other_version(
+                            variant["source_object"].removeprefix("mart_"), variant.get("roster")
+                        )
+                        for variant in variants
+                    ):
                         result["status"] = "UNMATCHED_VERSION"
                     elif eligibility(schema.get("visibility_rule")) is True:
                         result["status"] = "SKIPPED_NOT_APPLICABLE"
                 fields.append(result)
-            rendered.append(dict(section_id=section["section_id"], title=section["title"], questions=fields))
+            rendered.append(
+                dict(
+                    section_id=section["section_id"],
+                    title=section["title"],
+                    questions=fields,
+                    applicability=applicability(section.get("assignment_scope")),
+                )
+            )
         return dict(
             form=system,
             assignment=dict(master),
+            assignment_context=assignment_context,
             version=version,
             available_versions=sorted(versions, reverse=True),
             selections=selections,
