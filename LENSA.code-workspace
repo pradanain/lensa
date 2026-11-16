@@ -1,0 +1,22 @@
+{
+  "folders": [
+    {
+      "name": "LENSA - Aplikasi",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/.cache": true,
+      "**/.ruff_cache": true,
+      "**/node_modules": true
+    },
+    "search.exclude": {
+      "**/.cache": true,
+      "**/node_modules": true,
+      "**/dist": true
+    },
+    "python.defaultInterpreterPath": "${workspaceFolder}/.cache/venv/Scripts/python.exe"
+  }
+}

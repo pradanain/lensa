@@ -64,7 +64,7 @@ export function RegionChart({metricId,title,scopeNote='Semua status sumber tetap
   if(result.isPending)return <Loading variant="chart"/>
   if(result.error)return <ErrorBox error={result.error}/>
   const rows=result.data?.rows||[]
-  const heading=combinedTitle?'Distribusi '+title.replace(/^Sebaran /,'')+' Menurut '+(level==='desa'?'Desa / Kelurahan':level==='subsls'?'SUB-SLS':level==='sls'?'SLS':'Kecamatan'):title
+  const heading=combinedTitle?'Distribusi '+title.replace(/^(?:Sebaran|Distribusi) /,'')+' Menurut '+(level==='desa'?'Desa / Kelurahan':level==='subsls'?'SUB-SLS':level==='sls'?'SLS':'Kecamatan'):title
   const data=rows.map(row=>{const geo=row.dimensions[level] as {display_label?:string;geo_status?:string};return {name:geo?.display_label||'Wilayah tidak tersedia',value:row.value==null?null:Number(row.value)}}).sort((a,b)=>(b.value??-1)-(a.value??-1)).slice(0,10)
   return <Card className="region-chart"><div className="card-heading"><div><h2>{heading}</h2>{!combinedTitle&&<p>Menurut {level==='desa'?'desa / kelurahan':level==='subsls'?'SUB-SLS':level==='sls'?'SLS':'kecamatan'} | wilayah assignment</p>}</div></div>{data.length?<BarChart data={data} label={title}/>:<p className="muted small">Tidak ada data pada wilayah ini.</p>}{showFootnote&&<p className="muted small">{rows.length>10?'Menampilkan 10 wilayah dengan jumlah terbesar. ':''}Nilai yang ditahan tidak ditampilkan sebagai nol. {scopeNote}</p>}</Card>
 }

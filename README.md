@@ -4,6 +4,33 @@ Eksplorasi dan Analisis SE2026 - BPS Kabupaten Bulungan.
 
 Aplikasi FastAPI + React/TypeScript untuk direktori usaha UMKM/UB, komposisi sektor, distribusi wilayah, pencarian KBLI 2025 dan ekspor Excel. Halaman Dashboard, Keluarga dan Raw Data sementara dibatasi dengan 403. Sensus dibaca dari SQLite existing; akun, cache, FTS dan audit memakai database aplikasi terpisah.
 
+## Folder pengembangan
+
+Folder ini menjadi tempat mengembangkan aplikasi. Buka folder ini di editor; jalankan Git, backend, frontend dan tes dari sini.
+
+```text
+Sensus Ekonomi 2026/
+|-- lensa-se2026/       Kode aplikasi dan pengembangan aktif
+|   |-- app/web/        UI React
+|   |-- app/src/        API dan analitik Python
+|   |-- app/config/     Registry, master dan mapping kuesioner
+|   |-- app/sql/        Query aplikasi dan bukti sumber
+|   |-- app/deploy/     Konfigurasi deployment
+|   |-- app/tests/      Tes sintetis
+|   |-- docs/           Panduan aplikasi
+|   |-- .cache/         Virtualenv dan cache lokal
+|   `-- .env            Path database lokal, tidak masuk Git
+`-- Data/               Database, RAW, provenance dan arsip pengolahan
+    |-- data/processed/se2026.sqlite
+    |-- data/app/portal.sqlite
+    |-- data/raw/
+    `-- archive/
+```
+
+Pada komputer ini `.env` mengarahkan aplikasi ke database existing di folder `Data`, menggunakan path absolut. Database sensus dibaca saja; state akun/cache tetap terpisah. Tidak ada duplikasi database atau sinkronisasi dua salinan kode. Salinan kode lama di folder Data dipertahankan untuk pemulihan, dan pengembangan berikutnya dilakukan di folder ini.
+
+Skrip pipeline, SQL historis, dan dua skrip kompatibilitas di `archive/project_history/scripts/` tetap tersedia untuk tes/provenance. Skrip tersebut bukan startup aplikasi. Pemeliharaan/sinkronisasi data tetap mengikuti workspace Data dan aturan validasinya.
+
 ## Production
 
 Image amd64: `ghcr.io/pradanain/lensa:latest`, dengan tag immutable `sha-<commit>`.
@@ -13,7 +40,7 @@ Image amd64: `ghcr.io/pradanain/lensa:latest`, dengan tag immutable `sha-<commit
 - Satu container menyajikan API dan frontend pada port internal 8000.
 - Network Traefik existing: `cloudflared-net`; tidak ada port host yang dipublikasikan.
 - Compose production: `app/deploy/compose.yml`; file `compose.yaml` root hanya untuk pengembangan.
-- Mode production mewajibkan autentikasi, cookie Secure, HTTPS origin dan akun admin privat. Setup web ditutup.
+- Login ditunda secara default, termasuk production. HTTPS, cookie Secure dan perlindungan CSRF tetap aktif; setup web ditutup. Akun existing dipertahankan.
 - Workflow GitHub menguji source, membangun image, melakukan smoke test memakai data sintetis, lalu menerbitkan image SHA dan latest ke GHCR. Server hanya pull dan menjalankan image.
 - Repository dan image tidak membawa dataset sensus, RAW, akun, password atau backup privat. Dataset dan state ditransfer secara privat ke server.
 
@@ -30,7 +57,7 @@ cd ../..
 python -B app/scripts/run_portal.py
 ```
 
-Lokasi default dataset privat: `data/processed/se2026.sqlite`; database aplikasi: `data/app/portal.sqlite`. Jangan menjalankan builder/sinkronisasi sebagai startup portal.
+Tanpa konfigurasi, lokasi default dataset privat adalah `data/processed/se2026.sqlite` dan state `data/app/portal.sqlite`. Pada workspace pengembangan terpisah ini, `.env` memakai lokasi existing di `../Data/data/`. Jangan menjalankan builder/sinkronisasi sebagai startup portal.
 
 ## Pengujian
 

@@ -109,9 +109,9 @@ export function Kbli() {
           </div></div>
               {level<5&&<Button variant="ghost" size="sm" className="kbli-subcode" disabled={tree.isPlaceholderData} aria-label={'Subkode '+node.code} onClick={()=>choose(node.code,level)}>Subkode<ChevronRight size={14}/></Button>}
           </div></td>
-          <td className="kbli-numeric-column">{number(node.reference_codes)}</td>
-          <td className="kbli-unit-column">{session?.user?.can_detail?<Button variant="outline" size="sm" className="kbli-count-link" disabled={tree.isPlaceholderData} aria-label={'Lihat '+'UMKM'+' '+node.prefix} title="Lihat direktori usaha" onClick={()=>directory(node,'dtd')}><span>{number(node.dtd_units)}</span><ArrowUpRight size={14}/></Button>:number(node.dtd_units)}</td>
-          <td className="kbli-unit-column">{session?.user?.can_detail?<Button variant="outline" size="sm" className="kbli-count-link" disabled={tree.isPlaceholderData} aria-label={'Lihat UB '+node.prefix} title="Lihat direktori Usaha Besar (UB)" onClick={()=>directory(node,'ub')}><span>{number(node.ub_units)}</span><ArrowUpRight size={14}/></Button>:number(node.ub_units)}</td>
+          <td data-label="Rincian Kode" className="kbli-numeric-column">{number(node.reference_codes)}</td>
+          <td data-label="UMKM" className="kbli-unit-column">{session?.user?.can_detail?<Button variant="outline" size="sm" className="kbli-count-link" disabled={tree.isPlaceholderData} aria-label={'Lihat '+'UMKM'+' '+node.prefix} title="Lihat direktori usaha" onClick={()=>directory(node,'dtd')}><span>{number(node.dtd_units)}</span><ArrowUpRight size={14}/></Button>:number(node.dtd_units)}</td>
+          <td data-label="Usaha Besar (UB)" className="kbli-unit-column">{session?.user?.can_detail?<Button variant="outline" size="sm" className="kbli-count-link" disabled={tree.isPlaceholderData} aria-label={'Lihat UB '+node.prefix} title="Lihat direktori Usaha Besar (UB)" onClick={()=>directory(node,'ub')}><span>{number(node.ub_units)}</span><ArrowUpRight size={14}/></Button>:number(node.ub_units)}</td>
         </tr>)}</tbody></table>
         {tree.data?.rows.length===0&&<div className="empty"><h3>Tidak ada kode yang sesuai</h3><p>Ubah filter atau kata pencarian.</p></div>}
       </div>
