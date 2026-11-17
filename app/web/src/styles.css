@@ -866,6 +866,10 @@ tbody tr .button { margin: -6px 0; }
 .industry-heading > label { width: min(330px,38%); flex-shrink: 0; }
 .business-overview > .insight-sector-card { padding: 18px; min-width: 0; }
 .sector-composition { display: grid; grid-template-columns: minmax(230px,.8fr) minmax(0,1.4fr); align-items: start; gap: 28px; }
+.sector-composition.sector-composition-bars { grid-template-columns: minmax(0,1fr); }
+.sector-count-note { margin: 0 0 16px; font-size: 12px; color: var(--muted); }
+.sector-count-track { display: block; height: 8px; border-radius: 4px; background: #edf1f4; overflow: hidden; }
+.sector-count-track i { display: block; height: 100%; border-radius: inherit; }
 .composition-plot { position: relative; min-width: 0; }
 .sector-composition .composition-plot { position: sticky; top: 100px; }
 .sector-composition .composition-plot { overflow: hidden; }

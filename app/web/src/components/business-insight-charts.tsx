@@ -20,6 +20,8 @@ export function Composition({data,label,type='donut',onSelect,showPercentages=fa
   const chartRef=useRef<ECharts|null>(null)
   const [page,setPage]=useState(1);const [pageSize,setPageSize]=useState(10)
   const withheld=data.some(d=>d.value==null)
+  const countBars=sectorLayout&&withheld
+  const largestCount=Math.max(1,...data.flatMap(d=>d.value==null?[]:[d.value]))
   const hasValue=data.some(d=>(d.value??0)>0)
   const total=withheld?null:data.reduce((sum,d)=>sum+(d.value??0),0)
   function percentage(value:number|null){return showPercentages&&total!=null&&total>0&&value!=null?compactNumber(value/total*100)+'%':null}
@@ -41,16 +43,16 @@ export function Composition({data,label,type='donut',onSelect,showPercentages=fa
   function highlight(index?:number){chartRef.current?.dispatchAction({type:'downplay',seriesIndex:0});if(index!=null)chartRef.current?.dispatchAction({type:'highlight',seriesIndex:0,dataIndex:index})}
   const currentPage=Math.min(page,Math.max(1,Math.ceil(data.length/pageSize)))
   const visible=data.slice((currentPage-1)*pageSize,currentPage*pageSize)
-  return <div className={'insight-composition insight-composition-'+type+(sectorLayout?' sector-composition':'')}>
-    <div className="composition-plot">
+  return <div className={'insight-composition insight-composition-'+type+(sectorLayout?' sector-composition':'')+(countBars?' sector-composition-bars':'')} role={countBars?'region':undefined} aria-label={countBars?label+' (grafik batang)':undefined}>
+    {!countBars&&<div className="composition-plot">
     {withheld?<p className="insight-empty" role="status">Sebagian nilai ditahan. Proporsi tidak digambarkan.</p>:!hasValue?<p className="insight-empty">Belum ada data untuk komposisi ini.</p>:<div className="insight-chart" ref={host} role="img" aria-label={label} aria-description={data.map(d=>d.name+': '+number(d.value)+(percentage(d.value)?' · '+percentage(d.value):'')).join('; ')}/>}
     {sectorLayout&&!withheld&&hasValue&&<div className="sector-donut-total"><span>Total usaha</span><strong>{number(total)}</strong><small>{data.filter(d=>(d.value??0)>0&&/^[A-V]$/.test(d.code||'')).length} sektor</small></div>}
-    </div>
-    {sectorLayout?<div className="sector-breakdown"><div className="sector-list-heading"><span>Sektor lapangan usaha</span><span>Jumlah / Persentase</span></div><div className="sector-list">{visible.map((d,i)=>{
+    </div>}
+    {sectorLayout?<div className="sector-breakdown">{countBars&&<p className="sector-count-note" role="status">Sebagian nilai ditahan (—). Batang menampilkan jumlah yang tersedia.</p>}<div className="sector-list-heading"><span>Sektor lapangan usaha</span><span>{countBars?'Jumlah usaha':'Jumlah / Persentase'}</span></div><div className="sector-list">{visible.map((d,i)=>{
       const index=(currentPage-1)*pageSize+i;const navigable=!!onSelect&&/^[A-V]$/.test(d.code||'');const share=percentage(d.value)
       return <button type="button" className="sector-row" key={d.code||d.name} disabled={!navigable} onMouseEnter={()=>highlight(index)} onMouseLeave={()=>highlight()} onFocus={()=>highlight(index)} onBlur={()=>highlight()} onClick={()=>d.code&&onSelect?.(d.code)} aria-label={d.name+', '+number(d.value)+(share?', '+share:'')}>
         <span className="sector-code" style={{color:datumColor(d,index),borderColor:datumColor(d,index)}}>{d.code?.startsWith('__')?'—':d.code}</span>
-        <span className="sector-row-main"><span className="sector-name">{d.name.replace(/^[A-V]\s*[·-]\s*/, '')}</span>{share&&<span className="sector-share-track"><i style={{width:(d.value??0)/total!*100+'%',background:datumColor(d,index)}}/></span>}</span>
+        <span className="sector-row-main"><span className="sector-name">{d.name.replace(/^[A-V]\s*[·-]\s*/, '')}</span>{share&&<span className="sector-share-track"><i style={{width:(d.value??0)/total!*100+'%',background:datumColor(d,index)}}/></span>}{countBars&&d.value!=null&&<span className="sector-count-track" aria-hidden="true"><i style={{width:d.value/largestCount*100+'%',background:datumColor(d,index)}}/></span>}</span>
         <span className="sector-row-value"><strong>{number(d.value)}</strong>{share&&<small className="insight-share">{share}</small>}</span>{navigable?<ArrowUpRight size={14} className="sector-open"/>:<span/>}
       </button>
     })}</div>{data.length>10&&<Pagination page={currentPage} pageSize={pageSize} total={data.length} label="Sektor per halaman" onPage={setPage} onPageSize={size=>{setPageSize(size);setPage(1)}}/>}</div>:<div className="insight-legend">{data.map((d,i)=><div key={d.code||d.name}><span className="insight-swatch" style={{background:datumColor(d,i)}}/><span title={d.name}>{d.name}</span><strong>{number(d.value)}{percentage(d.value)&&<small className="insight-share">{percentage(d.value)}</small>}</strong></div>)}</div>}

@@ -699,6 +699,41 @@ test('sector donut shows readable counts and shares and opens the selected categ
 })
 
 
+test('UB sector counts use bars when values are withheld and keep source navigation and mobile layout',async({page})=>{
+  await page.route('**/api/v1/analytics/query',async route=>{
+    const body=route.request().postDataJSON()
+    if(!['ub.enumerated_count','usaha.enumerated_count'].includes(body.metric_id)||JSON.stringify(body.group_by)!==JSON.stringify(['kategori']))return route.continue()
+    const response=await route.fetch();const payload=await response.json();const base=payload.rows[0]
+    const counts=body.metric_id==='ub.enumerated_count'?[['A',40],['G',20],['C',0],['L',null],['D',null]]:[['A',50],['G',30]]
+    payload.rows=counts.map(([kategori,value])=>({...base,dimensions:{kategori},value,suppressed:value==null}))
+    await route.fulfill({response,json:payload})
+  })
+  await page.setViewportSize({width:1440,height:1000})
+  await page.goto('http://127.0.0.1:8767/usaha?source=ub&section=komposisi')
+  const bars=page.getByRole('region',{name:'Komposisi sektor usaha (grafik batang)',exact:true})
+  await expect(bars).toBeVisible()
+  await expect(bars.locator('.sector-row-value strong')).toHaveText(['40','20','0','—','—'])
+  await expect(bars.locator('.sector-count-track')).toHaveCount(3)
+  expect(await bars.locator('.sector-count-track i').evaluateAll(elements=>elements.map(el=>(el as HTMLElement).style.width))).toEqual(['100%','50%','0%'])
+  await expect(bars.locator('.composition-plot, .sector-donut-total, .insight-share')).toHaveCount(0)
+  await expect(bars).not.toContainText('%')
+  await page.screenshot({path:'../../docs/reports/app/screenshots/sector-bars-ub-desktop-synthetic.png',fullPage:true})
+  for(const width of [320,390,820]){
+    await page.setViewportSize({width,height:844})
+    await expect(bars).toBeVisible()
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+  }
+  await page.screenshot({path:'../../docs/reports/app/screenshots/sector-bars-ub-mobile-synthetic.png',fullPage:true})
+  await bars.locator('.sector-row').first().click()
+  await expect(page.getByRole('heading',{name:'KBLI 5 digit terbanyak',exact:true})).toBeVisible()
+  await expect(page).toHaveURL(/source=ub/)
+  await page.setViewportSize({width:1440,height:1000})
+  await page.getByRole('button',{name:'Komposisi Sektor',exact:true}).click()
+  await selectValue(page,'Sumber','dtd')
+  await expect(page.locator('.sector-donut-total strong')).toHaveText('80')
+  await expect(page.locator('.sector-composition-bars')).toHaveCount(0)
+})
+
 test('business subtabs share card headings and KBLI labels include reference categories',async({page})=>{
   await page.setViewportSize({width:1440,height:1000})
   await page.goto('http://127.0.0.1:8767/usaha')

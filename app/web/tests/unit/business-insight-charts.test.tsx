@@ -38,6 +38,37 @@ it('sector presentation keeps withheld totals private and available categories c
   expect(init).not.toHaveBeenCalled()
 })
 
+it('compares available sector counts with bars without inferring hidden values or percentages',()=>{
+  const {container}=render(<Composition sectorLayout showPercentages label="Sektor" data={[{code:'A',name:'Pertanian',value:20},{code:'G',name:'Perdagangan',value:10},{code:'C',name:'Industri',value:0},{code:'L',name:'Keuangan',value:null}]}/> )
+  expect(screen.getByRole('region',{name:'Sektor (grafik batang)'})).toBeTruthy()
+  expect(Array.from(container.querySelectorAll<HTMLElement>('.sector-count-track i'),el=>el.style.width)).toEqual(['100%','50%','0%'])
+  const rows=container.querySelectorAll('.sector-row')
+  expect(rows[2].querySelector('.sector-row-value')?.textContent).toBe('0')
+  expect(rows[3].querySelector('.sector-count-track')).toBeNull()
+  expect(rows[3].querySelector('.sector-row-value')?.textContent).toBe('—')
+  expect(container.querySelector('.composition-plot, .sector-donut-total, .insight-share')).toBeNull()
+  expect(container.textContent).not.toContain('%')
+  expect(init).not.toHaveBeenCalled()
+})
+
+it('keeps entirely withheld sectors distinct from zero and returns to a donut when all counts are available',()=>{
+  vi.stubGlobal('ResizeObserver',class{observe(){} disconnect(){}})
+  const {container,rerender}=render(<Composition sectorLayout label="Sektor" data={[{name:'A',value:null},{name:'B',value:null}]}/> )
+  expect(container.querySelector('.sector-count-track')).toBeNull()
+  expect(Array.from(container.querySelectorAll('.sector-row-value'),el=>el.textContent)).toEqual(['—','—'])
+  expect(init).not.toHaveBeenCalled()
+  rerender(<Composition sectorLayout label="Sektor" data={[{name:'A',value:20},{name:'B',value:10}]}/>)
+  expect(container.querySelector('.sector-composition-bars')).toBeNull()
+  expect(screen.getByRole('img',{name:'Sektor'})).toBeTruthy()
+  expect(container.querySelector('.sector-donut-total strong')?.textContent).toBe('30')
+  expect(init).toHaveBeenCalledTimes(1)
+  const chart=init.mock.results[0].value
+  rerender(<Composition sectorLayout label="Sektor" data={[{name:'A',value:20},{name:'B',value:null}]}/>)
+  expect(chart.dispose).toHaveBeenCalledTimes(1)
+  expect(container.querySelector('.insight-chart, .sector-donut-total')).toBeNull()
+  expect(container.querySelector('.sector-count-track')).not.toBeNull()
+})
+
 it('sector list pagination retains the full total and sector shares',()=>{
   vi.stubGlobal('ResizeObserver',class{observe(){} disconnect(){}})
   const {container}=render(<Composition sectorLayout showPercentages label="Sektor" data={Array.from({length:11},(_,i)=>({code:String.fromCharCode(65+i),name:'Sektor '+i,value:10}))}/> )
