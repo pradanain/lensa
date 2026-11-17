@@ -193,7 +193,7 @@ def review_dtd_geography(sections, schemas, proofs):
         section["availability_note"] = (
             "Wilayah mengikuti master assignment, bukan isian perubahan wilayah pada versi kuesioner."
             if section["section_id"] == "b1_p"
-            else "Identitas dan kontak pemberi informasi tidak disertakan dalam ekspor lokal."
+            else "Data pemberi jawaban tidak tersedia dalam file lokal. Ini tidak menunjukkan apakah formulir asli telah diisi."
         )
         for field in section["questions"]:
             key = field["template_key"]
@@ -229,6 +229,22 @@ def review_dtd_geography(sections, schemas, proofs):
             elif key in {"kode_sls", "nama_sls"}:
                 field["value_transform"] = (
                     "ASSIGNMENT_SLS_CODE" if key == "kode_sls" else "ASSIGNMENT_SLS_NAME"
+                )
+
+
+def review_dtd_capital_coverage(sections):
+    """Annual capital fields are absent from local exports; founding capital differs."""
+    keys = {"pribadi", "non_profit", "publik", "non_publik", "pemerintah", "asing", "info_total"}
+    for section in sections:
+        if section["section_id"] != "blokl":
+            continue
+        for field in section["questions"]:
+            if field["template_key"] in keys and field["mapping_status"] == "UNVERIFIED":
+                field.update(
+                    mapping_status="NOT_EXPORTED",
+                    availability_group="annual_capital",
+                    availability_note="Rincian modal tahunan tidak disertakan dalam file lokal. Modal saat usaha didirikan adalah isian berbeda dan tidak digunakan sebagai pengganti.",
+                    note="Annual capital raw fields exist in historical PART_09 metadata, but not in local export headers or the active SQLite schema.",
                 )
 
 
@@ -734,6 +750,7 @@ def build():
 
     review_dtd_assignment_scopes(dtd, schemas, proofs)
     review_dtd_geography(dtd, schemas, proofs)
+    review_dtd_capital_coverage(dtd)
     template_html = (ROOT / "codex_app_brief/referensi/DTD/SE2026.html").read_text(encoding="utf-8-sig")
     marker = re.search(r"window\.__TPL\s*=\s*", template_html)
     if not marker:

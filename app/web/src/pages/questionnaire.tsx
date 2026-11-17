@@ -1,7 +1,7 @@
 import {createContext, useContext, useLayoutEffect, useRef, useState, type ReactNode} from 'react'
 import {useNavigate, useParams, useSearch} from '@tanstack/react-router'
 import {useQuery} from '@tanstack/react-query'
-import {ArrowLeft, BookOpen, ChevronLeft, ChevronRight, MapPin, Maximize, Minimize} from 'lucide-react'
+import {ArrowLeft, ArrowUp, BookOpen, ChevronLeft, ChevronRight, MapPin, Maximize, Minimize} from 'lucide-react'
 import {api, detailNavigation, type FormResult, type Question, type QuestionnaireLocation, type SearchState} from '@/lib/api'
 import {answerText, questionNumber} from '@/lib/questionnaire-display'
 import {useAuth} from '@/auth'
@@ -91,6 +91,19 @@ function QuestionnaireContent() {
   const description = activeBlock === 'b5' && form.assignment_context?.kind === 'BKU'
     ? {badge: 'P', description: 'Keterangan bangunan dan usaha'} : blockDescriptions[activeBlock]
   const offices = activeBlock === 'blokl' ? form.rosters.offices || [] : []
+  const jumpFields = (recordKind&&records.length===0?rootFields:section.questions).filter(field=>field.applicability!=='NOT_APPLICABLE'&&field.display_state!=='HIDDEN'&&!presentationOnlyQuestions.has(field.question_id))
+  function jumpToQuestion(id:string) {
+    const row=Array.from(stage.current?.querySelectorAll<HTMLElement>('[data-question-id]')||[]).find(element=>element.dataset.questionId===id)
+    if(!row)return
+    const opened:Record<string,boolean>={}
+    let parent=row.parentElement
+    while(parent&&parent!==stage.current){
+      if(parent instanceof HTMLDetailsElement){parent.open=true;if(parent.dataset.disclosureKey)opened[parent.dataset.disclosureKey]=true}
+      parent=parent.parentElement
+    }
+    setOpenedGroups(previous=>({...previous,...opened}))
+    requestAnimationFrame(()=>{row.scrollIntoView({block:'start'});row.querySelector<HTMLElement>('h3')?.focus({preventScroll:true})})
+  }
 
   return <div className={'questionnaire-page form-reader ' + (expanded ? 'is-expanded' : '')} onKeyDown={event => {
     if (event.key === 'Escape' && !event.defaultPrevented) setExpanded(false)
@@ -123,6 +136,7 @@ function QuestionnaireContent() {
         <Button variant="outline" className="reader-focus-toggle" aria-pressed={expanded} aria-label={expanded ? 'Kembalikan ukuran area baca' : 'Perbesar area baca'} onClick={() => setExpanded(!expanded)}>{expanded ? <Minimize size={16}/> : <Maximize size={16}/>}<span>{expanded ? 'Kembalikan' : 'Perbesar'}</span></Button>
       </div>
       <progress className="form-viewer-progress" max={sections.length} value={sectionIndex + 1} aria-label="Posisi bagian"/>
+      {jumpFields.length>8&&<div className="form-question-tools"><label className="question-jump-label">Cari pertanyaan<SearchSelect aria-label="Lompat ke pertanyaan" value="" onValueChange={jumpToQuestion}><option value="" disabled>Nomor atau uraian pertanyaan...</option>{jumpFields.map(field=><option key={field.question_id} value={field.question_id}>{field.question_text}</option>)}</SearchSelect></label></div>}
       <div className="card form-stage" ref={stage} tabIndex={0} aria-label={section.title} onScroll={event => scrollPositions.current.set(scrollKey, event.currentTarget.scrollTop)}>
         <div className="question-section-head"><span className="block-symbol">{description?.badge || <BookOpen size={18}/>}</span><div><h2>{section.title}</h2>{description && <p>{description.description}{records.length ? ' · ' + records.length + ' ' + (recordKind === 'members' ? 'ART' : recordLabel) : ''}</p>}</div></div>
         <DisclosureContext.Provider value={{scope:scrollKey,opened:openedGroups,setOpen:(key,open)=>setOpenedGroups(previous=>previous[key]===open?previous:{...previous,[key]:open})}}><div className="form-block-body">
@@ -144,7 +158,7 @@ function QuestionnaireContent() {
           {activeBlock === 'b5' && <LocationInfo location={form.locations?.root}/>}
         </div></DisclosureContext.Provider>
       </div>
-      <nav className="section-navigation" aria-label="Pindah bagian"><Button variant="outline" disabled={sectionIndex <= 0} onClick={() => select({block: sections[sectionIndex - 1].section_id})}><ChevronLeft size={16}/>Sebelumnya</Button><span>Pilih blok atau gulir untuk membaca</span><Button disabled={sectionIndex >= sections.length - 1} onClick={() => select({block: sections[sectionIndex + 1].section_id})}>Berikutnya<ChevronRight size={16}/></Button></nav>
+      <nav className="section-navigation" aria-label="Pindah bagian"><Button variant="outline" disabled={sectionIndex <= 0} onClick={() => select({block: sections[sectionIndex - 1].section_id})}><ChevronLeft size={16}/>Sebelumnya</Button><Button variant="ghost" className="reader-to-top" aria-label="Kembali ke awal bagian" onClick={()=>stage.current?.scrollTo({top:0})}><ArrowUp size={16}/><span>Awal bagian</span></Button><Button disabled={sectionIndex >= sections.length - 1} onClick={() => select({block: sections[sectionIndex + 1].section_id})}>Berikutnya<ChevronRight size={16}/></Button></nav>
     </section>
   </div>
 }
@@ -155,7 +169,7 @@ const presentationOnlyQuestions = new Set(['blokl.pilih_umkm_sls', 'blokl.alamat
 function UnavailableFields({fields,children,run=false}: {fields:Question[];children:ReactNode;run?:boolean}) {
   const context=useContext(DisclosureContext)
   const key=JSON.stringify([context?.scope,fields[0]?.question_id,fields.at(-1)?.question_id])
-  return <details className={'form-unavailable-fields'+(run?' question-unavailable-run':'')} open={context?.opened[key]||false} onToggle={event=>context?.setOpen(key,event.currentTarget.open)}>{children}</details>
+  return <details data-disclosure-key={key} className={'form-unavailable-fields'+(run?' question-unavailable-run':'')} open={context?.opened[key]||false} onToggle={event=>context?.setOpen(key,event.currentTarget.open)}>{children}</details>
 }
 
 function LocationInfo({location}: {location?: QuestionnaireLocation}) {
@@ -178,16 +192,16 @@ function QuestionFields({fields, collapseNotExported = false, expandUnavailable 
   </>
   const uncertain = (field:Question) => ['NOT_EXPORTED','UNVERIFIED_MAPPING','UNMATCHED_VERSION'].includes(field.status) || (field.display_state === 'UNKNOWN' && ['BLANK_OR_MISSING','SKIPPED_NOT_APPLICABLE'].includes(field.status))
   if (!expandUnavailable && questions.some(uncertain)) {
-    const runs: {uncertain:boolean;fields:Question[];before:string|null}[] = []
+    const runs: {uncertain:boolean;fields:Question[];before:string|null;group?:string}[] = []
     let preceding = startNumber
     for(const field of questions){
       const last=runs.at(-1);const missing=uncertain(field)
-      if(last?.uncertain===missing)last.fields.push(field)
-      else runs.push({uncertain:missing,fields:[field],before:preceding})
+      if(last?.uncertain===missing&&last?.group===field.availability_group)last.fields.push(field)
+      else runs.push({uncertain:missing,fields:[field],before:preceding,group:field.availability_group})
       preceding=questionNumber(field)||preceding
     }
     return <div className="question-list question-list-groups">{runs.map((run,index)=>run.uncertain ?
-      <UnavailableFields fields={run.fields} run key={index}><summary>Isian kosong/belum tersedia ({run.fields.length})</summary><QuestionFields fields={run.fields} expandUnavailable startNumber={run.before}/></UnavailableFields> :
+      <UnavailableFields fields={run.fields} run key={index}><summary>{run.group==='annual_capital'?'29. Sumber modal — tidak tersedia dalam data lokal':<>Isian kosong/belum tersedia ({run.fields.length})</>}</summary>{run.fields[0].availability_note&&<p className="form-availability-note">{run.fields[0].availability_note}</p>}<QuestionFields fields={run.fields} expandUnavailable startNumber={run.before}/></UnavailableFields> :
       <QuestionFields key={index} fields={run.fields} expandUnavailable startNumber={run.before}/>)}</div>
   }
   let previousNumber: string|null = startNumber
@@ -196,8 +210,8 @@ function QuestionFields({fields, collapseNotExported = false, expandUnavailable 
     const groupStart = (index > 0 || startNumber !== null) && currentNumber !== null && currentNumber !== previousNumber
     previousNumber = currentNumber || previousNumber
     const referenceName = field.question_id === 'b1_p.nama_sls' ? field.reference_label : undefined
-    return <div className={'question-row'+(groupStart ? ' question-group-start' : '')} data-question-number={currentNumber || previousNumber || undefined} key={field.question_id}>
-      <div className="question-label"><h3>{field.question_text}</h3></div>
+    return <div className={'question-row'+(groupStart ? ' question-group-start' : '')} data-question-id={field.question_id} data-question-number={currentNumber || previousNumber || undefined} key={field.question_id}>
+      <div className="question-label"><h3 tabIndex={-1}>{field.question_text}</h3></div>
       <div className="answer">{field.status === 'ANSWERED' ? <>
         <p className={field.converter === 'decimal' || field.display_format === 'number' ? 'numeric-answer' : ''}>{answerText(field)}</p>
         {field.reference_label && !referenceName && <p className="reference-answer">{field.reference_label}</p>}

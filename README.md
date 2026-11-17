@@ -4,7 +4,7 @@ Eksplorasi dan Analisis SE2026 - BPS Kabupaten Bulungan.
 
 Aplikasi FastAPI + React/TypeScript untuk direktori usaha UMKM/UB, komposisi sektor, distribusi wilayah, pencarian KBLI 2025 dan ekspor Excel. Halaman Dashboard, Keluarga dan Raw Data sementara dibatasi dengan 403. Sensus dibaca dari SQLite existing; akun, cache, FTS dan audit memakai database aplikasi terpisah.
 
-Detail kuesioner mengikuti pembaca PESSE: satu blok ditampilkan utuh tanpa pagination, dengan area isi yang dapat digulir. Daftar anggota/usaha berada di samping jawaban pada desktop dan menjadi pilihan yang dapat dicari pada ponsel. Tombol Sebelumnya/Berikutnya berpindah blok; pilihan versi tersedia pada Informasi sumber di sidebar.
+Detail kuesioner mengikuti pembaca PESSE: satu blok ditampilkan utuh tanpa pagination, dengan area isi yang dapat digulir. Daftar anggota/usaha berada di atas jawaban pada desktop dan menjadi pilihan yang dapat dicari pada ponsel. Tombol Sebelumnya/Berikutnya berpindah blok; pilihan versi tersedia pada Informasi sumber di sidebar.
 
 Isi DTD menyesuaikan assignment keluarga atau BKU pada versi yang dipilih. Informasi usaha tetap tersedia untuk keduanya; blok anggota, pendidikan dan perumahan hanya tampil pada konteks keluarga. Nomor, penggunaan bangunan dan alamat membaca induk yang sesuai. Jika induknya belum dapat dipastikan, bagian terkait tetap tersedia dan jenis assignment ditandai belum pasti.
 
@@ -13,6 +13,8 @@ Identitas wilayah menampilkan lokasi dari master assignment dengan keterangan su
 Jawaban pilihan memakai label sumber atau pilihan statis template yang sesuai. Tiap isian memiliki pembatas dan pergantian nomor utama diberi garis lebih tegas. Jumlah/nominal memakai titik ribuan serta koma desimal; kode dan tahun tetap utuh. Tagging ditampilkan sesuai versi/roster yang dipilih, dengan tautan Maps yang dibuka saat diklik dan pembatasan akses yang sama dengan lokasi direktori.
 
 Aturan tampil DTD mengikuti kondisi yang dapat dibuktikan dari template 7.1.2 dan jawaban pada versi/roster terpilih, termasuk cabang NIB, internet, umur, kepemilikan rumah serta ekonomi tahunan/bulanan. Isian yang terbukti tidak berlaku disembunyikan. Jika aturan atau data pengendalinya belum tersedia, isian kosong tetap dapat dibuka dalam rincian sesuai urutan form. Jawaban API tidak dihapus atau diubah. Tagging SE2026-P berada di bawah isian; catatan tahun/satuan tidak ditampilkan berulang pada jawaban.
+
+Area baca form memakai lebar layar yang tersedia, dengan huruf lebih besar dan pembatas sejajar. Pilihan anggota/usaha berada di atas kartu jawaban agar tidak mengurangi lebar isian. Cari pertanyaan untuk menuju nomor atau uraian tertentu, termasuk isian dalam rincian tertutup; tombol Awal bagian mengembalikan posisi baca tanpa berpindah blok. Modal tahunan DTD dan identitas pemberi jawaban dibedakan dari jawaban kosong bila kolomnya tidak disertakan dalam ekspor lokal. Modal saat usaha didirikan dan modal UB tetap menggunakan sumbernya masing-masing.
 
 ## Folder pengembangan
 

@@ -484,6 +484,8 @@ class Questionnaires:
                         "note",
                         "source_version_scope",
                         "display_format",
+                        "availability_group",
+                        "availability_note",
                     ]
                 }
                 result.update(value=None, label=None, status="UNVERIFIED_MAPPING", parse_status=None)

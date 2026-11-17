@@ -12297,7 +12297,7 @@
           "template_key": "pribadi",
           "source_object": null,
           "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "mapping_status": "NOT_EXPORTED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
@@ -12345,7 +12345,10 @@
               "getValue('ec_ada_usaha') || getValue('nama_usaha_prelist')?.length > 0;",
               "getValue('ec_usaha_tahun@$ROW$');"
             ]
-          }
+          },
+          "availability_group": "annual_capital",
+          "availability_note": "Rincian modal tahunan tidak disertakan dalam file lokal. Modal saat usaha didirikan adalah isian berbeda dan tidak digunakan sebagai pengganti.",
+          "note": "Annual capital raw fields exist in historical PART_09 metadata, but not in local export headers or the active SQLite schema."
         },
         {
           "question_id": "blokl.non_profit",
@@ -12353,7 +12356,7 @@
           "template_key": "non_profit",
           "source_object": null,
           "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "mapping_status": "NOT_EXPORTED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
@@ -12401,7 +12404,10 @@
               "getValue('ec_ada_usaha') || getValue('nama_usaha_prelist')?.length > 0;",
               "getValue('ec_usaha_tahun@$ROW$');"
             ]
-          }
+          },
+          "availability_group": "annual_capital",
+          "availability_note": "Rincian modal tahunan tidak disertakan dalam file lokal. Modal saat usaha didirikan adalah isian berbeda dan tidak digunakan sebagai pengganti.",
+          "note": "Annual capital raw fields exist in historical PART_09 metadata, but not in local export headers or the active SQLite schema."
         },
         {
           "question_id": "blokl.publik",
@@ -12409,7 +12415,7 @@
           "template_key": "publik",
           "source_object": null,
           "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "mapping_status": "NOT_EXPORTED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
@@ -12457,7 +12463,10 @@
               "getValue('ec_ada_usaha') || getValue('nama_usaha_prelist')?.length > 0;",
               "getValue('ec_usaha_tahun@$ROW$');"
             ]
-          }
+          },
+          "availability_group": "annual_capital",
+          "availability_note": "Rincian modal tahunan tidak disertakan dalam file lokal. Modal saat usaha didirikan adalah isian berbeda dan tidak digunakan sebagai pengganti.",
+          "note": "Annual capital raw fields exist in historical PART_09 metadata, but not in local export headers or the active SQLite schema."
         },
         {
           "question_id": "blokl.non_publik",
@@ -12465,7 +12474,7 @@
           "template_key": "non_publik",
           "source_object": null,
           "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "mapping_status": "NOT_EXPORTED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
@@ -12513,7 +12522,10 @@
               "getValue('ec_ada_usaha') || getValue('nama_usaha_prelist')?.length > 0;",
               "getValue('ec_usaha_tahun@$ROW$');"
             ]
-          }
+          },
+          "availability_group": "annual_capital",
+          "availability_note": "Rincian modal tahunan tidak disertakan dalam file lokal. Modal saat usaha didirikan adalah isian berbeda dan tidak digunakan sebagai pengganti.",
+          "note": "Annual capital raw fields exist in historical PART_09 metadata, but not in local export headers or the active SQLite schema."
         },
         {
           "question_id": "blokl.pemerintah",
@@ -12521,7 +12533,7 @@
           "template_key": "pemerintah",
           "source_object": null,
           "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "mapping_status": "NOT_EXPORTED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
@@ -12569,7 +12581,10 @@
               "getValue('ec_ada_usaha') || getValue('nama_usaha_prelist')?.length > 0;",
               "getValue('ec_usaha_tahun@$ROW$');"
             ]
-          }
+          },
+          "availability_group": "annual_capital",
+          "availability_note": "Rincian modal tahunan tidak disertakan dalam file lokal. Modal saat usaha didirikan adalah isian berbeda dan tidak digunakan sebagai pengganti.",
+          "note": "Annual capital raw fields exist in historical PART_09 metadata, but not in local export headers or the active SQLite schema."
         },
         {
           "question_id": "blokl.asing",
@@ -12577,7 +12592,7 @@
           "template_key": "asing",
           "source_object": null,
           "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "mapping_status": "NOT_EXPORTED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
@@ -12625,7 +12640,10 @@
               "getValue('ec_ada_usaha') || getValue('nama_usaha_prelist')?.length > 0;",
               "getValue('ec_usaha_tahun@$ROW$');"
             ]
-          }
+          },
+          "availability_group": "annual_capital",
+          "availability_note": "Rincian modal tahunan tidak disertakan dalam file lokal. Modal saat usaha didirikan adalah isian berbeda dan tidak digunakan sebagai pengganti.",
+          "note": "Annual capital raw fields exist in historical PART_09 metadata, but not in local export headers or the active SQLite schema."
         },
         {
           "question_id": "blokl.info_total",
@@ -12633,7 +12651,7 @@
           "template_key": "info_total",
           "source_object": null,
           "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "mapping_status": "NOT_EXPORTED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
@@ -12681,7 +12699,10 @@
               "getValue('ec_ada_usaha') || getValue('nama_usaha_prelist')?.length > 0;",
               "getValue('ec_usaha_tahun@$ROW$');"
             ]
-          }
+          },
+          "availability_group": "annual_capital",
+          "availability_note": "Rincian modal tahunan tidak disertakan dalam file lokal. Modal saat usaha didirikan adalah isian berbeda dan tidak digunakan sebagai pengganti.",
+          "note": "Annual capital raw fields exist in historical PART_09 metadata, but not in local export headers or the active SQLite schema."
         },
         {
           "question_id": "blokl.gaji_bln",
@@ -19985,7 +20006,7 @@
       ],
       "assignment_scope": "common",
       "collapse_not_exported": true,
-      "availability_note": "Identitas dan kontak pemberi informasi tidak disertakan dalam ekspor lokal."
+      "availability_note": "Data pemberi jawaban tidak tersedia dalam file lokal. Ini tidak menunjukkan apakah formulir asli telah diisi."
     },
     {
       "section_id": "cat",
