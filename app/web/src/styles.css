@@ -1234,6 +1234,37 @@ tbody tr .button { margin: -6px 0; }
 @media (max-width: 760px) { .family-summary .stats-grid.two { grid-template-columns: minmax(0,1fr); } }
 
 .member-directory-table .member-nik { font-variant-numeric: tabular-nums; }
+.dashboard-overview { display: grid; gap: 20px; min-width: 0; }
+.dashboard-section-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 6px 16px; margin-bottom: 12px; }
+.dashboard-section-heading h2 { font-size: 18px; }
+.dashboard-section-heading > span { font-size: 11px; color: var(--muted); }
+.dashboard-overview .stats-grid { margin: 0; }
+.dashboard-overview .stat-card { min-width: 0; min-height: 0; padding: 16px; }
+.dashboard-overview .stat-card h3 { font-size: 14px; font-weight: 600; }
+.dashboard-overview .stat-card .icon-link { min-width: 44px; min-height: 44px; }
+.dashboard-visuals { display: grid; grid-template-columns: minmax(0,1.4fr) minmax(0,1fr); gap: 16px; align-items: start; }
+.dashboard-visuals > .card { padding: 20px; min-width: 0; }
+.dashboard-chart-choice { display: flex; flex-direction: row; align-items: center; gap: 10px; margin-bottom: 16px; font-size: 12px; color: var(--muted); }
+.dashboard-chart-choice .search-select { flex: 1; min-width: 0; }
+.dashboard-visuals .button { white-space: normal; text-align: left; min-height: 44px; margin-top: 12px; }
+.dashboard-empty { padding: 24px 0; }
+.dashboard-notes p { margin-top: 12px; }
+.dashboard-notes dl { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; margin: 16px 0; }
+.dashboard-notes dl > div { padding: 12px; border: 1px solid var(--line); border-radius: 8px; }
+.dashboard-notes dt { font-size: 12px; color: var(--muted); }
+.dashboard-notes dd { font-size: 18px; margin-top: 6px; font-variant-numeric: tabular-nums; }
+@media (max-width: 1100px) { .dashboard-visuals { grid-template-columns: minmax(0,1fr); } }
+@media (max-width: 600px) {
+  .dashboard-overview { gap: 18px; }
+  .dashboard-overview .stats-grid, .dashboard-overview .stats-grid.three { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .dashboard-overview .stats-grid.three > .stat-card:last-child { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--line); }
+  .dashboard-overview .stat-card { padding: 14px; }
+  .dashboard-overview .stat-value { font-size: 25px; overflow-wrap: anywhere; }
+  .dashboard-section-heading h2 { font-size: 17px; }
+  .dashboard-visuals > .card { padding: 16px; }
+  .dashboard-chart-choice { display: grid; grid-template-columns: minmax(0,1fr); gap: 6px; }
+  .dashboard-notes dl { grid-template-columns: minmax(0,1fr); }
+}
 .member-directory-table .member-nik code { font-size: 11px; }
 @media (min-width: 901px) {
   .table-scroll .member-directory-table { table-layout: fixed; min-width: 0; width: 100%; }

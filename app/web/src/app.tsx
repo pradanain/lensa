@@ -37,9 +37,9 @@ export function Root(){
       <Button variant="ghost" size="icon" className="mobile-menu" aria-label={mobile?'Tutup menu':'Buka menu'} aria-expanded={mobile} aria-controls="primary-navigation" onClick={()=>setMobile(!mobile)}>{mobile?<X size={22}/>:<Menu size={22}/>}</Button>
     </div></header>
     {mobile&&<button className="navigation-backdrop" aria-label="Tutup navigasi" onClick={()=>setMobile(false)}/>}
-    <main id="main-content" className={'content '+(current==='questionnaire'?'content-wide':['usaha','keluarga','data'].includes(current)?'content-domain':'')}>
+    <main id="main-content" className={'content '+(current==='questionnaire'?'content-wide':['dashboard','usaha','keluarga','data'].includes(current)?'content-domain':'')}>
       {current!=='questionnaire'&&<nav className="page-breadcrumb" aria-label="Jejak navigasi"><Link to="/dashboard">Beranda</Link><ChevronRight size={13}/><span aria-current="page">{titles[current]||'Dashboard'}</span></nav>}
-      {session.business_focus_enabled&&current==='dashboard'?<section className="module-unavailable" role="alert"><span>403</span><h1>Halaman belum tersedia</h1><p>Halaman ini sedang disiapkan.</p><Link to="/usaha" className="button button-default">Buka Usaha</Link></section>:<Outlet/>}
+      <Outlet/>
     </main>
     <footer className="app-footer"><p>Made with <Heart size={14} aria-label="love" className="footer-heart"/> and <Coffee size={14} aria-label="coffee"/> by <span>Novanni Indi Pradana</span></p></footer>
   </div>

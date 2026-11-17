@@ -98,14 +98,14 @@ def test_cache_failure_is_not_cached_or_left_waiting(tmp_path):
     assert cache.get("a", lambda: 2) == 2
 
 
-def test_dashboard_remains_unavailable_while_directories_are_open(portal):
+def test_all_main_pages_are_available_in_legacy_focus_mode(portal):
     app, client, _ = portal
     app.state.settings.business_focus_enabled = True
     for path in (
         "/dashboard",
         "/dashboard/",
     ):
-        assert client.get(path).status_code == 403
+        assert client.get(path).status_code == 200
     assert client.get("/usaha").status_code == 200
     assert client.get("/keluarga").status_code == 200
     assert client.get("/data/dtd").status_code == 200

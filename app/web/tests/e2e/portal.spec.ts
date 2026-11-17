@@ -862,19 +862,12 @@ test('all export filters remain compact with visible actions on a small screen',
 })
 
 
-test('business focus isolates unfinished menu pages and loads only business metrics',async({page})=>{
+test('business page still loads only business metrics after opening Dashboard',async({page})=>{
   const requests:string[]=[]
   page.on('request',request=>{if(request.url().includes('/api/v1/'))requests.push(request.url())})
-  for(const path of ['/dashboard']){
-    const response=await page.goto('http://127.0.0.1:8768'+path)
-    expect(response?.status()).toBe(403)
-    await expect(page.getByRole('heading',{name:'Halaman belum tersedia',exact:true})).toBeVisible()
-    await expect(page.getByRole('navigation',{name:'Menu utama'}).getByRole('link')).toHaveText(['Dashboard','Usaha','Keluarga','Raw Data'])
-  }
-  expect(requests.filter(url=>!url.endsWith('/auth/session'))).toEqual([])
   const metrics:string[]=[]
   page.on('request',request=>{if(request.url().endsWith('/analytics/query'))metrics.push(request.postDataJSON().metric_id)})
-  await page.getByRole('link',{name:'Buka Usaha',exact:true}).click()
+  await page.goto('http://127.0.0.1:8768/usaha')
   await expect(page.getByRole('heading',{name:'Komposisi sektor usaha',exact:true})).toBeVisible()
   expect(requests.some(url=>url.includes('/analytics/summary?'))).toBe(false)
   expect(requests.some(url=>url.includes('/analytics/business-summary?'))).toBe(true)
@@ -1567,4 +1560,54 @@ test('Raw Data is available in focused mode and keeps assignment cards and exact
   await page.getByRole('button',{name:'Kembali ke daftar',exact:true}).click()
   await expect(page.getByRole('textbox',{name:'Cari direktori',exact:true})).toHaveValue('KELUARGA SINTETIS 2')
   await expect(page.getByRole('combobox',{name:'Jenis assignment',exact:true})).toContainText('Keluarga')
+})
+
+
+test('Dashboard uses completed business metrics, responsive cards and filtered drill-through',async({page})=>{
+  await page.route('**/api/v1/analytics/summary?*',async route=>{
+    const response=await route.fetch();const payload=await response.json()
+    for(const [key,value] of Object.entries({'usaha.enumerated_family_count':1234,'usaha.enumerated_bku_count':2345,'ub.enumerated_count':3456,'usaha.count':9999,'ub.count':8888}))payload.counts[key]=[{value}]
+    payload.indicators=payload.indicators.map((metric:Record<string,unknown>)=>({...metric,rows:[{percentage:null,numerator:null,denominator:null,suppressed:true}]}))
+    await route.fulfill({response,json:payload})
+  })
+  for(const width of [320,390,820,1280]){
+    await page.setViewportSize({width,height:844})
+    const response=await page.goto('http://127.0.0.1:8768/dashboard')
+    expect(response?.status()).toBe(200)
+    await expect(page.getByRole('heading',{name:'Ringkasan Data SE2026',exact:true})).toBeVisible()
+    const business=page.getByRole('region',{name:'Usaha selesai didata',exact:true})
+    await expect(business.locator('.stat-value')).toHaveText(['1.234','2.345','3.456'])
+    await expect(page.getByRole('img',{name:'Assignment UMKM menurut kecamatan',exact:true})).toBeVisible()
+    await expect(page.locator('.dashboard-digital .progress-track')).toHaveCount(0)
+    await expect(page.locator('.dashboard-digital')).toContainText('Nilai ditahan.')
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+    if(width===390||width===1280)await page.screenshot({path:'../../docs/reports/app/screenshots/dashboard-new-'+width+'-synthetic.png',fullPage:true})
+  }
+  await selectValue(page,'Kecamatan','6502010')
+  const request=page.waitForRequest(request=>request.url().endsWith('/analytics/query')&&request.postDataJSON().metric_id==='usaha.enumerated_count')
+  await selectValue(page,'Data distribusi','usaha')
+  const body=(await request).postDataJSON()
+  expect(body.filters.kecamatan).toBe('6502010')
+  expect(body.group_by).toEqual(['desa'])
+  const directory=page.waitForRequest(request=>request.url().endsWith('/directories/businesses/search')&&request.postDataJSON().enumerated_only===true)
+  await page.getByRole('button',{name:'Lihat daftar sesuai grafik',exact:true}).click()
+  const directoryBody=(await directory).postDataJSON()
+  expect(directoryBody.source).toBe('dtd')
+  expect(directoryBody.kecamatan).toBe('6502010')
+  await expect(page).toHaveURL(/tab=direktori/)
+})
+
+
+test('Dashboard keeps aggregate viewers out of detail links and handles empty distributions',async({page})=>{
+  await login(page,'viewer')
+  await expect(page.getByRole('heading',{name:'Ringkasan Data SE2026',exact:true})).toBeVisible()
+  await expect(page.getByRole('button',{name:'Lihat Keluarga',exact:true})).toHaveCount(0)
+  await expect(page.getByRole('button',{name:'Lihat daftar sesuai grafik',exact:true})).toHaveCount(0)
+  await page.route('**/api/v1/analytics/query',async route=>{
+    const response=await route.fetch();const payload=await response.json()
+    await route.fulfill({response,json:{...payload,rows:[]}})
+  })
+  await selectValue(page,'Data distribusi','ub')
+  await expect(page.getByText('Tidak ada data pada wilayah ini.',{exact:true})).toBeVisible()
+  await expect(page.locator('.dashboard-distribution [role="img"]')).toHaveCount(0)
 })

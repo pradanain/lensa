@@ -132,9 +132,6 @@ def create_app(settings=None):
             return JSONResponse(status_code=503, content={"detail": "FRONTEND_BUILD_REQUIRED"})
         if not path:
             return RedirectResponse("/usaha", status_code=307)
-        isolated = settings.business_focus_enabled and (
-            path == "dashboard" or path.startswith("dashboard/")
-        )
-        return FileResponse(web / "index.html", status_code=403 if isolated else 200)
+        return FileResponse(web / "index.html")
 
     return app
