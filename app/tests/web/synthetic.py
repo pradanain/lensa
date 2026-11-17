@@ -291,3 +291,8 @@ def prepare_questionnaire_presentation_cases(con):
     con.execute(
         "UPDATE mart_ub_b SET tahun_operasi='2007',gaji_dan_jaminan_sosial='11825263478.50' WHERE assignment_id='UB-0002'"
     )
+    con.execute("UPDATE mart_program_usaha SET tahun_mulai_operasi='2026' WHERE assignment_id='DTD-0003'")
+    con.execute(
+        "UPDATE mart_ekonomi_bulanan SET total_pendapatan_bln='12345',pendapatan_utama_bln='10000' WHERE assignment_id='DTD-0003'"
+    )
+    con.execute("UPDATE mart_legalitas_usaha SET punya_nib='2' WHERE assignment_id='DTD-0002'")

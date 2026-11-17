@@ -5,6 +5,7 @@ import html
 import json
 import re
 import sqlite3
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -38,6 +39,81 @@ SOURCE_FILES = {
     "ub_b": "UB/09B_PEKERJA_EKONOMI_MODAL.sql",
     "ub_c": "UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
 }
+
+
+def review_dtd_display_rules(form, template):
+    sys.path.insert(0, str(ROOT / "app/src"))
+    from se2026.web.questionnaire_rules import compile_condition
+
+    sections = form["sections"]
+    section_ids = {s["section_id"] for s in sections}
+    widgets, variables = {}, {}
+
+    def walk(value, section=None, ancestors=()):
+        if isinstance(value, dict):
+            key = value.get("dataKey")
+            section = key if key in section_ids else section
+            condition = value.get("enableCondition")
+            if key and value.get("expression"):
+                variables[key] = compile_condition(value["expression"])
+            if key and section:
+                widgets.setdefault((section, key), []).append((value, ancestors))
+            children = ancestors + ((condition,) if condition else ())
+            for child in value.values():
+                walk(child, section, children)
+        elif isinstance(value, list):
+            for child in value:
+                walk(child, section, ancestors)
+
+    walk(template)
+    for section in sections:
+        for field in section["questions"]:
+            matches = widgets.get((section["section_id"], field.get("template_key")), [])
+            if len(matches) != 1:
+                continue
+            widget, ancestors = matches[0]
+            conditions = [*ancestors, *([widget["enableCondition"]] if widget.get("enableCondition") else [])]
+            # Consolidated PJ/final-KBLI columns serve multiple raw widgets. Their manual-widget
+            # switch must not hide the already-consolidated answer for the other branch.
+            if field["question_id"] in {
+                "blokl.pengusaha",
+                "blokl.jk",
+                "blokl.umur",
+                "blokl.nik_pengusaha",
+                "blokl.kbli",
+            }:
+                conditions = [*ancestors, "getValue('ec_usaha_respons@$ROW$')"]
+                field["display_rule_adaptation"] = (
+                    "Consolidated source projection covers alternative raw widgets"
+                )
+            field["template_type"] = widget.get("type")
+            field["display_rules"] = [compile_condition(c) for c in conditions]
+            field["display_rule_evidence"] = dict(
+                template_version=str(template["version"]), conditions=conditions
+            )
+    # Retain only the dependency closure used by display rules, excluding unrelated
+    # calculations, anomaly programs and other template variables.
+    references = set()
+
+    def collect_refs(node):
+        if isinstance(node, dict):
+            if "ref" in node:
+                references.add(node["ref"].replace("@$ROW$", ""))
+            for child in node.values():
+                collect_refs(child)
+        elif isinstance(node, list):
+            for child in node:
+                collect_refs(child)
+
+    for section in sections:
+        for field in section["questions"]:
+            collect_refs(field.get("display_rules", []))
+    active = set()
+    while pending := (references & variables.keys()) - active:
+        active.update(pending)
+        for key in pending:
+            collect_refs(variables[key])
+    form["display_variables"] = {key: value for key, value in variables.items() if key in active}
 
 
 def review_dtd_answer_choices(sections, template):
@@ -820,13 +896,16 @@ def build():
                 )
                 if field["converter"] == "decimal":
                     field["unit"] = "SOURCE_UNIT_UNVERIFIED" if field.get("sensitive") else "SOURCE_COUNT"
+        document = dict(
+            form=name,
+            reference="Supplied DTD template 7.1.2" if name == "dtd" else "Supplied UB PDF, 8 pages",
+            sections=sections,
+        )
+        if name == "dtd":
+            review_dtd_display_rules(document, raw_template)
         (output / (name + ".json")).write_text(
             json.dumps(
-                dict(
-                    form=name,
-                    reference="Supplied DTD template 7.1.2" if name == "dtd" else "Supplied UB PDF, 8 pages",
-                    sections=sections,
-                ),
+                document,
                 ensure_ascii=False,
                 indent=2,
             )

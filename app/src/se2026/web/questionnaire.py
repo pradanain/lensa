@@ -9,6 +9,7 @@ from ..analytics.numeric import parse_decimal
 from ..common import q, timestamp
 from .business_directory import coordinates, map_link_coordinates
 from .database import census_connection
+from .questionnaire_rules import apply_display_rules
 from .sls_reference import SlsReference
 
 STATUSES = {
@@ -617,6 +618,8 @@ class Questionnaires:
                     collapse_not_exported=section.get("collapse_not_exported", False),
                 )
             )
+        if system == "dtd":
+            apply_display_rules(form, rendered)
         return dict(
             form=system,
             assignment=dict(master),

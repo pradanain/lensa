@@ -1108,6 +1108,9 @@ tbody tr .button { margin: -6px 0; }
 .form-unavailable-fields { margin-top: 22px; color: var(--muted); font-size: 12px; }
 .form-unavailable-fields summary { cursor: pointer; padding: 8px 0; }
 .form-unavailable-fields[open] summary { margin-bottom: 14px; }
+.question-list-groups > .question-list, .question-list-groups > details { grid-column: 1 / -1; }
+.question-list-groups > .question-list, .form-roster-card .question-list-groups .question-list { padding: 0; }
+.question-unavailable-run { margin-top: 0; padding: 8px 0; border-bottom: 1px solid var(--line); }
 .question-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 22px 28px; }
 .question-row { display: flex; flex-direction: column; min-width: 0; padding: 0 0 16px; gap: 7px; border: 0; border-bottom: 1px solid var(--line); }
 .question-row.question-group-start { padding-top: 16px; border-top: 2px solid #d9e2e9; }

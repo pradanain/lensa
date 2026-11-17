@@ -12,6 +12,8 @@ Identitas wilayah menampilkan lokasi dari master assignment dengan keterangan su
 
 Jawaban pilihan memakai label sumber atau pilihan statis template yang sesuai. Tiap isian memiliki pembatas dan pergantian nomor utama diberi garis lebih tegas. Jumlah/nominal memakai titik ribuan serta koma desimal; kode dan tahun tetap utuh. Tagging ditampilkan sesuai versi/roster yang dipilih, dengan tautan Maps yang dibuka saat diklik dan pembatasan akses yang sama dengan lokasi direktori.
 
+Aturan tampil DTD mengikuti kondisi yang dapat dibuktikan dari template 7.1.2 dan jawaban pada versi/roster terpilih, termasuk cabang NIB, internet, umur, kepemilikan rumah serta ekonomi tahunan/bulanan. Isian yang terbukti tidak berlaku disembunyikan. Jika aturan atau data pengendalinya belum tersedia, isian kosong tetap dapat dibuka dalam rincian sesuai urutan form. Jawaban API tidak dihapus atau diubah. Tagging SE2026-P berada di bawah isian; catatan tahun/satuan tidak ditampilkan berulang pada jawaban.
+
 ## Folder pengembangan
 
 Folder ini menjadi tempat mengembangkan aplikasi. Buka folder ini di editor; jalankan Git, backend, frontend dan tes dari sini.
