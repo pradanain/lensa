@@ -1048,13 +1048,27 @@ tbody tr .button { margin: -6px 0; }
   .record-directory-table tbody td, .kbli-table tbody td { display: block; width: auto !important; min-width: 0 !important; padding: 0; border: 0; text-align: left; white-space: normal; overflow-wrap: anywhere; }
   .record-directory-table tbody td::before, .kbli-table tbody td[data-label]::before { content: attr(data-label); display: block; color: var(--muted); font-size: 11px; font-weight: 500; line-height: 1.4; margin-bottom: 5px; }
   .record-directory-table tbody td { grid-column: 1 / -1; }
-  .record-directory-table tbody td[data-column="status_label"] { order: -1; }
+  .record-directory-table tbody td[data-column="title"] { order: -2; grid-column: 1; }
+  .record-directory-table tbody td[data-column="status_label"] { order: -1; grid-column: 2; justify-self: end; align-self: start; text-align: right; }
   .record-directory-table tbody td[data-column="title"]::before, .record-directory-table tbody td[data-column="status_label"]::before, .record-directory-table tbody td[data-column="maps"]::before, .record-directory-table tbody td[data-column="open"]::before { display: none; }
   .record-directory-table tbody td[data-column="maps"] { grid-column: 1; align-self: end; }
   .record-directory-table tbody td[data-column="open"] { grid-column: 2; text-align: right; align-self: end; }
   .record-directory-table .record-title > span { min-width: 0; }
-  .record-directory-table .record-title { text-align: left; width: 100%; font-size: 14px; }
-  .record-directory-table .directory-open, .record-directory-table .directory-map { min-height: 44px; height: 44px; }
+  .record-directory-table .record-title { text-align: left; width: 100%; font-size: 16px; line-height: 1.45; font-weight: 650; }
+  .record-directory-table .record-title small { font-size: 11px; line-height: 1.5; margin-top: 6px; }
+  .record-directory-table tbody tr { gap: 16px 12px; padding: 16px; box-shadow: 0 2px 6px #17334705; }
+  .record-directory-table tbody td { font-size: 13px; line-height: 1.55; }
+  .record-directory-table tbody td[data-column="title"], .record-directory-table tbody td[data-column="status_label"] { padding-bottom: 12px; border-bottom: 1px solid var(--line); align-self: stretch; }
+  .record-directory-table .badge { font-size: 11px; line-height: 1.45; padding: 5px 8px; max-width: 100%; text-align: center; }
+  .record-directory-table .table-location strong, .record-directory-table .directory-person strong { font-size: 13px; }
+  .record-directory-table .directory-person small, .record-directory-table .directory-village { font-size: 12px; line-height: 1.5; }
+  .record-directory-table .directory-region-code { font-size: 11px; margin-top: 4px; color: var(--muted); }
+  .record-directory-table .directory-kbli code { font-size: 13px; }
+  .record-directory-table .directory-kbli-title { font-size: 13px; line-height: 1.6; margin-top: 6px; }
+  .record-directory-table tbody td[data-column="kbli"], .record-directory-table tbody td[data-column="member_education"] { padding-top: 12px; border-top: 1px solid var(--line); }
+  .record-directory-table .directory-open, .record-directory-table .directory-map { min-height: 44px; height: 44px; width: 100%; margin: 0; justify-content: center; font-size: 13px; }
+  .record-directory-table .directory-open { background: var(--pale); border-color: #efcbb3; color: var(--accent-dark); }
+  .member-directory-table tbody td[data-column="open"] { grid-column: 1 / -1; }
   .record-directory-table .directory-region-code { overflow-wrap: anywhere; }
   .kbli-table tbody tr { grid-template-columns: repeat(3,minmax(0,1fr)); }
   .kbli-table tbody td:first-child { grid-column: 1 / -1; }
@@ -1072,6 +1086,13 @@ tbody tr .button { margin: -6px 0; }
   .industry-matrix-label span { max-width: none; white-space: normal; overflow-wrap: anywhere; }
   .industry-matrix-cell { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 3px 0; min-width: 0; min-height: 44px; text-align: right; }
   .industry-matrix-cell::before { content: attr(data-region); text-align: left; font-size: 11px; overflow-wrap: anywhere; }
+}
+
+@media (min-width: 380px) and (max-width: 900px) {
+  .record-directory-table tbody td[data-column="desa_label"] { grid-column: 1; }
+  .record-directory-table tbody td[data-column="responsible"], .record-directory-table tbody td[data-column="family_head"] { grid-column: 2; }
+  .record-directory-table tbody td[data-column="member_count"] { grid-column: 1; }
+  .record-directory-table tbody td[data-column="business_count"] { grid-column: 2; }
 }
 
 /* Form reader follows PESSE detail.html, block.html, layouts.css and reader.css.
