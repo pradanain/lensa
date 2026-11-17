@@ -57,12 +57,6 @@ select:disabled { background: #f0f3f6; color: #87939c; border-color: #e0e5ea; }
 .badge-success { color: #35674b; background: #edf5f0; }
 .badge-info { color: #28628b; background: #eaf3fb; }
 .directory-address { display: block; min-width: 130px; max-width: 30ch; overflow-wrap: anywhere; font-size: 12px; }
-.member-directory-table [data-column="title"] { width: 20%; }
-.member-directory-table [data-column="desa_label"] { width: 19%; }
-.member-directory-table [data-column="member_nik"] { white-space: nowrap; }
-.member-directory-table [data-column="family_head"] { width: 17%; min-width: 120px; }
-.member-directory-table [data-column="member_profile"] { min-width: 110px; }
-.member-directory-table [data-column="member_diploma"], .member-directory-table [data-column="member_school"] { min-width: 130px; max-width: 180px; }
 .badge-warning { color: #855513; background: #fff4df; }
 .badge-restricted { color: #785e85; background: #f3edf7; }
 .card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; min-width: 0; }
@@ -1210,3 +1204,20 @@ tbody tr .button { margin: -6px 0; }
 .family-details { display: grid; gap: 12px; }
 .family-detail .visual-metric-panel { margin-top: 14px; border: 0; box-shadow: none; padding: 0; }
 @media (max-width: 760px) { .family-summary .stats-grid.two { grid-template-columns: minmax(0,1fr); } }
+
+.member-directory-table .member-nik { font-variant-numeric: tabular-nums; }
+.member-directory-table .member-nik code { font-size: 11px; }
+@media (min-width: 901px) {
+  .table-scroll .member-directory-table { table-layout: fixed; min-width: 0; width: 100%; }
+  .member-directory-table th, .member-directory-table td { padding: 12px 8px; min-width: 0; overflow-wrap: anywhere; white-space: normal; }
+  .member-directory-table [data-column="title"] { width: 22%; }
+  .member-directory-table [data-column="desa_label"] { width: 18%; }
+  .member-directory-table [data-column="family_head"] { width: 14%; }
+  .member-directory-table [data-column="member_profile"] { width: 11%; }
+  .member-directory-table [data-column="member_education"] { width: 16%; }
+  .member-directory-table [data-column="status_label"] { width: 11%; min-width: 0; }
+  .member-directory-table [data-column="open"] { width: 8%; }
+  .member-directory-table .record-title > span { min-width: 0; }
+  .member-directory-table .directory-open { padding: 6px; gap: 3px; max-width: 100%; }
+  .member-directory-table .badge { padding: 5px; font-size: 10px; }
+}

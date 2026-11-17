@@ -1464,24 +1464,24 @@ test('family columns show building counts address and colored statuses without s
 
 test('member NIK is searchable without a URL and hidden from analyst',async({page})=>{
   await page.goto('http://127.0.0.1:8768/keluarga?tab=anggota')
-  await expect(page.getByRole('columnheader',{name:'NIK',exact:true})).toBeVisible()
+  await expect(page.locator('.member-nik').first()).toBeVisible()
   const input=page.getByRole('textbox',{name:'Cari direktori',exact:true})
   await expect(input).toHaveAttribute('placeholder','Cari nama anggota, NIK, atau lainnya...')
   const requested=page.waitForRequest(request=>request.url().endsWith('/directories/members/search')&&request.postDataJSON().q==='SYNTHETIC_PRIVATE_NIK')
   await input.fill('SYNTHETIC_PRIVATE_NIK')
   await page.getByRole('button',{name:'Cari',exact:true}).click()
   await requested
-  await expect(page.locator('.record-directory-table tbody [data-column="member_nik"]').first()).toHaveText('SYNTHETIC_PRIVATE_NIK')
+  await expect(page.locator('.member-nik code').first()).toHaveText('SYNTHETIC_PRIVATE_NIK')
   expect(page.url()).not.toContain('PRIVATE_NIK')
   await login(page,'analyst')
   await page.goto('/keluarga?tab=anggota')
   await expect(page.locator('.record-directory-table tbody tr').first()).toBeVisible()
-  await expect(page.getByRole('columnheader',{name:'NIK',exact:true})).toHaveCount(0)
+  await expect(page.locator('.member-nik')).toHaveCount(0)
   await expect(page.locator('.record-directory-table')).not.toContainText('SYNTHETIC_PRIVATE_NIK')
 })
 
 
-test('member profiles include relationship age business and semantic status colors',async({page})=>{
+test('member profiles fit desktop width and retain education and semantic status colors',async({page})=>{
   await page.route('**/api/v1/directories/members/search',async route=>{
     const response=await route.fetch();const payload=await response.json()
     payload.rows=payload.rows.slice(0,4).map((row:Record<string,unknown>,i:number)=>({...row,member_number:'007',member_age:'0',member_gender:'Perempuan',member_relationship:'Anak',member_diploma:'SMA/sederajat',member_school:'Masih sekolah',status:['1','5','3','2'][i]}))
@@ -1490,15 +1490,28 @@ test('member profiles include relationship age business and semantic status colo
   await page.goto('http://127.0.0.1:8768/keluarga?tab=anggota')
   const rows=page.locator('.member-directory-table tbody tr')
   await expect(rows).toHaveCount(4)
-  await expect(rows.first().locator('.record-title small')).toHaveText('No. anggota 007'+String.fromCharCode(32,183,32)+'Anak')
+  await expect(rows.first().locator('.record-title > small').first()).toHaveText('No. anggota 007'+String.fromCharCode(32,183,32)+'Anak')
   await expect(rows.first()).not.toContainText('ID DTD')
   await expect(rows.first().locator('[data-column="family_head"] small')).toHaveCount(0)
   await expect(rows.first().locator('[data-column="member_profile"]')).toContainText('0 tahun')
   await expect(rows.first().locator('[data-column="member_profile"]')).toContainText('Perempuan')
-  await expect(rows.first().locator('[data-column="member_diploma"]')).toHaveText('SMA/sederajat')
-  await expect(rows.first().locator('[data-column="member_school"]')).toHaveText('Masih sekolah')
+  await expect(rows.first().locator('.member-education strong')).toContainText('SMA/sederajat')
+  await expect(rows.first().locator('.member-education small')).toContainText('Masih sekolah')
   await expect(page.getByRole('columnheader',{name:'Memiliki usaha',exact:true})).toHaveCount(0)
   for(const [i,color] of ['success','info','warning','neutral'].entries())await expect(rows.nth(i).locator('.badge')).toHaveClass(new RegExp('badge-'+color))
+  for(const width of [1024,1280,1440,1920]){
+    await page.setViewportSize({width,height:900})
+    for(const expanded of [true,false]){
+      const toggle=page.getByRole('button',{name:'Filter data',exact:true})
+      if((await toggle.getAttribute('aria-expanded'))!==String(expanded))await toggle.click()
+      const dimensions=await page.locator('.table-scroll').evaluate(element=>({scroll:element.scrollWidth,client:element.clientWidth}))
+      expect(dimensions.scroll).toBeLessThanOrEqual(dimensions.client+1)
+      expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+      await expect(rows.first().locator('.directory-open')).toBeVisible()
+    }
+  }
+  await page.setViewportSize({width:1280,height:900})
+  await page.getByRole('button',{name:'Filter data',exact:true}).click()
   await page.screenshot({path:'../../docs/reports/app/screenshots/member-profile-desktop-synthetic.png',fullPage:true})
   for(const width of [320,390,820]){
     await page.setViewportSize({width,height:844})
