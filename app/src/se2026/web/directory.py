@@ -34,7 +34,7 @@ class DirectoryQuery(BaseModel):
     kbli_state: Literal["", "MISSING", "INVALID_FORMAT", "UNKNOWN_REFERENCE", "VALID"] = ""
     page: int = Field(default=1, ge=1, le=100000)
     page_size: int = Field(default=10, ge=1, le=100)
-    sort: Literal["assignment_id", "title", "status", "kbli", "id", "business_priority"] = "id"
+    sort: Literal["assignment_id", "title", "status", "kbli", "id", "business_priority", "family_priority"] = "id"
     direction: Literal["asc", "desc"] = "asc"
 
 
@@ -48,10 +48,10 @@ class DirectoryIndex:
         self.completeness_lock = threading.Lock()
         self.completeness = {}
 
-    def completeness_scores(self, role):
+    def completeness_scores(self, role, scope="businesses"):
         # Only integer scores are retained, separated by visible-field permissions.
         access = "admin" if role == "admin" else "analyst_detail"
-        token = (self.signature, access)
+        token = (self.signature, access, scope)
         with self.completeness_lock:
             if token in self.completeness:
                 return self.completeness[token]
@@ -60,10 +60,11 @@ class DirectoryIndex:
                     dict(row)
                     for row in con.execute(
                         "SELECT record_key,source,assignment_id,version,index1,title,desa,desa_label,"
-                        "sls,subsls,kbli,kategori FROM directory_rows WHERE scope='businesses'"
+                        "sls,subsls,kbli,kategori FROM directory_rows WHERE scope=?",
+                        (scope,),
                     )
                 ]
-            rows = enrich_businesses(self.settings, rows, access)
+            rows = enrich_businesses(self.settings, rows, access) if scope == "businesses" else enrich_family_records(self.settings, rows, access, scope)
             scores = {}
             for row in rows:
                 geo = self.sls_reference.describe(row["sls"], row["subsls"])
@@ -76,11 +77,16 @@ class DirectoryIndex:
                     present(row["desa_label"] or row["desa"]),
                     present(geo["sls_label"]),
                     bool(re.fullmatch(r"[0-9]{16}", row["subsls"] or "")),
-                    present(row["family_head"] or row["person_in_charge"]),
-                    row["kbli"] in self.references.kbli,
-                    present(row["kategori"]),
                 ]
-                if access == "admin":
+                if scope == "businesses":
+                    fields.extend([
+                        present(row["family_head"] or row["person_in_charge"]),
+                        row["kbli"] in self.references.kbli,
+                        present(row["kategori"]),
+                    ])
+                elif scope == "members":
+                    fields.append(present(row["family_head"]))
+                if access == "admin" and scope in ("businesses", "families"):
                     fields.append(bool(row["map_coordinates"]))
                 scores[row["record_key"]] = sum(fields)
             self.completeness = {
@@ -381,11 +387,21 @@ class DirectoryIndex:
                 "directory_completeness(d.record_key) DESC,"
                 "d.title COLLATE NOCASE ASC,d.assignment_id ASC,d.version ASC,d.index1 ASC,d.id ASC"
             )
-        elif payload.sort == "business_priority":
+        elif scope in ("families", "members") and payload.sort in ("id", "family_priority"):
+            # Family and member statuses have distinct source codes. Member 2
+            # means deceased; a new member is 5, not the family/business code 2.
+            codes = ("1", "2", "3", "4", "5", "6", "0") if scope == "families" else ("1", "5", "2", "3", "4", "6", "7")
+            order = (
+                "CASE d.status " + " ".join(f"WHEN '{code}' THEN {rank}" for rank, code in enumerate(codes)) + " ELSE 7 END,"
+                "directory_completeness(d.record_key) DESC,"
+                "d.title COLLATE NOCASE ASC,d.assignment_id ASC,d.version ASC,d.index1 ASC,d.id ASC"
+            )
+        elif payload.sort in ("business_priority", "family_priority"):
             order = "d.id ASC"
         scores = (
-            self.completeness_scores(role)
-            if scope == "businesses" and payload.sort in ("id", "business_priority")
+            self.completeness_scores(role, scope)
+            if (scope == "businesses" and payload.sort in ("id", "business_priority"))
+            or (scope in ("families", "members") and payload.sort in ("id", "family_priority"))
             else {}
         )
         with self.db.connection() as con:

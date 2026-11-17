@@ -1,6 +1,8 @@
 import sqlite3
 from unittest.mock import patch
 
+import pytest
+
 from se2026.analytics import Analytics
 from se2026.common import sha256
 from se2026.web.family_directory import enrich_family_records
@@ -73,3 +75,59 @@ def test_duplicate_family_root_does_not_choose_a_tag_or_multiply_member_rows(por
     assert all(row["family_head"] is None for row in rows if row["version"] == V1)
     family = enrich_family_records(settings, [{"assignment_id": "DTD-0001", "version": V1}], "admin", "families")[0]
     assert family["map_coordinates"] is None and family["map_status"] == "SOURCE_CONFLICT"
+
+
+@pytest.mark.parametrize("scope,new_code,missing_code", [("families", "2", "0"), ("members", "5", "7")])
+def test_family_priority_is_global_before_pagination_and_shared_by_export(portal, scope, new_code, missing_code):
+    app, client, settings = portal
+    app.state.directory.ensure()
+    before = sha256(settings.census_db)
+    with app.state.app_db.connection() as con:
+        con.execute("UPDATE directory_rows SET status='unknown',title='OTHER' WHERE scope=?", (scope,))
+        for aid, code, title in [
+            ("DTD-0001", missing_code, "AAA MISSING"),
+            ("DTD-0002", "3" if scope == "families" else "2", "AAA INACTIVE"),
+            ("DTD-0003", new_code, "ZZZ NEW"),
+            ("DTD-0004", "1", "zebra FOUND"),
+            ("DTD-0005", "1", "alpha FOUND"),
+        ]:
+            con.execute("UPDATE directory_rows SET status=?,title=? WHERE scope=? AND assignment_id=?", (code, title, scope, aid))
+    body = {"source": "dtd", "sort": "family_priority", "page_size": 100}
+    endpoint = "/api/v1/directories/" + scope
+    result = client.post(endpoint + "/search", json=body).json()
+    assert [row["title"] for row in result["rows"][:3]] == ["alpha FOUND", "zebra FOUND", "ZZZ NEW"]
+    assert len(result["rows"]) == len({row["record_key"] for row in result["rows"]})
+    first = client.post(endpoint + "/search", json={**body, "page_size": 2, "page": 1}).json()
+    second = client.post(endpoint + "/search", json={**body, "page_size": 2, "page": 2}).json()
+    assert [row["record_key"] for row in first["rows"] + second["rows"]] == [row["record_key"] for row in result["rows"][:4]]
+    # Default API requests and exports follow the same global order.
+    default = client.post(endpoint + "/search", json={"source": "dtd", "page_size": 100}).json()
+    assert [row["record_key"] for row in default["rows"]] == [row["record_key"] for row in result["rows"]]
+    exported = sheet(client.post(endpoint + "/export", json={**body, "page_size": 2, "page": 2}))
+    assert [row[4] for row in exported.iter_rows(min_row=2, values_only=True)] == [row["title"] for row in result["rows"]]
+    assert sha256(settings.census_db) == before
+
+
+@pytest.mark.parametrize("scope", ["families", "members"])
+def test_family_completeness_precedes_name_and_uses_only_visible_fields(portal, analyst, scope):
+    app, client, settings = portal
+    with sqlite3.connect(settings.census_db) as con:
+        con.execute("UPDATE mart_keluarga SET geotag_latitude='2.125',geotag_longitude='117.25' WHERE assignment_id='DTD-0001'")
+        if scope == "members":
+            con.execute("UPDATE mart_keluarga SET nama_kk=NULL WHERE assignment_id='DTD-0002'")
+    app.state.directory.ensure()
+    with app.state.app_db.connection() as con:
+        con.execute("UPDATE directory_rows SET status='unknown' WHERE scope=?", (scope,))
+        con.execute("UPDATE directory_rows SET status='1',title='ZZZ COMPLETE' WHERE scope=? AND assignment_id='DTD-0001'", (scope,))
+        con.execute("UPDATE directory_rows SET status='1',title='AAA LESS COMPLETE' WHERE scope=? AND assignment_id='DTD-0002'", (scope,))
+    before = sha256(settings.census_db)
+    body = {"source": "dtd", "sort": "family_priority", "page_size": 100, "status": "1"}
+    endpoint = "/api/v1/directories/" + scope + "/search"
+    admin_rows = client.post(endpoint, json=body).json()["rows"]
+    analyst_rows = analyst.post(endpoint, json=body).json()["rows"]
+    assert admin_rows[0]["title"] == "ZZZ COMPLETE"
+    # A hidden family tag must not influence analyst order. The visible parent
+    # name on member rows can influence both roles, without using member tags.
+    assert analyst_rows[0]["title"] == ("AAA LESS COMPLETE" if scope == "families" else "ZZZ COMPLETE")
+    assert all(row.get("map_coordinates") is None for row in analyst_rows)
+    assert sha256(settings.census_db) == before
