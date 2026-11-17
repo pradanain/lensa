@@ -11,6 +11,31 @@ from .synthetic import V1, V2
 from .test_xlsx_export import sheet
 
 
+def test_member_nik_search_display_and_export_preserve_text_and_role(portal, analyst, viewer):
+    _, client, settings = portal
+    nik = '0012345678901234'
+    other = '0098765432109876'
+    with sqlite3.connect(settings.census_db) as con:
+        con.execute("UPDATE mart_anggota SET nik_anggota=? WHERE assignment_id='DTD-0001' AND index1='001' AND __version_normalized=?", (nik,V1))
+        con.execute("UPDATE mart_anggota SET nik_anggota=? WHERE assignment_id='DTD-0001' AND index1='002'", (other,))
+    before = sha256(settings.census_db)
+    endpoint='/api/v1/directories/members/'
+    for text in [nik,nik[:8]]:
+        result=client.post(endpoint+'search',json={'source':'dtd','q':text}).json()
+        assert result['total']==1
+        assert result['rows'][0]['member_nik']==nik
+        assert result['rows'][0]['index1']=='001'
+    for user in [analyst]:
+        assert user.post(endpoint+'search',json={'source':'dtd','q':nik}).json()['total']==0
+        assert all(row['member_nik'] is None for row in user.post(endpoint+'search',json={'source':'dtd'}).json()['rows'])
+        assert 'NIK' not in [cell.value for cell in sheet(user.post(endpoint+'export',json={'source':'dtd'}))[1]]
+    workbook=sheet(client.post(endpoint+'export',json={'source':'dtd','q':nik}))
+    column=[cell.value for cell in workbook[1]].index('NIK')+1
+    assert workbook.cell(2,column).value==nik and workbook.cell(2,column).data_type=='s'
+    assert viewer.post(endpoint+'search',json={'q':nik}).status_code==403
+    assert sha256(settings.census_db)==before
+
+
 def test_family_summary_only_queries_family_and_member_metrics(portal, viewer):
     _, client, settings = portal
     before = sha256(settings.census_db)

@@ -1460,3 +1460,22 @@ test('family columns show building counts address and colored statuses without s
   expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
   await expect(rows.first().locator('[data-column="member_count"]')).toBeVisible()
 })
+
+
+test('member NIK is searchable without a URL and hidden from analyst',async({page})=>{
+  await page.goto('http://127.0.0.1:8768/keluarga?tab=anggota')
+  await expect(page.getByRole('columnheader',{name:'NIK',exact:true})).toBeVisible()
+  const input=page.getByRole('textbox',{name:'Cari direktori',exact:true})
+  await expect(input).toHaveAttribute('placeholder','Cari nama anggota, NIK, atau lainnya...')
+  const requested=page.waitForRequest(request=>request.url().endsWith('/directories/members/search')&&request.postDataJSON().q==='SYNTHETIC_PRIVATE_NIK')
+  await input.fill('SYNTHETIC_PRIVATE_NIK')
+  await page.getByRole('button',{name:'Cari',exact:true}).click()
+  await requested
+  await expect(page.locator('.record-directory-table tbody [data-column="member_nik"]').first()).toHaveText('SYNTHETIC_PRIVATE_NIK')
+  expect(page.url()).not.toContain('PRIVATE_NIK')
+  await login(page,'analyst')
+  await page.goto('/keluarga?tab=anggota')
+  await expect(page.locator('.record-directory-table tbody tr').first()).toBeVisible()
+  await expect(page.getByRole('columnheader',{name:'NIK',exact:true})).toHaveCount(0)
+  await expect(page.locator('.record-directory-table')).not.toContainText('SYNTHETIC_PRIVATE_NIK')
+})

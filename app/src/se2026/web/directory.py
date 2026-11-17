@@ -101,7 +101,7 @@ class DirectoryIndex:
 
     def ensure(self):
         stat = self.settings.census_db.stat()
-        signature = f"{self.settings.census_db}:{stat.st_size}:{stat.st_mtime_ns}:directory-v5"
+        signature = f"{self.settings.census_db}:{stat.st_size}:{stat.st_mtime_ns}:directory-v6"
         if self.signature == signature:
             return
         with self.lock:
@@ -237,6 +237,7 @@ class DirectoryIndex:
                         "__version_normalized",
                         "index1",
                         "nama_anggota",
+                        "nik_anggota",
                         "kode_keberadaan_anggota",
                         "keberadaan_anggota",
                     ],
@@ -259,6 +260,7 @@ class DirectoryIndex:
                         row.get("kbli", ""),
                         row.get("kategori", ""),
                         kind,
+                        restricted=str(row.get("nik_anggota") or "") if scope == "members" else "",
                     )
                     if scope != "members":
                         c = context[row["assignment_id"]]

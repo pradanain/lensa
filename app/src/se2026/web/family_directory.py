@@ -18,13 +18,19 @@ def enrich_family_records(settings, rows, role, scope):
     if sensitive:
         fields += ",alamat_keluarga,geotag_latitude,geotag_longitude"
     families = defaultdict(list)
+    members = defaultdict(list)
     with census_connection(settings) as con:
+        if scope == "members" and role == "admin":
+            for item in con.execute("SELECT assignment_id,__version_normalized,index1,nik_anggota FROM mart_anggota" + condition, ids if condition else []):
+                members[(item["assignment_id"], item["__version_normalized"], item["index1"])].append(item["nik_anggota"])
         for item in con.execute("SELECT " + fields + " FROM mart_keluarga" + condition, ids if condition else []):
             families[(item["assignment_id"], item["__version_normalized"])].append(dict(item))
     for row in rows:
         matches = families[(row["assignment_id"], row["version"])]
         row["family_head"] = matches[0]["nama_kk"] or None if len(matches) == 1 else None
         if scope != "families":
+            values = members[(row["assignment_id"], row["version"], row["index1"])]
+            row["member_nik"] = values[0] if role == "admin" and len(values) == 1 else None
             continue
         for name, column in [("building_number", "nomor_bangunan"), ("member_count", "jumlah_anggota_hasil_pendataan"), ("business_count", "jumlah_usaha_ditemukan")]:
             row[name] = matches[0][column] if len(matches) == 1 else None
