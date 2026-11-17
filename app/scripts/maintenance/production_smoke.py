@@ -41,11 +41,36 @@ def verify(base):
             time.sleep(2)
     else:
         raise RuntimeError("IMAGE_NOT_READY")
+    from http.cookies import SimpleCookie
+
+    cookies = SimpleCookie()
+    def call(path, payload=None):
+        headers = {"Cookie": "; ".join(key + "=" + item.value for key,item in cookies.items())}
+        if payload is not None:
+            headers.update({"Content-Type": "application/json", "Origin": "https://lensa.pradanain.id",
+                            "X-CSRF-Token": cookies["portal_csrf"].value})
+        request = urllib.request.Request(base + path, data=json.dumps(payload).encode() if payload is not None else None, headers=headers)
+        try:
+            response = urllib.request.urlopen(request)
+        except urllib.error.HTTPError as error:
+            response = error
+        with response:
+            for value in response.headers.get_all("Set-Cookie", []):
+                cookies.load(value)
+            return response.status, json.load(response)
+
+    status, session = call("/api/v1/auth/session")
+    assert status == 200 and session["auth_enabled"] is True and session["setup_required"] is False
+    assert session["user"] is None
+    assert call("/api/v1/analytics/business-summary")[0] == 401
+    status, logged_in = call("/api/v1/auth/login", {"username": "smoke-admin", "password": "Synthetic-only-password-2026!"})
+    assert status == 200 and logged_in["commitment_required"] is True
+    assert call("/api/v1/analytics/business-summary")[0] == 403
+    assert call("/api/v1/auth/commitment", {"version": logged_in["commitment_version"], "accepted": True})[0] == 200
     for path in ("/api/v1/analytics/business-summary", "/api/v1/kbli/tree"):
-        with urllib.request.urlopen(base + path) as response:
-            assert response.status == 200
-    session = json.load(urllib.request.urlopen(base + "/api/v1/auth/session"))
-    assert session["auth_enabled"] is False and session["setup_required"] is False
+        assert call(path)[0] == 200
+    assert call("/api/v1/auth/logout", {})[0] == 200
+    assert call("/api/v1/analytics/business-summary")[0] == 401
     html = urllib.request.urlopen(base + "/usaha").read().decode()
     import re
 
@@ -54,7 +79,7 @@ def verify(base):
     for asset in assets:
         with urllib.request.urlopen(base + asset) as response:
             assert response.status == 200
-    print("Production image: ready, frontend assets available, login deferred.")
+    print("Production image: ready, frontend assets available, login and commitment enforced.")
 
 
 if __name__ == "__main__":

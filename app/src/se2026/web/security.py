@@ -11,11 +11,12 @@ router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
 hasher = PasswordHash.recommended()
 dummy_hash = hasher.hash(secrets.token_urlsafe(24))
 ROLES = {"admin", "analyst_detail", "aggregate_viewer"}
+COMMITMENT_VERSION = "privacy_commitment_v1"
 
 
 class Credentials(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    username: str = Field(min_length=3, max_length=64, pattern=r"^[A-Za-z0-9_.-]+$")
+    username: str = Field(min_length=3, max_length=128, pattern=r"^[A-Za-z0-9_.@+-]+$")
     password: str = Field(min_length=1, max_length=256)
 
 
@@ -37,7 +38,7 @@ def csrf_guard(request: Request):
         raise HTTPException(403, "CSRF_REQUIRED")
 
 
-def current_user(request: Request):
+def authenticated_user(request: Request):
     if not request.app.state.settings.auth_enabled:
         if request.method not in ("GET", "HEAD", "OPTIONS"):
             csrf_guard(request)
@@ -64,6 +65,21 @@ def current_user(request: Request):
         if not secrets.compare_digest(row["csrf"], request.headers.get("x-csrf-token", "")):
             raise HTTPException(403, "CSRF_REQUIRED")
     return dict(row)
+
+
+def commitment_accepted(request: Request):
+    with request.app.state.app_db.connection() as con:
+        return con.execute(
+            "SELECT 1 FROM session_commitments WHERE token_hash=? AND version=?",
+            (token_hash(request.cookies.get("portal_session", "")), COMMITMENT_VERSION),
+        ).fetchone() is not None
+
+
+def current_user(request: Request):
+    user = authenticated_user(request)
+    if request.app.state.settings.auth_enabled and not commitment_accepted(request):
+        raise HTTPException(403, "COMMITMENT_REQUIRED")
+    return user
 
 
 def require_detail(user=Depends(current_user)):
@@ -100,11 +116,13 @@ def session(request: Request, response: Response):
             "csrf_token": csrf,
             "setup_required": False,
             "auth_enabled": False,
+            "commitment_required": False,
+            "commitment_version": COMMITMENT_VERSION,
             "business_focus_enabled": request.app.state.settings.business_focus_enabled,
         }
     user = None
     try:
-        user = current_user(request)
+        user = authenticated_user(request)
         csrf = user["csrf"]
     except HTTPException:
         pass
@@ -116,6 +134,8 @@ def session(request: Request, response: Response):
         "csrf_token": csrf,
         "setup_required": setup,
         "auth_enabled": True,
+        "commitment_required": bool(user) and not commitment_accepted(request),
+        "commitment_version": COMMITMENT_VERSION,
         "business_focus_enabled": request.app.state.settings.business_focus_enabled,
     }
 
@@ -189,11 +209,41 @@ def login(payload: Credentials, request: Request, response: Response):
     )
     response.set_cookie("portal_csrf", csrf, httponly=False, **cookie_options(request))
     db.audit(user["id"], "LOGIN")
-    return {"user": public_user(user), "csrf_token": csrf}
+    return {"user": public_user(user), "csrf_token": csrf,
+            "commitment_required": True, "commitment_version": COMMITMENT_VERSION}
+
+
+class CommitmentDecision(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    version: str = Field(min_length=1, max_length=80)
+    accepted: bool
+
+
+@router.post("/commitment", dependencies=[Depends(require_auth_enabled)])
+def accept_commitment(payload: CommitmentDecision, request: Request, user=Depends(authenticated_user)):
+    if payload.version != COMMITMENT_VERSION:
+        raise HTTPException(409, "COMMITMENT_VERSION_CHANGED")
+    if not payload.accepted:
+        raise HTTPException(422, "COMMITMENT_ACCEPTANCE_REQUIRED")
+    key = token_hash(request.cookies.get("portal_session", ""))
+    now = int(time.time())
+    with request.app.state.app_db.connection() as con:
+        con.execute("BEGIN IMMEDIATE")
+        if not con.execute("SELECT 1 FROM sessions WHERE token_hash=? AND expires_at>?", (key, now)).fetchone():
+            raise HTTPException(401, "SESSION_EXPIRED")
+        previous = con.execute("SELECT version FROM session_commitments WHERE token_hash=?", (key,)).fetchone()
+        if not previous or previous["version"] != COMMITMENT_VERSION:
+            con.execute(
+                "INSERT INTO session_commitments VALUES(?,?,?) ON CONFLICT(token_hash) DO UPDATE SET version=excluded.version,accepted_at=excluded.accepted_at",
+                (key, COMMITMENT_VERSION, now),
+            )
+            con.execute("INSERT INTO audit(occurred_at,user_id,action,outcome) VALUES(?,?,?,?)",
+                        (now, user["id"], "COMMITMENT_ACCEPTED:" + COMMITMENT_VERSION, "OK"))
+    return {"status": "COMMITMENT_ACCEPTED", "version": COMMITMENT_VERSION}
 
 
 @router.post("/logout", dependencies=[Depends(require_auth_enabled)])
-def logout(request: Request, response: Response, user=Depends(current_user)):
+def logout(request: Request, response: Response, user=Depends(authenticated_user)):
     with request.app.state.app_db.connection() as con:
         con.execute(
             "DELETE FROM sessions WHERE token_hash=?", (token_hash(request.cookies["portal_session"]),)

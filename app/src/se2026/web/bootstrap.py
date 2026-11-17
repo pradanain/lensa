@@ -12,7 +12,7 @@ from .settings import Settings
 
 
 def provision(settings, username, password):
-    if not re.fullmatch(r"[A-Za-z0-9_.-]{3,64}", username):
+    if not re.fullmatch(r"[A-Za-z0-9_.@+-]{3,128}", username):
         raise ValueError("INVALID_ADMIN_USERNAME")
     strong_password(password)
     db = AppDatabase(settings)

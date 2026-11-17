@@ -32,6 +32,9 @@ class AppDatabase:
                 CREATE TABLE IF NOT EXISTS audit(
                     id INTEGER PRIMARY KEY,occurred_at INTEGER NOT NULL,user_id INTEGER,
                     action TEXT NOT NULL,outcome TEXT NOT NULL);
+                CREATE TABLE IF NOT EXISTS session_commitments(
+                    token_hash TEXT PRIMARY KEY REFERENCES sessions(token_hash) ON DELETE CASCADE,
+                    version TEXT NOT NULL,accepted_at INTEGER NOT NULL);
                 CREATE TABLE IF NOT EXISTS login_attempts(
                     client_hash TEXT PRIMARY KEY,failures INTEGER NOT NULL,window_start INTEGER NOT NULL);
                 CREATE TABLE IF NOT EXISTS cache_meta(key TEXT PRIMARY KEY,value TEXT NOT NULL);

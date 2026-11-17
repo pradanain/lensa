@@ -2,6 +2,7 @@ let csrf=''
 export function setCsrf(value:string) {csrf=value}
 
 const messages:Record<string,string>={
+  COMMITMENT_REQUIRED:'Setujui pakta integritas untuk melanjutkan.',COMMITMENT_VERSION_CHANGED:'Pakta integritas diperbarui. Silakan baca dan setujui kembali.',COMMITMENT_ACCEPTANCE_REQUIRED:'Persetujuan diperlukan untuk membuka portal.',
   LOGIN_REQUIRED:'Silakan masuk untuk melanjutkan.',SESSION_EXPIRED:'Sesi berakhir. Silakan masuk kembali.',
   LOGIN_FAILED:'Nama pengguna atau kata sandi belum sesuai.',LOGIN_RATE_LIMIT:'Terlalu banyak percobaan. Coba kembali dalam lima menit.',
   PASSWORD_MINIMUM_12_CHARACTERS:'Gunakan kata sandi minimal 12 karakter.',CSRF_REQUIRED:'Sesi keamanan perlu dimuat ulang.',
@@ -14,7 +15,7 @@ export class ApiError extends Error {constructor(public status:number,public cod
 
 export async function downloadXlsx(path:string,body:unknown,filename:string){
   const response=await fetch('/api/v1'+path,{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify(body)})
-  if(!response.ok){const data=await response.json();throw new ApiError(response.status,data.detail||'REQUEST_FAILED')}
+  if(!response.ok){const data=await response.json();if(response.status===403&&data.detail==='COMMITMENT_REQUIRED')window.dispatchEvent(new Event('portal-commitment-required'));if(response.status===401)window.dispatchEvent(new Event('portal-session-expired'));throw new ApiError(response.status,data.detail||'REQUEST_FAILED')}
   const blob=await response.blob();const url=URL.createObjectURL(blob)
   try{const anchor=document.createElement('a');anchor.href=url;anchor.download=filename;document.body.appendChild(anchor);anchor.click();anchor.remove()}finally{setTimeout(()=>URL.revokeObjectURL(url),1000)}
 }
@@ -26,12 +27,12 @@ export async function api<T>(path:string,body?:unknown,method?:string,options?:{
     ...(body===undefined?{}:{body:JSON.stringify(body)}),
   })
   const data=await response.json()
-  if(!response.ok){if(response.status===401 && !path.startsWith('/auth/'))window.dispatchEvent(new Event('portal-session-expired'));throw new ApiError(response.status,data.detail||'REQUEST_FAILED')}
+  if(!response.ok){if(response.status===403&&data.detail==='COMMITMENT_REQUIRED')window.dispatchEvent(new Event('portal-commitment-required'));if(response.status===401 && !path.startsWith('/auth/'))window.dispatchEvent(new Event('portal-session-expired'));throw new ApiError(response.status,data.detail||'REQUEST_FAILED')}
   return data as T
 }
 
 export type User={id:number|null;username:string;role:string;can_detail:boolean;can_sensitive:boolean}
-export type Session={business_focus_enabled?:boolean;auth_enabled:boolean;user:User|null;csrf_token:string;setup_required:boolean}
+export type Session={commitment_required?:boolean;commitment_version?:string;business_focus_enabled?:boolean;auth_enabled:boolean;user:User|null;csrf_token:string;setup_required:boolean}
 export type MetricRow={dimensions:Record<string,unknown>;eligible_rows:number|null;numerator:number|string|null;denominator:number|null;excluded_rows:number|null;value:number|string|null;percentage:string|null;suppressed:boolean}
 export type Metric={metric_id:string;grain:string[];unit:string;period:string;interpretation_limits:string;rows:MetricRow[];location_concept:string}
 export type Summary={counts:Record<string,MetricRow[]>;indicators:Metric[];region:Metric;baseline:string;suppression_note:string}

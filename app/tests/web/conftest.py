@@ -14,6 +14,7 @@ def sign_in(client, username="admin", password=PASSWORD):
     response = client.post("/api/v1/auth/login", json={"username": username, "password": password})
     assert response.status_code == 200
     client.headers["X-CSRF-Token"] = response.json()["csrf_token"]
+    assert client.post("/api/v1/auth/commitment", json={"version": response.json()["commitment_version"], "accepted": True}).status_code == 200
     return client
 
 

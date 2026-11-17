@@ -54,9 +54,7 @@ Pastikan directory induk dapat dilalui UID 10001. Jangan mengubah permission dir
 
 ## Akun production
 
-Login ditunda sesuai keputusan pengguna. Default image dan Compose memakai `LENSA_AUTH_ENABLED=false`; halaman Usaha, direktori, detail dan ekspor dapat digunakan tanpa akun. Akun dan sesi existing tetap disimpan. Setup web tetap ditutup, HTTPS, secure cookies dan perlindungan CSRF tetap aktif. Tidak perlu bootstrap akun untuk penggunaan tanpa login.
-
-Untuk mengaktifkan login kelak, tetapkan `LENSA_AUTH_ENABLED=true` pada `.env`. Hanya pada mode tersebut startup dan readiness mensyaratkan admin aktif. Bagian bootstrap berikut bersifat opsional untuk persiapan mode login.
+Login dan pakta integritas aktif. Production menolak konfigurasi tanpa login. Pada `.env` server tetapkan `LENSA_AUTH_ENABLED=true` (ubah nilai `false` dari deployment lama). Akun dan hash kata sandi existing dipertahankan. Setup web production tetap ditutup; startup dan readiness memerlukan administrator aktif. Setiap sesi login baru harus menyetujui pakta sebelum data, grafik dan ekspor dibuka. Menutup dialog, Keluar atau Escape mengakhiri sesi. Persetujuan dicatat pada database aplikasi dengan versi dan waktu, tanpa data responden.
 
 Jika state production sudah memiliki akun, pertahankan file tersebut. Untuk state baru, provision satu admin secara interaktif di server sebelum menjalankan service (password tidak masuk argumen, log atau shell history):
 
@@ -114,9 +112,9 @@ curl --max-time 20 https://lensa.pradanain.id/api/ready
 curl -o /dev/null -w '%{http_code}\n' https://lensa.pradanain.id/api/v1/analytics/business-summary
 ```
 
-Permintaan terakhir tanpa sesi harus 200 ketika login ditunda (401 jika login diaktifkan). Periksa frontend, seluruh aset JavaScript, akses tanpa login, navigasi Usaha, filter wilayah/KBLI, halaman kuesioner dan ekspor. Tes data production hanya dilakukan di browser privat; jangan mengunggah screenshot/data responden ke GitHub atau telemetry. HTTP 200 saja tidak membuktikan seluruh aplikasi berfungsi.
+Permintaan terakhir tanpa sesi harus 401; setelah login tetapi sebelum pakta disetujui harus 403 COMMITMENT_REQUIRED. Setelah setuju, akses mengikuti peran akun. Periksa frontend, seluruh aset JavaScript, akses tanpa login, navigasi Usaha, filter wilayah/KBLI, halaman kuesioner dan ekspor. Tes data production hanya dilakukan di browser privat; jangan mengunggah screenshot/data responden ke GitHub atau telemetry. HTTP 200 saja tidak membuktikan seluruh aplikasi berfungsi.
 
-Menu Usaha dan Keluarga sudah tersedia. Dashboard dan Raw Data sementara 403 sesuai keputusan pengembangan. Login tidak membuka dua halaman tersebut. Isolasi halaman tersebut tetap berlaku ketika login ditunda.
+Dashboard, Usaha, Keluarga dan Raw Data tersedia setelah login dan persetujuan pakta integritas.
 
 ## Operasional dan rollback
 
@@ -144,3 +142,10 @@ Dasar konfigurasi build/publish dan precedence environment: [Docker GitHub Actio
 
 
 Pemeriksaan database aplikasi dan backup dilakukan sebagai UID container 10001. Folder state/backups mode 700 memang tidak dapat dibaca langsung oleh SSH user; jangan melonggarkan permission untuk mengatasi hal ini. Script tidak memakai host test -f pada database state. CI juga menjalankan rehearsal script di runner Linux sementara dengan folder state privat dan kredensial GHCR global sintetis yang salah untuk memeriksa kondisi ini.
+
+
+## Mengaktifkan login pada server yang sebelumnya tanpa akun
+
+1. Pull image SHA terbaru yang sudah lulus CI. Jika state server masih kosong, jalankan bootstrap di atas memakai image yang sama dan nama pengguna yang Anda pilih. Masukkan kata sandi secara interaktif; jangan menaruhnya pada command line, repository atau `.env`. Bootstrap menolak mengganti akun existing. Akun yang dibuat di komputer lokal tidak otomatis tersalin ke volume server.
+2. Ubah atau tambahkan `LENSA_AUTH_ENABLED=true` pada `/srv/stacks/lensa/.env`. Compose lama sudah membaca variabel ini, sehingga tidak memerlukan penggantian data atau volume.
+3. Jalankan `./deploy.sh ghcr.io/pradanain/lensa:sha-<commit-terverifikasi>`. Pastikan login berhasil, pakta muncul, dan akses data baru tersedia setelah disetujui. Periksa ulang logout serta akses tanpa sesi.

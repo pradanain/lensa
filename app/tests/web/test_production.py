@@ -46,29 +46,11 @@ def test_production_requires_private_admin_before_startup(tmp_path):
             pass
 
 
-def test_production_login_deferred_preserves_accounts_and_data(tmp_path):
-    from se2026.common import sha256
-
+def test_production_rejects_legacy_auth_disabled_configuration(tmp_path):
     settings = production_settings(tmp_path)
     settings.auth_enabled = False
-    # Validate the real environment configuration, not only a mutable setting.
-    settings = Settings(**settings.model_dump())
-    original_hash = sha256(settings.census_db)
-    app = create_app(settings)
-    with TestClient(app, base_url="https://testserver") as client:
-        assert client.get("/api/ready").status_code == 200
-        session = client.get("/api/v1/auth/session").json()
-        assert session["auth_enabled"] is False
-        assert session["setup_required"] is False
-        assert client.get("/api/v1/analytics/business-summary").status_code == 200
-        assert client.get("/api/v1/questionnaires/ub/UB-0001").status_code == 200
-        client.headers["X-CSRF-Token"] = session["csrf_token"]
-        assert client.post("/api/v1/directories/businesses/search", json={}).status_code == 200
-        assert client.post("/api/v1/auth/setup", json={}).status_code == 403
-        assert client.post("/api/v1/auth/login", json={}).status_code == 403
-    assert sha256(settings.census_db) == original_hash
-    with app.state.app_db.connection() as con:
-        assert con.execute("SELECT COUNT(*) FROM users").fetchone()[0] == 0
+    with pytest.raises(ValidationError, match="PRODUCTION_REQUIRES_LOGIN"):
+        Settings(**settings.model_dump())
 
 
 def test_private_admin_and_https_session_guard_production_data(tmp_path):
@@ -97,6 +79,8 @@ def test_private_admin_and_https_session_guard_production_data(tmp_path):
         assert login.status_code == 200
         assert "Secure" in login.headers["set-cookie"] and "HttpOnly" in login.headers["set-cookie"]
         client.headers["X-CSRF-Token"] = login.json()["csrf_token"]
+        assert client.get("/api/v1/analytics/business-summary").status_code == 403
+        assert client.post("/api/v1/auth/commitment", json={"version": login.json()["commitment_version"], "accepted": True}).status_code == 200
         assert client.get("/api/v1/analytics/business-summary").status_code == 200
         assert (
             client.post(

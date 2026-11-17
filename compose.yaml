@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: app/deploy/Dockerfile.api
     environment:
-      SE2026_AUTH_ENABLED: "${SE2026_AUTH_ENABLED:-false}"
+      SE2026_AUTH_ENABLED: "${SE2026_AUTH_ENABLED:-true}"
       SE2026_CENSUS_DB: /srv/data/processed/se2026.sqlite
       SE2026_APP_DB: /srv/data/app/portal.sqlite
       OTEL_SDK_DISABLED: "true"

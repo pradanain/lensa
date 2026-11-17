@@ -6,10 +6,10 @@ from se2026.web.settings import Settings
 from .synthetic import ROOT, make_database
 
 
-def test_default_local_access_opens_data_without_creating_accounts(tmp_path):
+def test_explicit_local_access_opens_data_without_creating_accounts(tmp_path):
     census = make_database(tmp_path / "census.sqlite")
     original_hash = sha256(census)
-    app = create_app(Settings(root=ROOT, census_db=census, sls_reference=census.with_suffix(".sls.json"), app_db=tmp_path / "portal.sqlite"))
+    app = create_app(Settings(auth_enabled=False, root=ROOT, census_db=census, sls_reference=census.with_suffix(".sls.json"), app_db=tmp_path / "portal.sqlite"))
     with TestClient(app) as client:
         session = client.get("/api/v1/auth/session").json()
         assert session["auth_enabled"] is False

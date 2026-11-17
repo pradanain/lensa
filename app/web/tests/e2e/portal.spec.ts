@@ -33,6 +33,7 @@ async function login(page:Page,username='admin'){
   await page.getByLabel('Nama pengguna',{exact:true}).fill(username)
   await page.getByLabel('Kata sandi',{exact:true}).fill(password)
   await page.getByRole('button',{name:'Masuk ke portal'}).click()
+  await page.getByRole('button',{name:'Saya memahami dan berkomitmen',exact:true}).click()
   await expect(page.getByRole('heading',{name:'Ringkasan Data SE2026'})).toBeVisible()
 }
 
@@ -43,6 +44,7 @@ test('first local administrator is created through the real setup form',async({p
   await page.getByLabel('Kata sandi',{exact:true}).fill(password)
   await page.getByLabel('Konfirmasi kata sandi',{exact:true}).fill(password)
   await page.getByRole('button',{name:'Buat akun dan masuk'}).click()
+  await page.getByRole('button',{name:'Saya memahami dan berkomitmen',exact:true}).click()
   await expect(page.getByRole('heading',{name:'Ringkasan Data SE2026'})).toBeVisible()
   await expect(page.getByRole('navigation',{name:'Menu utama'}).getByRole('link')).toHaveText(['Dashboard','Usaha','Keluarga','Raw Data'])
 })
@@ -1323,6 +1325,8 @@ test('questionnaire cache is cleared when the session changes to a restricted ro
   await page.getByLabel('Nama pengguna',{exact:true}).fill('analyst')
   await page.getByLabel('Kata sandi',{exact:true}).fill(password)
   await page.getByRole('button',{name:'Masuk ke portal',exact:true}).click()
+  await expect(page.locator('.form-stage')).toHaveCount(0)
+  await page.getByRole('button',{name:'Saya memahami dan berkomitmen',exact:true}).click()
   await expect(page.locator('.form-stage')).toContainText('Akses terbatas')
   await expect(page.locator('.form-stage')).not.toContainText('SYNTHETIC_PRIVATE_NIK')
 })
@@ -1610,4 +1614,82 @@ test('Dashboard keeps aggregate viewers out of detail links and handles empty di
   await selectValue(page,'Data distribusi','ub')
   await expect(page.getByText('Tidak ada data pada wilayah ini.',{exact:true})).toBeVisible()
   await expect(page.locator('.dashboard-distribution [role="img"]')).toHaveCount(0)
+})
+
+
+async function pendingLogin(page:Page,path='/dashboard',username='admin'){
+  await page.goto(path)
+  await page.getByLabel('Nama pengguna',{exact:true}).fill(username)
+  await page.getByLabel('Kata sandi',{exact:true}).fill(password)
+  await page.getByRole('button',{name:'Masuk ke portal',exact:true}).click()
+  await expect(page.getByRole('dialog',{name:'Pakta integritas',exact:true})).toBeVisible()
+}
+
+test('login requires commitment before deep links and exports, with reload persistence',async({page})=>{
+  const requests:string[]=[]
+  page.on('request',request=>{if(request.url().includes('/api/v1/')&&!request.url().includes('/auth/'))requests.push(request.url())})
+  await pendingLogin(page,'/questionnaire/dtd/DTD-0001')
+  expect(requests).toEqual([])
+  expect((await page.request.get('/api/v1/questionnaires/dtd/DTD-0001')).status()).toBe(403)
+  await page.locator('.commitment-overlay').click({position:{x:2,y:2},force:true})
+  await expect(page.getByRole('dialog',{name:'Pakta integritas',exact:true})).toBeVisible()
+  await page.reload()
+  await expect(page.getByRole('dialog',{name:'Pakta integritas',exact:true})).toBeVisible()
+  await page.getByRole('button',{name:'Saya memahami dan berkomitmen',exact:true}).click()
+  await expect(page.getByRole('heading',{name:'Kuesioner SE2026',exact:true})).toBeVisible()
+  await page.reload()
+  await expect(page.getByRole('heading',{name:'Kuesioner SE2026',exact:true})).toBeVisible()
+  await expect(page.getByRole('dialog',{name:'Pakta integritas',exact:true})).toHaveCount(0)
+})
+
+test('commitment exit, close and Escape end the session and new logins prompt again',async({page})=>{
+  for(const action of ['Keluar','Tutup dan keluar dari portal','Escape']){
+    await pendingLogin(page)
+    if(action==='Escape')await page.keyboard.press('Escape')
+    else await page.getByRole('button',{name:action,exact:true}).click()
+    await expect(page.getByRole('heading',{name:'Selamat datang kembali',exact:true})).toBeVisible()
+    expect((await page.request.get('/api/v1/analytics/business-summary')).status()).toBe(401)
+  }
+})
+
+test('login and commitment remain readable on small screens and a failed acceptance stays gated',async({page})=>{
+  for(const width of [320,390,1280]){
+    await page.setViewportSize({width,height:720})
+    await page.goto('/dashboard')
+    await expect(page.getByRole('heading',{name:'Selamat datang kembali',exact:true})).toBeVisible()
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+    if(width===1280)await page.screenshot({path:'../../docs/reports/app/screenshots/login-integrity-desktop-synthetic.png',fullPage:true})
+    await pendingLogin(page)
+    const dialog=page.getByRole('dialog',{name:'Pakta integritas',exact:true})
+    const bounds=await dialog.boundingBox()
+    expect(bounds!.x).toBeGreaterThanOrEqual(0)
+    expect(bounds!.y).toBeGreaterThanOrEqual(0)
+    expect(bounds!.x+bounds!.width).toBeLessThanOrEqual(width)
+    expect(bounds!.y+bounds!.height).toBeLessThanOrEqual(720)
+    if(width===390||width===1280)await page.screenshot({path:'../../docs/reports/app/screenshots/commitment-'+width+'-synthetic.png',fullPage:true})
+    await page.getByRole('button',{name:'Keluar',exact:true}).click()
+  }
+  await pendingLogin(page)
+  await page.route('**/api/v1/auth/commitment',route=>route.fulfill({status:500,json:{detail:'INTERNAL_ERROR_NO_SOURCE_VALUES_LOGGED'}}))
+  await page.getByRole('button',{name:'Saya memahami dan berkomitmen',exact:true}).click()
+  await expect(page.getByRole('alert')).toBeVisible()
+  await expect(page.getByRole('dialog',{name:'Pakta integritas',exact:true})).toBeVisible()
+  expect((await page.request.get('/api/v1/analytics/business-summary')).status()).toBe(403)
+  await page.unroute('**/api/v1/auth/commitment')
+  await page.getByRole('button',{name:'Saya memahami dan berkomitmen',exact:true}).click()
+  await expect(page.getByRole('heading',{name:'Ringkasan Data SE2026',exact:true})).toBeVisible()
+  await page.getByRole('button',{name:'Keluar dari portal',exact:true}).click()
+  await pendingLogin(page)
+})
+
+
+test('email usernames work in the login form before the integrity gate',async({page})=>{
+  await login(page)
+  const session=await (await page.request.get('/api/v1/auth/session')).json()
+  const response=await page.request.post('/api/v1/auth/users',{headers:{'X-CSRF-Token':session.csrf_token},data:{username:'mail.admin@example.test',password,role:'admin'}})
+  expect(response.status()).toBe(200)
+  await page.getByRole('button',{name:'Keluar dari portal',exact:true}).click()
+  await pendingLogin(page,'/dashboard','mail.admin@example.test')
+  await page.getByRole('button',{name:'Saya memahami dan berkomitmen',exact:true}).click()
+  await expect(page.getByRole('heading',{name:'Ringkasan Data SE2026',exact:true})).toBeVisible()
 })

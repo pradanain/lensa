@@ -6,6 +6,7 @@ import {roleNames} from '@/lib/utils'
 import {Button} from '@/components/ui/button'
 import {ErrorBox,Loading} from '@/components/shared'
 import {Login} from '@/pages/login'
+import {Commitment} from '@/pages/commitment'
 import censusLogo from '@/assets/logo-se2026.jpg'
 
 export function Root(){
@@ -21,6 +22,7 @@ export function Root(){
   if(loading)return <div className="boot-skeleton"><div className="boot-skeleton-brand"><BarChart3 size={24}/><strong>LENSA SE2026</strong></div><Loading variant="dashboard" label="Memuat LENSA SE2026..."/></div>
   if(error)return <div className="boot-loading"><ErrorBox error={error} retry={()=>void refresh().catch(()=>{})}/></div>
   if(!session?.user)return <Login/>
+  if(session.commitment_required)return <Commitment/>
   const current=location.pathname.split('/')[1]||'dashboard'
   const titles:Record<string,string>={dashboard:'Dashboard',usaha:'Usaha',keluarga:'Keluarga',data:'Raw Data',kualitas:'Kualitas Data',referensi:'Referensi',pengaturan:'Pengaturan',questionnaire:'Kuesioner'}
   return <div className={'app-layout '+(current==='questionnaire'?'reader-page':'')} key={session.user.id+':'+session.user.role}>
