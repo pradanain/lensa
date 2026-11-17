@@ -57,6 +57,12 @@ select:disabled { background: #f0f3f6; color: #87939c; border-color: #e0e5ea; }
 .badge-success { color: #35674b; background: #edf5f0; }
 .badge-info { color: #28628b; background: #eaf3fb; }
 .directory-address { display: block; min-width: 130px; max-width: 30ch; overflow-wrap: anywhere; font-size: 12px; }
+.member-directory-table [data-column="title"] { width: 20%; }
+.member-directory-table [data-column="desa_label"] { width: 19%; }
+.member-directory-table [data-column="member_nik"] { white-space: nowrap; }
+.member-directory-table [data-column="family_head"] { width: 17%; min-width: 120px; }
+.member-directory-table [data-column="member_profile"] { min-width: 110px; }
+.member-directory-table [data-column="member_business"] { min-width: 85px; }
 .badge-warning { color: #855513; background: #fff4df; }
 .badge-restricted { color: #785e85; background: #f3edf7; }
 .card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; min-width: 0; }

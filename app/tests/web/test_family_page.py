@@ -36,6 +36,20 @@ def test_member_nik_search_display_and_export_preserve_text_and_role(portal, ana
     assert sha256(settings.census_db)==before
 
 
+def test_member_profile_columns_use_exact_roster_and_template_labels(portal, analyst):
+    _, client, settings = portal
+    with sqlite3.connect(settings.census_db) as con:
+        con.execute("UPDATE mart_anggota SET nomor_urut_anggota='007',umur='0',kode_hubungan='3',hubungan_kepala_keluarga=NULL,kode_jenis_kelamin='2',jenis_kelamin=NULL,kode_memiliki_usaha='2',memiliki_usaha=NULL WHERE assignment_id='DTD-0001' AND index1='001' AND __version_normalized=?",(V1,))
+    before=sha256(settings.census_db)
+    for user in [client,analyst]:
+        rows=user.post('/api/v1/directories/members/search',json={'source':'dtd','q':'DTD-0001'}).json()['rows']
+        row=next(row for row in rows if row['index1']=='001' and row['version']==V1)
+        assert (row['member_number'],row['member_age'],row['member_relationship'],row['member_gender'],row['member_business'])==('007','0','Anak','Perempuan','Tidak')
+        other=next(row for row in rows if row['index1']=='002')
+        assert other['member_age']!='0'
+    assert sha256(settings.census_db)==before
+
+
 def test_family_summary_only_queries_family_and_member_metrics(portal, viewer):
     _, client, settings = portal
     before = sha256(settings.census_db)

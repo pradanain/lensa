@@ -3,6 +3,9 @@ import type {DirectoryRow} from './api'
 export function familyStatusVariant(code:string){
   return code==='1'?'success':code==='2'?'info':['3','4','5','6'].includes(code)?'warning':'neutral'
 }
+export function memberStatusVariant(code:string){
+  return code==='1'?'success':code==='5'?'info':['3','4','6'].includes(code)?'warning':'neutral'
+}
 export function familyCount(value:string|null|undefined){
   if(value==null||!String(value).trim())return '—'
   return /^\d+$/.test(value)?new Intl.NumberFormat('id-ID').format(Number(value)):value

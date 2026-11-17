@@ -14,6 +14,8 @@ Direktori keluarga menampilkan nomor bangunan di bawah nama KK tanpa ID singkat,
 
 Daftar Anggota menampilkan kolom NIK dan mendukung pencarian nama atau NIK (termasuk awalan digit). NIK dipertahankan sebagai TEXT pada tampilan, indeks privat dan Excel; akses mengikuti form: tersedia pada mode lokal penuh/admin, dibatasi untuk analyst/viewer. Pencarian tetap POST/memori, bukan URL. Cache indeks aplikasi diperbarui otomatis tanpa mengubah database sensus.
 
+Anggota juga menampilkan nomor urut tanpa ID singkat, hubungan dengan KK di bawah nama kepala keluarga, jenis kelamin/umur, dan kepemilikan usaha. Keberadaan anggota memakai warna sesuai kode anggota: tinggal hijau, baru biru, pindah/pisah KK kuning, meninggal/tidak ditemukan netral. Label memakai sumber atau pilihan template DTD. Rincian dan ekspor mengikuti assignment+versi+indeks tepat; umur 0 tetap tampil sebagai 0 tahun.
+
 Detail kuesioner mengikuti pembaca PESSE: satu blok ditampilkan utuh tanpa pagination, dengan area isi yang dapat digulir. Daftar anggota/usaha berada di luar area gulir agar tidak menutup jawaban; pada ponsel memakai pilihan yang dapat dicari. Panel atas dan sidebar dapat disembunyikan untuk memperluas area baca. Tombol Sebelumnya/Berikutnya berpindah blok; pilihan versi tersedia pada Informasi sumber di sidebar.
 
 Isi DTD menyesuaikan assignment keluarga atau BKU pada versi yang dipilih. Informasi usaha tetap tersedia untuk keduanya; blok anggota, pendidikan dan perumahan hanya tampil pada konteks keluarga. Nomor, penggunaan bangunan dan alamat membaca induk yang sesuai. Jika induknya belum dapat dipastikan, bagian terkait tetap tersedia dan jenis assignment ditandai belum pasti.

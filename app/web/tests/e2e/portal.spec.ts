@@ -1402,7 +1402,7 @@ test('family member rows show their head and open the exact member while mobile 
   await page.getByRole('textbox',{name:'Cari direktori',exact:true}).fill('ANGGOTA SINTETIS KEDUA')
   await page.getByRole('button',{name:'Cari',exact:true}).click()
   await expect(page.locator('.record-directory-table tbody tr')).toHaveCount(1)
-  await expect(page.locator('[data-column="family_head"]').last()).toHaveText('KELUARGA SINTETIS 1')
+  await expect(page.locator('tbody [data-column="family_head"] strong').last()).toHaveText('KELUARGA SINTETIS 1')
   await page.getByRole('button',{name:'Buka kuesioner ANGGOTA SINTETIS KEDUA',exact:true}).click()
   await expect(page).toHaveURL(/block=b_ak/)
   await expect(page).toHaveURL(/index1=002/)
@@ -1478,4 +1478,29 @@ test('member NIK is searchable without a URL and hidden from analyst',async({pag
   await expect(page.locator('.record-directory-table tbody tr').first()).toBeVisible()
   await expect(page.getByRole('columnheader',{name:'NIK',exact:true})).toHaveCount(0)
   await expect(page.locator('.record-directory-table')).not.toContainText('SYNTHETIC_PRIVATE_NIK')
+})
+
+
+test('member profiles include relationship age business and semantic status colors',async({page})=>{
+  await page.route('**/api/v1/directories/members/search',async route=>{
+    const response=await route.fetch();const payload=await response.json()
+    payload.rows=payload.rows.slice(0,4).map((row:Record<string,unknown>,i:number)=>({...row,member_number:'007',member_age:'0',member_gender:'Perempuan',member_relationship:'Anak',member_business:'Tidak',status:['1','5','3','2'][i]}))
+    await route.fulfill({response,json:payload})
+  })
+  await page.goto('http://127.0.0.1:8768/keluarga?tab=anggota')
+  const rows=page.locator('.member-directory-table tbody tr')
+  await expect(rows).toHaveCount(4)
+  await expect(rows.first().locator('.record-title small')).toHaveText('No. anggota 007')
+  await expect(rows.first()).not.toContainText('ID DTD')
+  await expect(rows.first().locator('[data-column="family_head"] small')).toHaveText('Anak')
+  await expect(rows.first().locator('[data-column="member_profile"]')).toContainText('0 tahun')
+  await expect(rows.first().locator('[data-column="member_profile"]')).toContainText('Perempuan')
+  await expect(rows.first().locator('[data-column="member_business"]')).toHaveText('Tidak')
+  for(const [i,color] of ['success','info','warning','neutral'].entries())await expect(rows.nth(i).locator('.badge')).toHaveClass(new RegExp('badge-'+color))
+  await page.screenshot({path:'../../docs/reports/app/screenshots/member-profile-desktop-synthetic.png',fullPage:true})
+  for(const width of [320,390,820]){
+    await page.setViewportSize({width,height:844})
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+    await expect(rows.first().locator('[data-column="member_profile"]')).toBeVisible()
+  }
 })
