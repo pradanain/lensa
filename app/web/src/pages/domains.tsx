@@ -1,16 +1,17 @@
 import {BusinessOverview,type BusinessAnalysis} from '@/components/business-overview'
+import {FamilyOverview} from '@/components/family-overview'
 import {AnalysisLayout,useAreaFilters} from '@/components/filter-panel'
 import {useNavigate,useParams,useSearch} from '@tanstack/react-router'
 import {useQuery} from '@tanstack/react-query'
-import {Building2,House,Users,Layers3} from 'lucide-react'
+import {Building2,House,Layers3} from 'lucide-react'
 import {api,type SearchState} from '@/lib/api'
 import {Directory} from '@/components/directory'
-import {PageHead,TabBar,StatCard,MetricPanel,Notice,useSummary,useBusinessSummary,RegionChart,ErrorBox} from '@/components/shared'
+import {PageHead,TabBar,StatCard,useBusinessSummary,ErrorBox} from '@/components/shared'
 import {Badge} from '@/components/ui/badge'
 import {Kbli} from './kbli'
 
 const businessTabs=[{id:'ringkasan',label:'Ringkasan'},{id:'direktori',label:'Direktori'},{id:'kbli',label:'KBLI 2025'}]
-const familyTabs=[{id:'ringkasan',label:'Ringkasan'},{id:'direktori',label:'Direktori'},{id:'anggota',label:'Anggota'},{id:'perumahan',label:'Perumahan'},{id:'pendidikan',label:'Pendidikan/Pekerjaan'},{id:'aset',label:'Ekonomi & Aset'}]
+const familyTabs=[{id:'ringkasan',label:'Ringkasan'},{id:'direktori',label:'Direktori'},{id:'anggota',label:'Anggota'}]
 
 export function Business(){
   const navigate=useNavigate();const search=useSearch({strict:false}) as SearchState;const tab=businessTabs.some(item=>item.id===search.tab)?(search.tab||'ringkasan'):'ringkasan';const filters=useAreaFilters();const summary=useBusinessSummary(filters,tab==='ringkasan')
@@ -26,14 +27,12 @@ export function Business(){
 }
 
 export function Families(){
-  const navigate=useNavigate();const search=useSearch({strict:false}) as SearchState;const tab=search.tab||'ringkasan';const filters=useAreaFilters();const summary=useSummary(filters)
-  return <><div className="domain-navigation"><PageHead eyebrow="" title="Data keluarga" description=""/><TabBar tabs={familyTabs} value={tab} onChange={id=>void navigate({to:'/keluarga',search:{...search,tab:id,page:1},resetScroll:false})}/></div>
-    {!['direktori','anggota'].includes(tab)&&<AnalysisLayout>
-    {tab==='ringkasan'&&<><div className="stats-grid two"><StatCard label="Keluarga" value={summary.data?.counts['keluarga.count']?.[0]?.value} note="Assignment keluarga pada versi sumber" icon={<House size={20}/>} accent/><StatCard label="Anggota keluarga" value={summary.data?.counts['anggota.count']?.[0]?.value} note="Anggota-roster-versi, bukan gabungan P0/P1" icon={<Users size={20}/>}/></div><div className="overview-grid"><RegionChart metricId="keluarga.count" title="Distribusi keluarga"/><MetricPanel ids={['family_rosters.anggota_presence','family_rosters.usaha_presence','family_rosters.meteran_presence']} title="Keterhubungan roster" description="Proporsi keluarga dengan rincian anggota, usaha, atau meteran."/></div></>}
-    {tab==='perumahan'&&<><MetricPanel ids={['perumahan.ownership_coverage','keluarga_details.perumahan_coverage']} title="Cakupan perumahan" description="Denominator kepemilikan dan ketersediaan modul ditampilkan terpisah."/><Notice>Rincian kondisi rumah dapat dibuka melalui Direktori keluarga → kuesioner → Blok IV. Kondisi kosong tidak ditafsirkan sebagai tidak memiliki fasilitas.</Notice></>}
-    {tab==='pendidikan'&&<><MetricPanel ids={['sosial_details.sosial_p0_coverage','sosial_details.p1_pekerjaan_coverage']} title="Cakupan pendidikan dan pekerjaan" description="Denominator adalah union key anggota-versi, bukan seluruh populasi anggota keluarga."/><Notice>Jawaban substantif tersedia untuk akun detail di Blok III. P0 dan P1 dengan versi berbeda tetap terpisah. Nilai pendapatan P1 yang berupa teks tidak dijumlahkan sebagai uang.</Notice></>}
-    {tab==='aset'&&<><MetricPanel ids={['keluarga_details.aset_keluarga_coverage']} title="Cakupan ekonomi dan aset keluarga" description="Ketersediaan modul berbeda dari validitas setiap nilai uang."/><Notice>Rincian nominal dibatasi untuk administrator dalam kuesioner Blok IV. Ukuran mingguan, bulanan dan tahunan tidak digabungkan secara otomatis.</Notice></>}
-    </AnalysisLayout>}
+  const navigate=useNavigate();const search=useSearch({strict:false}) as SearchState
+  const legacy=['perumahan','pendidikan','aset'].includes(search.tab||'')?search.tab:undefined
+  const tab=familyTabs.some(item=>item.id===search.tab)?search.tab||'ringkasan':'ringkasan'
+  const section=legacy?'rincian':['sebaran-keluarga','sebaran-anggota','rincian'].includes(search.section||'')?search.section!:'sebaran-keluarga'
+  return <><div className="domain-navigation"><PageHead eyebrow="" title="Direktori Keluarga Kabupaten Bulungan" description=""/><TabBar tabs={familyTabs} value={tab} onChange={id=>void navigate({to:'/keluarga',search:{...search,tab:id,status:undefined,page:1},resetScroll:false})}/></div>
+    {tab==='ringkasan'&&<AnalysisLayout><FamilyOverview section={section} legacyTab={legacy}/></AnalysisLayout>}
     {tab==='direktori'&&<Directory scope="families" source="dtd"/>}{tab==='anggota'&&<Directory scope="members" source="dtd"/>}
 
   </>

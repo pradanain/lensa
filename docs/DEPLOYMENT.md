@@ -116,7 +116,7 @@ curl -o /dev/null -w '%{http_code}\n' https://lensa.pradanain.id/api/v1/analytic
 
 Permintaan terakhir tanpa sesi harus 200 ketika login ditunda (401 jika login diaktifkan). Periksa frontend, seluruh aset JavaScript, akses tanpa login, navigasi Usaha, filter wilayah/KBLI, halaman kuesioner dan ekspor. Tes data production hanya dilakukan di browser privat; jangan mengunggah screenshot/data responden ke GitHub atau telemetry. HTTP 200 saja tidak membuktikan seluruh aplikasi berfungsi.
 
-Menu Dashboard, Keluarga dan Raw Data sementara 403 sesuai keputusan pengembangan. Login tidak membuka halaman tersebut. Isolasi halaman tersebut tetap berlaku ketika login ditunda.
+Menu Usaha dan Keluarga sudah tersedia. Dashboard dan Raw Data sementara 403 sesuai keputusan pengembangan. Login tidak membuka dua halaman tersebut. Isolasi halaman tersebut tetap berlaku ketika login ditunda.
 
 ## Operasional dan rollback
 

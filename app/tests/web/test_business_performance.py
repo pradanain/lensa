@@ -104,14 +104,13 @@ def test_focused_pages_return_403_without_removing_business_routes(portal):
     for path in (
         "/dashboard",
         "/dashboard/",
-        "/keluarga",
-        "/keluarga/test",
         "/data",
         "/data/dtd",
         "/data/ub",
     ):
         assert client.get(path).status_code == 403
     assert client.get("/usaha").status_code == 200
+    assert client.get("/keluarga").status_code == 200
     assert client.get("/api/v1/auth/session").json()["business_focus_enabled"] is True
 
 

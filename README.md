@@ -2,7 +2,9 @@
 
 Eksplorasi dan Analisis SE2026 - BPS Kabupaten Bulungan.
 
-Aplikasi FastAPI + React/TypeScript untuk direktori usaha UMKM/UB, komposisi sektor, distribusi wilayah, pencarian KBLI 2025 dan ekspor Excel. Halaman Dashboard, Keluarga dan Raw Data sementara dibatasi dengan 403. Sensus dibaca dari SQLite existing; akun, cache, FTS dan audit memakai database aplikasi terpisah.
+Aplikasi FastAPI + React/TypeScript untuk direktori usaha UMKM/UB, keluarga/anggota, komposisi sektor, distribusi wilayah, pencarian KBLI 2025 dan ekspor Excel. Halaman Dashboard dan Raw Data sementara dibatasi dengan 403. Sensus dibaca dari SQLite existing; akun, cache, FTS dan audit memakai database aplikasi terpisah.
+
+Menu Keluarga mengikuti pola Usaha: Ringkasan, Direktori dan Anggota, filter samping yang dapat ditutup, pencarian di atas data, ekspor sesuai filter, dan kartu pada ponsel. Ringkasan menampilkan jumlah serta distribusi keluarga/anggota secara terpisah per versi kuesioner. Rincian perumahan, pendidikan/pekerjaan dan aset dimuat saat dibuka. Form mempertahankan versi dan anggota terpilih, lalu mengembalikan pencarian, filter serta halaman daftar saat kembali. Maps keluarga memakai tagging keluarga pada versi tepat, dibuka hanya saat diklik dan mengikuti hak akses lokasi.
 
 Komposisi sektor memakai diagram cincin jika seluruh nilai tersedia. Jika ada nilai yang ditahan, tampilan beralih ke grafik batang jumlah usaha, tanpa total atau persentase. Sektor yang ditahan tetap bertanda — dan tidak dianggap nol. Filter sumber/wilayah serta klik sektor tetap berlaku.
 

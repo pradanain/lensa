@@ -292,7 +292,7 @@ test('visual summaries and side filters keep the main data in view',async({page}
   page.on('pageerror',error=>failures.push(error.message))
   for(const [path,heading] of [['/usaha','Komposisi sektor usaha'],['/keluarga','Distribusi keluarga']]){
     await page.goto('http://127.0.0.1:8767'+path)
-    await expect(page.getByRole('heading',{name:heading,exact:true})).toBeVisible()
+    await expect(page.getByRole('heading',{name:path==='/keluarga'?heading+' Menurut Kecamatan':heading,exact:true})).toBeVisible()
     await expect(page.getByRole('img',{name:heading,exact:true})).toBeVisible()
     await expect(page.getByRole('table')).toHaveCount(0)
     const sidebar=await page.locator('.filter-sidebar').boundingBox()
@@ -865,7 +865,7 @@ test('all export filters remain compact with visible actions on a small screen',
 test('business focus isolates unfinished menu pages and loads only business metrics',async({page})=>{
   const requests:string[]=[]
   page.on('request',request=>{if(request.url().includes('/api/v1/'))requests.push(request.url())})
-  for(const path of ['/dashboard','/keluarga','/data/dtd']){
+  for(const path of ['/dashboard','/data/dtd']){
     const response=await page.goto('http://127.0.0.1:8768'+path)
     expect(response?.status()).toBe(403)
     await expect(page.getByRole('heading',{name:'Halaman belum tersedia',exact:true})).toBeVisible()
@@ -884,7 +884,7 @@ test('business focus isolates unfinished menu pages and loads only business metr
   await expect(page.getByRole('table')).toBeVisible()
   expect(requests.some(url=>url.includes('/analytics/'))).toBe(false)
   await page.getByRole('link',{name:'Keluarga',exact:true}).click()
-  await expect(page.getByRole('heading',{name:'Halaman belum tersedia',exact:true})).toBeVisible()
+  await expect(page.getByRole('heading',{name:'Direktori Keluarga Kabupaten Bulungan',exact:true})).toBeVisible()
 })
 
 
@@ -1325,4 +1325,115 @@ test('questionnaire cache is cleared when the session changes to a restricted ro
   await page.getByRole('button',{name:'Masuk ke portal',exact:true}).click()
   await expect(page.locator('.form-stage')).toContainText('Akses terbatas')
   await expect(page.locator('.form-stage')).not.toContainText('SYNTHETIC_PRIVATE_NIK')
+})
+
+
+test('family page opens in focused mode and loads only its own filtered summary',async({page})=>{
+  const metrics:{metric_id:string;filters:Record<string,string>}[]=[];const urls:string[]=[]
+  page.on('request',request=>{urls.push(request.url());if(request.url().endsWith('/analytics/query'))metrics.push(request.postDataJSON())})
+  const response=await page.goto('http://127.0.0.1:8768/keluarga')
+  expect(response?.status()).toBe(200)
+  await expect(page.getByRole('tab')).toHaveText(['Ringkasan','Direktori','Anggota'])
+  await expect(page.getByRole('heading',{name:'Distribusi keluarga Menurut Kecamatan',exact:true})).toBeVisible()
+  expect(urls.some(url=>url.includes('/analytics/family-summary?'))).toBe(true)
+  expect(urls.some(url=>url.includes('/analytics/summary?')||url.includes('/analytics/business-summary?'))).toBe(false)
+  expect(metrics.map(item=>item.metric_id)).toEqual(['keluarga.count'])
+  let reloads=0
+  page.on('request',request=>{if(request.isNavigationRequest()&&request.resourceType()==='document')reloads++})
+  await selectValue(page,'Kecamatan','6502010')
+  await expect.poll(()=>metrics.some(item=>item.metric_id==='keluarga.count'&&item.filters.kecamatan==='6502010')).toBe(true)
+  await page.getByRole('button',{name:'Distribusi Anggota',exact:true}).click()
+  await expect(page.getByRole('heading',{name:'Distribusi anggota keluarga Menurut Desa / Kelurahan',exact:true})).toBeVisible()
+  expect(metrics.at(-1)?.metric_id).toBe('anggota.count')
+  expect(metrics.at(-1)?.filters.kecamatan).toBe('6502010')
+  await page.getByRole('button',{name:'Rincian Keluarga',exact:true}).click()
+  await expect(page.locator('.family-detail')).toHaveCount(4)
+  expect(metrics.some(item=>item.metric_id.endsWith('_coverage'))).toBe(false)
+  await page.locator('.family-detail').filter({has:page.locator('summary',{hasText:'Perumahan'})}).locator('summary').click()
+  await expect(page.getByRole('heading',{name:'Perumahan',exact:true})).toBeVisible()
+  expect(metrics.some(item=>item.metric_id==='keluarga_details.perumahan_coverage')).toBe(true)
+  await page.getByRole('button',{name:'Lihat Keluarga',exact:true}).click()
+  await expect(page.getByRole('table')).toBeVisible()
+  await expect(page.getByRole('combobox',{name:'Kecamatan',exact:true})).toHaveAttribute('data-value','6502010')
+  expect(reloads).toBe(0)
+  await page.goto('http://127.0.0.1:8768/keluarga?tab=perumahan')
+  await expect(page.getByRole('tab',{name:'Ringkasan',exact:true})).toHaveAttribute('aria-selected','true')
+  await expect(page.getByRole('heading',{name:'Perumahan',exact:true})).toBeVisible()
+})
+
+test('family directory restores search status and page after opening the exact questionnaire version',async({page})=>{
+  let firstVersion=''
+  await page.route('**/api/v1/directories/families/search',async route=>{
+    const response=await route.fetch();const payload=await response.json()
+    if(payload.rows[0])payload.rows[0].map_coordinates={latitude:'2.125',longitude:'117.25'}
+    if(route.request().postDataJSON().page===2)firstVersion=payload.rows[0]?.version||''
+    await route.fulfill({response,json:payload})
+  })
+  await page.setViewportSize({width:1440,height:1000})
+  await page.goto('http://127.0.0.1:8768/keluarga?tab=direktori')
+  await expect(page.locator('.record-directory-table tbody tr')).toHaveCount(10)
+  await selectValue(page,'Status','1')
+  await page.getByRole('textbox',{name:'Cari direktori',exact:true}).fill('KELUARGA SINTETIS')
+  await page.getByRole('button',{name:'Cari',exact:true}).click()
+  await page.getByRole('button',{name:'Halaman 2',exact:true}).click()
+  await expect(page.getByRole('button',{name:'Halaman 2',exact:true})).toHaveAttribute('aria-current','page')
+  await expect(page.locator('.record-directory-scroll')).toHaveAttribute('aria-busy','false')
+  const before=page.url()
+  expect(before).not.toContain('SINTETIS')
+  const map=page.locator('.record-directory-table a.directory-map').first()
+  await expect(map).toHaveAttribute('href',/query=2.125%2C117.25/)
+  await expect(map).toHaveAttribute('referrerpolicy','no-referrer')
+  await page.screenshot({path:'../../docs/reports/app/screenshots/family-directory-desktop-synthetic.png',fullPage:true})
+  await page.locator('.record-directory-table tbody tr').first().getByRole('button',{name:/^Buka kuesioner /}).click()
+  await expect(page).toHaveURL(/block=b5/)
+  expect(new URL(page.url()).searchParams.get('version')).toBe(firstVersion)
+  await page.getByRole('button',{name:'Kembali ke daftar',exact:true}).click()
+  await expect(page).toHaveURL(before)
+  await expect(page.getByRole('textbox',{name:'Cari direktori',exact:true})).toHaveValue('KELUARGA SINTETIS')
+  await expect(page.getByRole('combobox',{name:'Status',exact:true})).toHaveAttribute('data-value','1')
+  await expect(page.getByRole('button',{name:'Halaman 2',exact:true})).toHaveAttribute('aria-current','page')
+  await page.getByRole('button',{name:'Unduh Excel sesuai pencarian dan filter',exact:true}).click()
+  await expect(page.getByRole('dialog')).toContainText('direktori keluarga')
+  await page.getByRole('button',{name:'Batal',exact:true}).click()
+})
+
+test('family member rows show their head and open the exact member while mobile directories use cards',async({page})=>{
+  await page.goto('http://127.0.0.1:8768/keluarga?tab=anggota')
+  await page.getByRole('textbox',{name:'Cari direktori',exact:true}).fill('ANGGOTA SINTETIS KEDUA')
+  await page.getByRole('button',{name:'Cari',exact:true}).click()
+  await expect(page.locator('.record-directory-table tbody tr')).toHaveCount(1)
+  await expect(page.locator('[data-column="family_head"]').last()).toHaveText('KELUARGA SINTETIS 1')
+  await page.getByRole('button',{name:'Buka kuesioner ANGGOTA SINTETIS KEDUA',exact:true}).click()
+  await expect(page).toHaveURL(/block=b_ak/)
+  await expect(page).toHaveURL(/index1=002/)
+  await expect(page.locator('.form-roster-choice[aria-pressed="true"]')).toContainText('ANGGOTA SINTETIS KEDUA')
+  await page.getByRole('button',{name:'Kembali ke daftar',exact:true}).click()
+  await expect(page.getByRole('textbox',{name:'Cari direktori',exact:true})).toHaveValue('ANGGOTA SINTETIS KEDUA')
+  await page.getByRole('button',{name:'Reset filter',exact:true}).click()
+  for(const width of [320,390,820]){
+    await page.setViewportSize({width,height:844})
+    for(const tab of ['direktori','anggota']){
+      await page.goto('http://127.0.0.1:8768/keluarga?tab='+tab)
+      const rows=page.locator('.record-directory-table tbody tr')
+      await expect(rows.first()).toBeVisible()
+      expect(await rows.first().evaluate(el=>getComputedStyle(el).display)).toBe('grid')
+      expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+      if(width===390)await page.screenshot({path:'../../docs/reports/app/screenshots/family-'+tab+'-mobile-synthetic.png',fullPage:true})
+    }
+    await page.goto('http://127.0.0.1:8768/keluarga')
+    await expect(page.getByRole('heading',{name:'Distribusi keluarga Menurut Kecamatan',exact:true})).toBeVisible()
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+  }
+})
+
+test('family aggregate viewer can read summary but cannot open family or member records',async({page})=>{
+  await login(page,'viewer')
+  await page.goto('/keluarga')
+  await expect(page.getByRole('heading',{name:'Distribusi keluarga Menurut Kecamatan',exact:true})).toBeVisible()
+  await expect(page.getByRole('button',{name:'Lihat Keluarga',exact:true})).toHaveCount(0)
+  for(const tab of ['Direktori','Anggota']){
+    await page.getByRole('tab',{name:tab,exact:true}).click()
+    await expect(page.getByRole('heading',{name:'Direktori memerlukan akses detail',exact:true})).toBeVisible()
+    await expect(page.locator('.record-directory-table')).toHaveCount(0)
+  }
 })

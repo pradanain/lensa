@@ -97,6 +97,30 @@ def business_summary(
     return request.app.state.aggregate_cache.get(("business-summary", tuple(sorted(filters.items()))), build)
 
 
+@router.get("/family-summary")
+def family_summary(
+    request: Request,
+    kecamatan: str = Query(default="", max_length=40),
+    desa: str = Query(default="", max_length=40),
+    sls: str = Query(default="", max_length=40),
+    subsls: str = Query(default="", max_length=40),
+    user=Depends(current_user),
+):
+    filters = {k: v for k, v in dict(kecamatan=kecamatan, desa=desa, sls=sls, subsls=subsls).items() if v}
+
+    def build():
+        with Analytics(request.app.state.settings.census_db, request.app.state.settings.root) as api:
+            counts = {
+                key: protect_metric(
+                    api.query(key, filters=filters), request.app.state.settings.minimum_contributors
+                )["rows"]
+                for key in ("keluarga.count", "anggota.count")
+            }
+        return {"counts": counts, "filters": filters, "grains_not_added_together": True}
+
+    return request.app.state.aggregate_cache.get(("family-summary", tuple(sorted(filters.items()))), build)
+
+
 @router.get("/summary")
 def summary(
     request: Request,

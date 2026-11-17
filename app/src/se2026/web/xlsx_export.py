@@ -107,24 +107,26 @@ def directory_workbook(directory, scope, payload, role):
             ("Kategori", "kategori"),
             ("KBLI 2025", "kbli"),
         ]
+    elif scope == "members":
+        fields += [("Kepala keluarga", "family_head")]
     headers = [title for title, _ in fields]
     if scope == "businesses":
         headers += ["Judul KBLI"]
-        if role == "admin":
-            headers += ["Latitude", "Longitude"]
+    if scope in ("businesses", "families") and role == "admin":
+        headers += ["Latitude", "Longitude"]
 
     def rows():
         for item in result["rows"]:
             row = [item.get(field) for _, field in fields]
-            row[0] = "UB" if item["source"] == "ub" else "UMKM"
+            row[0] = "UB" if item["source"] == "ub" else "DTD" if scope in ("families", "members") else "UMKM"
             row[11] = re.sub(
                 r"^\s*\d+\s*[.)\-:]\s*", "", str(item.get("status_label") or item.get("status") or "")
             )
             if scope == "businesses":
                 row.append(directory.references.kbli.get(item.get("kbli"), {}).get("title"))
-                if role == "admin":
-                    coordinates = item.get("map_coordinates") or {}
-                    row.extend([coordinates.get("latitude"), coordinates.get("longitude")])
+            if scope in ("businesses", "families") and role == "admin":
+                coordinates = item.get("map_coordinates") or {}
+                row.extend([coordinates.get("latitude"), coordinates.get("longitude")])
             yield row
 
     return workbook_response(headers, rows(), "lensa-" + scope)

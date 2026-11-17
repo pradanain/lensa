@@ -12,6 +12,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from ..common import q
 from ..analytics.business_audit import register_population
 from .business_directory import enrich_businesses
+from .family_directory import enrich_family_records
 from .database import census_connection
 from .sls_reference import SlsReference
 
@@ -403,6 +404,8 @@ class DirectoryIndex:
         result_rows = [dict(r) | self.sls_reference.describe(r["sls"], r["subsls"]) for r in rows]
         if scope == "businesses":
             result_rows = enrich_businesses(self.settings, result_rows, role)
+        elif scope in ("families", "members"):
+            result_rows = enrich_family_records(self.settings, result_rows, role, scope)
         return dict(
             rows=result_rows,
             total=total,
