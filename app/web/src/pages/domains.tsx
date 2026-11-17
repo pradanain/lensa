@@ -7,7 +7,6 @@ import {Building2,House,Layers3} from 'lucide-react'
 import {api,type SearchState} from '@/lib/api'
 import {Directory} from '@/components/directory'
 import {PageHead,TabBar,StatCard,useBusinessSummary,ErrorBox} from '@/components/shared'
-import {Badge} from '@/components/ui/badge'
 import {Kbli} from './kbli'
 
 const businessTabs=[{id:'ringkasan',label:'Ringkasan'},{id:'direktori',label:'Direktori'},{id:'kbli',label:'KBLI 2025'}]
@@ -41,7 +40,7 @@ export function Families(){
 export function DataSE(){
   const {system}=useParams({strict:false}) as {system:string};const navigate=useNavigate()
   const source=system==='ub'?'ub':'dtd'
-  return <><div className="domain-navigation"><PageHead eyebrow="" title={source==='ub'?'Assignment Usaha Besar':'Assignment UMKM'} description=""><Badge>Baca saja</Badge></PageHead><TabBar tabs={[{id:'dtd',label:'UMKM'},{id:'ub',label:'UB'}]} value={source} onChange={id=>void navigate({to:'/data/$system',params:{system:id}})}/></div><Directory scope="assignments" source={source}/></>
+  return <><div className="domain-navigation"><PageHead eyebrow="" title="Raw Data Kabupaten Bulungan" description=""/><TabBar tabs={[{id:'dtd',label:'UMKM'},{id:'ub',label:'Usaha Besar (UB)'}]} value={source} onChange={id=>void navigate({to:'/data/$system',params:{system:id},resetScroll:false})}/></div><Directory scope="assignments" source={source}/></>
 }
 
 type NumericProfile={field_id:string;unit:string;period:string;status_counts:Record<string,number|null>}

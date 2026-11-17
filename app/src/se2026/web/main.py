@@ -133,7 +133,7 @@ def create_app(settings=None):
         if not path:
             return RedirectResponse("/usaha", status_code=307)
         isolated = settings.business_focus_enabled and (
-            path in ("dashboard", "data") or path.startswith(("dashboard/", "data/"))
+            path == "dashboard" or path.startswith("dashboard/")
         )
         return FileResponse(web / "index.html", status_code=403 if isolated else 200)
 

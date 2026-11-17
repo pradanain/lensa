@@ -4,7 +4,7 @@ Eksplorasi dan Analisis SE2026 - BPS Kabupaten Bulungan.
 
 Kartu direktori pada layar kecil menempatkan nama dan status di bagian atas, informasi wilayah dan penanggung jawab berdampingan bila ruang mencukupi, serta klasifikasi dalam bagian terpisah. Tombol Maps dan Form sejajar dengan area tekan minimal 44 px. Tampilan desktop tetap memakai tabel.
 
-Aplikasi FastAPI + React/TypeScript untuk direktori usaha UMKM/UB, keluarga/anggota, komposisi sektor, distribusi wilayah, pencarian KBLI 2025 dan ekspor Excel. Halaman Dashboard dan Raw Data sementara dibatasi dengan 403. Sensus dibaca dari SQLite existing; akun, cache, FTS dan audit memakai database aplikasi terpisah.
+Aplikasi FastAPI + React/TypeScript untuk direktori usaha UMKM/UB, keluarga/anggota, komposisi sektor, distribusi wilayah, pencarian KBLI 2025 dan ekspor Excel. Raw Data tersedia untuk menelusuri assignment UMKM/UB; hanya Dashboard yang sementara dibatasi dengan 403. Sensus dibaca dari SQLite existing; akun, cache, FTS dan audit memakai database aplikasi terpisah.
 
 Menu Keluarga mengikuti pola Usaha: Ringkasan, Direktori dan Anggota, filter samping yang dapat ditutup, pencarian di atas data, ekspor sesuai filter, dan kartu pada ponsel. Ringkasan menampilkan jumlah serta distribusi keluarga/anggota secara terpisah per versi kuesioner. Rincian perumahan, pendidikan/pekerjaan dan aset dimuat saat dibuka. Form mempertahankan versi dan anggota terpilih, lalu mengembalikan pencarian, filter serta halaman daftar saat kembali. Maps keluarga memakai tagging keluarga pada versi tepat, dibuka hanya saat diklik dan mengikuti hak akses lokasi.
 

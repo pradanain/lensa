@@ -98,19 +98,18 @@ def test_cache_failure_is_not_cached_or_left_waiting(tmp_path):
     assert cache.get("a", lambda: 2) == 2
 
 
-def test_focused_pages_return_403_without_removing_business_routes(portal):
+def test_dashboard_remains_unavailable_while_directories_are_open(portal):
     app, client, _ = portal
     app.state.settings.business_focus_enabled = True
     for path in (
         "/dashboard",
         "/dashboard/",
-        "/data",
-        "/data/dtd",
-        "/data/ub",
     ):
         assert client.get(path).status_code == 403
     assert client.get("/usaha").status_code == 200
     assert client.get("/keluarga").status_code == 200
+    assert client.get("/data/dtd").status_code == 200
+    assert client.get("/data/ub").status_code == 200
     assert client.get("/api/v1/auth/session").json()["business_focus_enabled"] is True
 
 

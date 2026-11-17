@@ -111,7 +111,7 @@ test('questionnaire block navigation returns to the exact directory page',async(
 test('UB directory has no mandatory geography and directly opens UB blocks',async({page})=>{
   await login(page)
   await page.goto('/data/ub')
-  await expect(page.getByRole('heading',{name:'Assignment Usaha Besar'})).toBeVisible()
+  await expect(page.getByRole('heading',{name:'Raw Data Kabupaten Bulungan'})).toBeVisible()
   await expect(page.getByText('12 record ditemukan',{exact:false})).toBeVisible()
   await expect(page.getByLabel('Kecamatan',{exact:true})).toHaveCount(0)
   await page.getByRole('button',{name:'Buka kuesioner USAHA SINTETIS 1',exact:true}).click()
@@ -193,7 +193,7 @@ test('mobile navigation and keyboard access remain usable',async({page})=>{
   expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
   await page.getByRole('button',{name:'Buka menu',exact:true}).click()
   await page.getByRole('navigation',{name:'Menu utama'}).getByRole('link',{name:'Raw Data',exact:true}).click()
-  await expect(page.getByRole('heading',{name:'Assignment UMKM',exact:true})).toBeVisible()
+  await expect(page.getByRole('heading',{name:'Raw Data Kabupaten Bulungan',exact:true})).toBeVisible()
   await page.getByRole('button',{name:'Filter data',exact:true}).click()
   const search=page.getByLabel('Cari direktori');await search.focus();await expect(search).toBeFocused()
   await search.fill('KELUARGA SINTETIS 1');await search.press('Enter')
@@ -865,7 +865,7 @@ test('all export filters remain compact with visible actions on a small screen',
 test('business focus isolates unfinished menu pages and loads only business metrics',async({page})=>{
   const requests:string[]=[]
   page.on('request',request=>{if(request.url().includes('/api/v1/'))requests.push(request.url())})
-  for(const path of ['/dashboard','/data/dtd']){
+  for(const path of ['/dashboard']){
     const response=await page.goto('http://127.0.0.1:8768'+path)
     expect(response?.status()).toBe(403)
     await expect(page.getByRole('heading',{name:'Halaman belum tersedia',exact:true})).toBeVisible()
@@ -1525,4 +1525,46 @@ test('member profiles fit desktop width and retain education and semantic status
     expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
     await expect(rows.first().locator('[data-column="member_profile"]')).toBeVisible()
   }
+})
+
+
+test('Raw Data is available in focused mode and keeps assignment cards and exact navigation',async({page})=>{
+  const documents:string[]=[]
+  page.on('request',request=>{if(request.isNavigationRequest()&&request.frame()===page.mainFrame())documents.push(request.url())})
+  for(const width of [320,390,820,1280]){
+    await page.setViewportSize({width,height:844})
+    for(const source of ['dtd','ub']){
+      const response=await page.goto('http://127.0.0.1:8768/data/'+source)
+      expect(response?.status()).toBe(200)
+      await expect(page.getByRole('heading',{name:'Raw Data Kabupaten Bulungan',exact:true})).toBeVisible()
+      const row=page.locator('.assignment-directory-table tbody tr').first()
+      await expect(row).toBeVisible()
+      await expect(row.locator('[data-column="kind"]')).toBeVisible()
+      await expect(row.locator('[data-column="status_label"]')).toBeVisible()
+      await expect(row.locator('.directory-open')).toBeVisible()
+      expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+      if(width<=820){
+        await expect(row).toHaveCSS('display','grid')
+        const button=await row.locator('.directory-open').boundingBox()
+        expect(button!.height).toBeGreaterThanOrEqual(44)
+        if(width===390)await page.screenshot({path:'../../docs/reports/app/screenshots/raw-data-'+source+'-cards-synthetic.png',fullPage:false})
+      }
+    }
+  }
+  const before=documents.length
+  await page.getByRole('tab',{name:'UMKM',exact:true}).click()
+  await expect(page).toHaveURL(/data\/dtd/)
+  await expect(page.locator('.assignment-directory-table tbody tr').first()).toBeVisible()
+  expect(documents).toHaveLength(before)
+  await selectValue(page,'Jenis assignment','KELUARGA_BKU')
+  const query=page.waitForRequest(request=>request.url().endsWith('/directories/assignments/search')&&request.postDataJSON().q==='KELUARGA SINTETIS 2')
+  await page.getByRole('textbox',{name:'Cari direktori',exact:true}).fill('KELUARGA SINTETIS 2')
+  await page.getByRole('button',{name:'Cari',exact:true}).click()
+  await query
+  expect(page.url()).not.toContain('SINTETIS')
+  await page.getByRole('button',{name:'Buka kuesioner KELUARGA SINTETIS 2',exact:true}).click()
+  await expect(page).toHaveURL(/questionnaire\/dtd\/DTD-0002/)
+  await page.getByRole('button',{name:'Kembali ke daftar',exact:true}).click()
+  await expect(page.getByRole('textbox',{name:'Cari direktori',exact:true})).toHaveValue('KELUARGA SINTETIS 2')
+  await expect(page.getByRole('combobox',{name:'Jenis assignment',exact:true})).toContainText('Keluarga')
 })

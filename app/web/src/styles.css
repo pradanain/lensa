@@ -1069,6 +1069,12 @@ tbody tr .button { margin: -6px 0; }
   .record-directory-table .directory-open, .record-directory-table .directory-map { min-height: 44px; height: 44px; width: 100%; margin: 0; justify-content: center; font-size: 13px; }
   .record-directory-table .directory-open { background: var(--pale); border-color: #efcbb3; color: var(--accent-dark); }
   .member-directory-table tbody td[data-column="open"] { grid-column: 1 / -1; }
+  .assignment-directory-table tbody td[data-column="kind"], .assignment-directory-table tbody td[data-column="desa_label"], .assignment-directory-table tbody td[data-column="open"] { grid-column: 1 / -1; }
+  .assignment-directory-table tbody td[data-column="kind"] { display: flex; align-items: center; gap: 10px; }
+  .assignment-directory-table tbody td[data-column="kind"]::before { margin: 0; }
+  .assignment-directory-table .table-location strong { font-size: 13px; }
+  .assignment-directory-table .table-location span { font-size: 12px; }
+  .assignment-directory-table .table-location small { font-size: 11px; }
   .record-directory-table .directory-region-code { overflow-wrap: anywhere; }
   .kbli-table tbody tr { grid-template-columns: repeat(3,minmax(0,1fr)); }
   .kbli-table tbody td:first-child { grid-column: 1 / -1; }
@@ -1093,6 +1099,7 @@ tbody tr .button { margin: -6px 0; }
   .record-directory-table tbody td[data-column="responsible"], .record-directory-table tbody td[data-column="family_head"] { grid-column: 2; }
   .record-directory-table tbody td[data-column="member_count"] { grid-column: 1; }
   .record-directory-table tbody td[data-column="business_count"] { grid-column: 2; }
+  .assignment-directory-table tbody td[data-column="desa_label"] { grid-column: 1 / -1; }
 }
 
 /* Form reader follows PESSE detail.html, block.html, layouts.css and reader.css.
