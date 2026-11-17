@@ -4,7 +4,7 @@ import {Check,ChevronDown,Search} from 'lucide-react'
 
 type Choice={value:string;label:string;disabled:boolean}
 type OptionProps={children?:ReactNode;value?:string|number;disabled?:boolean}
-type Props={searchable?:boolean;value?:string|number;onValueChange:(value:string)=>void;children:ReactNode;disabled?:boolean;className?:string;id?:string;name?:string;'aria-label':string}
+type Props={searchable?:boolean;searchPlaceholder?:string;value?:string|number;onValueChange:(value:string)=>void;children:ReactNode;disabled?:boolean;className?:string;id?:string;name?:string;'aria-label':string}
 
 function text(node:ReactNode):string {
   return Children.toArray(node).map(child=>isValidElement<OptionProps>(child)?text(child.props.children):String(child)).join('')
@@ -17,7 +17,7 @@ function choices(children:ReactNode):Choice[] {
   })
 }
 
-export function SearchSelect({value='',onValueChange,children,disabled=false,searchable=true,className='',id,name,'aria-label':label}:Props){
+export function SearchSelect({value='',onValueChange,children,disabled=false,searchable=true,searchPlaceholder,className='',id,name,'aria-label':label}:Props){
   const options=useMemo(()=>choices(children),[children])
   const selected=options.find(option=>option.value===String(value))
   const [open,setOpen]=useState(false)
@@ -85,7 +85,7 @@ export function SearchSelect({value='',onValueChange,children,disabled=false,sea
     {name&&<input type="hidden" name={name} value={value}/>}
     <button id={id} type="button" ref={trigger} role="combobox" aria-label={label} aria-expanded={open} aria-controls={listId} aria-haspopup="listbox" data-value={String(value)} className="search-select-trigger" disabled={disabled} title={selected?.label} onClick={()=>open?close():show()} onKeyDown={event=>{if(!open&&['ArrowDown','ArrowUp'].includes(event.key)){event.preventDefault();show()}}}><span>{selected?.label||String(value)||'Pilih...'}</span><ChevronDown size={16}/></button>
     {open&&createPortal(<div ref={popup} className="search-select-popup" style={{left:position.left,top:position.top,width:position.width,maxHeight:position.maxHeight}} onKeyDown={keyboard}>
-      {searchable&&<div className="search-select-search"><Search size={16}/><input ref={search} aria-label={'Cari pilihan '+label} aria-controls={listId} aria-activedescendant={filtered[active]?uid+'-option-'+active:undefined} autoComplete="off" spellCheck={false} placeholder={'Cari '+label.toLocaleLowerCase('id-ID')} value={query} onChange={event=>{setQuery(event.target.value);setActive(0)}}/></div>}
+      {searchable&&<div className="search-select-search"><Search size={16}/><input ref={search} aria-label={'Cari pilihan '+label} aria-controls={listId} aria-activedescendant={filtered[active]?uid+'-option-'+active:undefined} autoComplete="off" spellCheck={false} placeholder={searchPlaceholder||'Cari '+label.toLocaleLowerCase('id-ID')} value={query} onChange={event=>{setQuery(event.target.value);setActive(0)}}/></div>}
       <div ref={list} id={listId} role="listbox" tabIndex={searchable?undefined:-1} aria-activedescendant={!searchable&&filtered[active]?uid+'-option-'+active:undefined} aria-label={'Pilihan '+label} className="search-select-options">{filtered.map((option,index)=><button type="button" tabIndex={-1} role="option" id={uid+'-option-'+index} key={option.value} data-value={option.value} aria-selected={option.value===String(value)} aria-disabled={option.disabled} className={index===active?'is-active':''} onPointerMove={()=>setActive(index)} onClick={()=>choose(option)}><span>{option.label}</span>{option.value===String(value)&&<Check size={15}/>}</button>)}{filtered.length===0&&<div className="search-select-empty" role="status">Tidak ada pilihan yang sesuai.</div>}</div>
       {searchable&&<div className="search-select-count">{filtered.length} pilihan</div>}
     </div>,document.body)}

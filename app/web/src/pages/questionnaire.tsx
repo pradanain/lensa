@@ -1,7 +1,7 @@
-import {createContext, useContext, useLayoutEffect, useRef, useState, type ReactNode} from 'react'
+import {createContext, useContext, useEffect, useLayoutEffect, useRef, useState, type ReactNode} from 'react'
 import {useNavigate, useParams, useSearch} from '@tanstack/react-router'
-import {useQuery} from '@tanstack/react-query'
-import {ArrowLeft, ArrowUp, BookOpen, ChevronLeft, ChevronRight, MapPin, Maximize, Minimize} from 'lucide-react'
+import {useQuery, useQueryClient} from '@tanstack/react-query'
+import {ArrowLeft, ArrowUp, BookOpen, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, MapPin, Maximize, Minimize, PanelLeftClose, PanelLeftOpen} from 'lucide-react'
 import {api, detailNavigation, type FormResult, type Question, type QuestionnaireLocation, type SearchState} from '@/lib/api'
 import {answerText, questionNumber} from '@/lib/questionnaire-display'
 import {useAuth} from '@/auth'
@@ -11,7 +11,8 @@ import {ErrorBox, Loading, Notice, Restricted} from '@/components/shared'
 
 export function Questionnaire() {
   const {session} = useAuth()
-  return session?.user?.can_detail ? <QuestionnaireContent/> : <Restricted/>
+  const {system,assignmentId}=useParams({strict:false})
+  return session?.user?.can_detail ? <QuestionnaireContent key={JSON.stringify([system,assignmentId,session.user.id,session.user.role])}/> : <Restricted/>
 }
 
 const blockDescriptions: Record<string, {badge?: string; description: string}> = {
@@ -29,13 +30,19 @@ const blockDescriptions: Record<string, {badge?: string; description: string}> =
 const DisclosureContext = createContext<{scope:string;opened:Record<string,boolean>;setOpen:(key:string,open:boolean)=>void}|null>(null)
 
 function QuestionnaireContent() {
+  const {session}=useAuth()
+  const client=useQueryClient()
   const {system, assignmentId} = useParams({strict: false}) as {system: string; assignmentId: string}
   const search = useSearch({strict: false}) as SearchState
   const navigate = useNavigate()
   const [expanded, setExpanded] = useState(false)
+  const [topClosed,setTopClosed]=useState(false)
+  const [sideClosed,setSideClosed]=useState(false)
   const [openedGroups, setOpenedGroups] = useState<Record<string,boolean>>({})
   const stage = useRef<HTMLDivElement>(null)
   const scrollPositions = useRef(new Map<string, number>())
+  const pendingQuestion=useRef<string|null>(null)
+  const lifetime=useRef({generation:0})
   const block = search.block || (system === 'ub' ? 'ub_i_1' : 'b5')
   const params = new URLSearchParams()
   if (search.version) params.set('version', search.version)
@@ -43,26 +50,52 @@ function QuestionnaireContent() {
   if (search.member || (['b_ak', 'b_ak_lanjutan'].includes(block) && search.index1)) params.set('member', search.member || search.index1 || '')
   if (search.meter) params.set('meter', search.meter)
   if (search.office) params.set('office', search.office)
-  const query = useQuery({
-    queryKey: ['questionnaire', system, assignmentId, params.toString()],
-    queryFn: () => api<FormResult>('/questionnaires/' + encodeURIComponent(system) + '/' + encodeURIComponent(assignmentId) + '?' + params),
-    gcTime: 0,
+  const cacheScope=['questionnaire',system,assignmentId,session?.user?.id,session?.user?.role,search.version||'']
+  const reusable=client.getQueryCache().findAll({queryKey:cacheScope}).filter(item=>item.state.status==='success'&&item.state.data).find(item=>{
+    const data=item.state.data as FormResult
+    const previousParams=new URLSearchParams(String(item.queryKey.at(-1)))
+    return (['business','member','meter','office'] as const).every(name=>{
+      const kind={business:'businesses',member:'members',meter:'meters',office:'offices'}[name]
+      return params.has(name)?params.get(name)===data.selections[kind]:!previousParams.has(name)
+    })
   })
-  const form = query.data
+  const query = useQuery({
+    queryKey: [...cacheScope, params.toString()],
+    queryFn: ({signal}) => api<FormResult>('/questionnaires/' + encodeURIComponent(system) + '/' + encodeURIComponent(assignmentId) + '?' + params,undefined,undefined,{signal}),
+    gcTime: 300000,
+    staleTime:300000,
+    initialData:reusable?.state.data as FormResult|undefined,
+    initialDataUpdatedAt:reusable?.state.dataUpdatedAt,
+    placeholderData:(previous,previousQuery)=>cacheScope.every((value,index)=>previousQuery?.queryKey[index]===value)?previous:undefined,
+  })
+  useEffect(()=>{
+    const tracker=lifetime.current
+    const generation=++tracker.generation
+    return()=>queueMicrotask(()=>{if(tracker.generation===generation)client.removeQueries({queryKey:['questionnaire',system,assignmentId]})})
+  },[client,system,assignmentId])
+  const fallback=query.error?client.getQueryCache().findAll({queryKey:cacheScope}).filter(item=>item.state.status==='success'&&item.state.data).sort((a,b)=>b.state.dataUpdatedAt-a.state.dataUpdatedAt)[0]?.state.data as FormResult|undefined:undefined
+  const form = query.data||fallback
+  const changing=query.isPlaceholderData
   const sections = form?.sections.filter(item => item.applicability !== 'NOT_APPLICABLE' && !['anomali_section', 'anomali_keluarga'].includes(item.section_id)) || []
   const section = sections.find(item => item.section_id === block) || sections.find(item => item.section_id === 'blokl') || sections[0]
   const activeBlock = section?.section_id || block
   const sectionIndex = sections.findIndex(item => item.section_id === activeBlock)
-  const scrollKey = JSON.stringify([system, assignmentId, activeBlock, form?.version, form?.selections])
+  const scrollKey = JSON.stringify([system, assignmentId, activeBlock, form?.version, search.business||form?.selections.businesses,search.member||form?.selections.members,search.meter||form?.selections.meters,search.office||form?.selections.offices])
   useLayoutEffect(() => {
+    if(changing||query.error)return
     if (stage.current) stage.current.scrollTop = scrollPositions.current.get(scrollKey) || 0
-  }, [scrollKey, form])
+    if(pendingQuestion.current){
+      const id=pendingQuestion.current
+      const frame=requestAnimationFrame(()=>{if(revealQuestion(stage.current,id,setOpenedGroups))pendingQuestion.current=null})
+      return()=>cancelAnimationFrame(frame)
+    }
+  }, [scrollKey, form,changing,query.error])
 
   function select(values: Partial<SearchState>) {
     void navigate({to: '.', search: {
       ...search, index1: undefined,
-      business: form?.selections.businesses || undefined,
-      member: form?.selections.members || undefined,
+      business:search.business||(block==='blokl'?search.index1:undefined),
+      member:search.member||(['b_ak','b_ak_lanjutan'].includes(block)?search.index1:undefined),
       ...values,
     }, resetScroll: false})
   }
@@ -77,39 +110,38 @@ function QuestionnaireContent() {
     }
   }
   if (query.isPending) return <Loading variant="form" label="Memuat formulir..."/>
-  if (query.error) return <><Button variant="ghost" onClick={back}><ArrowLeft size={16}/>Kembali ke daftar</Button><ErrorBox error={query.error} retry={() => void query.refetch()}/></>
+  if (query.error&&!form) return <><Button variant="ghost" onClick={back}><ArrowLeft size={16}/>Kembali ke daftar</Button><ErrorBox error={query.error} retry={() => void query.refetch()}/></>
   if (!form || !section) return null
 
   const recordKind = activeBlock === 'blokl' ? 'businesses' : ['b_ak', 'b_ak_lanjutan'].includes(activeBlock) ? 'members' : activeBlock === 'b_perumahan' && form.rosters.meters?.length ? 'meters' : undefined
   const records = recordKind ? form.rosters[recordKind] || [] : []
-  const selectedRecord = recordKind ? records.find(item => item.index === form.selections[recordKind]) : undefined
+  const requestedIndex=recordKind==='businesses'?search.business||search.index1:recordKind==='members'?search.member||search.index1:search.meter
+  const selectedRecord = recordKind ? records.find(item => item.index === (requestedIndex||form.selections[recordKind])) : undefined
   const recordLabel = recordKind === 'businesses' ? 'usaha' : recordKind === 'members' ? 'anggota' : 'meteran'
-  const chooseRecord = (value: string) => select({[recordKind === 'businesses' ? 'business' : recordKind === 'members' ? 'member' : 'meter']: value})
+  const chooseRecord = (value: string) => select({[recordKind === 'businesses' ? 'business' : recordKind === 'members' ? 'member' : 'meter']: value,...(recordKind==='businesses'?{office:undefined}:{})})
   // Only proven family fields precede the member card; unmapped member questions stay in source order.
   const rootFields = section.questions.filter(field => activeBlock === 'b_ak_lanjutan' ? field.source_object === 'mart_keluarga' : recordKind === 'meters' ? field.roster !== 'meters' : false)
   const recordFields = section.questions.filter(field => !rootFields.includes(field))
   const description = activeBlock === 'b5' && form.assignment_context?.kind === 'BKU'
     ? {badge: 'P', description: 'Keterangan bangunan dan usaha'} : blockDescriptions[activeBlock]
   const offices = activeBlock === 'blokl' ? form.rosters.offices || [] : []
-  const jumpFields = (recordKind&&records.length===0?rootFields:section.questions).filter(field=>field.applicability!=='NOT_APPLICABLE'&&field.display_state!=='HIDDEN'&&!presentationOnlyQuestions.has(field.question_id))
-  function jumpToQuestion(id:string) {
-    const row=Array.from(stage.current?.querySelectorAll<HTMLElement>('[data-question-id]')||[]).find(element=>element.dataset.questionId===id)
-    if(!row)return
-    const opened:Record<string,boolean>={}
-    let parent=row.parentElement
-    while(parent&&parent!==stage.current){
-      if(parent instanceof HTMLDetailsElement){parent.open=true;if(parent.dataset.disclosureKey)opened[parent.dataset.disclosureKey]=true}
-      parent=parent.parentElement
-    }
-    setOpenedGroups(previous=>({...previous,...opened}))
-    requestAnimationFrame(()=>{row.scrollIntoView({block:'start'});row.querySelector<HTMLElement>('h3')?.focus({preventScroll:true})})
+  const searchableFields=sections.flatMap(item=>{
+    const noMembers=!form.rosters.members?.length
+    const fields=item.section_id==='blokl'&&!form.rosters.businesses?.length||item.section_id==='b_ak'&&noMembers?[]:item.section_id==='b_ak_lanjutan'&&noMembers?item.questions.filter(field=>field.source_object==='mart_keluarga'):item.questions
+    return fields.filter(field=>field.applicability!=='NOT_APPLICABLE'&&field.display_state!=='HIDDEN'&&!presentationOnlyQuestions.has(field.question_id)&&(!field.roster||form.rosters[field.roster]?.length)).map(field=>({section:item.section_id,title:item.title,field}))
+  })
+  function jump(value:string){
+    if(!value.startsWith('q|')){pendingQuestion.current=null;select({block:value});return}
+    const [,target,id]=value.split('|')
+    if(target===activeBlock)revealQuestion(stage.current,id,setOpenedGroups)
+    else{pendingQuestion.current=id;select({block:target})}
   }
 
-  return <div className={'questionnaire-page form-reader ' + (expanded ? 'is-expanded' : '')} onKeyDown={event => {
+  return <div className={'questionnaire-page form-reader ' + (expanded ? 'is-expanded ' : '')+(sideClosed?'sidebar-closed ':'')+(topClosed?'top-closed':'')} onKeyDown={event => {
     if (event.key === 'Escape' && !event.defaultPrevented) setExpanded(false)
   }}>
     <h1 className="sr-only">Kuesioner {system === 'ub' ? 'Usaha Besar' : 'SE2026'}</h1>
-    <aside className="form-reader-sidebar" aria-label="Blok kuesioner">
+    <aside className="form-reader-sidebar" aria-label="Blok kuesioner" hidden={sideClosed}>
       <Button className="reader-back" variant="ghost" onClick={back}><ArrowLeft size={17}/>Kembali ke daftar</Button>
       <div className="block-navigation"><div className="block-navigation-title">Blok pada form SE2026</div>{sections.map(item => <button key={item.section_id} aria-current={item.section_id === activeBlock ? 'location' : undefined} className={item.section_id === activeBlock ? 'active' : ''} onClick={() => select({block: item.section_id})}>
         <span className="block-symbol">{blockDescriptions[item.section_id]?.badge || <BookOpen size={16}/>}</span><span>{item.title}</span>
@@ -130,37 +162,61 @@ function QuestionnaireContent() {
       </details>
     </aside>
     <section className="form-reader-main" aria-label="Pertanyaan dan jawaban">
-      <div className="form-viewer-toolbar"><label>Lompat ke bagian<SearchSelect aria-label="Lompat ke bagian" value={activeBlock} onValueChange={value => select({block: value})}>
-        {sections.map(item => <option value={item.section_id} key={item.section_id}>{item.title}</option>)}
-      </SearchSelect></label><span className="viewer-position" role="status">{sectionIndex + 1} / {sections.length} bagian</span>
+      <div className="form-viewer-toolbar">
+        <Button variant="outline" className="reader-panel-toggle" disabled={expanded} title={sideClosed?'Tampilkan sidebar':'Sembunyikan sidebar'} aria-label={sideClosed?'Tampilkan sidebar':'Sembunyikan sidebar'} aria-expanded={!sideClosed} onClick={()=>setSideClosed(!sideClosed)}>{sideClosed?<PanelLeftOpen size={17}/>:<PanelLeftClose size={17}/>}</Button>
+        {topClosed?<div className="reader-compact-context"><strong>{section.title}</strong>{selectedRecord&&<span>{selectedRecord.label}</span>}</div>:<label className="reader-unified-search"><span className="sr-only">Cari bagian atau pertanyaan</span><SearchSelect aria-label="Cari bagian atau pertanyaan" searchPlaceholder="Cari bagian, nomor, atau uraian..." value={activeBlock} disabled={changing||!!query.error} onValueChange={jump}>
+          {sections.map(item=><option key={item.section_id} value={item.section_id}>{item.title}</option>)}
+          {searchableFields.map(item=><option key={item.field.question_id} value={'q|'+item.section+'|'+item.field.question_id}>{item.field.question_text} · {item.title}</option>)}
+        </SearchSelect></label>}
+        <span className="viewer-position" role="status">{sectionIndex + 1} / {sections.length} bagian</span>
+        <Button variant="outline" className="reader-panel-toggle" title={topClosed?'Tampilkan panel atas':'Sembunyikan panel atas'} aria-label={topClosed?'Tampilkan panel atas':'Sembunyikan panel atas'} aria-expanded={!topClosed} onClick={()=>setTopClosed(!topClosed)}>{topClosed?<ChevronDown size={17}/>:<ChevronUp size={17}/>}</Button>
         <Button variant="outline" className="reader-focus-toggle" aria-pressed={expanded} aria-label={expanded ? 'Kembalikan ukuran area baca' : 'Perbesar area baca'} onClick={() => setExpanded(!expanded)}>{expanded ? <Minimize size={16}/> : <Maximize size={16}/>}<span>{expanded ? 'Kembalikan' : 'Perbesar'}</span></Button>
       </div>
-      <progress className="form-viewer-progress" max={sections.length} value={sectionIndex + 1} aria-label="Posisi bagian"/>
-      {jumpFields.length>8&&<div className="form-question-tools"><label className="question-jump-label">Cari pertanyaan<SearchSelect aria-label="Lompat ke pertanyaan" value="" onValueChange={jumpToQuestion}><option value="" disabled>Nomor atau uraian pertanyaan...</option>{jumpFields.map(field=><option key={field.question_id} value={field.question_id}>{field.question_text}</option>)}</SearchSelect></label></div>}
-      <div className="card form-stage" ref={stage} tabIndex={0} aria-label={section.title} onScroll={event => scrollPositions.current.set(scrollKey, event.currentTarget.scrollTop)}>
-        <div className="question-section-head"><span className="block-symbol">{description?.badge || <BookOpen size={18}/>}</span><div><h2>{section.title}</h2>{description && <p>{description.description}{records.length ? ' · ' + records.length + ' ' + (recordKind === 'members' ? 'ART' : recordLabel) : ''}</p>}</div></div>
+      <progress className="form-viewer-progress" max={sections.length} value={sectionIndex + 1} aria-label="Posisi bagian" hidden={topClosed}/>
+      <div className="card form-reader-panel">
+        <div className="question-section-head" hidden={topClosed}><span className="block-symbol">{description?.badge || <BookOpen size={18}/>}</span><div className="reader-section-title"><h2>{section.title}</h2>{description && <p>{description.description}{records.length ? ' · ' + records.length + ' ' + (recordKind === 'members' ? 'ART' : recordLabel) : ''}</p>}</div>{selectedRecord&&<h3 className="form-record-name">{selectedRecord.label}</h3>}</div>
+        {records.length>0&&<div className="form-roster-controls" hidden={topClosed}>
+          <div className="form-roster-picker" role="group" aria-label={'Daftar ' + recordLabel}>
+            {records.map(item=><button className={'form-roster-choice '+(selectedRecord?.index===item.index?'selected':'')} key={item.index} aria-pressed={selectedRecord?.index===item.index} onClick={()=>chooseRecord(item.index)}>{item.index} · {item.label}</button>)}
+          </div>
+          <label className="form-roster-mobile">Pilih {recordLabel}<SearchSelect aria-label={'Roster '+recordLabel} value={selectedRecord?.index||''} onValueChange={chooseRecord}>{records.map(item=><option key={item.index} value={item.index}>{item.index} · {item.label}</option>)}</SearchSelect></label>
+          {!changing&&offices.length>0&&<label className="form-office-picker">Kantor/unit<SearchSelect aria-label="Roster kantor" value={search.office||form.selections.offices||''} onValueChange={office=>select({office})}>{offices.map(item=><option key={item.index} value={item.index}>{item.index} · {item.label}</option>)}</SearchSelect></label>}
+        </div>}
+        <div className="form-stage" ref={stage} tabIndex={0} aria-label={section.title} aria-busy={changing} onScroll={event => {if(!changing&&!query.error)scrollPositions.current.set(scrollKey,event.currentTarget.scrollTop)}}>
+        {query.error?<ErrorBox error={query.error} retry={()=>void query.refetch()}/>:changing?<p className="reader-answer-loading" role="status">Memuat jawaban pilihan...</p>:<>
         <DisclosureContext.Provider value={{scope:scrollKey,opened:openedGroups,setOpen:(key,open)=>setOpenedGroups(previous=>previous[key]===open?previous:{...previous,[key]:open})}}><div className="form-block-body">
           {section.availability_note && <p className="form-availability-note">{section.availability_note}</p>}
           {activeBlock === 'ub_i_1' && <LocationInfo location={form.locations?.root}/>}
           {form.truncated_rosters.length > 0 && <Notice tone="warning">Pilihan dibatasi 1.000 item per modul.</Notice>}
           {rootFields.length > 0 && <QuestionFields fields={rootFields}/>}
           {recordKind && records.length === 0 ? <p className="form-availability-note">Rincian {recordLabel} tidak tersedia pada versi ini.</p> : recordKind && records.length > 0 ? <div className="form-roster-workspace">
-            <div className="form-roster-picker" role="group" aria-label={'Daftar ' + recordLabel}>
-              {records.map(item => <button className={'form-roster-choice ' + (selectedRecord?.index === item.index ? 'selected' : '')} key={item.index} aria-pressed={selectedRecord?.index === item.index} onClick={() => chooseRecord(item.index)}>{item.index} · {item.label}</button>)}
-            </div>
-            <label className="form-roster-mobile">Pilih {recordLabel}<SearchSelect aria-label={'Roster ' + recordLabel} value={selectedRecord?.index || ''} onValueChange={chooseRecord}>{records.map(item => <option key={item.index} value={item.index}>{item.index} · {item.label}</option>)}</SearchSelect></label>
-            <div className="form-roster-card"><div className="form-roster-heading"><span className="roster-number">{selectedRecord?.index}</span><h3 className="form-record-name">{selectedRecord?.label}</h3></div>
-              {activeBlock === 'blokl' && <LocationInfo location={form.locations?.business}/>}
-              {offices.length > 0 && <label className="form-office-picker">Pilih kantor/unit<SearchSelect aria-label="Roster kantor" value={form.selections.offices || ''} onValueChange={office => select({office})}>{offices.map(item => <option key={item.index} value={item.index}>{item.index} · {item.label}</option>)}</SearchSelect></label>}
+            <div className="form-roster-card">
               <QuestionFields fields={recordFields}/>
+              {activeBlock==='blokl'&&<LocationInfo location={form.locations?.business}/>}
             </div>
           </div> : <QuestionFields fields={recordFields} collapseNotExported={section.collapse_not_exported}/>}
           {activeBlock === 'b5' && <LocationInfo location={form.locations?.root}/>}
         </div></DisclosureContext.Provider>
+        </>}
+        </div>
       </div>
       <nav className="section-navigation" aria-label="Pindah bagian"><Button variant="outline" disabled={sectionIndex <= 0} onClick={() => select({block: sections[sectionIndex - 1].section_id})}><ChevronLeft size={16}/>Sebelumnya</Button><Button variant="ghost" className="reader-to-top" aria-label="Kembali ke awal bagian" onClick={()=>stage.current?.scrollTo({top:0})}><ArrowUp size={16}/><span>Awal bagian</span></Button><Button disabled={sectionIndex >= sections.length - 1} onClick={() => select({block: sections[sectionIndex + 1].section_id})}>Berikutnya<ChevronRight size={16}/></Button></nav>
     </section>
   </div>
+}
+
+function revealQuestion(stage:HTMLDivElement|null,id:string,setOpened:(update:(previous:Record<string,boolean>)=>Record<string,boolean>)=>void){
+  const row=Array.from(stage?.querySelectorAll<HTMLElement>('[data-question-id]')||[]).find(element=>element.dataset.questionId===id)
+  if(!row)return false
+  const opened:Record<string,boolean>={}
+  let parent=row.parentElement
+  while(parent&&parent!==stage){
+    if(parent instanceof HTMLDetailsElement){parent.open=true;if(parent.dataset.disclosureKey)opened[parent.dataset.disclosureKey]=true}
+    parent=parent.parentElement
+  }
+  setOpened(previous=>({...previous,...opened}))
+  requestAnimationFrame(()=>{row.scrollIntoView({block:'start'});row.querySelector<HTMLElement>('h3')?.focus({preventScroll:true})})
+  return true
 }
 
 const missingAnswers: Record<string, string> = {BLANK_OR_MISSING: 'Belum terisi', SKIPPED_NOT_APPLICABLE: 'Tidak berlaku', NOT_EXPORTED: 'Tidak ada dalam data', UNMATCHED_VERSION: 'Ada di versi lain', UNVERIFIED_MAPPING: 'Jawaban belum dapat ditampilkan', RESTRICTED: 'Akses terbatas'}

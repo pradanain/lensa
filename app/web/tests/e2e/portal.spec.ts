@@ -953,8 +953,7 @@ test('PESSE reader shows whole blocks, roster cards and no upper summary panel',
   await expect(page.getByRole('button',{name:'Perbesar area baca',exact:true})).toHaveAttribute('aria-pressed','false')
   for(const width of [320,390,820]){
     await page.setViewportSize({width,height:844})
-    await selectValue(page,'Lompat ke bagian','b_ak')
-    await expect(page.locator('.form-record-name')).toBeVisible()
+    await selectValue(page,'Cari bagian atau pertanyaan','b_ak')
     if(width<=390){
       await expect(page.getByRole('combobox',{name:'Roster anggota',exact:true})).toBeVisible()
     }else{
@@ -1006,7 +1005,7 @@ test('form choices keep leading zero codes and avoid repeated code labels',async
 test('questionnaires distinguish BKU family and unknown roots while sharing business answers',async({page})=>{
   for(const [aid,kind,number] of [['DTD-0002','KELUARGA','0010'],['DTD-0003','BKU','0007'],['DTD-0004','UNKNOWN','']]){
     await page.goto('http://127.0.0.1:8769/questionnaire/dtd/'+aid+'?block=b5')
-    const blockList=page.getByRole('combobox',{name:'Lompat ke bagian',exact:true})
+    const blockList=page.getByRole('combobox',{name:'Cari bagian atau pertanyaan',exact:true})
     await expect(blockList).toHaveAttribute('data-value','b5')
     const response=await page.request.get('http://127.0.0.1:8769/api/v1/questionnaires/dtd/'+aid)
     const form=await response.json()
@@ -1026,13 +1025,13 @@ test('questionnaires distinguish BKU family and unknown roots while sharing busi
     await expect(page.getByRole('heading',{name:'Nama Kepala Keluarga (KK) responden',exact:true,includeHidden:true})).toHaveCount(kind==='BKU'?0:1)
     await expect(page.getByRole('heading',{name:'Nama Bangunan/ Usaha/ Perusahaan responden',exact:true,includeHidden:true})).toHaveCount(kind==='KELUARGA'?0:1)
     await page.screenshot({path:'../../docs/reports/app/screenshots/questionnaire-scope-'+kind.toLowerCase()+'-synthetic.png',fullPage:false})
-    await selectValue(page,'Lompat ke bagian','blokl')
+    await selectValue(page,'Cari bagian atau pertanyaan','blokl')
     await expect(page.locator('.form-record-name')).toHaveText('USAHA SINTETIS '+aid.slice(-1))
     if(kind!=='UNKNOWN')await expect(page.getByText('PJ SINTETIS BERSAMA',{exact:true})).toHaveCount(1)
     await expect(page.locator('.pagination')).toHaveCount(0)
   }
   await page.goto('http://127.0.0.1:8769/questionnaire/dtd/DTD-0003?block=b_ak')
-  await expect(page.getByRole('combobox',{name:'Lompat ke bagian',exact:true})).toHaveAttribute('data-value','blokl')
+  await expect(page.getByRole('combobox',{name:'Cari bagian atau pertanyaan',exact:true})).toHaveAttribute('data-value','blokl')
   await expect(page.locator('.form-record-name')).toHaveText('USAHA SINTETIS 3')
 })
 
@@ -1063,7 +1062,7 @@ test('geography shows assignment values and informant fields explain export cove
     await expect(page.getByRole('heading',{name:'Apakah Terdapat Perubahan Wilayah?',exact:true})).toBeVisible()
     await unavailable.locator('summary').click()
     await page.screenshot({path:'../../docs/reports/app/screenshots/questionnaire-geography-'+aid+'-synthetic.png',fullPage:false})
-    await selectValue(page,'Lompat ke bagian','ket_jawaban')
+    await selectValue(page,'Cari bagian atau pertanyaan','ket_jawaban')
     await expect(page.locator('.form-availability-note')).toHaveText('Data pemberi jawaban tidak tersedia dalam file lokal. Ini tidak menunjukkan apakah formulir asli telah diisi.')
     await expect(page.locator('.form-block-body > .question-list')).toHaveCount(0)
     await expect(page.locator('.form-unavailable-fields summary')).toHaveText('Isian yang tidak disertakan (4)')
@@ -1102,7 +1101,7 @@ test('reader restores choice labels separates main numbers formats amounts and s
   await expect(year.locator('.answer > p').first()).toHaveText('2007')
   await amount.scrollIntoViewIfNeeded()
   await page.screenshot({path:'../../docs/reports/app/screenshots/questionnaire-thousands-synthetic.png',fullPage:false})
-  await selectValue(page,'Lompat ke bagian','ub_i_1')
+  await selectValue(page,'Cari bagian atau pertanyaan','ub_i_1')
   await expect(page.getByLabel('Tagging lokasi pendataan',{exact:true})).toContainText('2.25, 101.75')
   await page.setViewportSize({width:320,height:844})
   expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(320)
@@ -1118,7 +1117,7 @@ test('reader follows display rules keeps uncertain fields accessible and places 
   expect(await location.evaluate(el=>el.parentElement?.lastElementChild===el)).toBe(true)
   await location.scrollIntoViewIfNeeded()
   await page.screenshot({path:'../../docs/reports/app/screenshots/questionnaire-P-tagging-bottom-synthetic.png',fullPage:false})
-  await selectValue(page,'Lompat ke bagian','blokl')
+  await selectValue(page,'Cari bagian atau pertanyaan','blokl')
   await expect(page.getByRole('heading',{name:'10. b. Tuliskan NIB:',exact:true})).toHaveCount(0)
   await expect(page.locator('.question-row[data-question-number="31"]')).toHaveCount(0)
   await expect(page.getByText('4. Tidak tahu tentang NIB',{exact:true})).toBeVisible()
@@ -1144,7 +1143,7 @@ test('wide reader aligns geographic questions and uses the full business answer 
   expect(Math.abs(first!.y-second!.y)).toBeLessThan(1)
   expect(await headings.first().evaluate(el=>parseFloat(getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(14)
   await page.screenshot({path:'../../docs/reports/app/screenshots/form-wide-geography-synthetic.png'})
-  await selectValue(page,'Lompat ke bagian','blokl')
+  await selectValue(page,'Cari bagian atau pertanyaan','blokl')
   const card=await page.locator('.form-roster-card').boundingBox()
   const picker=await page.locator('.form-roster-picker').boundingBox()
   expect(card!.y).toBeGreaterThanOrEqual(picker!.y+picker!.height)
@@ -1154,9 +1153,9 @@ test('wide reader aligns geographic questions and uses the full business answer 
 test('question finder reveals an unavailable capital item without a page or respondent search URL',async({page})=>{
   await page.goto('http://127.0.0.1:8769/questionnaire/dtd/DTD-0002?block=blokl')
   const url=page.url()
-  await page.getByRole('combobox',{name:'Lompat ke pertanyaan',exact:true}).click()
-  await page.getByRole('textbox',{name:'Cari pilihan Lompat ke pertanyaan',exact:true}).fill('29. a.')
-  await page.getByRole('listbox').getByRole('option',{name:'29. a. Pribadi/Perorangan',exact:true}).click()
+  await page.getByRole('combobox',{name:'Cari bagian atau pertanyaan',exact:true}).click()
+  await page.getByRole('textbox',{name:'Cari pilihan Cari bagian atau pertanyaan',exact:true}).fill('29. a.')
+  await page.getByRole('listbox').getByRole('option',{name:/^29\. a\. Pribadi\/Perorangan/}).click()
   const row=page.locator('[data-question-id="blokl.pribadi"]')
   await expect(row.getByRole('heading')).toBeFocused()
   await expect(row.locator('.answer > p')).toHaveText('Tidak ada dalam data')
@@ -1168,8 +1167,127 @@ test('question finder reveals an unavailable capital item without a page or resp
   await expect.poll(()=>page.locator('.form-stage').evaluate(el=>el.scrollTop)).toBe(0)
   for(const width of [320,390,820]){
     await page.setViewportSize({width,height:844})
-    await expect(page.getByRole('combobox',{name:'Lompat ke pertanyaan',exact:true})).toBeVisible()
+    await expect(page.getByRole('combobox',{name:'Cari bagian atau pertanyaan',exact:true})).toBeVisible()
     expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
     await expect(page.getByRole('button',{name:'Berikutnya',exact:true})).toBeInViewport()
   }
+})
+
+test('roster controls stay outside the scrolling answers and reader panels can be minimized',async({page})=>{
+  await page.setViewportSize({width:1440,height:1000})
+  await page.goto('http://127.0.0.1:8767/questionnaire/dtd/DTD-0001?block=b_ak')
+  const stage=page.locator('.form-stage');const picker=page.locator('.form-roster-picker')
+  await expect(stage.locator('.form-roster-picker, .question-section-head')).toHaveCount(0)
+  const before=await picker.boundingBox()
+  await stage.evaluate(el=>el.scrollTop=700)
+  expect((await picker.boundingBox())!.y).toBe(before!.y)
+  expect((await stage.boundingBox())!.y).toBeGreaterThanOrEqual(before!.y+before!.height)
+  await page.screenshot({path:'../../docs/reports/app/screenshots/form-tabs-no-overlay-synthetic.png'})
+  const width=(await stage.boundingBox())!.width;const height=(await stage.boundingBox())!.height
+  await page.getByRole('button',{name:'Sembunyikan sidebar',exact:true}).click()
+  await expect(page.getByLabel('Blok kuesioner',{exact:true})).not.toBeVisible()
+  expect((await stage.boundingBox())!.width).toBeGreaterThan(width)
+  await page.getByRole('button',{name:'Sembunyikan panel atas',exact:true}).click()
+  await expect(page.getByRole('combobox',{name:'Cari bagian atau pertanyaan',exact:true})).toHaveCount(0)
+  await expect(page.locator('.reader-compact-context')).toContainText('ANGGOTA SINTETIS 1')
+  expect((await stage.boundingBox())!.height).toBeGreaterThan(height)
+  await page.screenshot({path:'../../docs/reports/app/screenshots/form-minimized-panels-synthetic.png'})
+  await page.getByRole('button',{name:'Tampilkan panel atas',exact:true}).click()
+  await page.getByRole('button',{name:'Tampilkan sidebar',exact:true}).click()
+  await expect(page.getByRole('combobox',{name:'Cari bagian atau pertanyaan',exact:true})).toBeVisible()
+  for(const mobileWidth of [320,390,820]){
+    await page.setViewportSize({width:mobileWidth,height:844})
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(mobileWidth)
+    await expect(page.getByRole('button',{name:'Sembunyikan panel atas',exact:true})).toBeInViewport()
+    await expect(page.getByRole('button',{name:'Berikutnya',exact:true})).toBeInViewport()
+  }
+})
+
+test('roster loading keeps navigation stable hides old answers and reuses visited selections',async({page})=>{
+  let release!:()=>void
+  const gate=new Promise<void>(resolve=>release=resolve)
+  let requests=0
+  await page.route('**/api/v1/questionnaires/dtd/DTD-0001*',async route=>{
+    requests++
+    const response=await route.fetch()
+    if(new URL(route.request().url()).searchParams.get('member')==='002')await gate
+    if(!route.request().failure())await route.fulfill({response})
+  })
+  await page.goto('http://127.0.0.1:8767/questionnaire/dtd/DTD-0001?block=b_ak')
+  const roster=page.getByRole('group',{name:'Daftar anggota',exact:true})
+  await expect(page.locator('.question-row')).not.toHaveCount(0)
+  const initialRequests=requests
+  try{
+    await roster.locator('button').nth(1).click()
+    await expect(page.getByText('Memuat jawaban pilihan...',{exact:true})).toBeVisible()
+    await expect(page.getByRole('combobox',{name:'Cari bagian atau pertanyaan',exact:true})).toBeVisible()
+    await expect(page.getByRole('status',{name:'Memuat formulir...',exact:true})).toHaveCount(0)
+    await expect(page.locator('.question-row')).toHaveCount(0)
+    await expect(roster.locator('button').nth(1)).toHaveAttribute('aria-pressed','true')
+    await roster.locator('button').nth(0).click()
+    await expect(page.locator('.question-row')).not.toHaveCount(0)
+    await expect(page.locator('.reader-answer-loading')).toHaveCount(0)
+    expect(requests).toBe(initialRequests+1)
+  }finally{release()}
+  await roster.locator('button').nth(1).click()
+  await expect(page.locator('.question-row')).not.toHaveCount(0)
+  await expect(page.locator('.form-stage')).toContainText('ANGGOTA SINTETIS KEDUA')
+  const loadedRequests=requests
+  await roster.locator('button').nth(0).click()
+  await expect(page.locator('.form-stage')).toContainText('ANGGOTA SINTETIS 1')
+  await roster.locator('button').nth(1).click()
+  await expect(page.locator('.form-stage')).toContainText('ANGGOTA SINTETIS KEDUA')
+  await page.getByRole('button',{name:'Berikutnya',exact:true}).click()
+  await expect(page).toHaveURL(/block=blokl/)
+  expect(requests).toBe(loadedRequests)
+  await page.getByRole('button',{name:'Kembali ke daftar',exact:true}).click()
+  await expect(page).toHaveURL(/usaha/)
+  await page.goBack()
+  await expect(page.locator('.form-stage')).toBeVisible()
+  expect(requests).toBeGreaterThan(loadedRequests)
+})
+
+test('unified search jumps across blocks without requesting the same answers again',async({page})=>{
+  let requests=0
+  page.on('request',request=>{if(request.url().includes('/api/v1/questionnaires/'))requests++})
+  await page.goto('http://127.0.0.1:8769/questionnaire/dtd/DTD-0002?block=b1_p')
+  await expect(page.locator('.question-row')).not.toHaveCount(0)
+  const before=requests
+  await selectValue(page,'Cari bagian atau pertanyaan','q|blokl|blokl.pribadi')
+  await expect(page).toHaveURL(/block=blokl/)
+  await expect(page.locator('[data-question-id="blokl.pribadi"] h3')).toBeFocused()
+  expect(requests).toBe(before)
+  await expect(page.locator('.form-question-tools')).toHaveCount(0)
+})
+
+test('failed roster request keeps choices usable and never shows the previous answers',async({page})=>{
+  await page.route('**/api/v1/questionnaires/dtd/DTD-0001*',async route=>{
+    if(new URL(route.request().url()).searchParams.get('member')==='002')await route.fulfill({status:503,json:{detail:'Pilihan belum dapat dimuat.'}})
+    else await route.continue()
+  })
+  await page.goto('http://127.0.0.1:8767/questionnaire/dtd/DTD-0001?block=b_ak')
+  const roster=page.getByRole('group',{name:'Daftar anggota',exact:true})
+  await expect(page.locator('.question-row')).not.toHaveCount(0)
+  await roster.locator('button').nth(1).click()
+  await expect(page.locator('.form-stage').getByRole('alert')).toContainText('Data belum dapat dimuat')
+  await expect(page.locator('.form-stage').getByRole('button',{name:'Coba lagi',exact:true})).toBeVisible()
+  await expect(page.locator('.question-row')).toHaveCount(0)
+  await expect(roster.locator('button').nth(0)).toBeVisible()
+  await roster.locator('button').nth(0).click()
+  await expect(page.locator('.form-stage')).toContainText('ANGGOTA SINTETIS 1')
+  await expect(page.locator('.form-stage').getByRole('alert')).toHaveCount(0)
+})
+
+test('questionnaire cache is cleared when the session changes to a restricted role',async({page})=>{
+  await login(page)
+  await page.goto('/questionnaire/dtd/DTD-0001?block=b_ak')
+  await expect(page.locator('.form-stage')).toContainText('SYNTHETIC_PRIVATE_NIK')
+  await page.getByRole('button',{name:'Keluar dari portal',exact:true}).click()
+  await expect(page.getByLabel('Nama pengguna',{exact:true})).toBeVisible()
+  await expect(page.locator('.form-stage')).toHaveCount(0)
+  await page.getByLabel('Nama pengguna',{exact:true}).fill('analyst')
+  await page.getByLabel('Kata sandi',{exact:true}).fill(password)
+  await page.getByRole('button',{name:'Masuk ke portal',exact:true}).click()
+  await expect(page.locator('.form-stage')).toContainText('Akses terbatas')
+  await expect(page.locator('.form-stage')).not.toContainText('SYNTHETIC_PRIVATE_NIK')
 })
