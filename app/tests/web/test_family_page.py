@@ -11,6 +11,27 @@ from .synthetic import V1, V2
 from .test_xlsx_export import sheet
 
 
+def test_member_education_is_exact_version_roster_without_multiplication(portal):
+    _, client, settings = portal
+    with sqlite3.connect(settings.census_db) as con:
+        con.execute("UPDATE mart_sosial_p0 SET kode_partisipasi_sekolah='1',partisipasi_sekolah=NULL,kode_ijazah_tertinggi='03',ijazah_tertinggi=NULL WHERE assignment_id='DTD-0001' AND __version_normalized=?",(V1,))
+        con.execute("UPDATE mart_sosial_p0 SET __version_normalized=? WHERE assignment_id='DTD-0002'",(V2,))
+        con.execute("INSERT INTO mart_sosial_p0 SELECT * FROM mart_sosial_p0 WHERE assignment_id='DTD-0003'")
+    before=sha256(settings.census_db)
+    endpoint='/api/v1/directories/members/'
+    rows=client.post(endpoint+'search',json={'source':'dtd','q':'DTD-0001'}).json()['rows']
+    exact=next(row for row in rows if row['index1']=='001')
+    assert exact['member_school']=='Masih sekolah' and exact['member_diploma']=='SMA/sederajat'
+    other=next(row for row in rows if row['index1']=='002')
+    assert other['member_school'] is None and other['member_diploma'] is None
+    for aid in ['DTD-0002','DTD-0003']:
+        result=client.post(endpoint+'search',json={'source':'dtd','q':aid}).json()['rows']
+        assert len(result)==1 and result[0]['member_school'] is None and result[0]['member_diploma'] is None
+    headers=[cell.value for cell in sheet(client.post(endpoint+'export',json={'source':'dtd'}))[1]]
+    assert 'Ijazah tertinggi' in headers and 'Partisipasi sekolah' in headers and 'Memiliki usaha' not in headers
+    assert sha256(settings.census_db)==before
+
+
 def test_member_nik_search_display_and_export_preserve_text_and_role(portal, analyst, viewer):
     _, client, settings = portal
     nik = '0012345678901234'
@@ -44,7 +65,7 @@ def test_member_profile_columns_use_exact_roster_and_template_labels(portal, ana
     for user in [client,analyst]:
         rows=user.post('/api/v1/directories/members/search',json={'source':'dtd','q':'DTD-0001'}).json()['rows']
         row=next(row for row in rows if row['index1']=='001' and row['version']==V1)
-        assert (row['member_number'],row['member_age'],row['member_relationship'],row['member_gender'],row['member_business'])==('007','0','Anak','Perempuan','Tidak')
+        assert (row['member_number'],row['member_age'],row['member_relationship'],row['member_gender'])==('007','0','Anak','Perempuan')
         other=next(row for row in rows if row['index1']=='002')
         assert other['member_age']!='0'
     assert sha256(settings.census_db)==before

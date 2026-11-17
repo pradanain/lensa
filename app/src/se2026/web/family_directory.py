@@ -20,13 +20,16 @@ def enrich_family_records(settings, rows, role, scope):
         fields += ",alamat_keluarga,geotag_latitude,geotag_longitude"
     families = defaultdict(list)
     members = defaultdict(list)
+    education = defaultdict(list)
     with census_connection(settings) as con:
         if scope == "members":
-            columns = "assignment_id,__version_normalized,index1,nomor_urut_anggota,umur,kode_hubungan,hubungan_kepala_keluarga,kode_jenis_kelamin,jenis_kelamin,kode_memiliki_usaha,memiliki_usaha"
+            columns = "assignment_id,__version_normalized,index1,nomor_urut_anggota,umur,kode_hubungan,hubungan_kepala_keluarga,kode_jenis_kelamin,jenis_kelamin"
             if role == "admin":
                 columns += ",nik_anggota"
             for item in con.execute("SELECT " + columns + " FROM mart_anggota" + condition, ids if condition else []):
                 members[(item["assignment_id"], item["__version_normalized"], item["index1"])].append(dict(item))
+            for item in con.execute("SELECT assignment_id,__version_normalized,index1,kode_partisipasi_sekolah,partisipasi_sekolah,kode_ijazah_tertinggi,ijazah_tertinggi FROM mart_sosial_p0" + condition, ids if condition else []):
+                education[(item["assignment_id"], item["__version_normalized"], item["index1"])].append(dict(item))
         for item in con.execute("SELECT " + fields + " FROM mart_keluarga" + condition, ids if condition else []):
             families[(item["assignment_id"], item["__version_normalized"])].append(dict(item))
     for row in rows:
@@ -38,10 +41,14 @@ def enrich_family_records(settings, rows, role, scope):
             row["member_nik"] = item.get("nik_anggota") if role == "admin" else None
             row["member_number"] = item.get("nomor_urut_anggota")
             row["member_age"] = item.get("umur")
+            school = education[(row["assignment_id"], row["version"], row["index1"])]
+            school = school[0] if len(school) == 1 else {}
+            item = {**item, **school}
             for target, code, label, choices in [
                 ("member_relationship", "kode_hubungan", "hubungan_kepala_keluarga", {"1":"Kepala Keluarga","2":"Istri/Suami","3":"Anak","4":"Menantu","5":"Cucu","6":"Orang Tua","7":"Mertua","8":"Famili","9":"Lainnya"}),
                 ("member_gender", "kode_jenis_kelamin", "jenis_kelamin", {"1":"Laki-laki","2":"Perempuan"}),
-                ("member_business", "kode_memiliki_usaha", "memiliki_usaha", {"1":"Ya","2":"Tidak"}),
+                ("member_school", "kode_partisipasi_sekolah", "partisipasi_sekolah", {"1":"Masih sekolah","2":"Tidak bersekolah lagi","3":"Tidak/belum pernah sekolah"}),
+                ("member_diploma", "kode_ijazah_tertinggi", "ijazah_tertinggi", {"00":"Tidak punya ijazah SD","01":"SD/sederajat","02":"SMP/sederajat","03":"SMA/sederajat","04":"D1/D2/D3","05":"D4/S1/Profesi","06":"S2/S3"}),
             ]:
                 source = str(item.get(label) or "").strip()
                 row[target] = re.sub(r"^\d+\s*[.)\-:]\s*", "", source) if source and source != str(item.get(code)) else choices.get(str(item.get(code)))

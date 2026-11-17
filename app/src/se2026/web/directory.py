@@ -85,7 +85,7 @@ class DirectoryIndex:
                         present(row["kategori"]),
                     ])
                 elif scope == "members":
-                    fields.extend(present(row[name]) for name in ("family_head", "member_number", "member_relationship", "member_gender", "member_age", "member_business"))
+                    fields.extend(present(row[name]) for name in ("family_head", "member_number", "member_relationship", "member_gender", "member_age", "member_school", "member_diploma"))
                     if access == "admin":
                         fields.append(present(row["member_nik"]))
                 elif scope == "families":

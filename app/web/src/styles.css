@@ -62,7 +62,7 @@ select:disabled { background: #f0f3f6; color: #87939c; border-color: #e0e5ea; }
 .member-directory-table [data-column="member_nik"] { white-space: nowrap; }
 .member-directory-table [data-column="family_head"] { width: 17%; min-width: 120px; }
 .member-directory-table [data-column="member_profile"] { min-width: 110px; }
-.member-directory-table [data-column="member_business"] { min-width: 85px; }
+.member-directory-table [data-column="member_diploma"], .member-directory-table [data-column="member_school"] { min-width: 130px; max-width: 180px; }
 .badge-warning { color: #855513; background: #fff4df; }
 .badge-restricted { color: #785e85; background: #f3edf7; }
 .card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; min-width: 0; }

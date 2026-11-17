@@ -109,7 +109,7 @@ def directory_workbook(directory, scope, payload, role):
         ]
     elif scope == "members":
         fields += [("Kepala keluarga", "family_head")]
-        fields += [("Nomor urut anggota", "member_number"), ("Hubungan dengan KK", "member_relationship"), ("Jenis kelamin", "member_gender"), ("Umur", "member_age"), ("Memiliki usaha", "member_business")]
+        fields += [("Nomor urut anggota", "member_number"), ("Hubungan dengan KK", "member_relationship"), ("Jenis kelamin", "member_gender"), ("Umur", "member_age"), ("Ijazah tertinggi", "member_diploma"), ("Partisipasi sekolah", "member_school")]
         if role == "admin":
             fields += [("NIK", "member_nik")]
     elif scope == "families":
