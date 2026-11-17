@@ -86,6 +86,10 @@ class DirectoryIndex:
                     ])
                 elif scope == "members":
                     fields.append(present(row["family_head"]))
+                elif scope == "families":
+                    fields.extend(present(row[name]) for name in ("building_number", "member_count", "business_count"))
+                    if access == "admin":
+                        fields.append(present(row["family_address"]))
                 if access == "admin" and scope in ("businesses", "families"):
                     fields.append(bool(row["map_coordinates"]))
                 scores[row["record_key"]] = sum(fields)

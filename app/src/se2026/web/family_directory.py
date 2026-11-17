@@ -13,8 +13,10 @@ def enrich_family_records(settings, rows, role, scope):
     condition = " WHERE assignment_id IN (" + ",".join("?" for _ in ids) + ")" if len(ids) <= 1000 else ""
     sensitive = role == "admin" and scope == "families"
     fields = "assignment_id,__version_normalized,nama_kk"
+    if scope == "families":
+        fields += ",nomor_bangunan,jumlah_anggota_hasil_pendataan,jumlah_usaha_ditemukan"
     if sensitive:
-        fields += ",geotag_latitude,geotag_longitude"
+        fields += ",alamat_keluarga,geotag_latitude,geotag_longitude"
     families = defaultdict(list)
     with census_connection(settings) as con:
         for item in con.execute("SELECT " + fields + " FROM mart_keluarga" + condition, ids if condition else []):
@@ -24,6 +26,9 @@ def enrich_family_records(settings, rows, role, scope):
         row["family_head"] = matches[0]["nama_kk"] or None if len(matches) == 1 else None
         if scope != "families":
             continue
+        for name, column in [("building_number", "nomor_bangunan"), ("member_count", "jumlah_anggota_hasil_pendataan"), ("business_count", "jumlah_usaha_ditemukan")]:
+            row[name] = matches[0][column] if len(matches) == 1 else None
+        row["family_address"] = matches[0]["alamat_keluarga"] if sensitive and len(matches) == 1 else None
         row.update(map_coordinates=None, map_status="RESTRICTED", map_provenance="FAMILY_QUESTIONNAIRE_TAG")
         if not sensitive:
             continue

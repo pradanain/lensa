@@ -1,5 +1,13 @@
 import type {DirectoryRow} from './api'
 
+export function familyStatusVariant(code:string){
+  return code==='1'?'success':code==='2'?'info':['3','4','5','6'].includes(code)?'warning':'neutral'
+}
+export function familyCount(value:string|null|undefined){
+  if(value==null||!String(value).trim())return '—'
+  return /^\d+$/.test(value)?new Intl.NumberFormat('id-ID').format(Number(value)):value
+}
+
 export function neighborhoodLabel(row:Pick<DirectoryRow,'sls_label'|'subsls'|'sls'>){
   if(!row.sls_label)return '-'
   const label=row.sls_label.replace(/\s*\/\s*/g,' ').trim()

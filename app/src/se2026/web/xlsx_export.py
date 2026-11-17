@@ -109,6 +109,10 @@ def directory_workbook(directory, scope, payload, role):
         ]
     elif scope == "members":
         fields += [("Kepala keluarga", "family_head")]
+    elif scope == "families":
+        fields += [("Nomor bangunan", "building_number"), ("Anggota hasil pendataan", "member_count"), ("Usaha ditemukan", "business_count")]
+        if role == "admin":
+            fields += [("Alamat keluarga", "family_address")]
     headers = [title for title, _ in fields]
     if scope == "businesses":
         headers += ["Judul KBLI"]

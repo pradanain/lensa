@@ -1437,3 +1437,26 @@ test('family aggregate viewer can read summary but cannot open family or member 
     await expect(page.locator('.record-directory-table')).toHaveCount(0)
   }
 })
+
+
+test('family columns show building counts address and colored statuses without short IDs',async({page})=>{
+  await page.route('**/api/v1/directories/families/search',async route=>{
+    const response=await route.fetch();const payload=await response.json()
+    payload.rows=payload.rows.slice(0,3).map((row:Record<string,unknown>,i:number)=>({...row,building_number:'007',member_count:'1500',business_count:i===0?'0':null,family_address:'SYNTHETIC ADDRESS',status:['1','2','0'][i],status_label:['Ditemukan','Baru','Tidak Ditemukan'][i]}))
+    await route.fulfill({response,json:payload})
+  })
+  await page.goto('http://127.0.0.1:8768/keluarga?tab=direktori')
+  const rows=page.locator('.record-directory-table tbody tr')
+  await expect(rows).toHaveCount(3)
+  await expect(rows.first().locator('.record-title small')).toHaveText('No. bangunan 007')
+  await expect(rows.first()).not.toContainText('ID DTD')
+  await expect(rows.first().locator('[data-column="member_count"]')).toHaveText('1.500')
+  await expect(rows.first().locator('[data-column="business_count"]')).toHaveText('0')
+  await expect(rows.first().locator('[data-column="family_address"]')).toHaveText('SYNTHETIC ADDRESS')
+  await expect(rows.nth(0).locator('.badge')).toHaveClass(/badge-success/)
+  await expect(rows.nth(1).locator('.badge')).toHaveClass(/badge-info/)
+  await expect(rows.nth(2).locator('.badge')).toHaveClass(/badge-neutral/)
+  await page.setViewportSize({width:390,height:844})
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
+  await expect(rows.first().locator('[data-column="member_count"]')).toBeVisible()
+})

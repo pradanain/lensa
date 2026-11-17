@@ -77,6 +77,28 @@ def test_duplicate_family_root_does_not_choose_a_tag_or_multiply_member_rows(por
     assert family["map_coordinates"] is None and family["map_status"] == "SOURCE_CONFLICT"
 
 
+def test_family_columns_preserve_zero_text_numbers_version_and_restrictions(portal, analyst):
+    _, client, settings = portal
+    with sqlite3.connect(settings.census_db) as con:
+        con.execute("UPDATE mart_keluarga SET nomor_bangunan='007',jumlah_anggota_hasil_pendataan='5',jumlah_usaha_ditemukan='0',alamat_keluarga='SYNTHETIC ADDRESS' WHERE assignment_id='DTD-0001' AND __version_normalized=?", (V1,))
+        con.execute("INSERT INTO mart_keluarga(assignment_id,__version_normalized,nama_kk) VALUES('DTD-0001',?,'OTHER VERSION')", (V2,))
+    body = {"source": "dtd", "q": "DTD-0001"}
+    endpoint = "/api/v1/directories/families/"
+    rows = client.post(endpoint+'search', json=body).json()['rows']
+    exact = next(row for row in rows if row['version']==V1)
+    assert (exact['building_number'],exact['member_count'],exact['business_count'],exact['family_address']) == ('007','5','0','SYNTHETIC ADDRESS')
+    other = next(row for row in rows if row['version']==V2)
+    assert other['building_number'] is None and other['member_count'] is None
+    restricted = analyst.post(endpoint+'search',json=body).json()['rows']
+    assert all(row['family_address'] is None for row in restricted)
+    assert 'SYNTHETIC ADDRESS' not in str(restricted)
+    for user,allowed in [(client,True),(analyst,False)]:
+        workbook = sheet(user.post(endpoint+'export',json=body))
+        headers = [cell.value for cell in workbook[1]]
+        assert ('Alamat keluarga' in headers) is allowed
+        assert 'Nomor bangunan' in headers and 'Anggota hasil pendataan' in headers
+
+
 @pytest.mark.parametrize("scope,new_code,missing_code", [("families", "2", "0"), ("members", "5", "7")])
 def test_family_priority_is_global_before_pagination_and_shared_by_export(portal, scope, new_code, missing_code):
     app, client, settings = portal

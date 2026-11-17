@@ -10,6 +10,8 @@ Komposisi sektor memakai diagram cincin jika seluruh nilai tersedia. Jika ada ni
 
 Direktori keluarga dan anggota mengikuti urutan Usaha: status Ditemukan/tinggal lebih dahulu, lalu Baru, kelengkapan kolom yang terlihat, dan nama menurut abjad dalam setiap status. Kode status keluarga dan anggota dipetakan terpisah. Urutan diterapkan sebelum pagination dan sama pada ekspor; informasi yang dibatasi hak akses tidak dipakai dalam peringkat.
 
+Direktori keluarga menampilkan nomor bangunan di bawah nama KK tanpa ID singkat, SLS/SUB-SLS, alamat sesuai hak akses, jumlah anggota hasil pendataan, jumlah usaha ditemukan, Maps dan Form. Ditemukan berwarna hijau, Baru biru, status lain 3–6 kuning dan tidak ditemukan/asing abu-abu. Isian kosong tetap — dan nol tetap 0; pengayaan serta ekspor memakai versi keluarga tepat.
+
 Detail kuesioner mengikuti pembaca PESSE: satu blok ditampilkan utuh tanpa pagination, dengan area isi yang dapat digulir. Daftar anggota/usaha berada di luar area gulir agar tidak menutup jawaban; pada ponsel memakai pilihan yang dapat dicari. Panel atas dan sidebar dapat disembunyikan untuk memperluas area baca. Tombol Sebelumnya/Berikutnya berpindah blok; pilihan versi tersedia pada Informasi sumber di sidebar.
 
 Isi DTD menyesuaikan assignment keluarga atau BKU pada versi yang dipilih. Informasi usaha tetap tersedia untuk keduanya; blok anggota, pendidikan dan perumahan hanya tampil pada konteks keluarga. Nomor, penggunaan bangunan dan alamat membaca induk yang sesuai. Jika induknya belum dapat dipastikan, bagian terkait tetap tersedia dan jenis assignment ditandai belum pasti.
