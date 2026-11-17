@@ -8,6 +8,8 @@ Detail kuesioner mengikuti pembaca PESSE: satu blok ditampilkan utuh tanpa pagin
 
 Isi DTD menyesuaikan assignment keluarga atau BKU pada versi yang dipilih. Informasi usaha tetap tersedia untuk keduanya; blok anggota, pendidikan dan perumahan hanya tampil pada konteks keluarga. Nomor, penggunaan bangunan dan alamat membaca induk yang sesuai. Jika induknya belum dapat dipastikan, bagian terkait tetap tersedia dan jenis assignment ditandai belum pasti.
 
+Identitas wilayah menampilkan lokasi dari master assignment dengan keterangan sumber; timestamp master tidak dianggap versi jawaban. Nama SLS memakai referensi lokal 2025_2 saat kode lengkap cocok. Isian perubahan wilayah dan identitas/kontak pemberi informasi yang tidak ikut diekspor dikelompokkan dalam rincian yang dapat dibuka.
+
 ## Folder pengembangan
 
 Folder ini menjadi tempat mengembangkan aplikasi. Buka folder ini di editor; jalankan Git, backend, frontend dan tes dari sini.

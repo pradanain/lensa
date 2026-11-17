@@ -8,6 +8,7 @@ from fastapi import HTTPException
 from ..analytics.numeric import parse_decimal
 from ..common import q, timestamp
 from .database import census_connection
+from .sls_reference import SlsReference
 
 STATUSES = {
     "ANSWERED",
@@ -35,9 +36,28 @@ def mapping_variants(schema):
     return [schema, *(dict(schema, **variant) for variant in schema.get("source_variants", []))]
 
 
+def geography_value(schema, row):
+    column = schema["source_field"]
+    value = row.get(column)
+    transform = schema.get("value_transform")
+    if transform == "PROVINCE_FROM_REGENCY_CODE":
+        value = str(value)[:2] if re.fullmatch(r"[0-9]{4}", str(value or "")) else None
+    elif transform in {"ASSIGNMENT_SLS_CODE", "ASSIGNMENT_SLS_NAME"}:
+        sls, subsls = str(row.get("kode_sls") or ""), str(row.get("kode_subsls") or "")
+        if subsls:
+            if not re.fullmatch(r"[0-9]{16}", subsls) or (sls and subsls[:14] != sls):
+                return None, None, column, True
+            column = "kode_subsls" if transform == "ASSIGNMENT_SLS_CODE" else "subsls"
+        value = row.get(column)
+    label = row.get(schema.get("label_field")) if schema.get("label_field") else None
+    label = label or schema.get("reference_labels", {}).get(str(value))
+    return value, label, column, False
+
+
 class Questionnaires:
     def __init__(self, settings, references):
         self.settings, self.references = settings, references
+        self.sls_reference = SlsReference(settings.root, settings.sls_reference)
         folder = settings.root / "app/config/questionnaires"
         self.forms = {
             name: json.loads((folder / (name + ".json")).read_text(encoding="utf-8"))
@@ -69,6 +89,8 @@ class Questionnaires:
                                 raise ValueError("QUESTIONNAIRE_SCHEMA_DRIFT")
                             if field.get("label_field") and field["label_field"] not in self.schemas[sid]:
                                 raise ValueError("QUESTIONNAIRE_LABEL_DRIFT")
+                            if any(c not in self.schemas[sid] for c in field.get("context_fields", [])):
+                                raise ValueError("QUESTIONNAIRE_CONTEXT_DRIFT")
                             evidence = field["evidence"]
                             path = settings.root / evidence["sql_path"]
                             if evidence["sql_path"] not in verified:
@@ -115,6 +137,7 @@ class Questionnaires:
                         and (sensitive or not field.get("sensitive"))
                     ):
                         columns.add(field["source_field"])
+                        columns.update(field.get("context_fields", []))
                         if field.get("label_field"):
                             columns.add(field["label_field"])
                     rule = field.get("visibility_rule")
@@ -137,9 +160,25 @@ class Questionnaires:
             if (s["system"] == "TCZ") == (system == "ub") and s["grain"] != "assignment"
         ]
         with census_connection(self.settings) as con:
+            master_sid = "assignment_ub" if system == "ub" else "assignment_tgr"
+            master_columns = sorted(
+                set(self._columns(master_sid, can_sensitive))
+                | {
+                    "status_assignment",
+                    "status_kuesioner",
+                    "kecamatan",
+                    "desa_kelurahan",
+                    "kode_kecamatan",
+                    "kode_desa",
+                    "versi_root_terbaru",
+                    "assignment_date_modified",
+                }
+            )
             master = con.execute(
-                "SELECT assignment_id,status_assignment,status_kuesioner,kecamatan,desa_kelurahan,kode_kecamatan,kode_desa,versi_root_terbaru FROM "
-                + q("mart_assignment_ub" if system == "ub" else "mart_assignment_tgr")
+                "SELECT "
+                + ",".join(map(q, master_columns))
+                + " FROM "
+                + q("mart_" + master_sid)
                 + " WHERE assignment_id=?",
                 (assignment_id,),
             ).fetchone()
@@ -205,6 +244,7 @@ class Questionnaires:
                     other_keys[sid] = (key_columns, other)
                     if other:
                         other_versions.add(sid)
+        rows[master_sid] = [dict(master)]
         family_root = rows.get("keluarga", [])
         bku_root = rows.get("bku", [])
         family_modules = any(
@@ -360,6 +400,7 @@ class Questionnaires:
                         "unit",
                         "period",
                         "note",
+                        "source_version_scope",
                     ]
                 }
                 result.update(value=None, label=None, status="UNVERIFIED_MAPPING", parse_status=None)
@@ -418,10 +459,25 @@ class Questionnaires:
                     )
                     result["status"] = "BLANK_OR_MISSING"
                     if row:
-                        value = row.get(effective["source_field"])
-                        label = (
-                            row.get(effective.get("label_field")) if effective.get("label_field") else None
-                        )
+                        value, label, source_field, conflict = geography_value(effective, row)
+                        result["source_field"] = source_field
+                        if conflict:
+                            result.update(
+                                status="UNVERIFIED_MAPPING",
+                                source_conflict=True,
+                                note="Kode SLS dan SUB-SLS tidak sesuai.",
+                            )
+                            fields.append(result)
+                            continue
+                        if schema.get("value_transform") == "ASSIGNMENT_SLS_NAME":
+                            geography = self.sls_reference.describe(
+                                row.get("kode_sls"), row.get("kode_subsls")
+                            )
+                            if geography["sls_label"]:
+                                result["reference_label"] = geography["sls_label"]
+                                result["reference_period"] = geography["geography_reference_period"]
+                                if not present(value):
+                                    label = geography["sls_label"]
                         if present(value) or present(label):
                             result.update(
                                 value=str(value) if value is not None else None,
@@ -452,6 +508,11 @@ class Questionnaires:
                         result["provenance"] = {
                             k: row.get(k) for k in ["__source_sha256", "__batch_id", "__version_normalized"]
                         }
+                        if schema.get("source_version_scope") == "assignment":
+                            result["provenance"].pop("__version_normalized", None)
+                            result["provenance"]["assignment_date_modified"] = row.get(
+                                "assignment_date_modified"
+                            )
                     elif any(
                         has_other_version(
                             variant["source_object"].removeprefix("mart_"), variant.get("roster")
@@ -468,6 +529,8 @@ class Questionnaires:
                     title=section["title"],
                     questions=fields,
                     applicability=applicability(section.get("assignment_scope")),
+                    availability_note=section.get("availability_note"),
+                    collapse_not_exported=section.get("collapse_not_exported", False),
                 )
             )
         return dict(

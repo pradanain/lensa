@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[3]
 SQL_ROOT = ROOT / "app/sql/source_queries/02_Dataset_Siap_Analisis"
 
 SOURCE_FILES = {
+    "assignment_tgr": "../01_Master_Assignment/00_MASTER_ASSIGNMENT_TGR.sql",
     "keluarga": "Keluarga/01_master_keluarga.sql",
     "anggota": "Keluarga/04_anggota_keluarga.sql",
     "perumahan": "Keluarga/02_keluarga_perumahan.sql",
@@ -36,6 +37,63 @@ SOURCE_FILES = {
     "ub_b": "UB/09B_PEKERJA_EKONOMI_MODAL.sql",
     "ub_c": "UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
 }
+
+
+def review_dtd_geography(sections, schemas, proofs):
+    """Display proven assignment geography separately from unexported root answers."""
+    sql = (SQL_ROOT / SOURCE_FILES["assignment_tgr"]).resolve()
+    columns = {
+        "prov": ("kode_kabupaten", None),
+        "kab": ("kode_kabupaten", None),
+        "kec": ("kode_kecamatan", "kecamatan"),
+        "desa": ("kode_desa", "desa_kelurahan"),
+        "kode_sls": ("kode_sls", None),
+        "nama_sls": ("sls", None),
+    }
+    for section in sections:
+        if section["section_id"] not in {"b1_p", "ket_jawaban"}:
+            continue
+        section["collapse_not_exported"] = True
+        section["availability_note"] = (
+            "Wilayah mengikuti master assignment, bukan isian perubahan wilayah pada versi kuesioner."
+            if section["section_id"] == "b1_p"
+            else "Identitas dan kontak pemberi informasi tidak disertakan dalam ekspor lokal."
+        )
+        for field in section["questions"]:
+            key = field["template_key"]
+            if section["section_id"] == "ket_jawaban" or key not in columns:
+                field.update(mapping_status="NOT_EXPORTED", source_object=None, source_field=None)
+                field["note"] = "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
+                continue
+            column, label = columns[key]
+            context = ["kode_sls", "kode_subsls", "sls", "subsls"] if key in {"kode_sls", "nama_sls"} else []
+            for name in [column, label, *context]:
+                if name and (name not in schemas["assignment_tgr"] or name not in proofs["assignment_tgr"]):
+                    raise ValueError("UNPROVEN_ASSIGNMENT_GEOGRAPHY: " + name)
+            field.update(
+                source_object="mart_assignment_tgr",
+                source_field=column,
+                label_field=label,
+                mapping_status="VERIFIED",
+                source_version_scope="assignment",
+                context_fields=context,
+                evidence=dict(
+                    sql_path=sql.relative_to(ROOT).as_posix(),
+                    sql_sha256=hashlib.sha256(sql.read_bytes()).hexdigest(),
+                    expression=proofs["assignment_tgr"][column],
+                    reference="Assignment geography; operational timestamp is not questionnaire version",
+                ),
+            )
+            if key == "prov":
+                field.update(
+                    value_transform="PROVINCE_FROM_REGENCY_CODE", reference_labels={"65": "Kalimantan Utara"}
+                )
+            elif key == "kab":
+                field["reference_labels"] = {"6502": "Bulungan"}
+            elif key in {"kode_sls", "nama_sls"}:
+                field["value_transform"] = (
+                    "ASSIGNMENT_SLS_CODE" if key == "kode_sls" else "ASSIGNMENT_SLS_NAME"
+                )
 
 
 def review_dtd_assignment_scopes(sections, schemas, proofs):
@@ -539,6 +597,7 @@ def build():
         dtd.append(dict(section_id=section["section_key"], title=section["section_label"], questions=fields))
 
     review_dtd_assignment_scopes(dtd, schemas, proofs)
+    review_dtd_geography(dtd, schemas, proofs)
     ub = []
     groups = [
         ("ub_i_1", "Blok I · Identitas perusahaan (r1–9)", 1),

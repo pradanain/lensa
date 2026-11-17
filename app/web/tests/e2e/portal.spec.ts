@@ -1046,3 +1046,27 @@ test('questionnaire scope changes with the exact version without keeping the old
   await expect(page.getByRole('heading',{name:'Nama Kepala Keluarga (KK) responden',exact:true})).toHaveCount(0)
   expect(page.url()).not.toContain('member=')
 })
+
+test('geography shows assignment values and informant fields explain export coverage',async({page})=>{
+  for(const aid of ['DTD-0002','DTD-0003']){
+    await page.goto('http://127.0.0.1:8769/questionnaire/dtd/'+aid+'?block=b1_p')
+    await expect(page.locator('.form-availability-note')).toContainText('Wilayah mengikuti master assignment')
+    const values=['65 · Kalimantan Utara','6502 · Bulungan','6502010 · KECAMATAN SINTETIS','6502010001 · DESA SINTETIS','6502010001000101','RT 001 / RW 002']
+    await expect(page.locator('.form-block-body > .question-list .answer > p')).toHaveText(values)
+    const unavailable=page.locator('.form-unavailable-fields')
+    await expect(unavailable).not.toHaveAttribute('open','')
+    await expect(unavailable.locator('summary')).toHaveText('Isian yang tidak disertakan (8)')
+    await expect(page.getByRole('heading',{name:'Apakah Terdapat Perubahan Wilayah?',exact:true})).toHaveCount(0)
+    await unavailable.locator('summary').click()
+    await expect(page.getByRole('heading',{name:'Apakah Terdapat Perubahan Wilayah?',exact:true})).toBeVisible()
+    await unavailable.locator('summary').click()
+    await page.screenshot({path:'../../docs/reports/app/screenshots/questionnaire-geography-'+aid+'-synthetic.png',fullPage:false})
+    await selectValue(page,'Lompat ke bagian','ket_jawaban')
+    await expect(page.locator('.form-availability-note')).toHaveText('Identitas dan kontak pemberi informasi tidak disertakan dalam ekspor lokal.')
+    await expect(page.locator('.form-block-body > .question-list')).toHaveCount(0)
+    await expect(page.locator('.form-unavailable-fields summary')).toHaveText('Isian yang tidak disertakan (4)')
+    await page.locator('.form-unavailable-fields summary').click()
+    await expect(page.getByRole('heading',{name:'Nama Pemberi Informasi',exact:true})).toBeVisible()
+    await expect(page.locator('.pagination')).toHaveCount(0)
+  }
+})

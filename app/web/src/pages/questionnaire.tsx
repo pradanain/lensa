@@ -122,6 +122,7 @@ function QuestionnaireContent() {
       <div className="card form-stage" ref={stage} tabIndex={0} aria-label={section.title} onScroll={event => scrollPositions.current.set(scrollKey, event.currentTarget.scrollTop)}>
         <div className="question-section-head"><span className="block-symbol">{description?.badge || <BookOpen size={18}/>}</span><div><h2>{section.title}</h2>{description && <p>{description.description}{records.length ? ' · ' + records.length + ' ' + (recordKind === 'members' ? 'ART' : recordLabel) : ''}</p>}</div></div>
         <div className="form-block-body">
+          {section.availability_note && <p className="form-availability-note">{section.availability_note}</p>}
           {form.truncated_rosters.length > 0 && <Notice tone="warning">Pilihan dibatasi 1.000 item per modul.</Notice>}
           {rootFields.length > 0 && <QuestionFields fields={rootFields}/>}
           {recordKind && records.length > 0 ? <div className="form-roster-workspace">
@@ -133,7 +134,7 @@ function QuestionnaireContent() {
               {offices.length > 0 && <label className="form-office-picker">Pilih kantor/unit<SearchSelect aria-label="Roster kantor" value={form.selections.offices || ''} onValueChange={office => select({office})}>{offices.map(item => <option key={item.index} value={item.index}>{item.index} · {item.label}</option>)}</SearchSelect></label>}
               <QuestionFields fields={recordFields}/>
             </div>
-          </div> : <QuestionFields fields={recordFields}/>}
+          </div> : <QuestionFields fields={recordFields} collapseNotExported={section.collapse_not_exported}/>}
         </div>
       </div>
       <nav className="section-navigation" aria-label="Pindah bagian"><Button variant="outline" disabled={sectionIndex <= 0} onClick={() => select({block: sections[sectionIndex - 1].section_id})}><ChevronLeft size={16}/>Sebelumnya</Button><span>Pilih blok atau gulir untuk membaca</span><Button disabled={sectionIndex >= sections.length - 1} onClick={() => select({block: sections[sectionIndex + 1].section_id})}>Berikutnya<ChevronRight size={16}/></Button></nav>
@@ -145,17 +146,23 @@ const periodLabels: Record<string, string> = {ANNUAL_2025: 'Tahun 2025', LAST_MO
 const missingAnswers: Record<string, string> = {BLANK_OR_MISSING: 'Belum terisi', SKIPPED_NOT_APPLICABLE: 'Tidak berlaku', NOT_EXPORTED: 'Tidak ada dalam data', UNMATCHED_VERSION: 'Ada di versi lain', UNVERIFIED_MAPPING: 'Jawaban belum dapat ditampilkan', RESTRICTED: 'Akses terbatas'}
 const presentationOnlyQuestions = new Set(['blokl.pilih_umkm_sls', 'blokl.alamat_usaha_view'])
 
-function QuestionFields({fields}: {fields: Question[]}) {
+function QuestionFields({fields, collapseNotExported = false}: {fields: Question[]; collapseNotExported?: boolean}) {
   const questions = fields.filter(field => field.applicability !== 'NOT_APPLICABLE' && (!presentationOnlyQuestions.has(field.question_id) || field.status !== 'UNVERIFIED_MAPPING'))
   if (!questions.length) return null
+  const unavailable = questions.filter(field => field.status === 'NOT_EXPORTED')
+  if (collapseNotExported && unavailable.length) return <>
+    <QuestionFields fields={questions.filter(field => field.status !== 'NOT_EXPORTED')}/>
+    <details className="form-unavailable-fields"><summary>Isian yang tidak disertakan ({unavailable.length})</summary><QuestionFields fields={unavailable}/></details>
+  </>
   return <div className="question-list">{questions.map(field => {
     const context = [periodLabels[field.period || ''], field.unit === 'SOURCE_UNIT_UNVERIFIED' ? 'Satuan belum terverifikasi' : field.unit === 'SOURCE_COUNT' ? 'Jumlah' : field.unit].filter(Boolean).join(' / ')
     const labelHasCode = field.value && field.label && (field.label === field.value || field.label.startsWith(field.value + '.') || field.label.startsWith(field.value + ' '))
+    const referenceName = field.question_id === 'b1_p.nama_sls' ? field.reference_label : undefined
     return <div className="question-row" key={field.question_id}>
       <div className="question-label"><h3>{field.question_text}</h3></div>
       <div className="answer">{field.status === 'ANSWERED' ? <>
-        <p className={field.converter === 'decimal' ? 'numeric-answer' : ''}>{field.label && field.value && !labelHasCode ? field.value + ' · ' + field.label : field.label || field.value || '—'}</p>
-        {field.reference_label && <p className="reference-answer">{field.reference_label}</p>}
+        <p className={field.converter === 'decimal' ? 'numeric-answer' : ''}>{referenceName || (field.label && field.value && !labelHasCode ? field.value + ' · ' + field.label : field.label || field.value || '—')}</p>
+        {field.reference_label && !referenceName && <p className="reference-answer">{field.reference_label}</p>}
         {field.parse_status && field.parse_status !== 'VALID' && <p className="parse-warning">Format angka perlu diperiksa.</p>}
         {context && <small className="answer-context">{context}</small>}
       </> : <p className="unavailable-answer answer-state">{field.source_conflict ? 'Jawaban berbeda antar sumber' : missingAnswers[field.status] || missingAnswers.UNVERIFIED_MAPPING}</p>}</div>

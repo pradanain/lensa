@@ -157,57 +157,100 @@
           "question_id": "b1_p.prov",
           "question_text": "1. Provinsi",
           "template_key": "prov",
-          "source_object": null,
-          "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "source_object": "mart_assignment_tgr",
+          "source_field": "kode_kabupaten",
+          "mapping_status": "VERIFIED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "label_field": null,
+          "source_version_scope": "assignment",
+          "context_fields": [],
+          "evidence": {
+            "sql_path": "app/sql/source_queries/01_Master_Assignment/00_MASTER_ASSIGNMENT_TGR.sql",
+            "sql_sha256": "f553e618051f1c4326d7017a7333029fcaf92adfd2c96b4f93d6ac645225ed34",
+            "expression": "m.`kode_kabupaten`",
+            "reference": "Assignment geography; operational timestamp is not questionnaire version"
+          },
+          "value_transform": "PROVINCE_FROM_REGENCY_CODE",
+          "reference_labels": {
+            "65": "Kalimantan Utara"
+          }
         },
         {
           "question_id": "b1_p.kab",
           "question_text": "2. Kabupaten/Kota",
           "template_key": "kab",
-          "source_object": null,
-          "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "source_object": "mart_assignment_tgr",
+          "source_field": "kode_kabupaten",
+          "mapping_status": "VERIFIED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "label_field": null,
+          "source_version_scope": "assignment",
+          "context_fields": [],
+          "evidence": {
+            "sql_path": "app/sql/source_queries/01_Master_Assignment/00_MASTER_ASSIGNMENT_TGR.sql",
+            "sql_sha256": "f553e618051f1c4326d7017a7333029fcaf92adfd2c96b4f93d6ac645225ed34",
+            "expression": "m.`kode_kabupaten`",
+            "reference": "Assignment geography; operational timestamp is not questionnaire version"
+          },
+          "reference_labels": {
+            "6502": "Bulungan"
+          }
         },
         {
           "question_id": "b1_p.kec",
           "question_text": "3. Kecamatan",
           "template_key": "kec",
-          "source_object": null,
-          "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "source_object": "mart_assignment_tgr",
+          "source_field": "kode_kecamatan",
+          "mapping_status": "VERIFIED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "label_field": "kecamatan",
+          "source_version_scope": "assignment",
+          "context_fields": [],
+          "evidence": {
+            "sql_path": "app/sql/source_queries/01_Master_Assignment/00_MASTER_ASSIGNMENT_TGR.sql",
+            "sql_sha256": "f553e618051f1c4326d7017a7333029fcaf92adfd2c96b4f93d6ac645225ed34",
+            "expression": "m.`kode_kecamatan`",
+            "reference": "Assignment geography; operational timestamp is not questionnaire version"
+          }
         },
         {
           "question_id": "b1_p.desa",
           "question_text": "4. Desa/Kelurahan",
           "template_key": "desa",
-          "source_object": null,
-          "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "source_object": "mart_assignment_tgr",
+          "source_field": "kode_desa",
+          "mapping_status": "VERIFIED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "label_field": "desa_kelurahan",
+          "source_version_scope": "assignment",
+          "context_fields": [],
+          "evidence": {
+            "sql_path": "app/sql/source_queries/01_Master_Assignment/00_MASTER_ASSIGNMENT_TGR.sql",
+            "sql_sha256": "f553e618051f1c4326d7017a7333029fcaf92adfd2c96b4f93d6ac645225ed34",
+            "expression": "m.`kode_desa`",
+            "reference": "Assignment geography; operational timestamp is not questionnaire version"
+          }
         },
         {
           "question_id": "b1_p.ubah_wilayah",
@@ -215,13 +258,14 @@
           "template_key": "ubah_wilayah",
           "source_object": null,
           "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "mapping_status": "NOT_EXPORTED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
         },
         {
           "question_id": "b1_p.kab_baru",
@@ -229,13 +273,14 @@
           "template_key": "kab_baru",
           "source_object": null,
           "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "mapping_status": "NOT_EXPORTED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
         },
         {
           "question_id": "b1_p.kec_baru",
@@ -243,13 +288,14 @@
           "template_key": "kec_baru",
           "source_object": null,
           "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "mapping_status": "NOT_EXPORTED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
         },
         {
           "question_id": "b1_p.desa_baru",
@@ -257,13 +303,14 @@
           "template_key": "desa_baru",
           "source_object": null,
           "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "mapping_status": "NOT_EXPORTED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
         },
         {
           "question_id": "b1_p.klas_desa",
@@ -271,41 +318,72 @@
           "template_key": "klas_desa",
           "source_object": null,
           "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "mapping_status": "NOT_EXPORTED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
         },
         {
           "question_id": "b1_p.kode_sls",
           "question_text": "6. Kode SLS/Non-SLS/Sub-SLS",
           "template_key": "kode_sls",
-          "source_object": null,
-          "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "source_object": "mart_assignment_tgr",
+          "source_field": "kode_sls",
+          "mapping_status": "VERIFIED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "label_field": null,
+          "source_version_scope": "assignment",
+          "context_fields": [
+            "kode_sls",
+            "kode_subsls",
+            "sls",
+            "subsls"
+          ],
+          "evidence": {
+            "sql_path": "app/sql/source_queries/01_Master_Assignment/00_MASTER_ASSIGNMENT_TGR.sql",
+            "sql_sha256": "f553e618051f1c4326d7017a7333029fcaf92adfd2c96b4f93d6ac645225ed34",
+            "expression": "m.`kode_sls`",
+            "reference": "Assignment geography; operational timestamp is not questionnaire version"
+          },
+          "value_transform": "ASSIGNMENT_SLS_CODE"
         },
         {
           "question_id": "b1_p.nama_sls",
           "question_text": "7. Nama SLS/Non-SLS",
           "template_key": "nama_sls",
-          "source_object": null,
-          "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "source_object": "mart_assignment_tgr",
+          "source_field": "sls",
+          "mapping_status": "VERIFIED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "label_field": null,
+          "source_version_scope": "assignment",
+          "context_fields": [
+            "kode_sls",
+            "kode_subsls",
+            "sls",
+            "subsls"
+          ],
+          "evidence": {
+            "sql_path": "app/sql/source_queries/01_Master_Assignment/00_MASTER_ASSIGNMENT_TGR.sql",
+            "sql_sha256": "f553e618051f1c4326d7017a7333029fcaf92adfd2c96b4f93d6ac645225ed34",
+            "expression": "m.`sls`",
+            "reference": "Assignment geography; operational timestamp is not questionnaire version"
+          },
+          "value_transform": "ASSIGNMENT_SLS_NAME"
         },
         {
           "question_id": "b1_p.ubah_sls",
@@ -313,13 +391,14 @@
           "template_key": "ubah_sls",
           "source_object": null,
           "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "mapping_status": "NOT_EXPORTED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
         },
         {
           "question_id": "b1_p.nama_sls_lap",
@@ -327,13 +406,14 @@
           "template_key": "nama_sls_lap",
           "source_object": null,
           "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "mapping_status": "NOT_EXPORTED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
         },
         {
           "question_id": "b1_p.kodepos",
@@ -341,16 +421,19 @@
           "template_key": "kodepos",
           "source_object": null,
           "source_field": null,
-          "mapping_status": "UNVERIFIED",
+          "mapping_status": "NOT_EXPORTED",
           "converter": "text",
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
         }
       ],
-      "assignment_scope": "common"
+      "assignment_scope": "common",
+      "collapse_not_exported": true,
+      "availability_note": "Wilayah mengikuti master assignment, bukan isian perubahan wilayah pada versi kuesioner."
     },
     {
       "section_id": "b5",
@@ -6734,7 +6817,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
         },
         {
           "question_id": "ket_jawaban.nama_lain",
@@ -6748,7 +6832,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
         },
         {
           "question_id": "ket_jawaban.telp_info",
@@ -6762,7 +6847,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
         },
         {
           "question_id": "ket_jawaban.email_info",
@@ -6776,10 +6862,13 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
         }
       ],
-      "assignment_scope": "common"
+      "assignment_scope": "common",
+      "collapse_not_exported": true,
+      "availability_note": "Identitas dan kontak pemberi informasi tidak disertakan dalam ekspor lokal."
     },
     {
       "section_id": "cat",
