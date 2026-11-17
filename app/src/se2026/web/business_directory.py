@@ -19,6 +19,19 @@ def coordinates(latitude, longitude):
         return None
 
 
+def map_link_coordinates(value):
+    """Read a coordinate pair from an exported Google Maps link, without network access."""
+    try:
+        link = urlsplit(str(value or ""))
+    except ValueError:
+        return None
+    if link.scheme == "https" and link.hostname == "www.google.com" and link.path == "/maps/search/":
+        query = parse_qs(link.query).get("query", [])
+        if len(query) == 1 and len(query[0].split(",")) == 2:
+            return coordinates(*query[0].split(","))
+    return None
+
+
 def enrich_businesses(settings, rows, role):
     if not rows:
         return rows
@@ -50,7 +63,7 @@ def enrich_businesses(settings, rows, role):
             ub[item["assignment_id"]].append(dict(item))
     for row in rows:
         row.update(person_in_charge=None, family_head=None, map_coordinates=None)
-        row['map_provenance'] = 'QUESTIONNAIRE_ROOT_TAG' if row['source']=='dtd' else 'UB_EXPORTED_MAP_LINK'
+        row["map_provenance"] = "QUESTIONNAIRE_ROOT_TAG" if row["source"] == "dtd" else "UB_EXPORTED_MAP_LINK"
         if row["source"] == "dtd":
             matches = businesses[(row["assignment_id"], row["version"], row["index1"])]
             if len(matches) == 1:
@@ -66,15 +79,7 @@ def enrich_businesses(settings, rows, role):
             row["person_in_charge"] = item["nama_penanggung_jawab"] or None
             if sensitive:
                 # Decode the already-exported coordinate pair, without resolving a URL.
-                link = urlsplit(str(item["link_google_maps"] or ""))
-                if (
-                    link.scheme == "https"
-                    and link.hostname == "www.google.com"
-                    and link.path == "/maps/search/"
-                ):
-                    query = parse_qs(link.query).get("query", [])
-                    if len(query) == 1 and len(query[0].split(",")) == 2:
-                        row["map_coordinates"] = coordinates(*query[0].split(","))
+                row["map_coordinates"] = map_link_coordinates(item["link_google_maps"])
         row["map_status"] = (
             "AVAILABLE" if row["map_coordinates"] else "UNAVAILABLE" if sensitive else "RESTRICTED"
         )

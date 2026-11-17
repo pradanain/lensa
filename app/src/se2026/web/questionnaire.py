@@ -7,6 +7,7 @@ from fastapi import HTTPException
 
 from ..analytics.numeric import parse_decimal
 from ..common import q, timestamp
+from .business_directory import coordinates, map_link_coordinates
 from .database import census_connection
 from .sls_reference import SlsReference
 
@@ -34,6 +35,36 @@ def choice_code(value):
 
 def mapping_variants(schema):
     return [schema, *(dict(schema, **variant) for variant in schema.get("source_variants", []))]
+
+
+def template_choice_label(schema, value, source_label):
+    # A genuine source label takes priority over the template fallback.
+    if present(source_label) and str(source_label).strip() != str(value).strip():
+        return source_label, "SOURCE"
+    choices = schema.get("choices", {})
+    text = str(value).strip()
+    if text in choices:
+        return choices[text], "TEMPLATE"
+    if text in choices.values():
+        return text, "SOURCE"
+    if choices and present(value):
+        codes = []
+        if text.startswith("["):
+            try:
+                parsed = json.loads(text)
+                if isinstance(parsed, list):
+                    codes = [str(v.get("value")) if isinstance(v, dict) else str(v) for v in parsed]
+            except (ValueError, TypeError):
+                pass
+        elif "," in text:
+            codes = [v.strip() for v in text.split(",")]
+        if codes and all(code in choices for code in codes):
+            return "; ".join(choices[code] for code in codes), "TEMPLATE_MULTI"
+        # Descriptive source text is already readable; only unresolved code tokens need a caveat.
+        return source_label, "UNRECOGNIZED_CODE" if re.fullmatch(
+            r"(?:[0-9]+[A-Za-z]*|[A-Z])", text
+        ) else "SOURCE_TEXT"
+    return source_label, None
 
 
 def geography_value(schema, row):
@@ -126,6 +157,11 @@ class Questionnaires:
         }.get(name)
         if roster_label:
             columns.add(roster_label)
+        if sensitive:
+            if name in {"keluarga", "bku", "usaha"}:
+                columns.update({"geotag_latitude", "geotag_longitude"})
+            elif name == "ub_a":
+                columns.add("link_google_maps")
         for form in self.forms.values():
             for section in form["sections"]:
                 for field in (
@@ -383,6 +419,51 @@ class Questionnaires:
                 for row in candidates
             )
 
+        def location_for(sources, roster=None):
+            if not can_sensitive:
+                return dict(status="RESTRICTED")
+            if any(len(rows.get(sid, [])) > 1 for sid in sources if not roster):
+                return dict(status="SOURCE_CONFLICT")
+            if roster == "businesses" and any(
+                sum(str(row.get("index1")) == selections["businesses"] for row in rows.get(sid, [])) > 1
+                for sid in sources
+            ):
+                return dict(status="SOURCE_CONFLICT")
+            candidates = [(sid, selected(sid, roster)) for sid in sources]
+            found = []
+            for sid, row in candidates:
+                if row is None:
+                    continue
+                point = (
+                    map_link_coordinates(row.get("link_google_maps"))
+                    if sid == "ub_a"
+                    else coordinates(row.get("geotag_latitude"), row.get("geotag_longitude"))
+                )
+                if point:
+                    found.append((sid, row, point))
+            if len({(Decimal(p["latitude"]), Decimal(p["longitude"])) for _, _, p in found}) > 1:
+                return dict(status="SOURCE_CONFLICT")
+            if found:
+                sid, row, point = found[0]
+                return dict(
+                    status="AVAILABLE",
+                    **point,
+                    source_object="mart_" + sid,
+                    provenance="UB_EXPORTED_MAP_LINK" if sid == "ub_a" else "QUESTIONNAIRE_ROOT_TAG",
+                )
+            return dict(
+                status="UNMATCHED_VERSION"
+                if not any(row is not None for _, row in candidates)
+                and any(has_other_version(sid, roster) for sid in sources)
+                else "UNAVAILABLE"
+            )
+
+        locations = dict(
+            root=location_for(["ub_a"] if system == "ub" else ["keluarga", "bku"]),
+            business=location_for(
+                ["ub_a"] if system == "ub" else ["usaha"], None if system == "ub" else "businesses"
+            ),
+        )
         rendered = []
         for section in form["sections"]:
             fields = []
@@ -401,6 +482,7 @@ class Questionnaires:
                         "period",
                         "note",
                         "source_version_scope",
+                        "display_format",
                     ]
                 }
                 result.update(value=None, label=None, status="UNVERIFIED_MAPPING", parse_status=None)
@@ -460,6 +542,8 @@ class Questionnaires:
                     result["status"] = "BLANK_OR_MISSING"
                     if row:
                         value, label, source_field, conflict = geography_value(effective, row)
+                        label, label_status = template_choice_label(effective, value, label)
+                        result["label_status"] = label_status
                         result["source_field"] = source_field
                         if conflict:
                             result.update(
@@ -537,6 +621,7 @@ class Questionnaires:
             form=system,
             assignment=dict(master),
             assignment_context=assignment_context,
+            locations=locations,
             version=version,
             available_versions=sorted(versions, reverse=True),
             selections=selections,

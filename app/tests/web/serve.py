@@ -15,7 +15,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from se2026.web.main import create_app
 from se2026.web.security import hasher
 from se2026.web.settings import Settings
-from synthetic import make_database, prepare_questionnaire_scope_cases
+from synthetic import (
+    make_database,
+    prepare_questionnaire_presentation_cases,
+    prepare_questionnaire_scope_cases,
+)
 
 
 def main():
@@ -33,6 +37,7 @@ def main():
     if args.questionnaire_scopes:
         with sqlite3.connect(census) as con:
             prepare_questionnaire_scope_cases(con)
+            prepare_questionnaire_presentation_cases(con)
     settings = Settings(
         root=ROOT,
         census_db=census,

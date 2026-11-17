@@ -18,7 +18,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "b0.kunjungan_1",
@@ -32,7 +33,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "b0.catatan_1",
@@ -46,7 +48,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "b0.kunjungan_2",
@@ -60,7 +63,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "b0.catatan_2",
@@ -74,7 +78,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "b0.kunjungan_3",
@@ -88,7 +93,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "b0.alasan_nr",
@@ -102,7 +108,14 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Tidak dapat ditemui",
+            "2": "2. Menolak",
+            "3": "3. Lanjutkan pendataan"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b0.catatan_3",
@@ -116,7 +129,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "b0.kunjungan_pml",
@@ -130,7 +144,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "b0.catatan_pml",
@@ -144,7 +159,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         }
       ],
       "assignment_scope": "common"
@@ -178,7 +194,8 @@
           "value_transform": "PROVINCE_FROM_REGENCY_CODE",
           "reference_labels": {
             "65": "Kalimantan Utara"
-          }
+          },
+          "display_format": "text"
         },
         {
           "question_id": "b1_p.kab",
@@ -204,7 +221,8 @@
           },
           "reference_labels": {
             "6502": "Bulungan"
-          }
+          },
+          "display_format": "text"
         },
         {
           "question_id": "b1_p.kec",
@@ -227,7 +245,8 @@
             "sql_sha256": "f553e618051f1c4326d7017a7333029fcaf92adfd2c96b4f93d6ac645225ed34",
             "expression": "m.`kode_kecamatan`",
             "reference": "Assignment geography; operational timestamp is not questionnaire version"
-          }
+          },
+          "display_format": "text"
         },
         {
           "question_id": "b1_p.desa",
@@ -250,7 +269,8 @@
             "sql_sha256": "f553e618051f1c4326d7017a7333029fcaf92adfd2c96b4f93d6ac645225ed34",
             "expression": "m.`kode_desa`",
             "reference": "Assignment geography; operational timestamp is not questionnaire version"
-          }
+          },
+          "display_format": "text"
         },
         {
           "question_id": "b1_p.ubah_wilayah",
@@ -265,7 +285,13 @@
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
           "assignment_scope": "common",
-          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia.",
+          "choices": {
+            "1": "Ya",
+            "2": "Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b1_p.kab_baru",
@@ -280,7 +306,8 @@
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
           "assignment_scope": "common",
-          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia.",
+          "display_format": "text"
         },
         {
           "question_id": "b1_p.kec_baru",
@@ -295,7 +322,8 @@
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
           "assignment_scope": "common",
-          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia.",
+          "display_format": "text"
         },
         {
           "question_id": "b1_p.desa_baru",
@@ -310,7 +338,8 @@
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
           "assignment_scope": "common",
-          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia.",
+          "display_format": "text"
         },
         {
           "question_id": "b1_p.klas_desa",
@@ -325,7 +354,8 @@
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
           "assignment_scope": "common",
-          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia.",
+          "display_format": "text"
         },
         {
           "question_id": "b1_p.kode_sls",
@@ -354,7 +384,8 @@
             "expression": "m.`kode_sls`",
             "reference": "Assignment geography; operational timestamp is not questionnaire version"
           },
-          "value_transform": "ASSIGNMENT_SLS_CODE"
+          "value_transform": "ASSIGNMENT_SLS_CODE",
+          "display_format": "text"
         },
         {
           "question_id": "b1_p.nama_sls",
@@ -383,7 +414,8 @@
             "expression": "m.`sls`",
             "reference": "Assignment geography; operational timestamp is not questionnaire version"
           },
-          "value_transform": "ASSIGNMENT_SLS_NAME"
+          "value_transform": "ASSIGNMENT_SLS_NAME",
+          "display_format": "text"
         },
         {
           "question_id": "b1_p.ubah_sls",
@@ -398,7 +430,13 @@
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
           "assignment_scope": "common",
-          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia.",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b1_p.nama_sls_lap",
@@ -413,7 +451,8 @@
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
           "assignment_scope": "common",
-          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia.",
+          "display_format": "text"
         },
         {
           "question_id": "b1_p.kodepos",
@@ -428,7 +467,8 @@
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
           "assignment_scope": "common",
-          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia.",
+          "display_format": "text"
         }
       ],
       "assignment_scope": "common",
@@ -459,7 +499,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "bku"
+          "assignment_scope": "bku",
+          "display_format": "text"
         },
         {
           "question_id": "b5.no_kk",
@@ -481,7 +522,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b5.nik",
@@ -503,7 +545,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b5.nama_kk",
@@ -525,7 +568,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b5.nama_ak_lain",
@@ -539,7 +583,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b5.jumlah_usaha_prelist",
@@ -561,7 +606,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b5.ada_keluarga",
@@ -583,7 +629,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b5.ada_bang_usaha",
@@ -605,7 +652,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "bku"
+          "assignment_scope": "bku",
+          "display_format": "text"
         },
         {
           "question_id": "b5.alamat_prelist",
@@ -629,7 +677,8 @@
           },
           "exported_scopes": [
             "bku"
-          ]
+          ],
+          "display_format": "text"
         },
         {
           "question_id": "b5.jalan_domisili",
@@ -664,7 +713,8 @@
             }
           ],
           "note": "Alamat keluarga mengikuti COALESCE alamat hasil pendataan/jalan/prelist pada SQL sumber.",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "b5.nomor_domisili",
@@ -678,7 +728,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "b5.domisili",
@@ -692,7 +743,13 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya Sesuai KK",
+            "2": "2. Tidak Sesuai KK"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b5.daftar_kp",
@@ -706,7 +763,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "bku"
+          "assignment_scope": "bku",
+          "display_format": "text"
         },
         {
           "question_id": "b5.no_bang",
@@ -741,7 +799,8 @@
               }
             }
           ],
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "b5.kode_bang",
@@ -776,7 +835,8 @@
               }
             }
           ],
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "b5.no_banr",
@@ -790,7 +850,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "b5.jumlah_ak_kk",
@@ -812,7 +873,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b5.jumlah_ak",
@@ -834,7 +896,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b5.usaha_kos",
@@ -856,7 +919,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b5.usaha_keliling",
@@ -878,7 +947,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b5.usaha_online",
@@ -900,7 +975,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b5.usaha_bongkar",
@@ -922,7 +1003,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b5.usaha_konstruksi",
@@ -944,7 +1031,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b5.usaha_lain",
@@ -966,7 +1059,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b5.tanaman_pangan",
@@ -988,7 +1087,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b5.hortikultura",
@@ -1010,7 +1115,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b5.perkebunan",
@@ -1032,7 +1143,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b5.peternakan",
@@ -1054,7 +1171,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b5.kehutanan",
@@ -1076,7 +1199,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b5.perikanan",
@@ -1098,7 +1227,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b5.jasa_pertanian",
@@ -1120,7 +1255,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         }
       ],
       "assignment_scope": "common"
@@ -1149,7 +1290,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.nama_dtsen",
@@ -1171,7 +1313,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.nik_dtsen",
@@ -1193,7 +1336,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.hubungan",
@@ -1215,7 +1359,20 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Kepala Keluarga",
+            "2": "2. Istri/Suami",
+            "3": "3. Anak",
+            "4": "4. Menantu",
+            "5": "5. Cucu",
+            "6": "6. Orang Tua",
+            "7": "7. Mertua",
+            "8": "8. Famili",
+            "9": "9. Lainnya"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.keberadaan_dtsen",
@@ -1237,7 +1394,18 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Tinggal di rumah/tempat tinggal ini",
+            "2": "2. Meninggal",
+            "3": "3. Tidak tinggal bersama keluarga/pindah ke wilayah/daerah lain di Indonesia",
+            "4": "4. Tidak tinggal bersama keluarga/pindah ke luar negeri",
+            "5": "5. Anggota keluarga baru",
+            "6": "6. Sudah pisah KK",
+            "7": "7. Tidak ditemukan/Tidak dikenal"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.alamat_dn",
@@ -1251,7 +1419,15 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Sesuai KK dan KTP",
+            "2": "2. Hanya sesuai KK",
+            "3": "3. Hanya sesuai KTP",
+            "4": "4. Tidak sesuai KK dan KTP"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.prov_dn",
@@ -1273,7 +1449,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.kab_dn",
@@ -1295,7 +1472,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.domisili_ln",
@@ -1317,7 +1495,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.status_kawin",
@@ -1339,7 +1518,15 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Belum kawin",
+            "2": "2. Kawin/nikah",
+            "3": "3. Cerai hidup",
+            "4": "4. Cerai mati"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.jk_dtsen",
@@ -1361,7 +1548,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Laki-laki",
+            "2": "2. Perempuan"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.tgl_lahir",
@@ -1383,7 +1576,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.bln_lahir",
@@ -1405,7 +1599,24 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "01": "01 - JANUARI",
+            "02": "02 - FEBRUARI",
+            "03": "03 - MARET",
+            "04": "04 - APRIL",
+            "05": "05 - MEI",
+            "06": "06 - JUNI",
+            "07": "07 - JULI",
+            "08": "08 - AGUSTUS",
+            "09": "09 - SEPTEMBER",
+            "10": "10 - OKTOBER",
+            "11": "11 - NOVEMBER",
+            "12": "12 - DESEMBER",
+            "98": "98 - TIDAK TAHU"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.thn_lahir",
@@ -1427,7 +1638,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.umur_ak",
@@ -1449,7 +1661,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_ak.art_ada_usaha",
@@ -1471,7 +1684,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "Ya",
+            "2": "Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.usaha_tinggal_ak",
@@ -1485,7 +1704,13 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.usaha_keliling_ak",
@@ -1499,7 +1724,13 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.usaha_bongkar_ak",
@@ -1513,7 +1744,13 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.usaha_konstruksi_ak",
@@ -1527,7 +1764,13 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.usaha_sewa_ak",
@@ -1541,7 +1784,13 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.usaha_tanaman_ak",
@@ -1555,7 +1804,13 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.usaha_hortikultura_ak",
@@ -1569,7 +1824,13 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.usaha_perkebunan_ak",
@@ -1583,7 +1844,13 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.usaha_peternakan_ak",
@@ -1597,7 +1864,13 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.usaha_kehutanan_ak",
@@ -1611,7 +1884,13 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.usaha_perikanan_ak",
@@ -1625,7 +1904,13 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak.usaha_jasa_tani_ak",
@@ -1639,7 +1924,13 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         }
       ],
       "assignment_scope": "family",
@@ -1661,7 +1952,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.no_bang_l",
@@ -1683,7 +1975,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.no_usaha",
@@ -1705,7 +1998,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.nama_usaha",
@@ -1727,7 +2021,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.keberadaan_usaha",
@@ -1749,7 +2044,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.nama_komersial",
@@ -1771,7 +2067,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.alamat_usaha_view",
@@ -1785,7 +2082,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.alamat_usaha_var",
@@ -1807,7 +2105,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.rt",
@@ -1821,7 +2120,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.rw",
@@ -1835,7 +2135,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.kode_area",
@@ -1849,7 +2150,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.no_telp",
@@ -1871,7 +2173,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.eks",
@@ -1885,7 +2188,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.email",
@@ -1907,7 +2211,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.hp",
@@ -1929,7 +2234,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.website",
@@ -1951,7 +2257,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.jenis_kawasan",
@@ -1973,7 +2280,21 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "01": "1. Kawasan Ekonomi Khusus (KEK)",
+            "02": "2. Kawasan Industri (KI)",
+            "03": "3. Stasiun",
+            "04": "4. Bandara",
+            "05": "5. Pelabuhan",
+            "06": "6. Terminal",
+            "07": "7. Rest area jalan tol",
+            "08": "8. Kawasan sentra ekonomi perdesaan/kelurahan",
+            "09": "9. Kawasan usaha lainnya",
+            "10": "10. Di luar kawasan"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.nama_kek_ki",
@@ -1995,7 +2316,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.nama_kawasan",
@@ -2017,7 +2339,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.jenis_usaha",
@@ -2039,7 +2362,17 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Usaha di dalam bangunan tempat tinggal",
+            "2": "2. Usaha keliling",
+            "3": "3. Usaha di luar bangunan tempat tinggal dengan lokasi tetap dan perlengkapan usaha dipindah/dibongkar pasang",
+            "4": "4. Usaha konstruksi perorangan, usaha pertambangan dan penggalian perorangan",
+            "5": "5. Usaha persewaan rumah/kamar/kantor",
+            "6": "6. Usaha pertanian"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.alamat_usaha_utama",
@@ -2053,7 +2386,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.prov_usaha_utama",
@@ -2067,7 +2401,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.kab_usaha_utama",
@@ -2081,7 +2416,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.punya_nib",
@@ -2103,7 +2439,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.nib",
@@ -2125,7 +2467,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.tidak_nib",
@@ -2147,7 +2490,16 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Dalam proses pembuatan NIB",
+            "2": "2. Pengurusan NIB rumit",
+            "3": "3. Tidak memerlukan NIB",
+            "4": "4. Tidak tahu tentang NIB",
+            "5": "5. Lainnya"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.nib_lainnya",
@@ -2169,7 +2521,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.badan_usaha",
@@ -2191,7 +2544,25 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "01a": "1.a. Perseroan (PT/NV, PT Persero, PT Tbk, PT Persero Tbk, Perseroan Daerah",
+            "01b": "1.b. Perseroan perorangan",
+            "02": "2. Yayasan",
+            "03": "3. Koperasi",
+            "04": "4. Dana Pensiun",
+            "05": "5. Perum/Perumda",
+            "06": "6. BUM Desa",
+            "07": "7. Persekutuan Komanditer (CV)",
+            "08": "8. Persekutuan Firma (Fa)",
+            "09": "9. Persekutuan Perdata (Maatschap)",
+            "10": "10. Kantor Perwakilan Luar Negeri",
+            "11": "11. Badan Usaha Luar Negeri",
+            "12": "12. Badan Usaha Lainnya (Contoh: BLU, PTN-BH)",
+            "13": "13. Bukan Badan Usaha"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.koperasi_kdkmp",
@@ -2213,7 +2584,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.jenis_koperasi",
@@ -2235,7 +2612,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Open Loop (dapat melayani non-anggota)",
+            "2": "2. Close Loop (hanya melayani anggota)"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.lap_keuangan",
@@ -2257,7 +2640,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.pengusaha",
@@ -2279,7 +2668,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.jk",
@@ -2301,7 +2691,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Laki-laki",
+            "2": "2. Perempuan"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.umur",
@@ -2323,7 +2719,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.nik_pengusaha",
@@ -2345,7 +2742,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.keg_utama",
@@ -2367,7 +2765,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.produk_sendiri",
@@ -2389,7 +2788,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.layanan_mamin",
@@ -2411,7 +2816,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.keg_penjualan",
@@ -2433,7 +2844,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.keg_jasa",
@@ -2455,7 +2872,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Jasa",
+            "2": "2. Pertanian, Perikanan, dan Kehutanan"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.lokasi_usaha",
@@ -2477,7 +2900,22 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "01": "1. Apotek",
+            "02": "2. Swalayan",
+            "03": "3. Los Pasar",
+            "04": "4. Toko, ruko, dan sejenisnya",
+            "05": "5. Kedai, stan, tenda",
+            "06": "6. Bar",
+            "07": "7. Kelab malam, diskotek",
+            "08": "8. Kafe",
+            "09": "9. Restoran, warung makan, dan sejenisnya",
+            "10": "10. Keliling",
+            "11": "11. Daring (online)"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.input",
@@ -2491,7 +2929,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.proses",
@@ -2505,7 +2944,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.produk",
@@ -2527,7 +2967,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.kbli_genai",
@@ -2541,7 +2982,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.kbli",
@@ -2563,7 +3005,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.kategori",
@@ -2585,7 +3028,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.klasifikasi",
@@ -2599,7 +3043,17 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Hotel Bintang 1",
+            "2": "2. Hotel Bintang 2",
+            "3": "3. Hotel Bintang 3",
+            "4": "4. Hotel Bintang 4",
+            "5": "5. Hotel Bintang 5",
+            "6": "6. Lainnya (hotel non-bintang, vila, dll)"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.jaringan",
@@ -2621,7 +3075,17 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Tunggal",
+            "2": "2. Kantor pusat",
+            "3": "3. Cabang",
+            "4": "4. Perwakilan",
+            "5": "5. Pabrik",
+            "6": "6. Unit pembantu/penunjang"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.jumlah_kc",
@@ -2643,7 +3107,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.nama_kp",
@@ -2665,7 +3130,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.alamat_kp",
@@ -2679,7 +3145,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.email_kp",
@@ -2693,7 +3160,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.negara_kp",
@@ -2715,7 +3183,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.prov_kp",
@@ -2737,7 +3206,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.kab_kp",
@@ -2759,7 +3229,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.internet",
@@ -2781,7 +3252,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.internet_pesanan",
@@ -2809,7 +3286,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.internet_produksi",
@@ -2837,7 +3320,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.internet_distribusi",
@@ -2865,7 +3354,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.internet_beli",
@@ -2893,7 +3388,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.internet_promosi",
@@ -2921,7 +3422,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.internet_lainnya",
@@ -2949,7 +3456,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.digital",
@@ -2971,7 +3484,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.produksi_lingkungan",
@@ -2993,7 +3512,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya, seluruhnya",
+            "2": "2. Ya, sebagian",
+            "3": "3. Tidak sama sekali"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.perlindungan_lingkungan",
@@ -3015,7 +3541,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.produk_seni",
@@ -3037,7 +3569,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.halal",
@@ -3059,7 +3597,15 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya, oleh BPJPH",
+            "2": "2. Ya, bukan oleh BPJPH",
+            "3": "3. Tidak/Belum",
+            "4": "4. Dalam proses"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.sudah_halal",
@@ -3081,7 +3627,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.belum_halal",
@@ -3103,7 +3650,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.izin_edar",
@@ -3125,7 +3673,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya, oleh BPOM",
+            "2": "2. Ya, bukan oleh BPOM",
+            "3": "3. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.sudah_bpom",
@@ -3147,7 +3702,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.belum_bpom",
@@ -3169,7 +3725,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.mitra_kdkmp",
@@ -3191,7 +3748,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.peran_mbg",
@@ -3213,7 +3776,16 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya, sebagai SATUAN PELAYANAN PEMENUHAN GIZI (SPPG)",
+            "2": "2. Ya, sebagai supplier",
+            "3": "3. Ya, sebagai penerima manfaat MBG (Sekolah, Puskesmas)",
+            "4": "4. Ya, peran lainnya",
+            "5": "5. Tidak terlibat MBG"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.barang_non_pddk",
@@ -3235,7 +3807,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.jasa_non_pddk",
@@ -3257,7 +3835,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.beli_jasa_non_pddk",
@@ -3279,7 +3863,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.tk_laki",
@@ -3301,7 +3891,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.tk_pr",
@@ -3323,7 +3914,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.total_tk_jk",
@@ -3345,7 +3937,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.tk_dibayar",
@@ -3367,7 +3960,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.tk_tdk_dibayar",
@@ -3389,7 +3983,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.total_tk_bayar",
@@ -3411,7 +4006,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.tahun_operasi",
@@ -3433,7 +4029,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.gaji",
@@ -3456,7 +4053,8 @@
           },
           "period": "ANNUAL_2025",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.biaya_produksi",
@@ -3479,7 +4077,8 @@
           },
           "period": "ANNUAL_2025",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.biaya_pembelian",
@@ -3502,7 +4101,8 @@
           },
           "period": "ANNUAL_2025",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.operasional",
@@ -3525,7 +4125,8 @@
           },
           "period": "ANNUAL_2025",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.non_operasional",
@@ -3548,7 +4149,8 @@
           },
           "period": "ANNUAL_2025",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.total_pengeluaran",
@@ -3571,7 +4173,8 @@
           },
           "period": "ANNUAL_2025",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.nilai_pendapatan",
@@ -3594,7 +4197,8 @@
           },
           "period": "ANNUAL_2025",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.pendapatan_lain",
@@ -3617,7 +4221,8 @@
           },
           "period": "ANNUAL_2025",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.total_pendapatan",
@@ -3640,7 +4245,8 @@
           },
           "period": "ANNUAL_2025",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.pendapatan_online",
@@ -3663,7 +4269,8 @@
           },
           "period": "ANNUAL_2025",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.aset_usaha_thn",
@@ -3686,7 +4293,8 @@
           },
           "period": "ANNUAL_2025",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.aset_lain_thn",
@@ -3709,7 +4317,8 @@
           },
           "period": "ANNUAL_2025",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.total_aset_thn",
@@ -3732,7 +4341,8 @@
           },
           "period": "ANNUAL_2025",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.rentang_aset_thn",
@@ -3741,7 +4351,7 @@
           "source_object": "mart_ekonomi_tahunan",
           "source_field": "rentang_aset_2025",
           "mapping_status": "VERIFIED",
-          "converter": "decimal",
+          "converter": "text",
           "sensitive": true,
           "roster": "businesses",
           "visibility_rule": null,
@@ -3754,8 +4364,16 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "ANNUAL_2025",
-          "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. s.d. Rp 500 juta",
+            "2": "2. Lebih dari Rp 500 juta s.d. Rp 1 miliar",
+            "3": "3. Lebih dari Rp 1 miliar s.d. Rp 5 miliar",
+            "4": "4. Lebih dari Rp 5 miliar s.d. Rp 10 miliar",
+            "5": "5. Lebih dari Rp 10 miliar"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.luas_tanah_thn",
@@ -3778,7 +4396,8 @@
           },
           "period": "ANNUAL_2025",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.pribadi",
@@ -3792,7 +4411,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.non_profit",
@@ -3806,7 +4426,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.publik",
@@ -3820,7 +4441,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.non_publik",
@@ -3834,7 +4456,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.pemerintah",
@@ -3848,7 +4471,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.asing",
@@ -3862,7 +4486,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.info_total",
@@ -3876,7 +4501,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.gaji_bln",
@@ -3899,7 +4525,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.biaya_produksi_bln",
@@ -3922,7 +4549,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.biaya_pembelian_bln",
@@ -3945,7 +4573,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.operasional_bln",
@@ -3968,7 +4597,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.non_operasional_bln",
@@ -3991,7 +4621,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.total_pengeluaran_bln",
@@ -4014,7 +4645,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.nilai_pendapatan_bln",
@@ -4037,7 +4669,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.pendapatan_lain_bln",
@@ -4060,7 +4693,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.total_pendapatan_bln",
@@ -4083,7 +4717,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.pendapatan_online_bln",
@@ -4106,7 +4741,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.aset_tanah_bln",
@@ -4129,7 +4765,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.aset_lain_bln",
@@ -4152,7 +4789,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.total_aset_bln",
@@ -4175,7 +4813,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.rentang_aset_bln",
@@ -4189,7 +4828,16 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. s.d. Rp 500 juta",
+            "2": "2. Lebih dari Rp 500 juta s.d. Rp 1 miliar",
+            "3": "3. Lebih dari Rp 1 miliar s.d. Rp 5 miliar",
+            "4": "4. Lebih dari Rp 5 miliar s.d. Rp 10 miliar",
+            "5": "5. Lebih dari Rp 10 miliar"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.luas_tanah_bln",
@@ -4212,7 +4860,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.pribadi_didirikan",
@@ -4235,7 +4884,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.nonprofit_didirikan",
@@ -4258,7 +4908,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.publik_didirikan",
@@ -4281,7 +4932,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.nonpublik_didirikan",
@@ -4304,7 +4956,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.pemerintah_didirikan",
@@ -4327,7 +4980,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.asing_didirikan",
@@ -4350,7 +5004,8 @@
           },
           "period": "LAST_MONTH_NEW_2026_CALENDAR_MONTH_UNAVAILABLE",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.info_total_didirikan",
@@ -4364,7 +5019,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.metod_isi",
@@ -4378,7 +5034,13 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "Langsung diisi melalui web",
+            "2": "Import melalui csv"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.kp_unit",
@@ -4400,7 +5062,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.kp_jenis",
@@ -4422,7 +5085,15 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Kantor Cabang",
+            "2": "2. Kantor Perwakilan",
+            "3": "3. Pabrik",
+            "4": "4. Unit Pembantu/Penunjang"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.kp_prov",
@@ -4444,7 +5115,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.kp_kab",
@@ -4466,7 +5138,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.kp_alamat",
@@ -4480,7 +5153,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.kp_produksi_lingkungan",
@@ -4494,7 +5168,14 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya, Seluruhnya",
+            "2": "2. Ya, Sebagian",
+            "3": "3. Tidak Sama Sekali"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.kp_perlindungan_lingkungan",
@@ -4508,7 +5189,13 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.kp_tk",
@@ -4530,7 +5217,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.kp_kbli",
@@ -4544,7 +5232,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "blokl.kp_total_pengeluaran",
@@ -4567,7 +5256,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.kp_total_pendapatan",
@@ -4590,7 +5280,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.kp_total_aset",
@@ -4613,7 +5304,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "number"
         },
         {
           "question_id": "blokl.kp_cat",
@@ -4627,7 +5319,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         }
       ],
       "assignment_scope": "common"
@@ -4656,7 +5349,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.nik_kk",
@@ -4678,7 +5372,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.dtsen_no_kk",
@@ -4700,7 +5395,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.jml_kk",
@@ -4722,7 +5418,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_ak_lanjutan.jml_kk_update",
@@ -4744,7 +5441,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_ak_lanjutan.sekolah",
@@ -4766,7 +5464,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Masih sekolah",
+            "2": "2. Tidak bersekolah lagi",
+            "3": "0. Tidak/belum pernah sekolah"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.ijazah",
@@ -4792,7 +5497,18 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "00": "0. Tidak punya ijazah SD",
+            "01": "1. SD/sederajat",
+            "02": "2. SMP/sederajat",
+            "03": "3. SMA/sederajat",
+            "04": "4. D1/D2/D3",
+            "05": "5. D4/S1/Profesi",
+            "06": "6. S2/S3"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.profesi",
@@ -4818,7 +5534,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.profesi_lainnya",
@@ -4840,7 +5557,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.status_kerja",
@@ -4862,7 +5580,18 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Berusaha sendiri",
+            "2": "2. Berusaha dibantu buruh",
+            "3": "3. Buruh/karyawan/pegawai swasta",
+            "4": "4. ASN/TNI/Polri/BUMN/BUMD/pejabat negara/kades",
+            "5": "5. Pekerja bebas",
+            "6": "6. Pekerja keluarga/tidak dibayar",
+            "9": "9. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.nilai_pend_pekerjaan_cawi",
@@ -4876,7 +5605,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.pendapatan_pekerjaan",
@@ -4898,7 +5628,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "9": "9. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.pend_gaji",
@@ -4921,7 +5658,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_ak_lanjutan.pend_tunjangan",
@@ -4944,7 +5682,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_ak_lanjutan.pend_uangmkn",
@@ -4967,7 +5706,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_ak_lanjutan.pend_honor",
@@ -4990,7 +5730,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_ak_lanjutan.pend_lembur",
@@ -5013,7 +5754,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_ak_lanjutan.pend_lainnya",
@@ -5036,7 +5778,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_ak_lanjutan.nilai_pend_pekerjaan",
@@ -5059,7 +5802,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_ak_lanjutan.pendapatan_usaha",
@@ -5081,7 +5825,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "9": "9. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.pend_usaha",
@@ -5104,7 +5855,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_ak_lanjutan.pend_usaha_lain",
@@ -5126,7 +5878,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "9": "9. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.nilai_pend_lain",
@@ -5149,7 +5908,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_ak_lanjutan.rekening",
@@ -5171,7 +5931,16 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya untuk usaha",
+            "2": "2. Ya untuk pribadi",
+            "3": "3. Ya untuk usaha dan pribadi",
+            "4": "4. Tidak ada",
+            "9": "9. Tidak tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.disabilitas_kel",
@@ -5185,7 +5954,14 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "Ya, punya disabilitas",
+            "2": "Tidak punya disabilitas",
+            "9": "Tidak tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.dis_fisik",
@@ -5207,7 +5983,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.dis_mental",
@@ -5229,7 +6012,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.dis_intelek",
@@ -5251,7 +6041,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.dis_netra",
@@ -5273,7 +6070,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.dis_rungu",
@@ -5295,7 +6099,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.dis_wicara",
@@ -5317,7 +6128,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.kesehatan_kel",
@@ -5331,7 +6149,14 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "Ya, punya keluhan kesehatan kronis/menahun",
+            "2": "Tidak punya keluhan kesehatan kronis/menahun",
+            "9": "Tidak tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_hipertensi",
@@ -5353,7 +6178,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_rematik",
@@ -5375,7 +6207,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_asma",
@@ -5397,7 +6236,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_jantung",
@@ -5419,7 +6265,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_diabetes",
@@ -5441,7 +6294,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_tbc",
@@ -5463,7 +6323,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_stroke",
@@ -5485,7 +6352,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_kanker",
@@ -5507,7 +6381,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_ginjal",
@@ -5529,7 +6410,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_hemofilia",
@@ -5551,7 +6439,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_hiv",
@@ -5573,7 +6468,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_kolestrol",
@@ -5595,7 +6497,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_sirosis",
@@ -5617,7 +6526,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_talasemia",
@@ -5639,7 +6555,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_leukemia",
@@ -5661,7 +6584,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_alzheimer",
@@ -5683,7 +6613,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.sakit_lainnya",
@@ -5705,7 +6642,14 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ya",
+            "2": "2. Tidak",
+            "3": "3. Tidak Tahu"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_ak_lanjutan.penyakit_lainnya",
@@ -5719,7 +6663,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         }
       ],
       "assignment_scope": "family",
@@ -5749,7 +6694,16 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Rumah tunggal",
+            "2": "2. Rumah deret",
+            "3": "3. Rumah susun",
+            "4": "4. Apartemen",
+            "5": "5. Lainnya"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.jns_bangunan_lain",
@@ -5771,7 +6725,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.nm_apt",
@@ -5793,7 +6748,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.jml_ak_tinggal",
@@ -5807,7 +6763,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.status_kepemilikan",
@@ -5829,7 +6786,16 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Milik sendiri",
+            "2": "2. Kontrak/sewa",
+            "3": "3. Bebas sewa",
+            "4": "4. Dinas",
+            "5": "5. Lainnya"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.status_kepemilikan_lain",
@@ -5843,7 +6809,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.bukti_kepemilikan",
@@ -5865,7 +6832,15 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Sertifikat hak milik (SHM)",
+            "2": "2. Sertifikat selain SHM (SHGB, SHSRS)",
+            "3": "3. Surat bukti lainnya (Girik, Letter C, dll)",
+            "4": "4. Tidak Punya"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.sewa_sendiri",
@@ -5888,7 +6863,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.sewa_kontrak",
@@ -5911,7 +6887,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.sewa_dinas",
@@ -5934,7 +6911,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.luas_lantai",
@@ -5956,7 +6934,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.jns_lantai",
@@ -5978,7 +6957,20 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Marmer/granit",
+            "2": "2. Keramik",
+            "3": "3. Parket/vinil/permadani",
+            "4": "4. Ubin/tegel/traso",
+            "5": "5. Kayu/papan",
+            "6": "6. Semen/bata merah",
+            "7": "7. Bambu",
+            "8": "8. Tanah",
+            "9": "9. Lainnya"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.kondisi_lantai",
@@ -6000,7 +6992,15 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Baik",
+            "2": "2. Rusak ringan",
+            "3": "3. Rusak sedang",
+            "4": "4. Rusak berat"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.jns_dinding",
@@ -6022,7 +7022,18 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Tembok",
+            "2": "2. Plesteran anyaman bambu/kawat",
+            "3": "3. Kayu/Papan/Gypsum/GRC/Calciboard",
+            "4": "4. Anyaman bambu",
+            "5": "5. Batang kayu",
+            "6": "6. Bambu",
+            "7": "7. Lainnya"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.kondisi_dinding",
@@ -6044,7 +7055,15 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Baik",
+            "2": "2. Rusak ringan",
+            "3": "3. Rusak sedang",
+            "4": "4. Rusak berat"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.jns_atap",
@@ -6066,7 +7085,19 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Beton",
+            "2": "2. Genteng",
+            "3": "3. Seng",
+            "4": "4. Asbes",
+            "5": "5. Bambu",
+            "6": "6. Kayu/sirap",
+            "7": "7. Jerami/ijuk/daun daunan/rumbia",
+            "8": "8. Lainnya"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.kondisi_atap",
@@ -6088,7 +7119,15 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Baik",
+            "2": "2. Rusak ringan",
+            "3": "3. Rusak sedang",
+            "4": "4. Rusak berat"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.tempat_bab",
@@ -6110,7 +7149,17 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Ada, digunakan oleh anggota keluarga dalam satu rumah",
+            "2": "2. Ada, digunakan bersama oleh anggota keluarga dari beberapa rumah",
+            "3": "3. Ada, di MCK komunal",
+            "4": "4. Ada, di MCK umum/siapapun menggunakan",
+            "5": "5. Ada, anggota keluarga tidak menggunakan",
+            "6": "6. Tidak ada"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.jns_closet",
@@ -6132,7 +7181,15 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Leher angsa",
+            "2": "2. Plengsengan dengan tutup",
+            "3": "3. Plengsengan tanpa tutup",
+            "4": "4. Cemplung/cubluk"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.buang_tinja",
@@ -6154,7 +7211,17 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Tangki septik",
+            "2": "2. Instalasi Pengolahan Air Limbah (IPAL)",
+            "3": "3. Kolam/sawah/sungai/danau/laut",
+            "4": "4. Lubang tanah",
+            "5": "5. Pantai/tanah lapang/kebun",
+            "6": "6. Lainnya"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.air_minum",
@@ -6176,7 +7243,22 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "01": "1. Air kemasan bermerk",
+            "02": "2. Air isi ulang",
+            "03": "3. Leding",
+            "04": "4. Sumur bor/pompa",
+            "05": "5. Sumur terlindung",
+            "06": "6. Sumur tak terlindung",
+            "07": "7. Mata air terlindung",
+            "08": "8. Mata air tak terlindung",
+            "09": "9. Air permukaan (sungai/danau/waduk/kolam/irigasi)",
+            "10": "10. Air hujan",
+            "11": "11. Lainnya"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.sumber_penerangan",
@@ -6198,7 +7280,15 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. Listrik PLN dengan meteran",
+            "2": "2. Listrik PLN tanpa meteran",
+            "3": "3. Listrik Non-PLN",
+            "4": "4. Bukan listrik"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.jml_meteran",
@@ -6220,7 +7310,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.daya_terpasang",
@@ -6242,7 +7333,16 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "1. 450 watt",
+            "2": "2. 900 watt",
+            "3": "3. 1.300 watt",
+            "4": "4. 2.200 watt",
+            "5": "5. > 2.200 watt"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.id_pln_pilih",
@@ -6264,7 +7364,13 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "choices": {
+            "1": "ID Pelanggan PLN",
+            "2": "Nomor Meteran"
+          },
+          "choice_reference": "DTD template 7.1.2",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.id_pelanggan",
@@ -6286,7 +7392,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.no_meteran",
@@ -6308,7 +7415,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.listrik_sebulan",
@@ -6331,7 +7439,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.pulsa_sebulan",
@@ -6354,7 +7463,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.pengeluaran_makanan_mingguan",
@@ -6377,7 +7487,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.pengeluaran_non_makan_bulanan",
@@ -6400,7 +7511,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.pengeluaran_non_makan_tahunan",
@@ -6423,7 +7535,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.total_pendapatan_keluarga_sebulan_tampil",
@@ -6446,7 +7559,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.total_pengeluaran_keluarga_sebulan_tampil",
@@ -6469,7 +7583,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.selisih_pendapatan_pengeluaran_tampil",
@@ -6483,7 +7598,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "b_perumahan.jumlah_tabung3kg_new",
@@ -6505,7 +7621,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.jumlah_tabung5kg_new",
@@ -6527,7 +7644,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.jumlah_kulkas_new",
@@ -6549,7 +7667,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.jumlah_ac_new",
@@ -6571,7 +7690,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.jumlah_emas_new",
@@ -6593,7 +7713,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.jumlah_laptop_new",
@@ -6615,7 +7736,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.jumlah_motor_new",
@@ -6637,7 +7759,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.nilai_motor",
@@ -6660,7 +7783,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.jumlah_mobil_new",
@@ -6682,7 +7806,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.nilai_mobil",
@@ -6705,7 +7830,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.jumlah_lahan_new",
@@ -6727,7 +7853,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.nilai_lahan",
@@ -6750,7 +7877,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.jumlah_rumah_new",
@@ -6772,7 +7900,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         },
         {
           "question_id": "b_perumahan.nilai_rumah",
@@ -6795,7 +7924,8 @@
           },
           "period": "LOCAL_SNAPSHOT",
           "unit": "SOURCE_UNIT_UNVERIFIED",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "number"
         }
       ],
       "assignment_scope": "family",
@@ -6818,7 +7948,8 @@
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
           "assignment_scope": "common",
-          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia.",
+          "display_format": "text"
         },
         {
           "question_id": "ket_jawaban.nama_lain",
@@ -6833,7 +7964,8 @@
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
           "assignment_scope": "common",
-          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia.",
+          "display_format": "text"
         },
         {
           "question_id": "ket_jawaban.telp_info",
@@ -6848,7 +7980,8 @@
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
           "assignment_scope": "common",
-          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia.",
+          "display_format": "text"
         },
         {
           "question_id": "ket_jawaban.email_info",
@@ -6863,7 +7996,8 @@
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
           "assignment_scope": "common",
-          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia."
+          "note": "Kolom jawaban root tidak terdapat dalam ekspor lokal yang tersedia.",
+          "display_format": "text"
         }
       ],
       "assignment_scope": "common",
@@ -6886,7 +8020,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "cat.catatan_anomali_admin",
@@ -6900,7 +8035,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "cat.waktu_selesai",
@@ -6914,7 +8050,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         }
       ],
       "assignment_scope": "common"
@@ -6935,7 +8072,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "anomali_section.anomali_2_penjelasan",
@@ -6949,7 +8087,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "anomali_section.anomali_3_penjelasan",
@@ -6963,7 +8102,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "anomali_section.anomali_4_penjelasan",
@@ -6977,7 +8117,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "anomali_section.anomali_5_penjelasan",
@@ -6991,7 +8132,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "anomali_section.anomali_6_penjelasan",
@@ -7005,7 +8147,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "anomali_section.anomali_7_penjelasan",
@@ -7019,7 +8162,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         },
         {
           "question_id": "anomali_section.anomali_8_penjelasan",
@@ -7033,7 +8177,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "common"
+          "assignment_scope": "common",
+          "display_format": "text"
         }
       ],
       "assignment_scope": "common"
@@ -7054,7 +8199,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "anomali_keluarga.anomali_2_dtsen_penjelasan",
@@ -7068,7 +8214,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "anomali_keluarga.anomali_3_dtsen_penjelasan",
@@ -7082,7 +8229,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "anomali_keluarga.anomali_4_dtsen_penjelasan",
@@ -7096,7 +8244,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "anomali_keluarga.anomali_5_dtsen_penjelasan",
@@ -7110,7 +8259,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "anomali_keluarga.anomali_6_dtsen_penjelasan",
@@ -7124,7 +8274,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         },
         {
           "question_id": "anomali_keluarga.anomali_7_dtsen_penjelasan",
@@ -7138,7 +8289,8 @@
           "roster": null,
           "visibility_rule": null,
           "period": "LOCAL_SNAPSHOT",
-          "assignment_scope": "family"
+          "assignment_scope": "family",
+          "display_format": "text"
         }
       ],
       "assignment_scope": "family",

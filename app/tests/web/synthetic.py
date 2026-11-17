@@ -272,3 +272,22 @@ def prepare_questionnaire_scope_cases(con):
             "UPDATE mart_legalitas_usaha SET nama_pengusaha_pj='PJ SINTETIS BERSAMA',jenis_kelamin_pj='1',umur_pj='40',nik_pengusaha_pj='SYNTHETIC_PRIVATE_PJ' WHERE assignment_id=?",
             (aid,),
         )
+
+
+def prepare_questionnaire_presentation_cases(con):
+    """Choice, amount and coordinate examples for the dedicated synthetic reader server."""
+    con.execute(
+        "UPDATE mart_legalitas_usaha SET alasan_tidak_punya_nib='4',badan_usaha='13',mempunyai_laporan_keuangan='2' WHERE assignment_id='DTD-0002'"
+    )
+    con.execute("UPDATE mart_program_usaha SET tahun_mulai_operasi='2007' WHERE assignment_id='DTD-0002'")
+    for sid in ("usaha", "keluarga"):
+        con.execute(
+            'UPDATE "mart_' + sid + '" SET geotag_latitude=?,geotag_longitude=? WHERE assignment_id=?',
+            ("1.25", "100.5", "DTD-0002"),
+        )
+    con.execute(
+        "UPDATE mart_ub_a SET link_google_maps='https://www.google.com/maps/search/?api=1&query=2.25,101.75' WHERE assignment_id='UB-0002'"
+    )
+    con.execute(
+        "UPDATE mart_ub_b SET tahun_operasi='2007',gaji_dan_jaminan_sosial='11825263478.50' WHERE assignment_id='UB-0002'"
+    )

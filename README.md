@@ -10,6 +10,8 @@ Isi DTD menyesuaikan assignment keluarga atau BKU pada versi yang dipilih. Infor
 
 Identitas wilayah menampilkan lokasi dari master assignment dengan keterangan sumber; timestamp master tidak dianggap versi jawaban. Nama SLS memakai referensi lokal 2025_2 saat kode lengkap cocok. Isian perubahan wilayah dan identitas/kontak pemberi informasi yang tidak ikut diekspor dikelompokkan dalam rincian yang dapat dibuka.
 
+Jawaban pilihan memakai label sumber atau pilihan statis template yang sesuai. Tiap isian memiliki pembatas dan pergantian nomor utama diberi garis lebih tegas. Jumlah/nominal memakai titik ribuan serta koma desimal; kode dan tahun tetap utuh. Tagging ditampilkan sesuai versi/roster yang dipilih, dengan tautan Maps yang dibuka saat diklik dan pembatasan akses yang sama dengan lokasi direktori.
+
 ## Folder pengembangan
 
 Folder ini menjadi tempat mengembangkan aplikasi. Buka folder ini di editor; jalankan Git, backend, frontend dan tes dari sini.

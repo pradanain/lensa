@@ -17,7 +17,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.2",
@@ -29,7 +30,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.3",
@@ -49,7 +51,8 @@
             "expression": "COALESCE(\n        CASE WHEN LOWER(TRIM(SUBSTRING_INDEX(r.kec_l_label, ']', -1))) IN ('', 'null', '-')\n             THEN NULL ELSE TRIM(SUBSTRING_INDEX(r.kec_l_label, ']', -1)) END,\n        CASE WHEN LOWER(TRIM(SUBSTRING_INDEX(a.level_3_name, ']', -1))) IN ('', 'null', '-')\n             THEN NULL ELSE TRIM(SUBSTRING_INDEX(a.level_3_name, ']', -1)) END,\n        '-'\n    ) AS kecamatan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.4",
@@ -69,7 +72,8 @@
             "expression": "COALESCE(\n        CASE WHEN LOWER(TRIM(SUBSTRING_INDEX(r.desa_l_label, ']', -1))) IN ('', 'null', '-')\n             THEN NULL ELSE TRIM(SUBSTRING_INDEX(r.desa_l_label, ']', -1)) END,\n        CASE WHEN LOWER(TRIM(SUBSTRING_INDEX(a.level_4_name, ']', -1))) IN ('', 'null', '-')\n             THEN NULL ELSE TRIM(SUBSTRING_INDEX(a.level_4_name, ']', -1)) END,\n        '-'\n    ) AS desa_kelurahan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.5a",
@@ -89,7 +93,8 @@
             "expression": "r.nama_usaha AS nama_usaha",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.5b",
@@ -109,7 +114,8 @@
             "expression": "r.nama_komersial AS nama_komersial",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.5c",
@@ -129,7 +135,8 @@
             "expression": "r.alamat_usaha AS alamat_usaha",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.5d",
@@ -149,7 +156,8 @@
             "expression": "REGEXP_REPLACE(r.jenis_kawasan_label, '<[^>]*>', '') AS jenis_kawasan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.5e",
@@ -169,7 +177,8 @@
             "expression": "r.nama_kawasan AS nama_kawasan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.6a",
@@ -189,7 +198,8 @@
             "expression": "REGEXP_REPLACE(r.punya_nib_label, '<[^>]*>', '') AS memiliki_nib",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.6b",
@@ -209,7 +219,8 @@
             "expression": "NULLIF(TRIM(CAST(r.nib AS CHAR)), '') AS nib",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.6c",
@@ -229,7 +240,8 @@
             "expression": "REGEXP_REPLACE(r.alasan_nib_label, '<[^>]*>', '') AS alasan_tanpa_nib",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.7a",
@@ -249,7 +261,8 @@
             "expression": "REGEXP_REPLACE(r.badan_usaha_label, '<[^>]*>', '') AS badan_usaha",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.7b",
@@ -261,7 +274,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.7c",
@@ -273,7 +287,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.7d",
@@ -293,7 +308,8 @@
             "expression": "REGEXP_REPLACE(r.lap_keuangan_label, '<[^>]*>', '') AS memiliki_catatan_keuangan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED"
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "display_format": "text"
         },
         {
           "question_id": "ub.8a",
@@ -313,7 +329,8 @@
             "expression": "r.nama_pj AS nama_penanggung_jawab",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.8b",
@@ -333,7 +350,8 @@
             "expression": "REGEXP_REPLACE(r.jk_pj_label, '<[^>]*>', '') AS jenis_kelamin_penanggung_jawab",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.8c",
@@ -353,7 +371,8 @@
             "expression": "r.umur_pj AS umur_penanggung_jawab",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "number"
         },
         {
           "question_id": "ub.8d",
@@ -373,7 +392,8 @@
             "expression": "NULLIF(TRIM(CAST(r.nik_pj AS CHAR)), '') AS nik_penanggung_jawab",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.9a",
@@ -393,7 +413,8 @@
             "expression": "r.keg_utama AS kegiatan_utama",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.9b1",
@@ -413,7 +434,8 @@
             "expression": "REGEXP_REPLACE(r.produk_sendiri_label, '<[^>]*>', '') AS produksi_barang_di_lokasi",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.9b2",
@@ -425,7 +447,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.9b3",
@@ -437,7 +460,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.9b4",
@@ -449,7 +473,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.9c",
@@ -461,7 +486,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.9d",
@@ -473,7 +499,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.9e",
@@ -485,7 +512,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.9f",
@@ -505,7 +533,8 @@
             "expression": "r.produk AS produk_utama",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.9g",
@@ -525,7 +554,8 @@
             "expression": "r.kbli_akhir AS kbli_akhir",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.9h",
@@ -545,7 +575,8 @@
             "expression": "CASE\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '01' AND '03' THEN 'A'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '05' AND '09' THEN 'B'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '10' AND '33' THEN 'C'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) = '35' THEN 'D'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '36' AND '39' THEN 'E'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '41' AND '43' THEN 'F'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '45' AND '47' THEN 'G'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '49' AND '53' THEN 'H'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '55' AND '56' THEN 'I'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '58' AND '60' THEN 'J'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '61' AND '63' THEN 'K'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '64' AND '66' THEN 'L'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) = '68' THEN 'M'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '69' AND '75' THEN 'N'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '77' AND '82' THEN 'O'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) = '84' THEN 'P'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) = '85' THEN 'Q'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '86' AND '88' THEN 'R'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '90' AND '93' THEN 'S'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '94' AND '96' THEN 'T'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) BETWEEN '97' AND '98' THEN 'U'\n        WHEN LEFT(TRIM(r.kbli_akhir), 2) = '99' THEN 'V'\n        ELSE NULL\n    END AS kategori_kbli",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.9i",
@@ -557,7 +588,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         }
       ]
     },
@@ -584,7 +616,8 @@
             "expression": "REGEXP_REPLACE(r.jaringan_label, '<[^>]*>', '') AS jaringan_usaha",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.10b",
@@ -604,7 +637,8 @@
             "expression": "r.jml_kc AS jumlah_kantor_cabang",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "number"
         },
         {
           "question_id": "ub.11a",
@@ -624,7 +658,8 @@
             "expression": "r.nama_kp AS nama_kantor_pusat",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.11b",
@@ -644,7 +679,8 @@
             "expression": "r.alamat_kp AS alamat_kantor_pusat",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.11d",
@@ -664,7 +700,8 @@
             "expression": "REGEXP_REPLACE(r.negara_kp_label, '<[^>]*>', '') AS negara_kantor_pusat",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.12a",
@@ -684,7 +721,8 @@
             "expression": "REGEXP_REPLACE(r.internet_label, '<[^>]*>', '') AS menggunakan_internet",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.12b1",
@@ -710,7 +748,8 @@
             "expression": "REGEXP_REPLACE(r.internet_pesanan_label, '<[^>]*>', '') AS internet_pesanan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.12b2",
@@ -736,7 +775,8 @@
             "expression": "REGEXP_REPLACE(r.internet_produksi_label, '<[^>]*>', '') AS internet_produksi",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.12b3",
@@ -762,7 +802,8 @@
             "expression": "REGEXP_REPLACE(r.internet_distribusi_label, '<[^>]*>', '') AS internet_distribusi",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.12b4",
@@ -788,7 +829,8 @@
             "expression": "REGEXP_REPLACE(r.internet_beli_label, '<[^>]*>', '') AS internet_pembelian",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.12b5",
@@ -814,7 +856,8 @@
             "expression": "REGEXP_REPLACE(r.internet_promosi_label, '<[^>]*>', '') AS internet_promosi",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.12b6",
@@ -832,7 +875,8 @@
               "2"
             ]
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.12c",
@@ -852,7 +896,8 @@
             "expression": "REGEXP_REPLACE(r.digital_label, '<[^>]*>', '') AS memanfaatkan_teknologi_digital",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.13a",
@@ -872,7 +917,8 @@
             "expression": "REGEXP_REPLACE(r.produksi_lingkungan_label, '<[^>]*>', '') AS menghasilkan_produk_ramah_lingkungan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.13b",
@@ -892,7 +938,8 @@
             "expression": "REGEXP_REPLACE(r.perlindungan_lingkungan_label, '<[^>]*>', '') AS perlindungan_lingkungan",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.14",
@@ -912,7 +959,8 @@
             "expression": "REGEXP_REPLACE(r.produk_seni_label, '<[^>]*>', '') AS penggunaan_produk_seni_budaya",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.15a",
@@ -932,7 +980,8 @@
             "expression": "REGEXP_REPLACE(r.sertifikat_halal_label, '<[^>]*>', '') AS produk_bersertifikat_halal",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.15b",
@@ -944,7 +993,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.15c",
@@ -956,7 +1006,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.16a",
@@ -976,7 +1027,8 @@
             "expression": "REGEXP_REPLACE(r.izin_edar_label, '<[^>]*>', '') AS memiliki_izin_edar",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.16b",
@@ -988,7 +1040,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.16c",
@@ -1000,7 +1053,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.17",
@@ -1020,7 +1074,8 @@
             "expression": "REGEXP_REPLACE(r.mitra_kdkmp_label, '<[^>]*>', '') AS kemitraan_kdkmp",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.18",
@@ -1040,7 +1095,8 @@
             "expression": "REGEXP_REPLACE(r.peran_mbg_label, '<[^>]*>', '') AS keterlibatan_mbg",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.19a",
@@ -1052,7 +1108,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.19b",
@@ -1064,7 +1121,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.19c",
@@ -1076,7 +1134,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         }
       ]
     },
@@ -1104,7 +1163,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_COUNT"
+          "unit": "SOURCE_COUNT",
+          "display_format": "number"
         },
         {
           "question_id": "ub.20b",
@@ -1125,7 +1185,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_COUNT"
+          "unit": "SOURCE_COUNT",
+          "display_format": "number"
         },
         {
           "question_id": "ub.20c",
@@ -1146,7 +1207,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_COUNT"
+          "unit": "SOURCE_COUNT",
+          "display_format": "number"
         },
         {
           "question_id": "ub.21",
@@ -1166,7 +1228,8 @@
             "expression": "r.tahun_operasi AS tahun_operasi",
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
-          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED"
+          "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
+          "display_format": "text"
         },
         {
           "question_id": "ub.22a",
@@ -1187,7 +1250,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.22b",
@@ -1208,7 +1272,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.22c",
@@ -1229,7 +1294,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.22d",
@@ -1250,7 +1316,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.22e",
@@ -1271,7 +1338,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.22f",
@@ -1292,7 +1360,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.23a",
@@ -1313,7 +1382,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.23b",
@@ -1334,7 +1404,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.23c",
@@ -1355,7 +1426,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.23d",
@@ -1376,7 +1448,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "LOCAL_SNAPSHOT",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.24a",
@@ -1397,7 +1470,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.24b",
@@ -1418,7 +1492,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.24c",
@@ -1439,7 +1514,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.24c1",
@@ -1451,7 +1527,8 @@
           "sensitive": true,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.24d",
@@ -1472,7 +1549,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.25a",
@@ -1493,7 +1571,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.25b",
@@ -1514,7 +1593,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.25c",
@@ -1535,7 +1615,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.25d",
@@ -1556,7 +1637,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.25e",
@@ -1577,7 +1659,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         },
         {
           "question_id": "ub.25f",
@@ -1598,7 +1681,8 @@
             "reference": "DTD template 7.1.2 or supplied UB PDF; reviewed semantic correspondence"
           },
           "period": "UB_FORM_2025_EXPORT_PERIOD_UNVERIFIED",
-          "unit": "SOURCE_UNIT_UNVERIFIED"
+          "unit": "SOURCE_UNIT_UNVERIFIED",
+          "display_format": "number"
         }
       ]
     },
@@ -1617,7 +1701,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         }
       ]
     },
@@ -1636,7 +1721,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.III.2",
@@ -1648,7 +1734,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.III.3",
@@ -1660,7 +1747,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.III.4",
@@ -1672,7 +1760,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.III.5",
@@ -1684,7 +1773,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         },
         {
           "question_id": "ub.III.6",
@@ -1696,7 +1786,8 @@
           "sensitive": false,
           "roster": null,
           "visibility_rule": null,
-          "period": "LOCAL_SNAPSHOT"
+          "period": "LOCAL_SNAPSHOT",
+          "display_format": "text"
         }
       ]
     }

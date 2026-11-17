@@ -1,8 +1,9 @@
 import {useLayoutEffect, useRef, useState} from 'react'
 import {useNavigate, useParams, useSearch} from '@tanstack/react-router'
 import {useQuery} from '@tanstack/react-query'
-import {ArrowLeft, BookOpen, ChevronLeft, ChevronRight, Maximize, Minimize} from 'lucide-react'
-import {api, detailNavigation, type FormResult, type Question, type SearchState} from '@/lib/api'
+import {ArrowLeft, BookOpen, ChevronLeft, ChevronRight, MapPin, Maximize, Minimize} from 'lucide-react'
+import {api, detailNavigation, type FormResult, type Question, type QuestionnaireLocation, type SearchState} from '@/lib/api'
+import {answerText, questionNumber} from '@/lib/questionnaire-display'
 import {useAuth} from '@/auth'
 import {SearchSelect} from '@/components/ui/search-select'
 import {Button} from '@/components/ui/button'
@@ -123,6 +124,7 @@ function QuestionnaireContent() {
         <div className="question-section-head"><span className="block-symbol">{description?.badge || <BookOpen size={18}/>}</span><div><h2>{section.title}</h2>{description && <p>{description.description}{records.length ? ' · ' + records.length + ' ' + (recordKind === 'members' ? 'ART' : recordLabel) : ''}</p>}</div></div>
         <div className="form-block-body">
           {section.availability_note && <p className="form-availability-note">{section.availability_note}</p>}
+          {['b5','ub_i_1'].includes(activeBlock) && <LocationInfo location={form.locations?.root}/>}
           {form.truncated_rosters.length > 0 && <Notice tone="warning">Pilihan dibatasi 1.000 item per modul.</Notice>}
           {rootFields.length > 0 && <QuestionFields fields={rootFields}/>}
           {recordKind && records.length > 0 ? <div className="form-roster-workspace">
@@ -131,6 +133,7 @@ function QuestionnaireContent() {
             </div>
             <label className="form-roster-mobile">Pilih {recordLabel}<SearchSelect aria-label={'Roster ' + recordLabel} value={selectedRecord?.index || ''} onValueChange={chooseRecord}>{records.map(item => <option key={item.index} value={item.index}>{item.index} · {item.label}</option>)}</SearchSelect></label>
             <div className="form-roster-card"><div className="form-roster-heading"><span className="roster-number">{selectedRecord?.index}</span><h3 className="form-record-name">{selectedRecord?.label}</h3></div>
+              {activeBlock === 'blokl' && <LocationInfo location={form.locations?.business}/>}
               {offices.length > 0 && <label className="form-office-picker">Pilih kantor/unit<SearchSelect aria-label="Roster kantor" value={form.selections.offices || ''} onValueChange={office => select({office})}>{offices.map(item => <option key={item.index} value={item.index}>{item.index} · {item.label}</option>)}</SearchSelect></label>}
               <QuestionFields fields={recordFields}/>
             </div>
@@ -146,6 +149,16 @@ const periodLabels: Record<string, string> = {ANNUAL_2025: 'Tahun 2025', LAST_MO
 const missingAnswers: Record<string, string> = {BLANK_OR_MISSING: 'Belum terisi', SKIPPED_NOT_APPLICABLE: 'Tidak berlaku', NOT_EXPORTED: 'Tidak ada dalam data', UNMATCHED_VERSION: 'Ada di versi lain', UNVERIFIED_MAPPING: 'Jawaban belum dapat ditampilkan', RESTRICTED: 'Akses terbatas'}
 const presentationOnlyQuestions = new Set(['blokl.pilih_umkm_sls', 'blokl.alamat_usaha_view'])
 
+function LocationInfo({location}: {location?: QuestionnaireLocation}) {
+  if(!location) return null
+  const states:Record<string,string> = {UNAVAILABLE:'Tagging belum tersedia',RESTRICTED:'Akses tagging terbatas',UNMATCHED_VERSION:'Tagging tidak tersedia pada versi ini',SOURCE_CONFLICT:'Tagging perlu diperiksa'}
+  return <div className="form-location" aria-label="Tagging lokasi pendataan"><MapPin size={18}/><div><strong>Tagging lokasi</strong>{location.status === 'AVAILABLE' ? <>
+    <p>{location.latitude}, {location.longitude}</p>
+    {location.provenance === 'QUESTIONNAIRE_ROOT_TAG' && <p className="small muted">Titik pendataan kuesioner</p>}
+    <a href={'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(location.latitude+','+location.longitude)} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">Buka di Maps</a>
+  </> : <p>{states[location.status] || states.UNAVAILABLE}</p>}</div></div>
+}
+
 function QuestionFields({fields, collapseNotExported = false}: {fields: Question[]; collapseNotExported?: boolean}) {
   const questions = fields.filter(field => field.applicability !== 'NOT_APPLICABLE' && (!presentationOnlyQuestions.has(field.question_id) || field.status !== 'UNVERIFIED_MAPPING'))
   if (!questions.length) return null
@@ -154,16 +167,20 @@ function QuestionFields({fields, collapseNotExported = false}: {fields: Question
     <QuestionFields fields={questions.filter(field => field.status !== 'NOT_EXPORTED')}/>
     <details className="form-unavailable-fields"><summary>Isian yang tidak disertakan ({unavailable.length})</summary><QuestionFields fields={unavailable}/></details>
   </>
-  return <div className="question-list">{questions.map(field => {
+  let previousNumber: string|null = null
+  return <div className="question-list">{questions.map((field,index) => {
     const context = [periodLabels[field.period || ''], field.unit === 'SOURCE_UNIT_UNVERIFIED' ? 'Satuan belum terverifikasi' : field.unit === 'SOURCE_COUNT' ? 'Jumlah' : field.unit].filter(Boolean).join(' / ')
-    const labelHasCode = field.value && field.label && (field.label === field.value || field.label.startsWith(field.value + '.') || field.label.startsWith(field.value + ' '))
+    const currentNumber = questionNumber(field)
+    const groupStart = index > 0 && currentNumber !== null && currentNumber !== previousNumber
+    previousNumber = currentNumber || previousNumber
     const referenceName = field.question_id === 'b1_p.nama_sls' ? field.reference_label : undefined
-    return <div className="question-row" key={field.question_id}>
+    return <div className={'question-row'+(groupStart ? ' question-group-start' : '')} data-question-number={currentNumber || previousNumber || undefined} key={field.question_id}>
       <div className="question-label"><h3>{field.question_text}</h3></div>
       <div className="answer">{field.status === 'ANSWERED' ? <>
-        <p className={field.converter === 'decimal' ? 'numeric-answer' : ''}>{referenceName || (field.label && field.value && !labelHasCode ? field.value + ' · ' + field.label : field.label || field.value || '—')}</p>
+        <p className={field.converter === 'decimal' || field.display_format === 'number' ? 'numeric-answer' : ''}>{answerText(field)}</p>
         {field.reference_label && !referenceName && <p className="reference-answer">{field.reference_label}</p>}
         {field.parse_status && field.parse_status !== 'VALID' && <p className="parse-warning">Format angka perlu diperiksa.</p>}
+        {field.label_status === 'UNRECOGNIZED_CODE' && <small className="answer-context">Label pilihan belum tersedia.</small>}
         {context && <small className="answer-context">{context}</small>}
       </> : <p className="unavailable-answer answer-state">{field.source_conflict ? 'Jawaban berbeda antar sumber' : missingAnswers[field.status] || missingAnswers.UNVERIFIED_MAPPING}</p>}</div>
     </div>

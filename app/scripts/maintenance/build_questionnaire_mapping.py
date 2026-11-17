@@ -1,6 +1,7 @@
 """Build reviewed form mappings; source schemas/SQL are inspected, no answers read."""
 
 import hashlib
+import html
 import json
 import re
 import sqlite3
@@ -37,6 +38,65 @@ SOURCE_FILES = {
     "ub_b": "UB/09B_PEKERJA_EKONOMI_MODAL.sql",
     "ub_c": "UB/09C_DIGITAL_LINGKUNGAN_LEGALITAS.sql",
 }
+
+
+def review_dtd_answer_choices(sections, template):
+    """Copy static choices only, never evaluate dynamic lists or template scripts."""
+    widgets = {}
+    section_keys = {s["section_id"] for s in sections}
+
+    def walk(value, section=None):
+        if isinstance(value, dict):
+            key = value.get("dataKey")
+            section = key if key in section_keys else section
+            if key and section:
+                widgets.setdefault((section, key), []).append(value)
+            for child in value.values():
+                walk(child, section)
+        elif isinstance(value, list):
+            for child in value:
+                walk(child, section)
+
+    walk(template)
+    for section in sections:
+        for field in section["questions"]:
+            candidates = widgets.get((section["section_id"], field.get("template_key")), [])
+            choices = {}
+            conflicts = set()
+            for widget in candidates:
+                for option in widget.get("options", []):
+                    if not isinstance(option, dict) or option.get("value") is None:
+                        continue
+                    code = str(option["value"])
+                    label = html.unescape(re.sub(r"<[^>]*>", "", str(option.get("label") or "")))
+                    label = " ".join(label.split())
+                    if not label:
+                        continue
+                    if code in choices and choices[code] != label:
+                        conflicts.add(code)
+                    choices[code] = label
+            for code in conflicts:
+                choices.pop(code, None)
+            if choices:
+                field["choices"] = choices
+                field["choice_reference"] = "DTD template " + str(template["version"])
+                if field["converter"] == "decimal":
+                    field["converter"] = "text"
+                    field.pop("unit", None)
+            # Numeric quantities are explicitly marked; codes, identifiers and years stay text.
+    review_number_presentation(sections)
+
+
+def review_number_presentation(sections):
+    for section in sections:
+        for field in section["questions"]:
+            source_field = field.get("source_field") or ""
+            count = source_field.startswith(("jumlah_", "pekerja_", "umur")) or source_field == "luas_lantai"
+            field["display_format"] = (
+                "number"
+                if field["converter"] == "decimal" or (count and not field.get("choices"))
+                else "text"
+            )
 
 
 def review_dtd_geography(sections, schemas, proofs):
@@ -598,6 +658,12 @@ def build():
 
     review_dtd_assignment_scopes(dtd, schemas, proofs)
     review_dtd_geography(dtd, schemas, proofs)
+    template_html = (ROOT / "codex_app_brief/referensi/DTD/SE2026.html").read_text(encoding="utf-8-sig")
+    marker = re.search(r"window\.__TPL\s*=\s*", template_html)
+    if not marker:
+        raise ValueError("DTD_TEMPLATE_NOT_FOUND")
+    raw_template, _ = json.JSONDecoder().raw_decode(template_html[marker.end() :])
+    review_dtd_answer_choices(dtd, raw_template)
     ub = []
     groups = [
         ("ub_i_1", "Blok I · Identitas perusahaan (r1–9)", 1),
@@ -736,6 +802,7 @@ def build():
     ]:
         uq("ub_iii", number, text)
     ub = list(ub_groups.values())
+    review_number_presentation(ub)
     output = ROOT / "app/config/questionnaires"
     output.mkdir(parents=True, exist_ok=True)
     for name, sections in [("dtd", dtd), ("ub", ub)]:
