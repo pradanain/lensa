@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     sls_reference: Path | None = None
     auth_enabled: bool = True
     environment: Literal["local", "production"] = "local"
-    allow_web_setup: bool = True
+    allow_web_setup: bool = False
     business_focus_enabled: bool = True
     allowed_hosts: list[str] = ["127.0.0.1", "localhost", "testserver"]
     allowed_origins: list[str] = [

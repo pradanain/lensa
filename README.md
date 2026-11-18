@@ -66,13 +66,13 @@ Image amd64: `ghcr.io/pradanain/lensa:latest`, dengan tag immutable `sha-<commit
 - Satu container menyajikan API dan frontend pada port internal 8000.
 - Network Traefik existing: `cloudflared-net`; tidak ada port host yang dipublikasikan.
 - Compose production: `app/deploy/compose.yml`; file `compose.yaml` root hanya untuk pengembangan.
-- Login aktif secara default. Setelah masuk, pengguna wajib menyetujui pakta integritas pada setiap sesi baru sebelum data dan ekspor dibuka. HTTPS, cookie Secure dan perlindungan CSRF tetap aktif; setup web production ditutup. Akun existing dipertahankan.
+- Login aktif secara default. Akun hanya ditambahkan admin dengan kata sandi sementara. Pada login pertama, pengguna wajib menggantinya (minimal 8 karakter, satu simbol, satu huruf besar dan satu angka; berbeda dari kata sandi lama), lalu menyetujui pakta integritas sebelum data dan ekspor dibuka. HTTPS, cookie Secure dan perlindungan CSRF tetap aktif; setup web production ditutup. Akun existing dipertahankan.
 - Workflow GitHub menguji source, membangun image, melakukan smoke test memakai data sintetis, lalu menerbitkan image SHA dan latest ke GHCR. Server hanya pull dan menjalankan image.
 - Repository dan image tidak membawa dataset sensus, RAW, akun, password atau backup privat. Dataset dan state ditransfer secara privat ke server.
 
 ## Lokal
 
-Klik `JALANKAN_PORTAL.cmd`, kemudian buka `http://127.0.0.1:8000/usaha`. Mode lokal memakai login dan pakta integritas; akun pertama dapat disiapkan lewat form lokal jika database akun kosong. Python 3.11+ dan Node 22.20+ dibutuhkan untuk instalasi/build pertama.
+Klik `JALANKAN_PORTAL.cmd`, kemudian buka `http://127.0.0.1:8000/usaha`. Mode lokal memakai login dan pakta integritas. Pendaftaran mandiri ditutup; administrator pertama disiapkan melalui bootstrap privat, lalu akun berikutnya dibuat pada Kelola pengguna. Python 3.11+ dan Node 22.20+ dibutuhkan untuk instalasi/build pertama.
 
 ```powershell
 python -m pip install --require-hashes -r app/requirements/dev.lock

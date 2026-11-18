@@ -1,6 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from se2026.web.main import create_app
+from se2026.web.bootstrap import provision
 from se2026.web.settings import Settings
 
 from .synthetic import ROOT, make_database
@@ -29,14 +30,12 @@ def portal(tmp_path):
         aggregate_cache_seconds=0,
         auth_enabled=True,
     )
+    provision(settings, "admin", PASSWORD)
     app = create_app(settings)
+    # Established synthetic users have already completed first-login onboarding.
+    with app.state.app_db.connection() as con:
+        con.execute("UPDATE users SET must_change_password=0")
     with TestClient(app, raise_server_exceptions=False) as client:
-        token = client.get("/api/v1/auth/session").json()["csrf_token"]
-        client.headers["X-CSRF-Token"] = token
-        assert (
-            client.post("/api/v1/auth/setup", json={"username": "admin", "password": PASSWORD}).status_code
-            == 200
-        )
         sign_in(client)
         for username, role in [("viewer", "aggregate_viewer"), ("analyst", "analyst_detail")]:
             assert (
@@ -45,6 +44,8 @@ def portal(tmp_path):
                 ).status_code
                 == 200
             )
+        with app.state.app_db.connection() as con:
+            con.execute("UPDATE users SET must_change_password=0")
         yield app, client, settings
 
 

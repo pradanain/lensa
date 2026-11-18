@@ -49,8 +49,11 @@ class AppDatabase:
                 CREATE INDEX IF NOT EXISTS directory_assignment ON directory_rows(assignment_id,scope);
                 CREATE VIRTUAL TABLE IF NOT EXISTS directory_fts USING fts5(search_text,restricted_text,tokenize='unicode61');
             """)
-            # Only the disposable portal search cache changes; census remains read-only.
+            # Account state and disposable search-cache fields only; census stays read-only.
             con.execute("BEGIN IMMEDIATE")
+            user_columns = {row[1] for row in con.execute("PRAGMA table_info(users)")}
+            if "must_change_password" not in user_columns:
+                con.execute("ALTER TABLE users ADD COLUMN must_change_password INTEGER NOT NULL DEFAULT 1 CHECK(must_change_password IN (0,1))")
             columns = {row[1] for row in con.execute("PRAGMA table_info(directory_rows)")}
             if "subsls" not in columns:
                 con.execute("ALTER TABLE directory_rows ADD COLUMN subsls TEXT")

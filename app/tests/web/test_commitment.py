@@ -136,6 +136,10 @@ def test_email_username_uses_the_same_login_and_consent_guard(portal):
     })
     assert response.status_code == 200
     client = pending_login(app, 'mail.admin@example.test')
+    assert client.get('/api/v1/auth/session').json()['password_change_required']
+    changed = client.post('/api/v1/auth/change-password', json={'current_password': PASSWORD, 'new_password': 'Synthetic-New-password-2026!', 'confirm_password': 'Synthetic-New-password-2026!'})
+    assert changed.status_code == 200
+    client.headers['X-CSRF-Token'] = changed.json()['csrf_token']
     assert client.get('/api/v1/analytics/business-summary').status_code == 403
     assert accept(client).status_code == 200
     assert client.get('/api/v1/analytics/business-summary').status_code == 200

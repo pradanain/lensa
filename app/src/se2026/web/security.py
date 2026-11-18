@@ -1,4 +1,5 @@
 import secrets
+import re
 import time
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
@@ -55,7 +56,7 @@ def authenticated_user(request: Request):
         raise HTTPException(401, "LOGIN_REQUIRED")
     with request.app.state.app_db.connection() as con:
         row = con.execute(
-            "SELECT u.id,u.username,u.role,s.csrf FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>? AND u.active=1",
+            "SELECT u.id,u.username,u.role,u.must_change_password,s.csrf FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>? AND u.active=1",
             (token_hash(token), int(time.time())),
         ).fetchone()
     if not row:
@@ -75,8 +76,15 @@ def commitment_accepted(request: Request):
         ).fetchone() is not None
 
 
-def current_user(request: Request):
+def password_ready_user(request: Request):
     user = authenticated_user(request)
+    if user.get("must_change_password"):
+        raise HTTPException(403, "PASSWORD_CHANGE_REQUIRED")
+    return user
+
+
+def current_user(request: Request):
+    user = password_ready_user(request)
     if request.app.state.settings.auth_enabled and not commitment_accepted(request):
         raise HTTPException(403, "COMMITMENT_REQUIRED")
     return user
@@ -103,6 +111,7 @@ def public_user(user):
         "role": user["role"],
         "can_detail": user["role"] != "aggregate_viewer",
         "can_sensitive": user["role"] == "admin",
+        "must_change_password": bool(user.get("must_change_password")),
     }
 
 
@@ -116,6 +125,7 @@ def session(request: Request, response: Response):
             "csrf_token": csrf,
             "setup_required": False,
             "auth_enabled": False,
+            "password_change_required": False,
             "commitment_required": False,
             "commitment_version": COMMITMENT_VERSION,
             "business_focus_enabled": request.app.state.settings.business_focus_enabled,
@@ -127,12 +137,11 @@ def session(request: Request, response: Response):
     except HTTPException:
         pass
     response.set_cookie("portal_csrf", csrf, httponly=False, **cookie_options(request))
-    with request.app.state.app_db.connection() as con:
-        setup = con.execute("SELECT COUNT(*) FROM users").fetchone()[0] == 0
     return {
         "user": public_user(user) if user else None,
         "csrf_token": csrf,
-        "setup_required": setup,
+        "setup_required": False,
+        "password_change_required": bool(user and user.get("must_change_password")),
         "auth_enabled": True,
         "commitment_required": bool(user) and not commitment_accepted(request),
         "commitment_version": COMMITMENT_VERSION,
@@ -146,25 +155,15 @@ def require_auth_enabled(request: Request):
 
 
 def strong_password(value):
-    if len(value) < 12:
-        raise HTTPException(422, "PASSWORD_MINIMUM_12_CHARACTERS")
+    if (len(value) < 8 or len(value) > 256 or not re.search(r"[A-Z]", value)
+            or not re.search(r"[0-9]", value)
+            or not any(not c.isalnum() and not c.isspace() for c in value)):
+        raise HTTPException(422, "PASSWORD_POLICY_REQUIRED")
 
 
 @router.post("/setup", dependencies=[Depends(require_auth_enabled), Depends(csrf_guard)])
 def setup(payload: Credentials, request: Request):
-    if not request.app.state.settings.allow_web_setup:
-        raise HTTPException(403, "WEB_SETUP_DISABLED")
-    strong_password(payload.password)
-    with request.app.state.app_db.connection() as con:
-        con.execute("BEGIN IMMEDIATE")
-        if con.execute("SELECT COUNT(*) FROM users").fetchone()[0]:
-            raise HTTPException(409, "SETUP_ALREADY_COMPLETE")
-        con.execute(
-            "INSERT INTO users(username,password_hash,role,created_at) VALUES(?,?,?,?)",
-            (payload.username, hasher.hash(payload.password), "admin", int(time.time())),
-        )
-    request.app.state.app_db.audit(None, "ADMIN_SETUP")
-    return {"status": "ADMIN_CREATED"}
+    raise HTTPException(403, "WEB_SETUP_DISABLED")
 
 
 @router.post("/login", dependencies=[Depends(require_auth_enabled), Depends(csrf_guard)])
@@ -179,7 +178,7 @@ def login(payload: Credentials, request: Request, response: Response):
         if attempt and attempt["failures"] >= 5 and now - attempt["window_start"] < 300:
             raise HTTPException(429, "LOGIN_RATE_LIMIT")
         user = con.execute(
-            "SELECT id,username,password_hash,role,active FROM users WHERE username=?", (payload.username,)
+            "SELECT id,username,password_hash,role,active,must_change_password FROM users WHERE username=?", (payload.username,)
         ).fetchone()
     valid = hasher.verify(payload.password, user["password_hash"] if user else dummy_hash)
     if not user or not valid or not user["active"]:
@@ -194,6 +193,9 @@ def login(payload: Credentials, request: Request, response: Response):
         raise HTTPException(401, "LOGIN_FAILED")
     token, csrf = secrets.token_urlsafe(48), secrets.token_urlsafe(32)
     with db.connection() as con:
+        con.execute("BEGIN IMMEDIATE")
+        if not con.execute("SELECT 1 FROM users WHERE id=? AND password_hash=? AND active=1", (user["id"], user["password_hash"])).fetchone():
+            raise HTTPException(401, "LOGIN_FAILED")
         con.execute("DELETE FROM sessions WHERE expires_at<=?", (now,))
         con.execute("DELETE FROM login_attempts WHERE client_hash=?", (client,))
         con.execute(
@@ -209,7 +211,47 @@ def login(payload: Credentials, request: Request, response: Response):
     )
     response.set_cookie("portal_csrf", csrf, httponly=False, **cookie_options(request))
     db.audit(user["id"], "LOGIN")
-    return {"user": public_user(user), "csrf_token": csrf,
+    return {"user": public_user(dict(user)), "csrf_token": csrf,
+            "password_change_required": bool(user["must_change_password"]),
+            "commitment_required": True, "commitment_version": COMMITMENT_VERSION}
+
+
+class PasswordChange(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    current_password: str = Field(min_length=1, max_length=256)
+    new_password: str = Field(min_length=1, max_length=256)
+    confirm_password: str = Field(min_length=1, max_length=256)
+
+
+@router.post("/change-password", dependencies=[Depends(require_auth_enabled)])
+def change_password(payload: PasswordChange, request: Request, response: Response, user=Depends(authenticated_user)):
+    strong_password(payload.new_password)
+    if payload.new_password != payload.confirm_password:
+        raise HTTPException(422, "PASSWORD_CONFIRMATION_MISMATCH")
+    now = int(time.time())
+    token, csrf = secrets.token_urlsafe(48), secrets.token_urlsafe(32)
+    with request.app.state.app_db.connection() as con:
+        con.execute("BEGIN IMMEDIATE")
+        current = con.execute("SELECT password_hash FROM users WHERE id=? AND active=1", (user["id"],)).fetchone()
+        if not current or not con.execute("SELECT 1 FROM sessions WHERE token_hash=? AND user_id=? AND expires_at>?",
+                                         (token_hash(request.cookies.get("portal_session", "")), user["id"], now)).fetchone():
+            raise HTTPException(401, "SESSION_EXPIRED")
+        if not hasher.verify(payload.current_password, current["password_hash"]):
+            raise HTTPException(400, "CURRENT_PASSWORD_INVALID")
+        if hasher.verify(payload.new_password, current["password_hash"]):
+            raise HTTPException(422, "PASSWORD_MUST_DIFFER")
+        con.execute("UPDATE users SET password_hash=?,must_change_password=0 WHERE id=?",
+                    (hasher.hash(payload.new_password), user["id"]))
+        # Revoke every session issued under the old password, including its pact.
+        con.execute("DELETE FROM sessions WHERE user_id=?", (user["id"],))
+        con.execute("INSERT INTO sessions VALUES(?,?,?,?)",
+                    (token_hash(token), user["id"], csrf, now + request.app.state.settings.session_hours * 3600))
+        con.execute("INSERT INTO audit(occurred_at,user_id,action,outcome) VALUES(?,?,?,?)",
+                    (now, user["id"], "PASSWORD_CHANGED", "OK"))
+    response.set_cookie("portal_session", token, httponly=True,
+                        max_age=request.app.state.settings.session_hours * 3600, **cookie_options(request))
+    response.set_cookie("portal_csrf", csrf, httponly=False, **cookie_options(request))
+    return {"status": "PASSWORD_CHANGED", "csrf_token": csrf, "password_change_required": False,
             "commitment_required": True, "commitment_version": COMMITMENT_VERSION}
 
 
@@ -220,7 +262,7 @@ class CommitmentDecision(BaseModel):
 
 
 @router.post("/commitment", dependencies=[Depends(require_auth_enabled)])
-def accept_commitment(payload: CommitmentDecision, request: Request, user=Depends(authenticated_user)):
+def accept_commitment(payload: CommitmentDecision, request: Request, user=Depends(password_ready_user)):
     if payload.version != COMMITMENT_VERSION:
         raise HTTPException(409, "COMMITMENT_VERSION_CHANGED")
     if not payload.accepted:
@@ -258,7 +300,7 @@ def users(request: Request, user=Depends(require_admin)):
     with request.app.state.app_db.connection() as con:
         return {
             "rows": [
-                dict(row) for row in con.execute("SELECT id,username,role,active FROM users ORDER BY id")
+                dict(row) for row in con.execute("SELECT id,username,role,active,must_change_password FROM users ORDER BY id")
             ]
         }
 

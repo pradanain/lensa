@@ -56,7 +56,7 @@ def main():
                 ("viewer", "aggregate_viewer"),
             ]:
                 con.execute(
-                    "INSERT INTO users(username,password_hash,role,created_at) VALUES(?,?,?,?)",
+                    "INSERT INTO users(username,password_hash,role,created_at,must_change_password) VALUES(?,?,?,?,0)",
                     (username, hasher.hash("Synthetic-only-password-2026!"), role, int(time.time())),
                 )
     uvicorn.run(

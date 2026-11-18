@@ -80,6 +80,10 @@ def test_private_admin_and_https_session_guard_production_data(tmp_path):
         assert "Secure" in login.headers["set-cookie"] and "HttpOnly" in login.headers["set-cookie"]
         client.headers["X-CSRF-Token"] = login.json()["csrf_token"]
         assert client.get("/api/v1/analytics/business-summary").status_code == 403
+        assert login.json()["password_change_required"] is True
+        changed = client.post("/api/v1/auth/change-password", json={"current_password": "Synthetic-only-password-2026!", "new_password": "Synthetic-New-password-2026!", "confirm_password": "Synthetic-New-password-2026!"})
+        assert changed.status_code == 200
+        client.headers["X-CSRF-Token"] = changed.json()["csrf_token"]
         assert client.post("/api/v1/auth/commitment", json={"version": login.json()["commitment_version"], "accepted": True}).status_code == 200
         assert client.get("/api/v1/analytics/business-summary").status_code == 200
         assert (

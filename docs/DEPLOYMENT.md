@@ -149,3 +149,11 @@ Pemeriksaan database aplikasi dan backup dilakukan sebagai UID container 10001. 
 1. Pull image SHA terbaru yang sudah lulus CI. Jika state server masih kosong, jalankan bootstrap di atas memakai image yang sama dan nama pengguna yang Anda pilih. Masukkan kata sandi secara interaktif; jangan menaruhnya pada command line, repository atau `.env`. Bootstrap menolak mengganti akun existing. Akun yang dibuat di komputer lokal tidak otomatis tersalin ke volume server.
 2. Ubah atau tambahkan `LENSA_AUTH_ENABLED=true` pada `/srv/stacks/lensa/.env`. Compose lama sudah membaca variabel ini, sehingga tidak memerlukan penggantian data atau volume.
 3. Jalankan `./deploy.sh ghcr.io/pradanain/lensa:sha-<commit-terverifikasi>`. Pastikan login berhasil, pakta muncul, dan akses data baru tersedia setelah disetujui. Periksa ulang logout serta akses tanpa sesi.
+
+## Akun sementara dan login pertama
+
+Pendaftaran mandiri ditutup pada semua mode; endpoint setup lama tetap menolak pembuatan akun. Administrator pertama memakai bootstrap privat. Setelah masuk dan menyelesaikan onboarding, admin membuka ikon Kelola pengguna untuk mengisi nama pengguna/email, kata sandi sementara dan peran.
+
+Semua akun baru wajib mengganti kata sandi sementara pada login pertama. Kata sandi baru minimal 8 karakter, memiliki satu huruf besar A-Z, satu angka 0-9, satu simbol (spasi bukan simbol), dan berbeda dari kata sandi lama. Konfirmasi dan kata sandi saat ini diperiksa server. Pengguna tidak dapat membuka data, ekspor, pengaturan atau menyetujui pakta sebelum selesai. Sesudah ganti, sesi lama dicabut, sesi baru diterbitkan dan pakta diminta.
+
+Upgrade dari versi sebelum aturan ini mempertahankan akun/hash/peran existing dan menandai akun tersebut wajib ganti sekali pada login berikutnya, termasuk admin. Persetujuan pakta tetap per sesi. Tidak ada perubahan database sensus.

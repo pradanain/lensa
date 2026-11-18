@@ -158,7 +158,7 @@ def test_csrf_origin_and_validation_do_not_echo_input(portal):
     assert all("SameSite=strict" in value for value in cookies)
     assert (
         client.post("/api/v1/auth/setup", json={"username": "another", "password": PASSWORD}).status_code
-        == 409
+        == 403
     )
 
 

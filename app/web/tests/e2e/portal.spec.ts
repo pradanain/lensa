@@ -37,17 +37,16 @@ async function login(page:Page,username='admin'){
   await expect(page.getByRole('heading',{name:'Ringkasan Data SE2026'})).toBeVisible()
 }
 
-test('first local administrator is created through the real setup form',async({page})=>{
+test('empty installations show login without a self-registration form',async({page})=>{
   await page.goto('http://127.0.0.1:8766/dashboard')
-  await expect(page.getByRole('heading',{name:'Siapkan akses pertama'})).toBeVisible()
-  await page.getByLabel('Nama pengguna',{exact:true}).fill('firstadmin')
-  await page.getByLabel('Kata sandi',{exact:true}).fill(password)
-  await page.getByLabel('Konfirmasi kata sandi',{exact:true}).fill(password)
-  await page.getByRole('button',{name:'Buat akun dan masuk'}).click()
-  await page.getByRole('button',{name:'Saya memahami dan berkomitmen',exact:true}).click()
-  await expect(page.getByRole('heading',{name:'Ringkasan Data SE2026'})).toBeVisible()
-  await expect(page.getByRole('navigation',{name:'Menu utama'}).getByRole('link')).toHaveText(['Dashboard','Usaha','Keluarga','Raw Data'])
+  await expect(page.getByRole('heading',{name:'Selamat datang kembali',exact:true})).toBeVisible()
+  await expect(page.getByText('Akun hanya dibuat oleh administrator.',{exact:true})).toBeVisible()
+  await expect(page.getByRole('button',{name:'Buat akun dan masuk',exact:true})).toHaveCount(0)
+  const session=await (await page.request.get('http://127.0.0.1:8766/api/v1/auth/session')).json()
+  expect(session.setup_required).toBe(false)
+  expect((await page.request.post('http://127.0.0.1:8766/api/v1/auth/setup',{headers:{'X-CSRF-Token':session.csrf_token},data:{username:'not-created',password}})).status()).toBe(403)
 })
+
 
 test('directory directly opens a questionnaire and restores search and filters',async({page})=>{
   await login(page)
@@ -1617,12 +1616,13 @@ test('Dashboard keeps aggregate viewers out of detail links and handles empty di
 })
 
 
-async function pendingLogin(page:Page,path='/dashboard',username='admin'){
+async function pendingLogin(page:Page,path='/dashboard',username='admin',firstLogin=false){
   await page.goto(path)
   await page.getByLabel('Nama pengguna',{exact:true}).fill(username)
   await page.getByLabel('Kata sandi',{exact:true}).fill(password)
   await page.getByRole('button',{name:'Masuk ke portal',exact:true}).click()
-  await expect(page.getByRole('dialog',{name:'Pakta integritas',exact:true})).toBeVisible()
+  if(firstLogin)await expect(page.getByRole('heading',{name:'Ganti kata sandi sementara',exact:true})).toBeVisible()
+  else await expect(page.getByRole('dialog',{name:'Pakta integritas',exact:true})).toBeVisible()
 }
 
 test('login requires commitment before deep links and exports, with reload persistence',async({page})=>{
@@ -1689,7 +1689,55 @@ test('email usernames work in the login form before the integrity gate',async({p
   const response=await page.request.post('/api/v1/auth/users',{headers:{'X-CSRF-Token':session.csrf_token},data:{username:'mail.admin@example.test',password,role:'admin'}})
   expect(response.status()).toBe(200)
   await page.getByRole('button',{name:'Keluar dari portal',exact:true}).click()
-  await pendingLogin(page,'/dashboard','mail.admin@example.test')
+  await pendingLogin(page,'/dashboard','mail.admin@example.test',true)
+  await replaceTemporaryPassword(page)
   await page.getByRole('button',{name:'Saya memahami dan berkomitmen',exact:true}).click()
   await expect(page.getByRole('heading',{name:'Ringkasan Data SE2026',exact:true})).toBeVisible()
+})
+
+
+async function replaceTemporaryPassword(page:Page){
+  await page.getByLabel('Kata sandi sementara',{exact:true}).fill(password)
+  await page.getByLabel('Kata sandi baru',{exact:true}).fill('Fresh1!A')
+  await page.getByLabel('Konfirmasi kata sandi baru',{exact:true}).fill('Fresh1!A')
+  await page.getByRole('button',{name:'Simpan kata sandi baru',exact:true}).click()
+  await expect(page.getByRole('dialog',{name:'Pakta integritas',exact:true})).toBeVisible()
+}
+
+test('admin creates a temporary account that must change password before pact or data',async({page})=>{
+  await login(page)
+  await page.getByRole('link',{name:'Kelola pengguna',exact:true}).click()
+  await page.getByLabel('Nama pengguna',{exact:true}).fill('first.user@example.test')
+  await page.getByLabel('Kata sandi sementara',{exact:true}).fill(password)
+  await selectValue(page,'Peran pengguna baru','analyst_detail')
+  await page.getByRole('button',{name:'Tambah pengguna',exact:true}).click()
+  await expect(page.getByRole('status')).toContainText('Pengguna dibuat.')
+  await expect(page.locator('.account-row').filter({hasText:'first.user@example.test'})).toContainText('Wajib ganti kata sandi')
+  await page.getByRole('button',{name:'Keluar dari portal',exact:true}).click()
+  await pendingLogin(page,'/questionnaire/dtd/DTD-0001','first.user@example.test',true)
+  expect((await page.request.get('/api/v1/questionnaires/dtd/DTD-0001')).status()).toBe(403)
+  await page.reload()
+  await expect(page.getByRole('heading',{name:'Ganti kata sandi sementara',exact:true})).toBeVisible()
+  for(const width of [320,390,1280]){
+    await page.setViewportSize({width,height:844})
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+    if(width===390)await page.screenshot({path:'../../docs/reports/app/screenshots/mandatory-password-mobile-synthetic.png',fullPage:true})
+  }
+  await page.getByLabel('Kata sandi sementara',{exact:true}).fill(password)
+  await page.getByLabel('Kata sandi baru',{exact:true}).fill(password)
+  await page.getByLabel('Konfirmasi kata sandi baru',{exact:true}).fill(password)
+  await page.getByRole('button',{name:'Simpan kata sandi baru',exact:true}).click()
+  await expect(page.getByRole('alert')).toContainText('harus berbeda')
+  await replaceTemporaryPassword(page)
+  await page.getByRole('button',{name:'Saya memahami dan berkomitmen',exact:true}).click()
+  await expect(page.getByRole('heading',{name:'Kuesioner SE2026',exact:true})).toBeVisible()
+  await page.getByRole('button',{name:'Keluar dari portal',exact:true}).click()
+  await page.getByLabel('Nama pengguna',{exact:true}).fill('first.user@example.test')
+  await page.getByLabel('Kata sandi',{exact:true}).fill(password)
+  await page.getByRole('button',{name:'Masuk ke portal',exact:true}).click()
+  await expect(page.getByRole('alert')).toContainText('belum sesuai')
+  await page.getByLabel('Kata sandi',{exact:true}).fill('Fresh1!A')
+  await page.getByRole('button',{name:'Masuk ke portal',exact:true}).click()
+  await expect(page.getByRole('dialog',{name:'Pakta integritas',exact:true})).toBeVisible()
+  await expect(page.getByRole('heading',{name:'Ganti kata sandi sementara',exact:true})).toHaveCount(0)
 })

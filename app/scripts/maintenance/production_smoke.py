@@ -66,6 +66,8 @@ def verify(base):
     status, logged_in = call("/api/v1/auth/login", {"username": "smoke-admin", "password": "Synthetic-only-password-2026!"})
     assert status == 200 and logged_in["commitment_required"] is True
     assert call("/api/v1/analytics/business-summary")[0] == 403
+    assert logged_in["password_change_required"] is True
+    assert call("/api/v1/auth/change-password", {"current_password": "Synthetic-only-password-2026!", "new_password": "Synthetic-New-password-2026!", "confirm_password": "Synthetic-New-password-2026!"})[0] == 200
     assert call("/api/v1/auth/commitment", {"version": logged_in["commitment_version"], "accepted": True})[0] == 200
     for path in ("/api/v1/analytics/business-summary", "/api/v1/kbli/tree"):
         assert call(path)[0] == 200
