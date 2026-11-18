@@ -1236,7 +1236,9 @@ tbody tr .button { margin: -6px 0; }
 .member-directory-table .member-nik { font-variant-numeric: tabular-nums; }
 .access-page { min-height: 100dvh; background: var(--bg); }
 .login-access-page { display: flex; flex-direction: column; }
-.login-access-page .access-layout { flex: 1; width: 100%; padding-block: clamp(16px, 4dvh, 40px); }
+.login-access-page .access-layout { flex: 1; width: 100%; padding-block: clamp(16px, 3.5dvh, 32px); align-content: start; align-items: start; }
+.login-access-page .access-story h1 { margin-top: 0; }
+.login-access-page .access-story > p { max-width: none; }
 .login-footer { flex-shrink: 0; width: calc(100% - 48px); max-width: 1152px; margin: 0 auto; padding: 14px 0; border-top: 1px solid var(--line); text-align: center; color: var(--muted); font-size: 12px; }
 .login-credit { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 4px; margin-top: 3px; font-size: 11px; }
 .login-credit svg { flex-shrink: 0; }
