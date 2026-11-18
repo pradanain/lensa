@@ -9,6 +9,8 @@ router = APIRouter(prefix="/api/v1", tags=["records"])
 
 @router.post("/directories/{scope}/export")
 def export_directory(scope: str, payload: DirectoryQuery, request: Request, user=Depends(require_detail)):
+    request.state.activity_context = {"source": payload.source, "has_search": bool(payload.q)}
+    request.state.activity_context["filter_ref"] = request.app.state.activity.fingerprint("filter", payload.model_dump_json())
     if scope not in ("assignments", "businesses", "families", "members"):
         raise HTTPException(404, "SCOPE_NOT_FOUND")
     response = directory_workbook(request.app.state.directory, scope, payload, user["role"])
@@ -18,13 +20,17 @@ def export_directory(scope: str, payload: DirectoryQuery, request: Request, user
 
 @router.post("/directories/{scope}/search")
 def search(scope: str, payload: DirectoryQuery, request: Request, user=Depends(require_detail)):
+    request.state.activity_context = {"source": payload.source, "page": payload.page, "page_size": payload.page_size, "has_search": bool(payload.q)}
+    request.state.activity_context["filter_ref"] = request.app.state.activity.fingerprint("filter", payload.model_dump_json())
     request.app.state.app_db.audit(
         user["id"],
         "DIRECTORY_" + scope.upper()
         if scope in ("assignments", "businesses", "families", "members")
         else "DIRECTORY_UNKNOWN",
     )
-    return request.app.state.directory.search(scope, payload, user["role"])
+    result = request.app.state.directory.search(scope, payload, user["role"])
+    request.state.activity_context.update(returned_rows=len(result.get("rows", [])), total_matches=result.get("total"))
+    return result
 
 
 @router.get("/assignments/{system}")

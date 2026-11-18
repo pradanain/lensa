@@ -1,0 +1,2 @@
+.activity-alert{position:fixed;bottom:12px;left:12px;right:12px;z-index:1000;padding:12px;background:#fff0e5;color:#9e390c;border:1px solid #e9b698;border-radius:10px}
+@media(max-width:600px){.portal-header-inner .brand-title small{display:none}.portal-header-inner .brand{gap:8px}.portal-header-inner .brand>img{width:32px;height:42px}.portal-header-inner .brand-title{padding-left:8px}.portal-header-inner .user-menu{padding-left:0;border:0;gap:0}.portal-header .portal-header-inner{gap:4px;padding-left:12px;padding-right:12px}}

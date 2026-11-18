@@ -16,6 +16,7 @@ from .references import References
 from .routers import analytics, quality, records, references
 from .security import router as auth_router
 from .settings import Settings
+from .activity import ActivityLog, activity_middleware, router as activity_router
 
 
 def create_app(settings=None):
@@ -41,11 +42,13 @@ def create_app(settings=None):
     )
     app.state.settings = settings
     app.state.app_db = AppDatabase(settings)
+    app.state.activity = ActivityLog(app.state.app_db)
     app.state.references = References(settings.root)
     app.state.directory = DirectoryIndex(settings, app.state.app_db, app.state.references)
     app.state.questionnaires = Questionnaires(settings, app.state.references)
     app.state.aggregate_cache = analytics.AggregateCache(settings)
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=settings.allowed_hosts)
+    app.middleware("http")(activity_middleware)
 
     @app.middleware("http")
     async def privacy_headers(request: Request, call_next):
@@ -89,7 +92,7 @@ def create_app(settings=None):
     # Suppress verbose framework/request logging; operational evidence uses
     # normalized action codes in the private application database.
     logging.getLogger("uvicorn.access").disabled = True
-    for router in [auth_router, records.router, analytics.router, references.router, quality.router]:
+    for router in [auth_router, activity_router, records.router, analytics.router, references.router, quality.router]:
         app.include_router(router)
 
     @app.get("/api/health")

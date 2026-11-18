@@ -1,0 +1,45 @@
+import {test,expect,type Page} from '@playwright/test'
+const password='Synthetic-only-password-2026!'
+async function login(page:Page,username='admin'){
+  await page.goto('/dashboard')
+  await page.getByLabel('Nama pengguna',{exact:true}).fill(username)
+  await page.getByLabel('Kata sandi',{exact:true}).fill(password)
+  await page.getByRole('button',{name:'Masuk ke portal'}).click()
+  await page.getByRole('button',{name:'Saya memahami dan berkomitmen',exact:true}).click()
+  await expect(page.getByRole('heading',{name:'Ringkasan Data SE2026'})).toBeVisible()
+}
+test('admin monitors server evidence and browser navigation on desktop and mobile',async({page})=>{
+  await login(page)
+  await page.getByRole('navigation',{name:'Menu utama'}).getByRole('link',{name:'Keluarga',exact:true}).click()
+  await page.getByRole('link',{name:'Monitoring aktivitas',exact:true}).click()
+  await expect(page.getByRole('heading',{name:'Monitoring aktivitas',exact:true})).toBeVisible()
+  await page.getByRole('combobox',{name:'Filter aktivitas',exact:true}).click()
+  await page.getByRole('option',{name:'Buka halaman / bagian',exact:true}).click()
+  await expect(page.locator('.activity-table tbody')).toContainText('Dilaporkan browser')
+  await expect(page.locator('.activity-table tbody')).toContainText('keluarga')
+  await page.getByRole('button',{name:'Periksa integritas',exact:true}).click()
+  await expect(page.getByText('Rantai catatan sesuai',{exact:false})).toBeVisible()
+  await page.getByRole('button',{name:'Reset filter',exact:true}).click()
+  const download=page.waitForEvent('download')
+  await page.getByRole('button',{name:'Unduh Excel',exact:true}).click()
+  expect((await download).suggestedFilename()).toBe('lensa-aktivitas-utc.xlsx')
+  await page.getByRole('tab',{name:'Sesi terbaru',exact:true}).click()
+  await expect(page.locator('.activity-sessions')).toContainText('Sesi masih berlaku')
+  await page.locator('.activity-sessions').getByRole('button',{name:'Telusuri sesi'}).first().click()
+  await expect(page.getByText('Sedang menelusuri sesi',{exact:false})).toBeVisible()
+  for(const width of [390,320]){
+    await page.setViewportSize({width,height:844})
+    await expect(page.locator('.activity-table thead')).toBeHidden()
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true)
+  }
+  await page.evaluate(()=>{(document.activeElement as HTMLElement)?.blur();window.scrollTo(0,0)})
+  await page.screenshot({path:'../../docs/reports/app/screenshots/activity-mobile-synthetic.png',fullPage:false})
+})
+test('analyst cannot open monitoring or download evidence',async({page})=>{
+  await login(page,'analyst')
+  await expect(page.getByRole('link',{name:'Monitoring aktivitas',exact:true})).toHaveCount(0)
+  await page.goto('/monitoring')
+  await expect(page.getByText('Monitoring aktivitas hanya tersedia untuk administrator.',{exact:true})).toBeVisible()
+  expect((await page.request.get('/api/v1/activity')).status()).toBe(403)
+  expect((await page.request.get('/api/v1/activity/integrity')).status()).toBe(403)
+})

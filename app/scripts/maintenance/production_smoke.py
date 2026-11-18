@@ -71,6 +71,10 @@ def verify(base):
     assert call("/api/v1/auth/commitment", {"version": logged_in["commitment_version"], "accepted": True})[0] == 200
     for path in ("/api/v1/analytics/business-summary", "/api/v1/kbli/tree"):
         assert call(path)[0] == 200
+    status, evidence = call("/api/v1/activity")
+    assert status == 200 and evidence["summary"]["logins"] == 1
+    status, integrity = call("/api/v1/activity/integrity")
+    assert status == 200 and integrity["valid"] and integrity["checked"] > 0
     assert call("/api/v1/auth/logout", {})[0] == 200
     assert call("/api/v1/analytics/business-summary")[0] == 401
     html = urllib.request.urlopen(base + "/usaha").read().decode()

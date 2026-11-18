@@ -10,6 +10,7 @@ import {Business,DataSE,Families} from './pages/domains'
 const Questionnaire=lazy(()=>import('./pages/questionnaire').then(m=>({default:m.Questionnaire})))
 import {Quality} from './pages/quality'
 import {References,Settings} from './pages/secondary'
+const Monitoring=lazy(()=>import('./pages/monitoring').then(m=>({default:m.Monitoring})))
 import './styles.css'
 
 const rootRoute=createRootRoute({component:Root,validateSearch})
@@ -23,6 +24,7 @@ const routes=[index,
   createRoute({getParentRoute:()=>rootRoute,path:'/kualitas',component:Quality}),
   createRoute({getParentRoute:()=>rootRoute,path:'/referensi',component:References}),
   createRoute({getParentRoute:()=>rootRoute,path:'/pengaturan',component:Settings}),
+  createRoute({getParentRoute:()=>rootRoute,path:'/monitoring',component:Monitoring}),
 ]
 export const router=createRouter({routeTree:rootRoute.addChildren(routes),defaultPreload:false,scrollRestoration:true})
 declare module '@tanstack/react-router'{interface Register{router:typeof router}}

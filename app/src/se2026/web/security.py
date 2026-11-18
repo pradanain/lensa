@@ -168,6 +168,7 @@ def setup(payload: Credentials, request: Request):
 
 @router.post("/login", dependencies=[Depends(require_auth_enabled), Depends(csrf_guard)])
 def login(payload: Credentials, request: Request, response: Response):
+    request.state.activity_attempt = payload.username
     now = int(time.time())
     client = token_hash(request.client.host if request.client else "local")
     db = request.app.state.app_db
@@ -181,6 +182,8 @@ def login(payload: Credentials, request: Request, response: Response):
             "SELECT id,username,password_hash,role,active,must_change_password FROM users WHERE username=?", (payload.username,)
         ).fetchone()
     valid = hasher.verify(payload.password, user["password_hash"] if user else dummy_hash)
+    if user:
+        request.state.activity_context = {"attempted_user_id": user["id"]}
     if not user or not valid or not user["active"]:
         with db.connection() as con:
             old = attempt["failures"] if attempt and now - attempt["window_start"] < 300 else 0
@@ -211,6 +214,7 @@ def login(payload: Credentials, request: Request, response: Response):
     )
     response.set_cookie("portal_csrf", csrf, httponly=False, **cookie_options(request))
     db.audit(user["id"], "LOGIN")
+    request.state.activity_user = {"id": user["id"], "role": user["role"], "session_ref": request.app.state.activity.fingerprint("session", token_hash(token))}
     return {"user": public_user(dict(user)), "csrf_token": csrf,
             "password_change_required": bool(user["must_change_password"]),
             "commitment_required": True, "commitment_version": COMMITMENT_VERSION}
@@ -251,6 +255,7 @@ def change_password(payload: PasswordChange, request: Request, response: Respons
     response.set_cookie("portal_session", token, httponly=True,
                         max_age=request.app.state.settings.session_hours * 3600, **cookie_options(request))
     response.set_cookie("portal_csrf", csrf, httponly=False, **cookie_options(request))
+    request.state.activity_context = {"new_session_ref": request.app.state.activity.fingerprint("session", token_hash(token))}
     return {"status": "PASSWORD_CHANGED", "csrf_token": csrf, "password_change_required": False,
             "commitment_required": True, "commitment_version": COMMITMENT_VERSION}
 

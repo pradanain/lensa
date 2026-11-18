@@ -2,6 +2,7 @@ let csrf=''
 export function setCsrf(value:string) {csrf=value}
 
 const messages:Record<string,string>={
+  ACTIVITY_RECORD_UNAVAILABLE:'Pencatatan aktivitas tidak tersedia. Periksa koneksi sebelum melanjutkan.',ACTIVITY_EXPORT_TOO_LARGE:'Hasil melebihi 10.000 catatan. Persempit rentang tanggal atau filter.',
   COMMITMENT_REQUIRED:'Setujui pakta integritas untuk melanjutkan.',COMMITMENT_VERSION_CHANGED:'Pakta integritas diperbarui. Silakan baca dan setujui kembali.',COMMITMENT_ACCEPTANCE_REQUIRED:'Persetujuan diperlukan untuk membuka portal.',
   LOGIN_REQUIRED:'Silakan masuk untuk melanjutkan.',SESSION_EXPIRED:'Sesi berakhir. Silakan masuk kembali.',
   LOGIN_FAILED:'Nama pengguna atau kata sandi belum sesuai.',LOGIN_RATE_LIMIT:'Terlalu banyak percobaan. Coba kembali dalam lima menit.',

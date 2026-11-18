@@ -1,6 +1,6 @@
 import {useEffect,useState} from 'react'
 import {Link,Outlet,useLocation} from '@tanstack/react-router'
-import {BarChart3,Coffee,Heart,Building2,ChevronRight,Database,Grid2X2,House,LogOut,Menu,X,Settings2} from 'lucide-react'
+import {BarChart3,Coffee,Heart,Building2,ChevronRight,Database,Grid2X2,House,LogOut,Menu,X,Settings2,ShieldCheck} from 'lucide-react'
 import {useAuth} from '@/auth'
 import {roleNames} from '@/lib/utils'
 import {Button} from '@/components/ui/button'
@@ -9,8 +9,10 @@ import {Login} from '@/pages/login'
 import {Commitment} from '@/pages/commitment'
 import {PasswordChange} from '@/pages/password-change'
 import censusLogo from '@/assets/logo-se2026.jpg'
+import {ActivityTracker} from '@/components/activity-tracker'
 
-export function Root(){
+export function Root(){return <><ActivityTracker/><RootContent/></>}
+function RootContent(){
   const {session,loading,error,refresh}=useAuth()
   const location=useLocation()
   const [mobile,setMobile]=useState(false)
@@ -26,7 +28,7 @@ export function Root(){
   if(session.password_change_required)return <PasswordChange/>
   if(session.commitment_required)return <Commitment/>
   const current=location.pathname.split('/')[1]||'dashboard'
-  const titles:Record<string,string>={dashboard:'Dashboard',usaha:'Usaha',keluarga:'Keluarga',data:'Raw Data',kualitas:'Kualitas Data',referensi:'Referensi',pengaturan:'Pengaturan',questionnaire:'Kuesioner'}
+  const titles:Record<string,string>={dashboard:'Dashboard',usaha:'Usaha',keluarga:'Keluarga',data:'Raw Data',kualitas:'Kualitas Data',referensi:'Referensi',pengaturan:'Pengaturan',monitoring:'Monitoring aktivitas',questionnaire:'Kuesioner'}
   return <div className={'app-layout '+(current==='questionnaire'?'reader-page':'')} key={session.user.id+':'+session.user.role}>
     <a href="#main-content" className="skip-link">Langsung ke konten</a>
     <header className="portal-header"><div className="portal-header-inner">
@@ -53,5 +55,5 @@ function UserMenu(){
   const {session,logout}=useAuth()
   const [error,setError]=useState(false)
   if(!session?.auth_enabled)return null
-  return <div className="user-menu">{session.user?.role==='admin'&&<Link to="/pengaturan" className="button button-ghost button-icon" aria-label="Kelola pengguna" title="Kelola pengguna"><Settings2 size={17}/></Link>}<div className="user-label"><strong>{session.user?.username}</strong><small>{roleNames[session.user?.role||'']}</small></div><Button variant="ghost" size="icon" aria-label="Keluar dari portal" onClick={()=>void logout().catch(()=>setError(true))}><LogOut size={17}/></Button>{error&&<span role="alert">Belum berhasil keluar.</span>}</div>
+  return <div className="user-menu">{session.user?.role==='admin'&&<Link to="/monitoring" className="button button-ghost button-icon" aria-label="Monitoring aktivitas" title="Monitoring aktivitas"><ShieldCheck size={17}/></Link>}{session.user?.role==='admin'&&<Link to="/pengaturan" className="button button-ghost button-icon" aria-label="Kelola pengguna" title="Kelola pengguna"><Settings2 size={17}/></Link>}<div className="user-label"><strong>{session.user?.username}</strong><small>{roleNames[session.user?.role||'']}</small></div><Button variant="ghost" size="icon" aria-label="Keluar dari portal" onClick={()=>void logout().catch(()=>setError(true))}><LogOut size={17}/></Button>{error&&<span role="alert">Belum berhasil keluar.</span>}</div>
 }
