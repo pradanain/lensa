@@ -8,6 +8,8 @@ Cloudflare Tunnel existing → Traefik existing (entrypoint `web`) → satu serv
 
 Image: `ghcr.io/pradanain/lensa:latest` dan `ghcr.io/pradanain/lensa:sha-<commit-40-digit>`. Untuk deployment yang dapat diulang, gunakan tag SHA atau digest. Workflow `.github/workflows/docker-publish.yml` menjalankan tes Python/React/browser, build amd64, smoke test image dengan data sintetis, lalu publish SHA dan latest. Workflow hanya memublikasikan dari `main`.
 
+Tes Python (`verify-python`), frontend/browser (`verify`) dan simulasi deploy (`deploy-check`) berjalan paralel. Semua harus lulus sebelum job `publish` dijalankan. Push baru membatalkan run lama pada branch yang sama agar versi yang sudah diganti tidak menahan antrean. Status `cancelled` karena commit lebih baru berbeda dari kegagalan tes. Commit yang sudah ada di GitHub belum menjamin image tersedia; jalankan perintah deploy untuk SHA tersebut setelah job `publish` sukses.
+
 ## File server
 
 ```text

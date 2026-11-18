@@ -1326,6 +1326,9 @@ test('questionnaire cache is cleared when the session changes to a restricted ro
   await page.getByRole('button',{name:'Masuk ke portal',exact:true}).click()
   await expect(page.locator('.form-stage')).toHaveCount(0)
   await page.getByRole('button',{name:'Saya memahami dan berkomitmen',exact:true}).click()
+  // Logout deliberately discards the previous page; reopen the same record
+  // under the new account to verify that private answers were not retained.
+  await page.goto('/questionnaire/dtd/DTD-0001?block=b_ak')
   await expect(page.locator('.form-stage')).toContainText('Akses terbatas')
   await expect(page.locator('.form-stage')).not.toContainText('SYNTHETIC_PRIVATE_NIK')
 })

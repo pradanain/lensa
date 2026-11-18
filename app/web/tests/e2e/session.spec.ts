@@ -89,3 +89,17 @@ test('questionnaire links survive reload during the integrity gate',async({page}
   await page.getByRole('button',{name:'Saya memahami dan berkomitmen',exact:true}).click()
   await expect(page.locator('.form-reader')).toBeVisible()
 })
+
+test('login is visible only after logout navigation finishes before opening another page',async({page})=>{
+  await page.goto('/dashboard')
+  for(let cycle=0;cycle<3;cycle++){
+    await signIn(page)
+    await page.getByRole('button',{name:'Keluar dari portal',exact:true}).click()
+    await expect(page.getByLabel('Nama pengguna',{exact:true})).toBeVisible()
+    // Starting another navigation as soon as the form is visible must not race
+    // a pending document replacement and abort the user's requested page.
+    await page.goto('/dashboard')
+    await expect(page).toHaveURL(/\/login$/)
+    await expect(page.getByLabel('Kata sandi',{exact:true})).toBeVisible()
+  }
+})
