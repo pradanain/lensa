@@ -1245,11 +1245,7 @@ tbody tr .button { margin: -6px 0; }
 .access-story > p { font-size: 16px; color: var(--muted); line-height: 1.8; max-width: 48ch; margin-bottom: 18px; }
 .access-cover { margin: 24px 0 0; }
 .access-cover img { display: block; width: 100%; height: auto; border-radius: 14px; }
-.access-cover figcaption { margin-top: 10px; font-size: 12px; color: var(--muted); line-height: 1.6; }
 .access-icon, .commitment-emblem { display: inline-grid; place-items: center; width: 64px; height: 64px; border-radius: 16px; background: var(--pale); color: var(--accent); }
-.access-reminder { display: flex; align-items: flex-start; gap: 14px; padding: 22px; border: 1px solid var(--line); border-radius: 12px; background: white; margin-top: 32px; }
-.access-reminder > svg { flex-shrink: 0; color: var(--accent); }
-.access-reminder p { font-size: 13px; color: var(--muted); line-height: 1.7; margin-top: 8px; }
 .access-form { background: white; border: 1px solid var(--line); border-radius: 18px; padding: 36px; box-shadow: 0 8px 30px #172d3d04; }
 .access-form-heading { text-align: center; margin-bottom: 30px; }
 .access-form-heading h2 { font-size: 26px; }
@@ -1286,7 +1282,6 @@ tbody tr .button { margin: -6px 0; }
   .access-form-heading h2 { font-size: 22px; }
   .access-story { padding: 0 8px; }
   .access-story .access-icon, .access-story h1, .access-story > p { display: none; }
-  .access-reminder { margin: 0; padding: 18px; }
   .commitment-dialog { padding: 28px 24px; border-radius: 16px; }
   .commitment-dialog h2 { font-size: 24px; margin: 20px 0; }
   .commitment-dialog > p { font-size: 14px; }
