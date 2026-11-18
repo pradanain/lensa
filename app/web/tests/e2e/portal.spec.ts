@@ -37,6 +37,12 @@ async function login(page:Page,username='admin'){
   await expect(page.getByRole('heading',{name:'Ringkasan Data SE2026'})).toBeVisible()
 }
 
+async function logoutAndWait(page:Page,buttonName='Keluar dari portal'){
+  await page.getByRole('button',{name:buttonName,exact:true}).click()
+  await page.waitForURL('**/login',{waitUntil:'load'})
+  await expect(page.getByLabel('Nama pengguna',{exact:true})).toBeVisible()
+}
+
 test('empty installations show login without a self-registration form',async({page})=>{
   await page.goto('http://127.0.0.1:8766/dashboard')
   await expect(page.getByRole('heading',{name:'Selamat datang kembali',exact:true})).toBeVisible()
@@ -1318,7 +1324,7 @@ test('questionnaire cache is cleared when the session changes to a restricted ro
   await login(page)
   await page.goto('/questionnaire/dtd/DTD-0001?block=b_ak')
   await expect(page.locator('.form-stage')).toContainText('SYNTHETIC_PRIVATE_NIK')
-  await page.getByRole('button',{name:'Keluar dari portal',exact:true}).click()
+  await logoutAndWait(page)
   await expect(page.getByLabel('Nama pengguna',{exact:true})).toBeVisible()
   await expect(page.locator('.form-stage')).toHaveCount(0)
   await page.getByLabel('Nama pengguna',{exact:true}).fill('analyst')
@@ -1670,7 +1676,7 @@ test('login and commitment remain readable on small screens and a failed accepta
     expect(bounds!.x+bounds!.width).toBeLessThanOrEqual(width)
     expect(bounds!.y+bounds!.height).toBeLessThanOrEqual(720)
     if(width===390||width===1280)await page.screenshot({path:'../../docs/reports/app/screenshots/commitment-'+width+'-synthetic.png',fullPage:true})
-    await page.getByRole('button',{name:'Keluar',exact:true}).click()
+    await logoutAndWait(page,'Keluar')
   }
   await pendingLogin(page)
   await page.route('**/api/v1/auth/commitment',route=>route.fulfill({status:500,json:{detail:'INTERNAL_ERROR_NO_SOURCE_VALUES_LOGGED'}}))
@@ -1681,7 +1687,7 @@ test('login and commitment remain readable on small screens and a failed accepta
   await page.unroute('**/api/v1/auth/commitment')
   await page.getByRole('button',{name:'Saya memahami dan berkomitmen',exact:true}).click()
   await expect(page.getByRole('heading',{name:'Ringkasan Data SE2026',exact:true})).toBeVisible()
-  await page.getByRole('button',{name:'Keluar dari portal',exact:true}).click()
+  await logoutAndWait(page)
   await pendingLogin(page)
 })
 
@@ -1691,7 +1697,7 @@ test('email usernames work in the login form before the integrity gate',async({p
   const session=await (await page.request.get('/api/v1/auth/session')).json()
   const response=await page.request.post('/api/v1/auth/users',{headers:{'X-CSRF-Token':session.csrf_token},data:{username:'mail.admin@example.test',password,role:'admin'}})
   expect(response.status()).toBe(200)
-  await page.getByRole('button',{name:'Keluar dari portal',exact:true}).click()
+  await logoutAndWait(page)
   await pendingLogin(page,'/dashboard','mail.admin@example.test',true)
   await replaceTemporaryPassword(page)
   await page.getByRole('button',{name:'Saya memahami dan berkomitmen',exact:true}).click()
@@ -1716,7 +1722,7 @@ test('admin creates a temporary account that must change password before pact or
   await page.getByRole('button',{name:'Tambah pengguna',exact:true}).click()
   await expect(page.getByRole('status')).toContainText('Pengguna dibuat.')
   await expect(page.locator('.account-row').filter({hasText:'first.user@example.test'})).toContainText('Wajib ganti kata sandi')
-  await page.getByRole('button',{name:'Keluar dari portal',exact:true}).click()
+  await logoutAndWait(page)
   await pendingLogin(page,'/questionnaire/dtd/DTD-0001','first.user@example.test',true)
   expect((await page.request.get('/api/v1/questionnaires/dtd/DTD-0001')).status()).toBe(403)
   await page.reload()
@@ -1734,7 +1740,7 @@ test('admin creates a temporary account that must change password before pact or
   await replaceTemporaryPassword(page)
   await page.getByRole('button',{name:'Saya memahami dan berkomitmen',exact:true}).click()
   await expect(page.getByRole('heading',{name:'Kuesioner SE2026',exact:true})).toBeVisible()
-  await page.getByRole('button',{name:'Keluar dari portal',exact:true}).click()
+  await logoutAndWait(page)
   await page.getByLabel('Nama pengguna',{exact:true}).fill('first.user@example.test')
   await page.getByLabel('Kata sandi',{exact:true}).fill(password)
   await page.getByRole('button',{name:'Masuk ke portal',exact:true}).click()
