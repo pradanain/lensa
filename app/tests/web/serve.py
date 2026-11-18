@@ -34,7 +34,9 @@ def main():
     parser.add_argument("--questionnaire-scopes", action="store_true")
     parser.add_argument("--turnover", action="store_true")
     args = parser.parse_args()
-    temporary = Path(tempfile.mkdtemp(prefix="portal-e2e-", dir=ROOT / ".cache"))
+    cache = ROOT / ".cache"
+    cache.mkdir(parents=True, exist_ok=True)
+    temporary = Path(tempfile.mkdtemp(prefix="portal-e2e-", dir=cache))
     census = make_database(temporary / "synthetic.sqlite")
     if args.turnover:
         with sqlite3.connect(census) as con:
