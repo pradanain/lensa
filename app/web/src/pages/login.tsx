@@ -1,5 +1,5 @@
 import {useState,type FormEvent} from 'react'
-import {ArrowRight} from 'lucide-react'
+import {ArrowRight,Coffee,Heart} from 'lucide-react'
 import censusLogo from '@/assets/logo-se2026.jpg'
 import loginCover from '@/assets/login-cover.webp'
 import loginCoverLarge from '@/assets/login-cover@2x.webp'
@@ -20,5 +20,6 @@ export function Login(){
         {error&&<div className="form-error" role="alert">{error}</div>}
         <Button type="submit" className="access-submit" disabled={pending}>{pending?'Memproses...':'Masuk ke portal'}<ArrowRight size={17}/></Button>
       </form></main>
+    <footer className="login-footer"><p>© {new Date().getFullYear()} BPS Kabupaten Bulungan</p><p className="login-credit">Made with <Heart size={12} aria-label="love" className="footer-heart"/> and <Coffee size={12} aria-label="coffee"/> by <span>Novanni Indi Pradana</span></p></footer>
   </div>
 }
