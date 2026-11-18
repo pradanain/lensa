@@ -3,6 +3,7 @@ import {useNavigate, useParams, useSearch} from '@tanstack/react-router'
 import {useQuery, useQueryClient} from '@tanstack/react-query'
 import {ArrowLeft, ArrowUp, BookOpen, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, MapPin, Maximize, Minimize, PanelLeftClose, PanelLeftOpen} from 'lucide-react'
 import {api, detailNavigation, type FormResult, type Question, type QuestionnaireLocation, type SearchState} from '@/lib/api'
+import {MASKED_VALUE} from '@/lib/utils'
 import {answerText, questionNumber} from '@/lib/questionnaire-display'
 import {useAuth} from '@/auth'
 import {SearchSelect} from '@/components/ui/search-select'
@@ -221,7 +222,7 @@ function revealQuestion(stage:HTMLDivElement|null,id:string,setOpened:(update:(p
   return true
 }
 
-const missingAnswers: Record<string, string> = {BLANK_OR_MISSING: 'Belum terisi', SKIPPED_NOT_APPLICABLE: 'Tidak berlaku', NOT_EXPORTED: 'Tidak ada dalam data', UNMATCHED_VERSION: 'Ada di versi lain', UNVERIFIED_MAPPING: 'Jawaban belum dapat ditampilkan', RESTRICTED: 'Akses terbatas'}
+const missingAnswers: Record<string, string> = {BLANK_OR_MISSING: 'Belum terisi', SKIPPED_NOT_APPLICABLE: 'Tidak berlaku', NOT_EXPORTED: 'Tidak ada dalam data', UNMATCHED_VERSION: 'Ada di versi lain', UNVERIFIED_MAPPING: 'Jawaban belum dapat ditampilkan', RESTRICTED: MASKED_VALUE}
 const presentationOnlyQuestions = new Set(['blokl.pilih_umkm_sls', 'blokl.alamat_usaha_view'])
 
 function UnavailableFields({fields,children,run=false}: {fields:Question[];children:ReactNode;run?:boolean}) {
@@ -232,7 +233,7 @@ function UnavailableFields({fields,children,run=false}: {fields:Question[];child
 
 function LocationInfo({location}: {location?: QuestionnaireLocation}) {
   if(!location) return null
-  const states:Record<string,string> = {UNAVAILABLE:'Tagging belum tersedia',RESTRICTED:'Akses tagging terbatas',UNMATCHED_VERSION:'Tagging tidak tersedia pada versi ini',SOURCE_CONFLICT:'Tagging perlu diperiksa'}
+  const states:Record<string,string> = {UNAVAILABLE:'Tagging belum tersedia',RESTRICTED:MASKED_VALUE,UNMATCHED_VERSION:'Tagging tidak tersedia pada versi ini',SOURCE_CONFLICT:'Tagging perlu diperiksa'}
   return <div className="form-location" aria-label="Tagging lokasi pendataan"><MapPin size={18}/><div><strong>Tagging lokasi</strong>{location.status === 'AVAILABLE' ? <>
     <p>{location.latitude}, {location.longitude}</p>
     {location.provenance === 'QUESTIONNAIRE_ROOT_TAG' && <p className="small muted">Titik pendataan kuesioner</p>}
@@ -275,7 +276,7 @@ function QuestionFields({fields, collapseNotExported = false, expandUnavailable 
         {field.reference_label && !referenceName && <p className="reference-answer">{field.reference_label}</p>}
         {field.parse_status && field.parse_status !== 'VALID' && <p className="parse-warning">Format angka perlu diperiksa.</p>}
         {field.label_status === 'UNRECOGNIZED_CODE' && <small className="answer-context">Label pilihan belum tersedia.</small>}
-      </> : <p className="unavailable-answer answer-state">{field.source_conflict ? 'Jawaban berbeda antar sumber' : missingAnswers[field.status] || missingAnswers.UNVERIFIED_MAPPING}</p>}</div>
+      </> : <p className="unavailable-answer answer-state" aria-label={field.status==='RESTRICTED'?'Data disamarkan':undefined}>{field.status==='RESTRICTED' ? MASKED_VALUE : field.source_conflict ? 'Jawaban berbeda antar sumber' : missingAnswers[field.status] || missingAnswers.UNVERIFIED_MAPPING}</p>}</div>
     </div>
   })}</div>
 }

@@ -10,7 +10,8 @@ export function number(value: string | number | null | undefined) {
   const grouped=whole.replace(/\B(?=(\d{3})+(?!\d))/g,'.')
   return fraction && Number(fraction)!==0 ? grouped+','+fraction.replace(/0+$/,'') : grouped
 }
-export const roleNames: Record<string,string>={admin:'Administrator',analyst_detail:'Analis detail',aggregate_viewer:'Pembaca agregat'}
+export const MASKED_VALUE = '\u2022'.repeat(8)
+export const roleNames: Record<string,string>={admin:'Administrator',viewer:'Viewer'}
 
 export const answerStates: Record<string,{label:string; tone:string}>={
   ANSWERED:{label:'Terisi',tone:'success'},BLANK_OR_MISSING:{label:'Kosong / belum tersedia',tone:'neutral'},

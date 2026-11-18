@@ -9,7 +9,7 @@ describe('turnover presentation',()=>{
     expect(turnoverAmount({...item,basis:'REPORTED_ANNUAL',annual:'0'})).toBe('Rp0')
   })
   it('does not turn restricted or unavailable amounts into zero',()=>{
-    expect(turnoverAmount({...item,amount_status:'RESTRICTED',annual:undefined})).toBe('Nominal dibatasi')
+    expect(turnoverAmount({...item,amount_status:'RESTRICTED',annual:undefined})).toBe('\u2022'.repeat(8))
     expect(turnoverAmount({...item,group:'UNAVAILABLE',annual:null})).toBe('Belum tersedia')
   })
   it('includes both frozen filters in export confirmation',()=>{

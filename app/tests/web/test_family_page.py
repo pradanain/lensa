@@ -9,6 +9,7 @@ from se2026.web.family_directory import enrich_family_records
 
 from .synthetic import V1, V2
 from .test_xlsx_export import sheet
+from se2026.web.xlsx_export import MASKED_VALUE
 
 
 @pytest.mark.parametrize("scope", ["families", "members"])
@@ -35,11 +36,11 @@ def test_family_kk_search_display_export_and_exact_version_access(portal, analys
     assert analyst.post(endpoint+'search', json={'q': number}).json()['total'] == 0
     restricted = analyst.post(endpoint+'search', json={'q': 'DTD-0001'}).json()['rows']
     assert restricted and all(row['family_kk'] is None for row in restricted)
-    assert 'Nomor KK' not in [cell.value for cell in sheet(analyst.post(endpoint+'export', json={}))[1]]
+    assert 'Nomor KK' in [cell.value for cell in sheet(analyst.post(endpoint+'export', json={}))[1]]
     workbook = sheet(client.post(endpoint+'export', json={'q': number}))
     column = [cell.value for cell in workbook[1]].index('Nomor KK') + 1
     assert workbook.cell(2, column).value == number and workbook.cell(2, column).data_type == 's'
-    assert viewer.post(endpoint+'search', json={'q': number}).status_code == 403
+    assert viewer.post(endpoint+'search', json={'q': number}).json()['total'] == 0
     with sqlite3.connect(settings.census_db) as con:
         assert con.execute('PRAGMA integrity_check').fetchone()[0] == 'ok'
         assert con.execute('PRAGMA foreign_key_check').fetchall() == []
@@ -84,11 +85,11 @@ def test_member_nik_search_display_and_export_preserve_text_and_role(portal, ana
     for user in [analyst]:
         assert user.post(endpoint+'search',json={'source':'dtd','q':nik}).json()['total']==0
         assert all(row['member_nik'] is None for row in user.post(endpoint+'search',json={'source':'dtd'}).json()['rows'])
-        assert 'NIK' not in [cell.value for cell in sheet(user.post(endpoint+'export',json={'source':'dtd'}))[1]]
+        assert 'NIK' in [cell.value for cell in sheet(user.post(endpoint+'export',json={'source':'dtd'}))[1]]
     workbook=sheet(client.post(endpoint+'export',json={'source':'dtd','q':nik}))
     column=[cell.value for cell in workbook[1]].index('NIK')+1
     assert workbook.cell(2,column).value==nik and workbook.cell(2,column).data_type=='s'
-    assert viewer.post(endpoint+'search',json={'q':nik}).status_code==403
+    assert viewer.post(endpoint+'search',json={'q':nik}).json()['total']==0
     assert sha256(settings.census_db)==before
 
 
@@ -150,11 +151,13 @@ def test_family_maps_and_member_heads_use_exact_version_and_access(portal, analy
     unmatched = client.post("/api/v1/directories/members/search", json={"source": "dtd", "q": "DTD-0002"}).json()["rows"]
     assert unmatched and all(row["family_head"] is None for row in unmatched)
     assert len({row["record_key"] for row in members}) == len(members)
-    assert viewer.post("/api/v1/directories/families/search", json=body).status_code == 403
+    assert viewer.post("/api/v1/directories/families/search", json=body).status_code == 200
     for user, has_coordinates in [(client, True), (analyst, False)]:
         workbook = sheet(user.post("/api/v1/directories/families/export", json=body))
         headers = [cell.value for cell in workbook[1]]
-        assert ("Latitude" in headers) is has_coordinates
+        assert "Latitude" in headers
+        if not has_coordinates:
+            assert all(row[headers.index("Latitude")] == MASKED_VALUE for row in list(workbook.values)[1:])
         assert workbook.cell(2, 1).value == "DTD"
     assert sha256(settings.census_db) == before
 
@@ -191,7 +194,9 @@ def test_family_columns_preserve_zero_text_numbers_version_and_restrictions(port
     for user,allowed in [(client,True),(analyst,False)]:
         workbook = sheet(user.post(endpoint+'export',json=body))
         headers = [cell.value for cell in workbook[1]]
-        assert ('Alamat keluarga' in headers) is allowed
+        assert 'Alamat keluarga' in headers
+        if not allowed:
+            assert all(row[headers.index('Alamat keluarga')] == MASKED_VALUE for row in list(workbook.values)[1:])
         assert 'Nomor bangunan' in headers and 'Anggota hasil pendataan' in headers
 
 

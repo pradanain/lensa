@@ -171,3 +171,11 @@ Catatan menyimpan waktu UTC milidetik (UI zona perangkat), ID/peran akun, refere
 activity_events dan activity_key disimpan dalam app SQLite privat. Backup konsisten database ini termasuk kuncinya; jangan unggah/commit atau membagikan ekspor monitoring. Trigger menolak edit/hapus normal dan rantai HMAC dapat diperiksa, tetapi pemilik filesystem tetap dapat memodifikasi/memulihkan database. Simpan checkpoint ID/head hash berkala pada media privat terpisah; rantai lokal sendiri tidak mendeteksi penghapusan ujung log. Tidak ada purge otomatis: pantau kapasitas disk dan tentukan retensi internal.
 
 Pastikan LENSA_TRUSTED_PROXIES hanya proxy tepercaya sehingga IP ASGI benar. Jangan menggunakan wildcard atau mempercayai header forwarded dari sembarang klien. IP dapat bersama/VPN dan User-Agent dapat dipalsukan. Sesi masih berlaku bukan bukti pengguna sedang online; status HTTP sukses bukan bukti file telah disimpan. Foto layar, pembagian file di luar aplikasi dan pemakaian akun bersama tidak bisa dipastikan dari log ini. Jejak membantu investigasi, bukan bukti tunggal pelaku kebocoran. Seluruh pengujian menggunakan data sintetis.
+
+## Pembaruan akun dan tampilan
+
+Peran UI/API kini hanya Administrator dan Viewer. Viewer dapat membuka direktori/kuesioner dan mengunduh Excel. NIK/KK, kontak, alamat rinci, koordinat, kesehatan dan nominal sensitif tetap dibatasi backend; tampilan menggunakan delapan bulatan tetap. Kolom sensitif pada ekspor direktori dipertahankan dengan penanda yang sama, tanpa nilai asli atau informasi panjang/ketersediaan isian. Administrator tetap memperoleh nilai sesuai mapping dan hak akses existing.
+
+Akun lama analyst_detail/aggregate_viewer dipetakan sebagai Viewer tanpa migrasi tabel akun. Kata sandi sementara menerima 1-256 karakter tanpa syarat kombinasi; kewajiban mengganti sandi dan kebijakan sandi baru tetap berlaku. Pakta lebih ringkas dengan tanggung jawab penuh atas data. Halaman pengguna/monitoring dirapikan untuk desktop dan ponsel. Nama KK/PJ berada di bawah nama usaha pada direktori.
+
+Deploy setelah job publish berhasil, memakai tag SHA commit yang sudah diverifikasi. Pertahankan database sensus, state akun/audit dan konfigurasi existing; perubahan ini tidak memerlukan transfer data sensus atau provisioning ulang.

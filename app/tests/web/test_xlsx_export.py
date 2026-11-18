@@ -2,7 +2,7 @@ from io import BytesIO
 
 from openpyxl import load_workbook
 from se2026.common import sha256
-from se2026.web.xlsx_export import workbook_response
+from se2026.web.xlsx_export import MASKED_VALUE, workbook_response
 
 
 def sheet(response):
@@ -56,10 +56,11 @@ def test_xlsx_strings_do_not_become_formulas_or_lose_precision():
 
 
 def test_directory_export_respects_roles_and_search_permissions(portal, viewer, analyst):
-    assert viewer.post("/api/v1/directories/businesses/export", json={}).status_code == 403
+    assert "Latitude" in next(sheet(viewer.post("/api/v1/directories/businesses/export", json={})).values)
     ws = sheet(analyst.post("/api/v1/directories/businesses/export", json={"source": "dtd", "q": "DTD-0001"}))
-    assert "Latitude" not in next(ws.values)
-    assert "Longitude" not in next(ws.values)
+    values = list(ws.values)
+    for name in ["Latitude", "Longitude", "Omzet tahunan (Rp)", "Omzet bulanan sumber (Rp)"]:
+        assert all(row[values[0].index(name)] == MASKED_VALUE for row in values[1:])
     assert portal[1].post("/api/v1/directories/unknown/export", json={}).status_code == 404
     # Extra controls cannot override internal pagination or authorization.
     assert analyst.post("/api/v1/directories/businesses/export", json={"all_rows": True}).status_code == 422
@@ -86,3 +87,21 @@ def test_kbli_export_matches_complete_filtered_and_suppressed_tree(portal, viewe
         portal[1].post("/api/v1/directories/businesses/export", json={"q": "ABSENT-SYNTHETIC-ONLY"})
     )
     assert empty.max_row == 1
+
+
+def test_viewer_exports_mask_every_sensitive_column_without_revealing_availability(portal, viewer):
+    app, _, settings = portal
+    before = sha256(settings.census_db)
+    expected = {
+        "members": ["NIK", "Nomor KK"],
+        "families": ["Nomor KK", "Alamat keluarga", "Latitude", "Longitude"],
+        "businesses": ["Latitude", "Longitude", "Omzet tahunan (Rp)", "Omzet bulanan sumber (Rp)"],
+    }
+    for scope, columns in expected.items():
+        response = viewer.post('/api/v1/directories/' + scope + '/export', json={})
+        values = list(sheet(response).values)
+        assert len(values) > 1
+        for name in columns:
+            assert all(row[values[0].index(name)] == MASKED_VALUE for row in values[1:])
+        assert 'SYNTHETIC_PRIVATE' not in str(values)
+    assert sha256(settings.census_db) == before

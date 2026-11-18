@@ -127,13 +127,19 @@ test('UB directory has no mandatory geography and directly opens UB blocks',asyn
   await expect(page.getByRole('heading',{name:'Blok I · Pekerja dan ekonomi (r20–25)',exact:true})).toBeVisible()
 })
 
-test('aggregate viewer is denied individual routes at UI and backend',async({page})=>{
+test('viewer can open detail and download Excel but cannot manage accounts',async({page})=>{
   await login(page,'viewer')
   await page.goto('/questionnaire/dtd/DTD-0001')
-  await expect(page.getByRole('heading',{name:'Direktori memerlukan akses detail'})).toBeVisible()
-  const response=await page.request.get('/api/v1/questionnaires/dtd/DTD-0001')
-  expect(response.status()).toBe(403)
+  await expect(page.getByRole('heading',{name:'Kuesioner SE2026',exact:true})).toBeVisible()
+  expect((await page.request.get('/api/v1/questionnaires/dtd/DTD-0001')).status()).toBe(200)
+  expect((await page.request.get('/api/v1/auth/users')).status()).toBe(403)
   await expect(page.getByText('SYNTHETIC_PRIVATE_NIK',{exact:false})).toHaveCount(0)
+  await page.goto('/usaha?tab=direktori')
+  await expect(page.locator('.directory-table tbody tr').first()).toBeVisible()
+  await page.getByRole('button',{name:'Unduh Excel sesuai pencarian dan filter',exact:true}).click()
+  const download=page.waitForEvent('download')
+  await page.getByRole('button',{name:'Ya, unduh',exact:true}).click()
+  expect((await download).suggestedFilename()).toMatch(/\.xlsx$/)
 })
 
 test('KBLI explorer changes levels and opens a filtered business directory',async({page})=>{
@@ -467,9 +473,12 @@ test('business columns show people compact KBLI geography and click-only maps',a
   })
   await page.goto('http://127.0.0.1:8767/usaha?tab=direktori')
   const first=page.locator('.directory-table tbody tr').first()
-  await expect(first.locator('[data-column="responsible"]')).toContainText('KEPALA KELUARGA SINTETIS')
-  await expect(first.locator('[data-column="responsible"]')).toContainText('PJ: PENANGGUNG JAWAB SINTETIS')
-  await expect(page.locator('.directory-table tbody tr').nth(1).locator('[data-column="responsible"]')).toHaveText('PENANGGUNG JAWAB SINTETIS')
+  await expect(page.locator('[data-column="responsible"]')).toHaveCount(0)
+  await expect(first.locator('.record-title')).not.toContainText('roster')
+  await expect(first.locator('.record-title')).not.toContainText('ID ')
+  await expect(first.locator('[data-column="title"] .directory-person')).toContainText('KEPALA KELUARGA SINTETIS')
+  await expect(first.locator('[data-column="title"] .directory-person')).toContainText('PJ: PENANGGUNG JAWAB SINTETIS')
+  await expect(page.locator('.directory-table tbody tr').nth(1).locator('[data-column="title"] .directory-person')).toHaveText('PENANGGUNG JAWAB SINTETIS')
   await expect(first.locator('[data-column="desa_label"]')).toContainText('6502010001000101')
   await expect(first.locator('[data-column="desa_label"]')).not.toContainText('KECAMATAN SINTETIS')
   await expect(first.locator('[data-column="kbli"] code')).toHaveText('[A] 01111')
@@ -1029,7 +1038,7 @@ test('compact answers retain missing states without economic footnotes or repeat
   await expect(page.locator('.answer-context')).toHaveCount(0)
   await expect(page.getByText('Tahun 2025 / Satuan belum terverifikasi',{exact:true})).toHaveCount(0)
   const states=await page.locator('.answer-state').allTextContents()
-  expect(states).toEqual(['Belum terisi','Tidak berlaku','Tidak ada dalam data','Ada di versi lain','Jawaban belum dapat ditampilkan','Akses terbatas'])
+  expect(states).toEqual(['Belum terisi','Tidak berlaku','Tidak ada dalam data','Ada di versi lain','Jawaban belum dapat ditampilkan','\u2022'.repeat(8)])
   await expect(page.locator('.source-detail, .question-label .badge')).toHaveCount(0)
 })
 
@@ -1335,7 +1344,7 @@ test('questionnaire cache is cleared when the session changes to a restricted ro
   // Logout deliberately discards the previous page; reopen the same record
   // under the new account to verify that private answers were not retained.
   await page.goto('/questionnaire/dtd/DTD-0001?block=b_ak')
-  await expect(page.locator('.form-stage')).toContainText('Akses terbatas')
+  await expect(page.locator('.form-stage')).toContainText('\u2022'.repeat(8))
   await expect(page.locator('.form-stage')).not.toContainText('SYNTHETIC_PRIVATE_NIK')
 })
 
@@ -1438,18 +1447,15 @@ test('family member rows show their head and open the exact member while mobile 
   }
 })
 
-test('family aggregate viewer can read summary but cannot open family or member records',async({page})=>{
+test('viewer can read family summary and open family and member directories',async({page})=>{
   await login(page,'viewer')
   await page.goto('/keluarga')
   await expect(page.getByRole('heading',{name:'Distribusi keluarga Menurut Kecamatan',exact:true})).toBeVisible()
-  await expect(page.getByRole('button',{name:'Lihat Keluarga',exact:true})).toHaveCount(0)
   for(const tab of ['Direktori','Anggota']){
     await page.getByRole('tab',{name:tab,exact:true}).click()
-    await expect(page.getByRole('heading',{name:'Direktori memerlukan akses detail',exact:true})).toBeVisible()
-    await expect(page.locator('.record-directory-table')).toHaveCount(0)
+    await expect(page.locator('.record-directory-table tbody tr').first()).toBeVisible()
   }
 })
-
 
 test('family columns show building counts address and colored statuses without short IDs',async({page})=>{
   await page.route('**/api/v1/directories/families/search',async route=>{
@@ -1488,7 +1494,7 @@ test('member NIK is searchable without a URL and hidden from analyst',async({pag
   await login(page,'analyst')
   await page.goto('/keluarga?tab=anggota')
   await expect(page.locator('.record-directory-table tbody tr').first()).toBeVisible()
-  await expect(page.locator('.member-nik')).toHaveCount(0)
+  await expect(page.locator('.member-nik code').first()).toHaveText('\u2022'.repeat(8))
   await expect(page.locator('.record-directory-table')).not.toContainText('SYNTHETIC_PRIVATE_NIK')
 })
 
@@ -1610,11 +1616,11 @@ test('Dashboard uses completed business metrics, responsive cards and filtered d
 })
 
 
-test('Dashboard keeps aggregate viewers out of detail links and handles empty distributions',async({page})=>{
+test('Dashboard gives viewers detail links and handles empty distributions',async({page})=>{
   await login(page,'viewer')
   await expect(page.getByRole('heading',{name:'Ringkasan Data SE2026',exact:true})).toBeVisible()
-  await expect(page.getByRole('button',{name:'Lihat Keluarga',exact:true})).toHaveCount(0)
-  await expect(page.getByRole('button',{name:'Lihat daftar sesuai grafik',exact:true})).toHaveCount(0)
+  await expect(page.getByRole('button',{name:'Lihat Keluarga',exact:true})).toBeVisible()
+  await expect(page.getByRole('button',{name:'Lihat daftar sesuai grafik',exact:true})).toBeVisible()
   await page.route('**/api/v1/analytics/query',async route=>{
     const response=await route.fetch();const payload=await response.json()
     await route.fulfill({response,json:{...payload,rows:[]}})
@@ -1718,7 +1724,7 @@ test('admin creates a temporary account that must change password before pact or
   await page.getByRole('link',{name:'Kelola pengguna',exact:true}).click()
   await page.getByLabel('Nama pengguna',{exact:true}).fill('first.user@example.test')
   await page.getByLabel('Kata sandi sementara',{exact:true}).fill(password)
-  await selectValue(page,'Peran pengguna baru','analyst_detail')
+  await selectValue(page,'Peran pengguna baru','viewer')
   await page.getByRole('button',{name:'Tambah pengguna',exact:true}).click()
   await expect(page.getByRole('status')).toContainText('Pengguna dibuat.')
   await expect(page.locator('.account-row').filter({hasText:'first.user@example.test'})).toContainText('Wajib ganti kata sandi')
@@ -1768,7 +1774,27 @@ for (const tab of ['direktori','anggota']) {
     await login(page,'analyst')
     await page.goto('/keluarga?tab='+tab)
     await expect(page.locator('.record-directory-table tbody tr').first()).toBeVisible()
-    await expect(page.locator('.family-kk')).toHaveCount(0)
+    await expect(page.locator('.family-kk code').first()).toHaveText('\u2022'.repeat(8))
     await expect(page.locator('.record-directory-table')).not.toContainText('SYNTHETIC_PRIVATE_KK')
   })
 }
+
+
+test('temporary password accepts one character and role menu has only Administrator and Viewer',async({page})=>{
+  await login(page)
+  await page.getByRole('link',{name:'Kelola pengguna',exact:true}).click()
+  const role=page.getByRole('combobox',{name:'Peran pengguna baru',exact:true})
+  await expect(role).toHaveAttribute('data-value','viewer')
+  await role.click()
+  await expect(page.getByRole('listbox').getByRole('option')).toHaveText(['Administrator','Viewer'])
+  await page.keyboard.press('Escape')
+  await page.getByLabel('Nama pengguna',{exact:true}).fill('simple.temporary')
+  await page.getByLabel('Kata sandi sementara',{exact:true}).fill('a')
+  await page.getByRole('button',{name:'Tambah pengguna',exact:true}).click()
+  await expect(page.getByRole('status')).toContainText('Pengguna dibuat.')
+  await logoutAndWait(page)
+  await page.getByLabel('Nama pengguna',{exact:true}).fill('simple.temporary')
+  await page.getByLabel('Kata sandi',{exact:true}).fill('a')
+  await page.getByRole('button',{name:'Masuk ke portal',exact:true}).click()
+  await expect(page.getByRole('heading',{name:'Ganti kata sandi sementara',exact:true})).toBeVisible()
+})

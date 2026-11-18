@@ -11,8 +11,17 @@ from .database import token_hash
 router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
 hasher = PasswordHash.recommended()
 dummy_hash = hasher.hash(secrets.token_urlsafe(24))
-ROLES = {"admin", "analyst_detail", "aggregate_viewer"}
+ROLES = {"admin", "viewer"}
 COMMITMENT_VERSION = "privacy_commitment_v1"
+
+
+def public_role(role):
+    # Preserve existing account rows and the SQLite role constraint.
+    return "viewer" if role in {"analyst_detail", "aggregate_viewer"} else role
+
+
+def stored_role(role):
+    return "analyst_detail" if role == "viewer" else role
 
 
 class Credentials(BaseModel):
@@ -68,7 +77,7 @@ def authenticated_user(request: Request):
         csrf_guard(request)
         if not secrets.compare_digest(row["csrf"], request.headers.get("x-csrf-token", "")):
             raise HTTPException(403, "CSRF_REQUIRED")
-    return dict(row)
+    return {**dict(row), "role": public_role(row["role"])}
 
 
 def commitment_accepted(request: Request):
@@ -94,7 +103,7 @@ def current_user(request: Request):
 
 
 def require_detail(user=Depends(current_user)):
-    if user["role"] not in ("admin", "analyst_detail"):
+    if public_role(user["role"]) not in ROLES:
         raise HTTPException(403, "DETAIL_ACCESS_REQUIRED")
     return user
 
@@ -111,8 +120,8 @@ def public_user(user):
     return {
         "id": user["id"],
         "username": user["username"],
-        "role": user["role"],
-        "can_detail": user["role"] != "aggregate_viewer",
+        "role": public_role(user["role"]),
+        "can_detail": public_role(user["role"]) in ROLES,
         "can_sensitive": user["role"] == "admin",
         "must_change_password": bool(user.get("must_change_password")),
     }
@@ -317,14 +326,13 @@ def users(request: Request, user=Depends(require_admin)):
     with request.app.state.app_db.connection() as con:
         return {
             "rows": [
-                dict(row) for row in con.execute("SELECT id,username,role,active,must_change_password FROM users ORDER BY id")
+                {**dict(row), "role": public_role(row["role"])} for row in con.execute("SELECT id,username,role,active,must_change_password FROM users ORDER BY id")
             ]
         }
 
 
 @router.post("/users")
 def add_user(payload: NewUser, request: Request, user=Depends(require_admin)):
-    strong_password(payload.password)
     if payload.role not in ROLES:
         raise HTTPException(422, "ROLE_NOT_ALLOWED")
     import sqlite3
@@ -333,7 +341,7 @@ def add_user(payload: NewUser, request: Request, user=Depends(require_admin)):
         with request.app.state.app_db.connection() as con:
             created = con.execute(
                 "INSERT INTO users(username,password_hash,role,created_at) VALUES(?,?,?,?)",
-                (payload.username, hasher.hash(payload.password), payload.role, int(time.time())),
+                (payload.username, hasher.hash(payload.password), stored_role(payload.role), int(time.time())),
             ).lastrowid
     except sqlite3.IntegrityError:
         raise HTTPException(409, "USERNAME_ALREADY_EXISTS") from None
@@ -353,7 +361,7 @@ def update_user(user_id: int, payload: UserUpdate, request: Request, user=Depend
         raise HTTPException(422, "ROLE_CHANGE_NOT_ALLOWED")
     with request.app.state.app_db.connection() as con:
         changed = con.execute(
-            "UPDATE users SET role=?,active=? WHERE id=?", (payload.role, int(payload.active), user_id)
+            "UPDATE users SET role=?,active=? WHERE id=?", (stored_role(payload.role), int(payload.active), user_id)
         ).rowcount
         if not changed:
             raise HTTPException(404, "USER_NOT_FOUND")

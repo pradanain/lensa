@@ -37,7 +37,7 @@ def portal(tmp_path):
         con.execute("UPDATE users SET must_change_password=0")
     with TestClient(app, raise_server_exceptions=False) as client:
         sign_in(client)
-        for username, role in [("viewer", "aggregate_viewer"), ("analyst", "analyst_detail")]:
+        for username, role in [("viewer", "viewer"), ("analyst", "viewer")]:
             assert (
                 client.post(
                     "/api/v1/auth/users", json={"username": username, "password": PASSWORD, "role": role}

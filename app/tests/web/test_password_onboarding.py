@@ -11,7 +11,7 @@ NEW_PASSWORD = 'Fresh1!A'  # Exactly eight characters; synthetic credentials onl
 def new_account(portal):
     app, admin, _ = portal
     assert admin.post('/api/v1/auth/users', json={
-        'username': 'first.user@example.test', 'password': PASSWORD, 'role': 'analyst_detail',
+        'username': 'first.user@example.test', 'password': PASSWORD, 'role': 'viewer',
     }).status_code == 200
     client = TestClient(app)
     client.headers['X-CSRF-Token'] = client.get('/api/v1/auth/session').json()['csrf_token']
@@ -122,3 +122,51 @@ def test_legacy_accounts_keep_hashes_but_must_change_once_after_upgrade(portal):
         assert con.execute('PRAGMA foreign_key_check').fetchall() == []
     assert client.get('/api/v1/analytics/summary').json()['detail'] == 'PASSWORD_CHANGE_REQUIRED'
     assert sha256(settings.census_db) == before_census
+
+
+@pytest.mark.parametrize('temporary', ['a', '123', 'bebas', 'huruf kecil', 'A' * 256])
+def test_temporary_password_has_no_complexity_requirement(portal, temporary):
+    app, admin, _ = portal
+    result = admin.post('/api/v1/auth/users', json={
+        'username': 'short.temporary', 'password': temporary, 'role': 'viewer',
+    })
+    assert result.status_code == 200
+    client = TestClient(app)
+    client.headers['X-CSRF-Token'] = client.get('/api/v1/auth/session').json()['csrf_token']
+    result = client.post('/api/v1/auth/login', json={'username': 'short.temporary', 'password': temporary})
+    assert result.status_code == 200
+    assert result.json()['user']['role'] == 'viewer'
+    assert result.json()['password_change_required']
+    assert client.get('/api/v1/questionnaires/dtd/DTD-0001').json()['detail'] == 'PASSWORD_CHANGE_REQUIRED'
+
+
+@pytest.mark.parametrize('temporary', ['', 'A' * 257])
+def test_temporary_password_still_requires_nonempty_bounded_input(portal, temporary):
+    assert portal[1].post('/api/v1/auth/users', json={
+        'username': 'invalid.temporary', 'password': temporary, 'role': 'viewer',
+    }).status_code == 422
+
+
+@pytest.mark.parametrize('legacy', ['analyst_detail', 'aggregate_viewer'])
+def test_legacy_accounts_are_viewers_without_rewriting_account_rows(portal, legacy):
+    from .conftest import sign_in
+    app, admin, _ = portal
+    with app.state.app_db.connection() as con:
+        con.execute("UPDATE users SET role=? WHERE username='viewer'", (legacy,))
+    client = sign_in(TestClient(app), 'viewer')
+    user = client.get('/api/v1/auth/session').json()['user']
+    assert user['role'] == 'viewer' and user['can_detail'] and not user['can_sensitive']
+    assert client.post('/api/v1/directories/businesses/export', json={}).status_code == 200
+    assert client.get('/api/v1/auth/users').status_code == 403
+    users = admin.get('/api/v1/auth/users').json()['rows']
+    assert all(row['role'] in {'admin', 'viewer'} for row in users)
+    with app.state.app_db.connection() as con:
+        assert con.execute("SELECT role FROM users WHERE username='viewer'").fetchone()[0] == legacy
+
+
+@pytest.mark.parametrize('role', ['analyst_detail', 'aggregate_viewer', 'unknown'])
+def test_only_two_roles_can_be_assigned(portal, role):
+    admin = portal[1]
+    assert admin.post('/api/v1/auth/users', json={
+        'username': 'unsupported.role', 'password': 'a', 'role': role,
+    }).status_code == 422

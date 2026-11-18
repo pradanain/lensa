@@ -1262,16 +1262,21 @@ tbody tr .button { margin: -6px 0; }
 .password-rules li.valid { color: #276345; }
 .password-rules li.valid svg { opacity: 1; }
 .password-change-exit { width: 100%; margin-top: 12px; min-height: 44px; }
-.commitment-overlay { position: fixed; inset: 0; z-index: 100; background: #172d3da6; backdrop-filter: blur(5px); }
-.commitment-dialog { position: fixed; z-index: 101; left: 50%; top: 50%; transform: translate(-50%,-50%); width: min(680px,calc(100vw - 32px)); max-height: calc(100dvh - 32px); overflow-y: auto; background: white; border: 1px solid var(--line); border-radius: 22px; padding: 40px; box-shadow: 0 24px 80px #172d3d30; }
-.commitment-close { position: absolute; right: 12px; top: 12px; min-height: 44px; min-width: 44px; }
-.commitment-dialog h2 { font-size: 28px; margin: 24px 0; }
-.commitment-dialog > p { color: var(--muted); line-height: 1.8; font-size: 15px; }
-.commitment-dialog .commitment-intro { color: var(--ink); font-size: 18px; font-weight: 550; margin-bottom: 22px; }
-.commitment-actions { display: flex; gap: 12px; padding-top: 24px; margin-top: 28px; border-top: 1px solid var(--line); }
-.commitment-actions .button { min-height: 48px; white-space: normal; }
+.commitment-overlay { position: fixed; inset: 0; z-index: 100; background: #172d3d99; backdrop-filter: blur(3px); }
+.commitment-dialog { position: fixed; z-index: 101; left: 50%; top: 50%; transform: translate(-50%,-50%); width: min(560px,calc(100vw - 32px)); max-height: calc(100dvh - 32px); overflow-y: auto; background: white; border: 1px solid var(--line); border-radius: 16px; padding: 28px; box-shadow: 0 20px 64px #172d3d26; }
+.commitment-close { position: absolute; right: 8px; top: 8px; min-height: 40px; min-width: 40px; }
+.commitment-heading { display: flex; align-items: center; gap: 12px; padding-right: 28px; }
+.commitment-heading .commitment-emblem { width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0; }
+.commitment-dialog h2 { font-size: 22px; line-height: 1.3; margin: 0; }
+.commitment-dialog .commitment-intro { color: var(--muted); font-size: 14px; line-height: 1.6; margin: 18px 0; }
+.commitment-points { list-style: disc; display: grid; gap: 14px; padding-left: 20px; margin: 0; color: #425a6a; font-size: 14px; line-height: 1.65; }
+.commitment-points li { padding-left: 4px; }
+.commitment-points li::marker { color: var(--accent); }
+.commitment-points strong { color: var(--ink); font-weight: 650; }
+.commitment-actions { display: flex; gap: 10px; padding-top: 20px; margin-top: 22px; border-top: 1px solid var(--line); }
+.commitment-actions .button { min-height: 44px; white-space: normal; }
 .commitment-actions .button:last-child { flex: 1; }
-.commitment-dialog .commitment-hint { text-align: center; font-size: 12px; margin-top: 18px; }
+.commitment-dialog .commitment-hint { text-align: center; color: var(--muted); font-size: 11px; line-height: 1.5; margin: 12px 0 0; }
 @media (max-width: 760px) {
   .access-header { padding: 16px 20px; gap: 12px; }
   .access-header > div { padding-left: 12px; }
@@ -1282,10 +1287,10 @@ tbody tr .button { margin: -6px 0; }
   .access-form-heading h2 { font-size: 22px; }
   .access-story { padding: 0 8px; }
   .access-story .access-icon, .access-story h1, .access-story > p { display: none; }
-  .commitment-dialog { padding: 28px 24px; border-radius: 16px; }
-  .commitment-dialog h2 { font-size: 24px; margin: 20px 0; }
+  .commitment-dialog { padding: 24px 20px 20px; }
+  .commitment-dialog h2 { font-size: 21px; }
   .commitment-dialog > p { font-size: 14px; }
-  .commitment-dialog .commitment-intro { font-size: 16px; }
+  .commitment-dialog .commitment-intro { font-size: 13px; }
   .commitment-actions { flex-direction: column-reverse; }
 }
 .dashboard-overview { display: grid; gap: 20px; min-width: 0; }
@@ -1351,3 +1356,46 @@ tbody tr .button { margin: -6px 0; }
 .turnover-detail p{margin:3px 0;line-height:1.5}
 .business-directory-table th[data-column="turnover"],.business-directory-table td[data-column="turnover"]{min-width:170px}
 @media(max-width:900px){.business-directory-table td[data-column="turnover"]{grid-column:1/-1;min-width:0}.turnover-value{min-width:0}.turnover-context{padding:0 12px 12px}}
+
+.business-directory-table .record-title > .business-title-person { margin-top: 6px; color: var(--muted); }
+.business-directory-table .record-title:hover > .business-title-person { color: var(--muted); }
+.business-directory-table .business-title-person strong { font-weight: 600; }
+
+/* Account management: compact cards with independent heights. */
+.accounts-page { display: grid; gap: 20px; min-width: 0; }
+.accounts-page .page-head { margin: 0; }
+.accounts-page .settings-layout { grid-template-columns: minmax(0,1.6fr) minmax(300px,1fr); align-items: start; gap: 20px; }
+.accounts-card, .add-account-card { padding: 22px; min-width: 0; }
+.account-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.account-section-heading h2 { font-size: 17px; margin: 0; }
+.account-section-heading > span { font-size: 12px; color: var(--muted); }
+.account-search { margin-bottom: 12px; }
+.accounts-page .account-row { flex-wrap: nowrap; padding: 14px 0; gap: 10px; }
+.account-row .avatar { width: 32px; height: 32px; font-size: 12px; flex-shrink: 0; }
+.accounts-page .account-identity { min-width: 0; flex: 1; overflow-wrap: anywhere; }
+.account-actions { display: flex; align-items: center; justify-content: end; gap: 4px; flex-shrink: 0; }
+.account-actions .search-select { width: 150px; min-height: 36px; font-size: 12px; }
+.account-actions .button { font-size: 12px; }
+.account-form-intro, .account-footnote, .account-role-hint, .account-access-note { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.account-form-intro { margin: -6px 0 18px; }
+.account-footnote { border-top: 1px solid var(--line); padding-top: 12px; margin: 0; }
+.account-form { gap: 16px; }
+.account-form label { font-size: 13px; gap: 6px; }
+.account-form label > small { font-size: 11px; font-weight: 400; color: var(--muted); }
+.account-password { position: relative; display: flex; }
+.account-password input { padding-right: 44px; }
+.account-password .button { position: absolute; top: 2px; right: 2px; min-height: 36px; width: 36px; }
+.account-role-hint { margin: -8px 0 0; }
+.account-access-note summary, .activity-about summary { cursor: pointer; width: fit-content; }
+.account-access-note p { margin: 10px 0 0; max-width: 90ch; }
+.account-empty { color: var(--muted); font-size: 13px; padding: 20px 0; }
+@media (max-width: 1000px) {
+  .accounts-page .settings-layout { grid-template-columns: minmax(0,1fr); }
+  .add-account-card { max-width: none; }
+}
+@media (max-width: 540px) {
+  .accounts-card, .add-account-card { padding: 16px; }
+  .accounts-page .account-row { display: grid; grid-template-columns: 32px minmax(0,1fr); }
+  .account-actions { grid-column: 2; justify-content: start; flex-wrap: wrap; }
+  .account-actions .search-select { width: 140px; }
+}

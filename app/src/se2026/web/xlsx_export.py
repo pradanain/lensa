@@ -7,6 +7,8 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 from fastapi import HTTPException, Response
 
+MASKED_VALUE = "\u2022" * 8
+
 
 def workbook_response(headers, rows, filename):
     def column(index):
@@ -111,26 +113,23 @@ def directory_workbook(directory, scope, payload, role):
     elif scope == "members":
         fields += [("Kepala keluarga", "family_head")]
         fields += [("Nomor urut anggota", "member_number"), ("Hubungan dengan KK", "member_relationship"), ("Jenis kelamin", "member_gender"), ("Umur", "member_age"), ("Ijazah tertinggi", "member_diploma"), ("Partisipasi sekolah", "member_school")]
-        if role == "admin":
-            fields += [("NIK", "member_nik")]
+        fields += [("NIK", "member_nik")]
     elif scope == "families":
         fields += [("Nomor bangunan", "building_number"), ("Anggota hasil pendataan", "member_count"), ("Usaha ditemukan", "business_count")]
-        if role == "admin":
-            fields += [("Alamat keluarga", "family_address")]
-    if scope in ("families", "members") and role == "admin":
+        fields += [("Alamat keluarga", "family_address")]
+    if scope in ("families", "members"):
         fields += [("Nomor KK", "family_kk")]
     headers = [title for title, _ in fields]
     if scope == "businesses":
         headers += ["Judul KBLI"]
         headers += ["Kelompok omzet tahunan", "Dasar omzet", "Periode omzet"]
-        if role == 'admin':
-            headers += ["Omzet tahunan (Rp)", "Omzet bulanan sumber (Rp)"]
-    if scope in ("businesses", "families") and role == "admin":
+        headers += ["Omzet tahunan (Rp)", "Omzet bulanan sumber (Rp)"]
+    if scope in ("businesses", "families"):
         headers += ["Latitude", "Longitude"]
 
     def rows():
         for item in result["rows"]:
-            row = [item.get(field) for _, field in fields]
+            row = [MASKED_VALUE if role != "admin" and field in {"member_nik", "family_kk", "family_address"} else item.get(field) for _, field in fields]
             row[0] = "UB" if item["source"] == "ub" else "DTD" if scope in ("families", "members") else "UMKM"
             row[11] = re.sub(
                 r"^\s*\d+\s*[.)\-:]\s*", "", str(item.get("status_label") or item.get("status") or "")
@@ -142,11 +141,10 @@ def directory_workbook(directory, scope, payload, role):
                 row.extend([GROUP_LABELS.get(turnover.get('group'),'Belum tersedia'),
                     BASIS_LABELS.get(turnover.get('basis'),'Belum tersedia'),
                     'Estimasi 12 bulan dari isian 2026' if period=='ESTIMATE_12_MONTHS_FROM_2026' else period])
-                if role == 'admin':
-                    row.extend([turnover.get('annual'), turnover.get('monthly')])
-            if scope in ("businesses", "families") and role == "admin":
+                row.extend([turnover.get('annual'), turnover.get('monthly')] if role == 'admin' else [MASKED_VALUE, MASKED_VALUE])
+            if scope in ("businesses", "families"):
                 coordinates = item.get("map_coordinates") or {}
-                row.extend([coordinates.get("latitude"), coordinates.get("longitude")])
+                row.extend([coordinates.get("latitude"), coordinates.get("longitude")] if role == "admin" else [MASKED_VALUE, MASKED_VALUE])
             yield row
 
     return workbook_response(headers, rows(), "lensa-" + scope)

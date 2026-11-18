@@ -27,19 +27,17 @@ def test_unauthenticated_individual_endpoints_rejected(portal, method, path):
     assert response.status_code == 401
 
 
-def test_viewer_cannot_bypass_detail_or_admin_guards(viewer):
-    for path in [
-        "/assignments/dtd",
-        "/assignments/ub",
-        "/questionnaires/dtd/DTD-0001",
-        "/questionnaires/ub/UB-0001",
-        "/auth/users",
-    ]:
-        assert viewer.get("/api/v1" + path).status_code == 403
-    assert viewer.post("/api/v1/directories/businesses/search", json={}).status_code == 403
-    result = viewer.get("/api/v1/analytics/summary")
-    assert result.status_code == 200
-    assert "SYNTHETIC_PRIVATE" not in result.text and "USAHA SINTETIS" not in result.text
+def test_viewer_can_read_detail_and_export_but_not_manage_accounts(viewer):
+    assert viewer.get("/api/v1/auth/session").json()["user"]["role"] == "viewer"
+    for path in ["/assignments/dtd", "/assignments/ub",
+                 "/questionnaires/dtd/DTD-0001", "/questionnaires/ub/UB-0001"]:
+        response = viewer.get("/api/v1" + path)
+        assert response.status_code == 200
+        assert "SYNTHETIC_PRIVATE" not in response.text
+    assert viewer.get("/api/v1/auth/users").status_code == 403
+    assert viewer.post("/api/v1/directories/businesses/search", json={}).status_code == 200
+    download = viewer.post("/api/v1/directories/businesses/export", json={})
+    assert download.status_code == 200 and download.content.startswith(b"PK")
 
 
 def test_lists_are_paged_and_keep_assignments_without_detail(portal):
@@ -168,7 +166,7 @@ def test_role_change_revokes_sessions_and_self_change_rejected(portal, analyst):
     analyst_id = next(row["id"] for row in users if row["username"] == "analyst")
     assert (
         client.patch(
-            "/api/v1/auth/users/" + str(analyst_id), json={"role": "aggregate_viewer", "active": True}
+            "/api/v1/auth/users/" + str(analyst_id), json={"role": "viewer", "active": True}
         ).status_code
         == 200
     )
@@ -176,7 +174,7 @@ def test_role_change_revokes_sessions_and_self_change_rejected(portal, analyst):
     self_id = next(row["id"] for row in users if row["username"] == "admin")
     assert (
         client.patch(
-            "/api/v1/auth/users/" + str(self_id), json={"role": "aggregate_viewer", "active": False}
+            "/api/v1/auth/users/" + str(self_id), json={"role": "viewer", "active": False}
         ).status_code
         == 422
     )

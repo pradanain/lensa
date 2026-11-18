@@ -3,7 +3,7 @@ import {useDebouncedValue} from '@/lib/use-debounced-value'
 import {SearchSelect} from '@/components/ui/search-select'
 import { useState, type FormEvent } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { BookOpen, Plus, Users } from 'lucide-react';
+import { BookOpen, Eye, EyeOff, Plus, Search, Users } from 'lucide-react';
 import { api } from '@/lib/api';
 import { roleNames } from '@/lib/utils';
 import { useAuth } from '@/auth';
@@ -33,34 +33,78 @@ export function Settings() { const { session } = useAuth(); if (!session?.auth_e
 function Accounts() {
     const { session } = useAuth();
     const client = useQueryClient();
-    const users = useQuery({ queryKey: ['users'], queryFn: () => api<{
-            rows: Account[];
-        }>('/auth/users') });
+    const users = useQuery({ queryKey: ['users'], queryFn: () => api<{ rows: Account[] }>('/auth/users') });
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [role, setRole] = useState('aggregate_viewer');
+    const [showPassword, setShowPassword] = useState(false);
+    const [role, setRole] = useState('viewer');
+    const [draft, setDraft] = useState('');
+    const term = useDebouncedValue(draft);
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
     const [error, setError] = useState('');
     const [saved, setSaved] = useState(false);
     const [pending, setPending] = useState(false);
-    async function add(event: FormEvent) { event.preventDefault(); setError(''); setSaved(false); setPending(true); try {
-        await api('/auth/users', { username, password, role });
-        setUsername('');
-        setPassword('');
-        setSaved(true);
-        await client.invalidateQueries({ queryKey: ['users'] });
+    const [updating, setUpdating] = useState<number|null>(null);
+    const accounts = (users.data?.rows || []).filter(user => user.username.toLowerCase().includes(term.trim().toLowerCase()));
+    const currentPage = Math.min(page, Math.max(1, Math.ceil(accounts.length / pageSize)));
+    const visible = accounts.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+    const busy = pending || updating !== null;
+    async function add(event: FormEvent) {
+        event.preventDefault(); if (busy) return;
+        setError(''); setSaved(false); setPending(true);
+        try {
+            await api('/auth/users', { username, password, role });
+            setUsername(''); setPassword(''); setShowPassword(false); setSaved(true);
+            await client.invalidateQueries({ queryKey: ['users'] });
+        } catch (error) { setError(error instanceof Error ? error.message : 'Pengguna belum dapat dibuat.'); }
+        finally { setPending(false); }
     }
-    catch (error) {
-        setError(error instanceof Error ? error.message : 'Pengguna belum dapat dibuat.');
+    async function update(account: Account, newRole: string, active: boolean) {
+        if (busy) return;
+        setError(''); setSaved(false); setUpdating(account.id);
+        try {
+            await api('/auth/users/' + account.id, { role: newRole, active }, 'PATCH');
+            await client.invalidateQueries({ queryKey: ['users'] });
+        } catch (error) { setError(error instanceof Error ? error.message : 'Perubahan belum disimpan.'); }
+        finally { setUpdating(null); }
     }
-    finally {
-        setPending(false);
-    } }
-    async function update(account: Account, newRole: string, active: boolean) { setError(''); try {
-        await api('/auth/users/' + account.id, { role: newRole, active }, 'PATCH');
-        await client.invalidateQueries({ queryKey: ['users'] });
-    }
-    catch (error) {
-        setError(error instanceof Error ? error.message : 'Perubahan belum disimpan.');
-    } }
-    return <><PageHead eyebrow="PENGATURAN LOKAL" title="Akses yang terkelola" description="Kelola akun portal. Perubahan peran mengakhiri sesi pengguna tersebut."><Users size={24}/></PageHead><div className="settings-layout"><Card><div className="card-heading"><div><h2>Akun pengguna</h2><p>Administrator tidak mengubah perannya sendiri.</p></div></div>{users.isPending ? <Loading /> : users.error ? <ErrorBox error={users.error}/> : <div className="account-list">{users.data?.rows.map(user => <div className="account-row" key={user.id}><div className="avatar">{user.username.slice(0, 1).toUpperCase()}</div><div><strong>{user.username}</strong><small>{user.id === session?.user?.id ? 'Akun Anda' : user.active ? (user.must_change_password?'Wajib ganti kata sandi':'Aktif') : 'Nonaktif'}</small></div>{user.id === session?.user?.id ? <Badge>Administrator</Badge> : <><SearchSelect aria-label={'Peran ' + user.username} value={user.role} onValueChange={(selectedValue) => void update(user, selectedValue, !!user.active)}>{Object.entries(roleNames).map(([key, label]) => <option value={key} key={key}>{label}</option>)}</SearchSelect><Button variant="ghost" size="sm" onClick={() => void update(user, user.role, !user.active)}>{user.active ? 'Nonaktifkan' : 'Aktifkan'}</Button></>}</div>)}</div>}</Card><Card><div className="card-heading"><div><h2>Tambah pengguna</h2><p>Isi kata sandi sementara. Pengguna wajib menggantinya saat login pertama.</p></div></div><form className="account-form" onSubmit={event => void add(event)}><label>Nama pengguna<Input value={username} onChange={event => setUsername(event.target.value)} required minLength={3} pattern="[A-Za-z0-9_.@+\-]+" maxLength={128} autoComplete="off"/></label><label>Kata sandi sementara<Input type="password" value={password} onChange={event => setPassword(event.target.value)} required minLength={8} maxLength={256} autoComplete="new-password" placeholder="Minimal 8 karakter, huruf besar, angka, simbol"/></label><label>Peran<SearchSelect aria-label="Peran pengguna baru" value={role} onValueChange={(selectedValue) => setRole(selectedValue)}>{Object.entries(roleNames).map(([key, label]) => <option key={key} value={key}>{label}</option>)}</SearchSelect></label>{error && <div className="form-error" role="alert">{error}</div>}{saved && <p className="success-text" role="status">Pengguna dibuat. Berikan kata sandi sementara secara pribadi; pengguna wajib menggantinya saat login pertama.</p>}<Button disabled={pending} type="submit"><Plus size={15}/>{pending ? 'Menyimpan…' : 'Tambah pengguna'}</Button></form></Card></div><Notice>Pembaca agregat tidak dapat membuka direktori atau kuesioner. Analis detail tidak melihat NIK/KK, kontak, koordinat, nominal keuangan dan kondisi kesehatan. Nilai sensitif yang dipetakan hanya dapat dilihat administrator.</Notice></>;
+    return <div className="accounts-page">
+      <PageHead eyebrow="" title="Kelola pengguna" description="Atur peran dan akses akun LENSA."><Users size={24}/></PageHead>
+      {error && <div className="form-error" role="alert">{error}</div>}
+      <div className="settings-layout">
+        <Card className="accounts-card">
+          <div className="account-section-heading"><h2>Akun pengguna</h2><span>{users.data ? users.data.rows.length+' akun' : 'Memuat...'}</span></div>
+          <div className="account-search search-input"><Search size={16}/><Input aria-label="Cari pengguna" placeholder="Cari nama pengguna..." value={draft} onChange={event=>{setDraft(event.target.value);setPage(1)}}/></div>
+          {users.isPending ? <Loading /> : users.error ? <ErrorBox error={users.error} retry={()=>void users.refetch()}/> : <>
+            <div className="account-list" aria-busy={updating!==null}>{visible.map(user =>
+              <div className="account-row" key={user.id}>
+                <div className="avatar" aria-hidden="true">{user.username.slice(0,1).toUpperCase()}</div>
+                <div className="account-identity"><strong>{user.username}</strong><small>{updating===user.id?'Menyimpan...':user.id===session?.user?.id?'Akun Anda':!user.active?'Nonaktif':user.must_change_password?'Wajib ganti kata sandi':'Aktif'}</small></div>
+                <div className="account-actions">{user.id===session?.user?.id?<Badge>Administrator</Badge>:<>
+                  <SearchSelect aria-label={'Peran '+user.username} value={user.role} disabled={busy} onValueChange={value=>void update(user,value,!!user.active)}>{Object.entries(roleNames).map(([key,label])=><option value={key} key={key}>{label}</option>)}</SearchSelect>
+                  <Button variant="ghost" size="sm" disabled={busy} aria-label={(user.active?'Nonaktifkan ':'Aktifkan ')+user.username} onClick={()=>void update(user,user.role,!user.active)}>{user.active?'Nonaktifkan':'Aktifkan'}</Button>
+                </>}</div>
+              </div>)}
+            </div>
+            {!accounts.length&&<p className="account-empty">Tidak ada pengguna yang sesuai.</p>}
+            {accounts.length>10&&<Pagination page={currentPage} pageSize={pageSize} total={accounts.length} busy={busy} onPage={setPage} onPageSize={value=>{setPageSize(value);setPage(1)}}/>}
+          </>}
+          <p className="account-footnote">Perubahan peran atau status mengakhiri sesi akun tersebut.</p>
+        </Card>
+        <Card className="add-account-card">
+          <div className="account-section-heading"><h2>Tambah pengguna</h2></div>
+          <p className="account-form-intro">Pengguna mengganti sandi sementara saat login pertama.</p>
+          <form className="account-form" onSubmit={event=>void add(event)}>
+            <label>Nama pengguna<Input value={username} onChange={event=>setUsername(event.target.value)} required minLength={3} pattern="[A-Za-z0-9_.@+\-]+" maxLength={128} autoComplete="off" disabled={pending}/></label>
+            <label>Kata sandi sementara<span className="account-password"><Input aria-label="Kata sandi sementara" type={showPassword?'text':'password'} value={password} onChange={event=>setPassword(event.target.value)} required minLength={1} maxLength={256} autoComplete="new-password" disabled={pending} aria-describedby="temporary-password-hint"/><Button type="button" variant="ghost" size="icon" aria-label={showPassword?'Sembunyikan kata sandi':'Tampilkan kata sandi'} aria-pressed={showPassword} onClick={()=>setShowPassword(!showPassword)}>{showPassword?<EyeOff size={17}/>:<Eye size={17}/>}</Button></span><small id="temporary-password-hint">Bebas, minimal 1 karakter.</small></label>
+            <label>Peran<SearchSelect aria-label="Peran pengguna baru" value={role} disabled={pending} onValueChange={setRole}>{Object.entries(roleNames).map(([key,label])=><option key={key} value={key}>{label}</option>)}</SearchSelect></label>
+            <p className="account-role-hint">{role==='viewer'?'Viewer dapat melihat data dan mengunduh Excel.':'Administrator juga dapat mengelola akun dan monitoring aktivitas.'}</p>
+            {saved&&<p className="success-text" role="status">Pengguna dibuat. Berikan sandi sementara secara pribadi.</p>}
+            <Button disabled={busy} type="submit"><Plus size={16}/>{pending?'Menyimpan...':'Tambah pengguna'}</Button>
+          </form>
+        </Card>
+      </div>
+      <details className="account-access-note"><summary>Tentang hak akses</summary><p>Viewer dapat melihat ringkasan, direktori dan kuesioner serta mengunduh Excel. NIK/KK, kontak, koordinat, nominal keuangan dan kondisi kesehatan tetap khusus Administrator. Administrator tidak dapat mengubah perannya sendiri.</p></details>
+    </div>;
 }
