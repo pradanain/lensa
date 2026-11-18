@@ -131,6 +131,8 @@ Database sensus read-only harus memiliki backup privat tersendiri. Backup akun/F
 
 ## Troubleshooting
 
+- Jika deploy rollback, baca diagnostik **sebelum** pesan pemulihan image. Skrip menampilkan status container, exit code, OOM, hasil probe health, serta kode/kelas error startup yang dikenali tanpa menyalin baris log aplikasi. Log container aktif setelah rollback berasal dari image yang dipulihkan; itu tidak membuktikan penyebab kegagalan image baru. Salin `app/deploy/deploy.sh` terbaru ke `/srv/stacks/lensa/deploy.sh` agar diagnostik tersedia (pull image saja tidak memperbarui skrip host).
+- Batas tunggu health sekarang 600 detik, termasuk waktu startup; dapat diubah melalui environment shell `LENSA_HEALTH_TIMEOUT_SECONDS`. Container yang berhenti, unhealthy atau tidak memiliki health check tetap langsung dianggap gagal. Batas ini memberi ruang bagi start period 180 detik dan retry Docker; menambah waktu tidak memperbaiki error startup.
 - Startup `PRODUCTION_ADMIN_NOT_PROVISIONED`: akun belum disiapkan; gunakan bootstrap privat, bukan membuka setup publik.
 - Error trusted proxy subnet: isi `.env` dari network inspect aktual.
 - 502/504: periksa health LENSA, port label 8000, keterhubungan Traefik ke network yang sama, lalu hostname tunnel. Jangan restart stack lain sebagai percobaan.

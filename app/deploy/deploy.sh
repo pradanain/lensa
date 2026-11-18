@@ -13,6 +13,8 @@ test -f /storage/data/lensa/census/se2026.sqlite || { echo 'Missing census datab
 # owner 10001). The backup container below checks/reads them as the correct UID.
 test -d /storage/data/lensa/backups || { echo 'Missing backups directory' >&2; exit 1; }
 docker network inspect cloudflared-net >/dev/null
+health_timeout=${LENSA_HEALTH_TIMEOUT_SECONDS:-600}
+[[ "$health_timeout" =~ ^[1-9][0-9]{0,4}$ ]] || { echo 'Invalid LENSA_HEALTH_TIMEOUT_SECONDS (1-99999).' >&2; exit 1; }
 if [[ -n "${1:-}" ]]; then
   [[ "$1" =~ ^ghcr\.io/pradanain/lensa:(sha-[0-9a-f]{40}|latest)$ || "$1" =~ ^ghcr\.io/pradanain/lensa@sha256:[0-9a-f]{64}$ ]] || { echo 'Invalid LENSA image reference.' >&2; exit 1; }
   export LENSA_IMAGE="$1"
@@ -48,21 +50,51 @@ docker run --rm --network none --user 10001:10001 --read-only --cap-drop ALL --s
 tar -cz compose.yml .env deploy.sh | docker run --rm -i --network none --user 10001:10001 --read-only --cap-drop ALL \
   --mount type=bind,src=/storage/data/lensa/backups,dst=/backup \
   --entrypoint python "$image" -c 'import os,shutil,sys; p="/backup/config-"+sys.argv[1]+".tar.gz"; f=open(p,"xb"); shutil.copyfileobj(sys.stdin.buffer,f); f.close(); os.chmod(p,0o600)' "$stamp"
+diagnose_failure() {
+  echo 'LENSA failed before readiness. Container state before rollback:' >&2
+  local failed_id
+  failed_id=$("${compose[@]}" ps --all --quiet lensa) || return 0
+  if [[ -n "$failed_id" ]]; then
+    # Never dump Config.Env, mounts or application logs: they may be private.
+    docker inspect --format 'status={{.State.Status}} exit={{.State.ExitCode}} oom_killed={{.State.OOMKilled}} restarts={{.RestartCount}} health={{if .State.Health}}{{.State.Health.Status}}{{else}}missing{{end}}' "$failed_id" >&2 || true
+    docker inspect --format '{{if .State.Health}}{{range .State.Health.Log}}probe_exit={{.ExitCode}} output={{printf "%q" .Output}}{{println}}{{end}}{{end}}' "$failed_id" >&2 || true
+    # Print only recognized error codes/classes, never raw startup log lines.
+    docker logs --tail 120 "$failed_id" 2>&1 | python3 -c '
+import re, sys
+text = sys.stdin.read()
+codes = re.findall(r"\b(?:PRODUCTION_ADMIN_NOT_PROVISIONED|PRODUCTION_REQUIRES_LOGIN_SECURE_COOKIES_AND_PRIVATE_SETUP|PRODUCTION_REQUIRES_HTTPS_ORIGINS|PRODUCTION_REQUIRES_EXPLICIT_HOSTS|APP_DATABASE_MUST_BE_SEPARATE|APP_DATABASE_PATH_IS_PROTECTED|APP_DATABASE_ALIAS_IS_PROTECTED)\b", text)
+classes = re.findall(r"(?m)^(PermissionError|FileNotFoundError|ModuleNotFoundError|ImportError|MemoryError|sqlite3\.OperationalError|sqlite3\.DatabaseError|RuntimeError):", text)
+for code in sorted(set(codes + classes)):
+    print("startup_error=" + code)
+' >&2 || true
+    echo 'Inspect LENSA startup logs privately on this server; do not share respondent values or credentials.' >&2
+  else
+    echo 'No LENSA container found (including stopped containers).' >&2
+  fi
+}
 rollback() {
+  trap - ERR
+  diagnose_failure
   if [[ -n "$rollback_image" ]]; then
     echo 'LENSA health failed; restoring previous image. Database backup retained.' >&2
     LENSA_IMAGE="$rollback_image" "${compose[@]}" up -d --no-deps --pull never lensa || echo 'Rollback also failed; inspect only the LENSA stack.' >&2
+  else
+    echo 'No previous LENSA image is available for rollback.' >&2
   fi
 }
 trap 'rollback' ERR
 echo 'Starting only the LENSA service...'
 "${compose[@]}" up -d --no-deps --pull never lensa
 healthy=false
-for _ in $(seq 1 120); do
-  cid=$("${compose[@]}" ps --quiet lensa)
+deadline=$((SECONDS + health_timeout))
+while (( SECONDS < deadline )); do
+  cid=$("${compose[@]}" ps --all --quiet lensa)
+  [[ -n "$cid" ]] || break
+  runtime=$(docker inspect --format '{{.State.Status}}' "$cid")
+  [[ "$runtime" == running ]] || break
   state=$(docker inspect --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}missing{{end}}' "$cid")
   if [[ "$state" == healthy ]]; then healthy=true; break; fi
-  if [[ "$state" == unhealthy ]]; then break; fi
+  if [[ "$state" == unhealthy || "$state" == missing ]]; then break; fi
   sleep 2
 done
 [[ "$healthy" == true ]] || { rollback; exit 1; }
