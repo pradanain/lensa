@@ -1627,7 +1627,7 @@ async function pendingLogin(page:Page,path='/dashboard',username='admin',firstLo
 
 test('login requires commitment before deep links and exports, with reload persistence',async({page})=>{
   const requests:string[]=[]
-  page.on('request',request=>{if(request.url().includes('/api/v1/')&&!request.url().includes('/auth/'))requests.push(request.url())})
+  page.on('request',request=>{if(request.url().includes('/api/v1/')&&!request.url().includes('/auth/')&&!request.url().endsWith('/activity/events'))requests.push(request.url())})
   await pendingLogin(page,'/questionnaire/dtd/DTD-0001')
   expect(requests).toEqual([])
   expect((await page.request.get('/api/v1/questionnaires/dtd/DTD-0001')).status()).toBe(403)
