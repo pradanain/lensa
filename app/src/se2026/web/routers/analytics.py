@@ -76,9 +76,12 @@ def business_summary(
     desa: str = Query(default="", max_length=40),
     sls: str = Query(default="", max_length=40),
     subsls: str = Query(default="", max_length=40),
+    turnover_group: str = Query(default="", pattern=r"^(MIKRO|KECIL|MENENGAH|BESAR|UNAVAILABLE|REVIEW)?$"),
+    turnover_basis: str = Query(default="", pattern=r"^(REPORTED_ANNUAL|ESTIMATE_MONTHLY_X12|UNAVAILABLE)?$"),
     user=Depends(current_user),
 ):
-    filters = {k: v for k, v in dict(kecamatan=kecamatan, desa=desa, sls=sls, subsls=subsls).items() if v}
+    filters = {k: v for k, v in dict(kecamatan=kecamatan, desa=desa, sls=sls, subsls=subsls,
+        turnover_group=turnover_group, turnover_basis=turnover_basis).items() if v}
 
     def build():
         with Analytics(request.app.state.settings.census_db, request.app.state.settings.root) as api:

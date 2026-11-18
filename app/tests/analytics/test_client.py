@@ -82,7 +82,7 @@ def test_response_geography_is_distinct_and_has_no_sls_inference(analytical_db):
 
 def test_registry_checks_every_definition_against_synthetic_schemas(analytical_db):
     with Analytics(analytical_db) as api:
-        assert api.validate_definitions()==97
+        assert api.validate_definitions()==101
 
 
 def test_numeric_small_valid_cohort_is_suppressed_even_when_module_is_large(analytical_db):

@@ -80,10 +80,10 @@ test('business deep link selects the exact roster',async({page})=>{
   await page.screenshot({path:'../../docs/reports/app/screenshots/questionnaire-synthetic.png',fullPage:false})
 })
 
-test('business summary keeps three sector topics and resolves old links',async({page})=>{
+test('business summary includes turnover alongside sector topics and resolves old links',async({page})=>{
   await page.goto('http://127.0.0.1:8767/usaha')
   await expect(page.getByRole('tab')).toHaveText(['Ringkasan','Direktori','KBLI 2025'])
-  await expect(page.getByRole('group',{name:'Topik ringkasan usaha'}).getByRole('button')).toHaveText(['Komposisi Sektor','Distribusi KBLI','Distribusi UMKM'])
+  await expect(page.getByRole('group',{name:'Topik ringkasan usaha'}).getByRole('button')).toHaveText(['Distribusi Omzet','Komposisi Sektor','Distribusi KBLI','Distribusi UMKM'])
   await page.goto('http://127.0.0.1:8767/usaha?tab=digital')
   await expect(page.getByRole('tab',{name:'Ringkasan',exact:true})).toHaveAttribute('aria-selected','true')
   await expect(page.getByRole('heading',{name:'Komposisi sektor usaha',exact:true})).toBeVisible()
@@ -145,7 +145,7 @@ test('KBLI filters follow category then two through five digits and clear descen
   await page.goto('http://127.0.0.1:8767/usaha?tab=kbli')
   await selectValue(page,'Kategori KBLI','A')
   await expect(page.getByRole('heading',{name:'A - PERTANIAN, KEHUTANAN, DAN PERIKANAN',exact:true})).toBeVisible()
-  expect(await page.locator('.filter-sidebar').getByRole('combobox').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('aria-label')))).toEqual(['Kategori KBLI','KBLI 2 Digit','KBLI 3 Digit','KBLI 4 Digit','KBLI 5 Digit'])
+  expect(await page.locator('.kbli-hierarchy-filters').getByRole('combobox').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('aria-label')))).toEqual(['Kategori KBLI','KBLI 2 Digit','KBLI 3 Digit','KBLI 4 Digit','KBLI 5 Digit'])
   await expect(page.getByRole('combobox',{name:'Awalan 1 digit',exact:true})).toHaveCount(0)
   await expect(page.locator('.filter-sidebar').getByLabel('Cari kode atau definisi KBLI',{exact:true})).toHaveCount(0)
   await expect(page.locator('.kbli-results').getByLabel('Cari kode atau definisi KBLI',{exact:true})).toBeVisible()
@@ -604,7 +604,7 @@ test('business summary uses plain labels and keeps technical notes behind disclo
 test('sector topics show percentages and separate composition, KBLI and geography',async({page})=>{
   await page.setViewportSize({width:1440,height:1000})
   await page.goto('http://127.0.0.1:8767/usaha')
-  await expect(page.getByRole('group',{name:'Topik ringkasan usaha'}).getByRole('button')).toHaveText(['Komposisi Sektor','Distribusi KBLI','Distribusi UMKM'])
+  await expect(page.getByRole('group',{name:'Topik ringkasan usaha'}).getByRole('button')).toHaveText(['Distribusi Omzet','Komposisi Sektor','Distribusi KBLI','Distribusi UMKM'])
   await expect(page.getByRole('img',{name:'Komposisi sektor usaha',exact:true})).toBeVisible()
   await expect(page.locator('.insight-share')).toHaveText(['100%'])
   await expect(page.getByRole('heading',{name:'KBLI 5 digit terbanyak',exact:true})).toHaveCount(0)
@@ -1451,7 +1451,7 @@ test('family columns show building counts address and colored statuses without s
   await page.goto('http://127.0.0.1:8768/keluarga?tab=direktori')
   const rows=page.locator('.record-directory-table tbody tr')
   await expect(rows).toHaveCount(3)
-  await expect(rows.first().locator('.record-title small')).toHaveText('No. bangunan 007')
+  await expect(rows.first().locator('.record-title small').filter({hasText:'No. bangunan'})).toHaveText('No. bangunan 007')
   await expect(rows.first()).not.toContainText('ID DTD')
   await expect(rows.first().locator('[data-column="member_count"]')).toHaveText('1.500')
   await expect(rows.first().locator('[data-column="business_count"]')).toHaveText('0')
@@ -1469,7 +1469,7 @@ test('member NIK is searchable without a URL and hidden from analyst',async({pag
   await page.goto('http://127.0.0.1:8768/keluarga?tab=anggota')
   await expect(page.locator('.member-nik').first()).toBeVisible()
   const input=page.getByRole('textbox',{name:'Cari direktori',exact:true})
-  await expect(input).toHaveAttribute('placeholder','Cari nama anggota, NIK, atau lainnya...')
+  await expect(input).toHaveAttribute('placeholder','Cari nama anggota, NIK, nomor KK, atau lainnya...')
   const requested=page.waitForRequest(request=>request.url().endsWith('/directories/members/search')&&request.postDataJSON().q==='SYNTHETIC_PRIVATE_NIK')
   await input.fill('SYNTHETIC_PRIVATE_NIK')
   await page.getByRole('button',{name:'Cari',exact:true}).click()
@@ -1495,7 +1495,7 @@ test('member profiles fit desktop width and retain education and semantic status
   await expect(rows).toHaveCount(4)
   await expect(rows.first().locator('.record-title > small').first()).toHaveText('No. anggota 007'+String.fromCharCode(32,183,32)+'Anak')
   await expect(rows.first()).not.toContainText('ID DTD')
-  await expect(rows.first().locator('[data-column="family_head"] small')).toHaveCount(0)
+  await expect(rows.first().locator('[data-column="family_head"] .family-kk')).toContainText('No. KK')
   await expect(rows.first().locator('[data-column="member_profile"]')).toContainText('0 tahun')
   await expect(rows.first().locator('[data-column="member_profile"]')).toContainText('Perempuan')
   await expect(rows.first().locator('.member-education strong')).toContainText('SMA/sederajat')
@@ -1741,3 +1741,25 @@ test('admin creates a temporary account that must change password before pact or
   await expect(page.getByRole('dialog',{name:'Pakta integritas',exact:true})).toBeVisible()
   await expect(page.getByRole('heading',{name:'Ganti kata sandi sementara',exact:true})).toHaveCount(0)
 })
+
+
+for (const tab of ['direktori','anggota']) {
+  test('family KK appears below the head and can be searched in '+tab,async({page})=>{
+    await page.goto('http://127.0.0.1:8768/keluarga?tab='+tab)
+    await expect(page.locator('.family-kk code').first()).toHaveText('SYNTHETIC_PRIVATE_KK')
+    const input=page.getByRole('textbox',{name:'Cari direktori',exact:true})
+    await expect(input).toHaveAttribute('placeholder',/nomor KK/)
+    await input.fill('SYNTHETIC_PRIVATE_KK')
+    await page.getByRole('button',{name:'Cari',exact:true}).click()
+    await expect(page.locator('.family-kk code').first()).toHaveText('SYNTHETIC_PRIVATE_KK')
+    expect(page.url()).not.toContain('PRIVATE_KK')
+    await page.setViewportSize({width:390,height:844})
+    await expect(page.locator('.family-kk').first()).toBeVisible()
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
+    await login(page,'analyst')
+    await page.goto('/keluarga?tab='+tab)
+    await expect(page.locator('.record-directory-table tbody tr').first()).toBeVisible()
+    await expect(page.locator('.family-kk')).toHaveCount(0)
+    await expect(page.locator('.record-directory-table')).not.toContainText('SYNTHETIC_PRIVATE_KK')
+  })
+}

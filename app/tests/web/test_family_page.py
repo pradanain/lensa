@@ -11,6 +11,41 @@ from .synthetic import V1, V2
 from .test_xlsx_export import sheet
 
 
+@pytest.mark.parametrize("scope", ["families", "members"])
+def test_family_kk_search_display_export_and_exact_version_access(portal, analyst, viewer, scope):
+    _, client, settings = portal
+    number = "0012345678905678"
+    other = "0098765432105678"
+    with sqlite3.connect(settings.census_db) as con:
+        con.execute("UPDATE mart_keluarga SET no_kk=? WHERE assignment_id='DTD-0001' AND __version_normalized=?", (number, V1))
+        con.execute("INSERT INTO mart_keluarga(assignment_id,__version_normalized,nama_kk,no_kk) VALUES('DTD-0001',?,'OTHER VERSION',?)", (V2, other))
+        con.execute("UPDATE mart_keluarga SET __version_normalized=? WHERE assignment_id='DTD-0002'", (V2,))
+    before = sha256(settings.census_db)
+    endpoint = '/api/v1/directories/' + scope + '/'
+    for query in [number, number[:8]]:
+        response = client.post(endpoint+'search', json={'q': query}).json()
+        assert response['total'] > 0
+        assert all(row['version'] == V1 and row['family_kk'] == number for row in response['rows'])
+    rows = client.post(endpoint+'search', json={'q': 'DTD-0002'}).json()['rows']
+    if scope == 'members':
+        assert rows and all(row['family_kk'] is None for row in rows)
+        assert client.post(endpoint+'search', json={'q': other}).json()['total'] == 0
+    else:
+        assert client.post(endpoint+'search', json={'q': other}).json()['rows'][0]['family_kk'] == other
+    assert analyst.post(endpoint+'search', json={'q': number}).json()['total'] == 0
+    restricted = analyst.post(endpoint+'search', json={'q': 'DTD-0001'}).json()['rows']
+    assert restricted and all(row['family_kk'] is None for row in restricted)
+    assert 'Nomor KK' not in [cell.value for cell in sheet(analyst.post(endpoint+'export', json={}))[1]]
+    workbook = sheet(client.post(endpoint+'export', json={'q': number}))
+    column = [cell.value for cell in workbook[1]].index('Nomor KK') + 1
+    assert workbook.cell(2, column).value == number and workbook.cell(2, column).data_type == 's'
+    assert viewer.post(endpoint+'search', json={'q': number}).status_code == 403
+    with sqlite3.connect(settings.census_db) as con:
+        assert con.execute('PRAGMA integrity_check').fetchone()[0] == 'ok'
+        assert con.execute('PRAGMA foreign_key_check').fetchall() == []
+    assert sha256(settings.census_db) == before
+
+
 def test_member_education_is_exact_version_roster_without_multiplication(portal):
     _, client, settings = portal
     with sqlite3.connect(settings.census_db) as con:
@@ -133,6 +168,7 @@ def test_duplicate_family_root_does_not_choose_a_tag_or_multiply_member_rows(por
     rows = enrich_family_records(settings, rows, "admin", "members")
     assert len(rows) == len({row["record_key"] for row in rows}) == expected
     assert all(row["family_head"] is None for row in rows if row["version"] == V1)
+    assert all(row["family_kk"] is None for row in rows if row["version"] == V1)
     family = enrich_family_records(settings, [{"assignment_id": "DTD-0001", "version": V1}], "admin", "families")[0]
     assert family["map_coordinates"] is None and family["map_status"] == "SOURCE_CONFLICT"
 

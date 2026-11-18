@@ -622,8 +622,12 @@ class Questionnaires:
             )
         if system == "dtd":
             apply_display_rules(form, rendered)
+        from ..analytics.turnover import lookup as turnover_lookup, record as turnover_record
+        turnover = turnover_record(turnover_lookup(self.settings.census_db), system, assignment_id,
+                                   version, selections.get('businesses')).public(can_sensitive)
         return dict(
             form=system,
+            turnover=turnover,
             assignment=dict(master),
             assignment_context=assignment_context,
             locations=locations,

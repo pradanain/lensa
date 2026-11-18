@@ -10,6 +10,27 @@ V1 = "2026-09-01T00:00:00.000000"
 V2 = "2026-09-02T00:00:00.000000"
 
 
+def prepare_turnover_cases(con):
+    """Gross-sales boundary and monthly-estimate examples, all synthetic."""
+    con.execute('DELETE FROM mart_ekonomi_bulanan')
+    con.execute("DELETE FROM mart_ekonomi_tahunan WHERE index1<>'001'")
+    con.execute("UPDATE mart_ekonomi_tahunan SET tahun_mulai_operasi='2000',__key_valid='1',__conflict='0'")
+    values = ['0','2000000000','2000000000.01','15000000000','15000000000.01',
+              '50000000000','50000000000.01',None,None,None,None,'-1']
+    for n,value in enumerate(values,1):
+        con.execute('UPDATE mart_ekonomi_tahunan SET pendapatan_utama_2025=? WHERE assignment_id=?',
+                    (value,'DTD-'+str(n).zfill(4)))
+    for n,value in [(8,'200000000'),(9,'1250000000'),(10,'0'),(11,None)]:
+        con.execute('DELETE FROM mart_ekonomi_tahunan WHERE assignment_id=?',('DTD-'+str(n).zfill(4),))
+        con.execute('INSERT INTO mart_ekonomi_bulanan '
+            '(assignment_id,__version_normalized,index1,tahun_mulai_operasi,pendapatan_utama_bln,__key_valid,__conflict) '
+            'VALUES(?,?,?,?,?,?,?)',('DTD-'+str(n).zfill(4),V1,'001','2026',value,'1','0'))
+    con.execute("UPDATE mart_ub_b SET pendapatan_utama='3000000000',__version_normalized='unrelated-version'")
+    for table in ('mart_assignment_ub','clean_assignment_ub'):
+        con.execute('UPDATE '+table+" SET kode_kecamatan='6502010',kode_desa='6502010001',"
+                    "kode_sls='65020100010001',kode_subsls='6502010001000101'")
+
+
 def make_database(path, root=ROOT):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)

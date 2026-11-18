@@ -1,3 +1,4 @@
+import {turnoverGroups,turnoverBases} from './turnover'
 export type ExportFilters=Record<string,unknown>
 export type ExportArea={level:string;label:string;code?:string}
 export type ExportLabels={status?:string;kbliTitle?:string;categoryTitle?:string;kind?:string}
@@ -31,6 +32,8 @@ export function exportDescription(path:string,filters:ExportFilters,areas:Export
   if(filters.status)summary.push({label:'Status',value:labels.status||'Label belum tersedia'})
   if(prefix)summary.push({label:'KBLI',value:(category?'['+category+'] ':'')+prefix+(labels.kbliTitle?' \u2014 '+labels.kbliTitle:'')})
   else if(category)summary.push({label:'Kategori KBLI',value:category+(labels.categoryTitle?' \u2014 '+labels.categoryTitle:'')})
+  if(filters.turnover_group)summary.push({label:'Kelompok omzet',value:turnoverGroups[text(filters.turnover_group)]||text(filters.turnover_group)})
+  if(filters.turnover_basis)summary.push({label:'Dasar omzet',value:turnoverBases[text(filters.turnover_basis)]||text(filters.turnover_basis)})
   if(filters.kind)summary.push({label:'Jenis',value:labels.kind||text(filters.kind)})
   if(filters.kbli_state)summary.push({label:'Kode KBLI',value:({MISSING:'Belum terisi',INVALID_FORMAT:'Format tidak valid',UNKNOWN_REFERENCE:'Belum dikenali',VALID:'Valid'} as Record<string,string>)[text(filters.kbli_state)]||text(filters.kbli_state)})
   if(filters.enumerated_only)summary.push({label:'Pendataan',value:'Selesai atau disetujui'})

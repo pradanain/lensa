@@ -42,7 +42,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -50,7 +52,7 @@
     "sensitivity": "RESTRICTED_AGGREGATE",
     "interpretation_limits": "Kedua komponen dan total harus nonnegatif, integral, finite, dan jumlah komponen=total; usaha juga mensyaratkan flag SESUAI. Denominator record respons valid, bukan FTE atau pekerja unik lintas usaha.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"total_pekerja_jenis_kelamin\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"pekerja_laki_laki\",\"pekerja_perempuan\",\"total_pekerja_jenis_kelamin\",\"status_konsistensi_pekerja\" FROM \"mart_program_usaha\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"total_pekerja_jenis_kelamin\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"pekerja_laki_laki\",\"pekerja_perempuan\",\"total_pekerja_jenis_kelamin\",\"status_konsistensi_pekerja\" FROM \"mart_program_usaha\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       "SESUAI",
       "SESUAI"
@@ -102,7 +104,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -110,7 +114,7 @@
     "sensitivity": "RESTRICTED_AGGREGATE",
     "interpretation_limits": "Kedua komponen dan total harus nonnegatif, integral, finite, dan jumlah komponen=total; usaha juga mensyaratkan flag SESUAI. Denominator record respons valid, bukan FTE atau pekerja unik lintas usaha.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"pekerja_laki_laki\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"pekerja_laki_laki\",\"pekerja_perempuan\",\"total_pekerja_jenis_kelamin\",\"status_konsistensi_pekerja\" FROM \"mart_program_usaha\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"pekerja_laki_laki\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"pekerja_laki_laki\",\"pekerja_perempuan\",\"total_pekerja_jenis_kelamin\",\"status_konsistensi_pekerja\" FROM \"mart_program_usaha\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       "SESUAI",
       "SESUAI"
@@ -162,7 +166,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -170,7 +176,7 @@
     "sensitivity": "RESTRICTED_AGGREGATE",
     "interpretation_limits": "Kedua komponen dan total harus nonnegatif, integral, finite, dan jumlah komponen=total; usaha juga mensyaratkan flag SESUAI. Denominator record respons valid, bukan FTE atau pekerja unik lintas usaha.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"pekerja_perempuan\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"pekerja_laki_laki\",\"pekerja_perempuan\",\"total_pekerja_jenis_kelamin\",\"status_konsistensi_pekerja\" FROM \"mart_program_usaha\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"pekerja_perempuan\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"pekerja_laki_laki\",\"pekerja_perempuan\",\"total_pekerja_jenis_kelamin\",\"status_konsistensi_pekerja\" FROM \"mart_program_usaha\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       "SESUAI",
       "SESUAI"
@@ -222,7 +228,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -230,7 +238,7 @@
     "sensitivity": "RESTRICTED_AGGREGATE",
     "interpretation_limits": "Rasio total pekerja dilaporkan / jumlah record valid; bukan rerata persentase wilayah, bukan FTE dan bukan produktivitas.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"total_pekerja_jenis_kelamin\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"pekerja_laki_laki\",\"pekerja_perempuan\",\"total_pekerja_jenis_kelamin\",\"status_konsistensi_pekerja\" FROM \"mart_program_usaha\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"total_pekerja_jenis_kelamin\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"pekerja_laki_laki\",\"pekerja_perempuan\",\"total_pekerja_jenis_kelamin\",\"status_konsistensi_pekerja\" FROM \"mart_program_usaha\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       "SESUAI",
       "SESUAI"
@@ -270,7 +278,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment",
@@ -279,7 +289,7 @@
     "sensitivity": "RESTRICTED_AGGREGATE",
     "interpretation_limits": "Kedua komponen dan total harus nonnegatif, integral, finite, dan jumlah komponen=total; usaha juga mensyaratkan flag SESUAI. Denominator record respons valid, bukan FTE atau pekerja unik lintas usaha.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"jumlah_pekerja\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"pekerja_laki_laki\",\"pekerja_perempuan\",\"jumlah_pekerja\",\"assignment_id\" FROM \"mart_ub_b\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"jumlah_pekerja\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT \"pekerja_laki_laki\",\"pekerja_perempuan\",\"jumlah_pekerja\",\"assignment_id\" FROM \"mart_ub_b\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [],
     "value_column": "jumlah_pekerja",
     "validation_evidence": "docs/reports/analytics/foundation_validation.json",
@@ -316,7 +326,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment",
@@ -325,7 +337,7 @@
     "sensitivity": "RESTRICTED_AGGREGATE",
     "interpretation_limits": "Kedua komponen dan total harus nonnegatif, integral, finite, dan jumlah komponen=total; usaha juga mensyaratkan flag SESUAI. Denominator record respons valid, bukan FTE atau pekerja unik lintas usaha.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"pekerja_laki_laki\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"pekerja_laki_laki\",\"pekerja_perempuan\",\"jumlah_pekerja\",\"assignment_id\" FROM \"mart_ub_b\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"pekerja_laki_laki\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT \"pekerja_laki_laki\",\"pekerja_perempuan\",\"jumlah_pekerja\",\"assignment_id\" FROM \"mart_ub_b\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [],
     "value_column": "pekerja_laki_laki",
     "validation_evidence": "docs/reports/analytics/foundation_validation.json",
@@ -362,7 +374,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment",
@@ -371,7 +385,7 @@
     "sensitivity": "RESTRICTED_AGGREGATE",
     "interpretation_limits": "Kedua komponen dan total harus nonnegatif, integral, finite, dan jumlah komponen=total; usaha juga mensyaratkan flag SESUAI. Denominator record respons valid, bukan FTE atau pekerja unik lintas usaha.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"pekerja_perempuan\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"pekerja_laki_laki\",\"pekerja_perempuan\",\"jumlah_pekerja\",\"assignment_id\" FROM \"mart_ub_b\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"pekerja_perempuan\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT \"pekerja_laki_laki\",\"pekerja_perempuan\",\"jumlah_pekerja\",\"assignment_id\" FROM \"mart_ub_b\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [],
     "value_column": "pekerja_perempuan",
     "validation_evidence": "docs/reports/analytics/foundation_validation.json",
@@ -408,7 +422,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment",
@@ -417,7 +433,7 @@
     "sensitivity": "RESTRICTED_AGGREGATE",
     "interpretation_limits": "Rasio total pekerja dilaporkan / jumlah record valid; bukan rerata persentase wilayah, bukan FTE dan bukan produktivitas.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"jumlah_pekerja\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"pekerja_laki_laki\",\"pekerja_perempuan\",\"jumlah_pekerja\",\"assignment_id\" FROM \"mart_ub_b\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"jumlah_pekerja\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT \"pekerja_laki_laki\",\"pekerja_perempuan\",\"jumlah_pekerja\",\"assignment_id\" FROM \"mart_ub_b\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [],
     "value_column": "jumlah_pekerja",
     "validation_evidence": "docs/reports/analytics/foundation_validation.json",

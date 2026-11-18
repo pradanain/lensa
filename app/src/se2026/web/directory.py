@@ -11,6 +11,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from ..common import q
 from ..analytics.business_audit import register_population
+from ..analytics.turnover import register_turnover, lookup as turnover_lookup, record as turnover_record
 from .business_directory import enrich_businesses
 from .family_directory import enrich_family_records
 from .database import census_connection
@@ -32,6 +33,8 @@ class DirectoryQuery(BaseModel):
     kbli_category: str = Field(default="", pattern=r"^[A-V]?$", max_length=1)
     kbli_prefix: str = Field(default="", pattern=r"^[0-9]{0,5}$", max_length=5)
     kbli_state: Literal["", "MISSING", "INVALID_FORMAT", "UNKNOWN_REFERENCE", "VALID"] = ""
+    turnover_group: Literal["", "MIKRO", "KECIL", "MENENGAH", "BESAR", "UNAVAILABLE", "REVIEW"] = ""
+    turnover_basis: Literal["", "REPORTED_ANNUAL", "ESTIMATE_MONTHLY_X12", "UNAVAILABLE"] = ""
     page: int = Field(default=1, ge=1, le=100000)
     page_size: int = Field(default=10, ge=1, le=100)
     sort: Literal["assignment_id", "title", "status", "kbli", "id", "business_priority", "family_priority"] = "id"
@@ -65,6 +68,7 @@ class DirectoryIndex:
                     )
                 ]
             rows = enrich_businesses(self.settings, rows, access) if scope == "businesses" else enrich_family_records(self.settings, rows, access, scope)
+            turnover_states = turnover_lookup(self.settings.census_db) if scope == 'businesses' else None
             scores = {}
             for row in rows:
                 geo = self.sls_reference.describe(row["sls"], row["subsls"])
@@ -84,6 +88,8 @@ class DirectoryIndex:
                         row["kbli"] in self.references.kbli,
                         present(row["kategori"]),
                     ])
+                    fields.append(turnover_record(turnover_states, row['source'], row['assignment_id'],
+                        row['version'], row['index1']).group in ('MIKRO','KECIL','MENENGAH','BESAR'))
                 elif scope == "members":
                     fields.extend(present(row[name]) for name in ("family_head", "member_number", "member_relationship", "member_gender", "member_age", "member_school", "member_diploma"))
                     if access == "admin":
@@ -103,7 +109,7 @@ class DirectoryIndex:
 
     def ensure(self):
         stat = self.settings.census_db.stat()
-        signature = f"{self.settings.census_db}:{stat.st_size}:{stat.st_mtime_ns}:directory-v6"
+        signature = f"{self.settings.census_db}:{stat.st_size}:{stat.st_mtime_ns}:directory-v7"
         if self.signature == signature:
             return
         with self.lock:
@@ -197,6 +203,10 @@ class DirectoryIndex:
                     (cursor.lastrowid, search, restricted),
                 )
 
+            family_numbers = defaultdict(list)
+            for family in source.execute("SELECT assignment_id,__version_normalized,no_kk FROM mart_keluarga"):
+                family_numbers[(family["assignment_id"], family["__version_normalized"])].append(family["no_kk"])
+
             definitions = [
                 (
                     "families",
@@ -252,6 +262,8 @@ class DirectoryIndex:
             for scope, view, columns, title_col, status_col, status_label, kind in definitions:
                 for item in source.execute("SELECT " + ",".join(map(q, columns)) + " FROM " + q(view)):
                     row = dict(item)
+                    numbers = family_numbers[(row["assignment_id"], row["__version_normalized"])]
+                    family_kk = numbers[0] if len(numbers) == 1 else None
                     add(
                         scope,
                         "dtd",
@@ -262,7 +274,7 @@ class DirectoryIndex:
                         row.get("kbli", ""),
                         row.get("kategori", ""),
                         kind,
-                        restricted=str(row.get("nik_anggota") or "") if scope == "members" else "",
+                        restricted=" ".join(str(value or "") for value in [family_kk, row.get("nik_anggota")]) if scope in ("families", "members") else "",
                     )
                     if scope != "members":
                         c = context[row["assignment_id"]]
@@ -344,7 +356,7 @@ class DirectoryIndex:
         clauses, bindings = ["d.scope=?"], [scope]
         if payload.qualified_only and scope == 'businesses':
             clauses.append('AUDIT_QUALIFIED(d.source,d.assignment_id,d.version,d.index1)=1')
-        if payload.enumerated_only and scope == "businesses":
+        if (payload.enumerated_only or payload.turnover_group or payload.turnover_basis) and scope == "businesses":
             clauses.append(
                 "((d.source='dtd' AND d.status IN ('1','2')) OR "
                 "(d.source='ub' AND d.status='1. Ditemukan dan masih aktif')) "
@@ -370,6 +382,14 @@ class DirectoryIndex:
         if payload.kbli_prefix:
             clauses.append("d.kbli LIKE ?")
             bindings.append(payload.kbli_prefix + "%")
+        if payload.turnover_group or payload.turnover_basis:
+            if scope != 'businesses':
+                raise HTTPException(422, 'TURNOVER_FILTER_BUSINESSES_ONLY')
+            for name, function in [('turnover_group','TURNOVER_GROUP'),('turnover_basis','TURNOVER_BASIS')]:
+                value = getattr(payload, name)
+                if value:
+                    clauses.append(function+'(d.source,d.assignment_id,d.version,d.index1)=?')
+                    bindings.append(value)
         if payload.q.strip():
             words = re.findall(r"\w+", payload.q, flags=re.UNICODE)[:12]
             if not words:
@@ -414,6 +434,8 @@ class DirectoryIndex:
         )
         with self.db.connection() as con:
             con.create_function("directory_completeness", 1, lambda key: scores.get(key, 0))
+            if payload.turnover_group or payload.turnover_basis:
+                register_turnover(con, self.settings.census_db)
             if payload.qualified_only and scope == 'businesses':
                 register_population(con, self.settings.census_db, self.settings.root)
             total = con.execute("SELECT COUNT(*) FROM directory_rows d WHERE " + where, values).fetchone()[0]
@@ -428,6 +450,10 @@ class DirectoryIndex:
         result_rows = [dict(r) | self.sls_reference.describe(r["sls"], r["subsls"]) for r in rows]
         if scope == "businesses":
             result_rows = enrich_businesses(self.settings, result_rows, role)
+            states = turnover_lookup(self.settings.census_db)
+            for row in result_rows:
+                row['turnover'] = turnover_record(states, row['source'], row['assignment_id'],
+                    row['version'], row['index1']).public(role == 'admin')
         elif scope in ("families", "members"):
             result_rows = enrich_family_records(self.settings, result_rows, role, scope)
         return dict(
@@ -445,12 +471,17 @@ class DirectoryIndex:
             search_in_url=False,
         )
 
-    def aggregate_counts(self, scope, source, field, qualified_only=False, enumerated_only=False):
+    def aggregate_counts(self, scope, source, field, qualified_only=False, enumerated_only=False,
+                         turnover_group='', turnover_basis='', kecamatan='', desa='', sls='', subsls=''):
         self.ensure()
         if field not in ("kbli", "kategori", "kbli_state", "kecamatan", "status"):
             raise HTTPException(422, "DIMENSION_NOT_ALLOWED")
         with self.db.connection() as con:
-            where, bindings = self.where(scope, DirectoryQuery(source=source, qualified_only=qualified_only, enumerated_only=enumerated_only), 'aggregate_viewer')
+            where, bindings = self.where(scope, DirectoryQuery(source=source, qualified_only=qualified_only,
+                enumerated_only=enumerated_only, turnover_group=turnover_group, turnover_basis=turnover_basis,
+                kecamatan=kecamatan, desa=desa, sls=sls, subsls=subsls), 'aggregate_viewer')
+            if turnover_group or turnover_basis:
+                register_turnover(con, self.settings.census_db)
             if qualified_only and scope == 'businesses':
                 register_population(con, self.settings.census_db, self.settings.root)
             return [

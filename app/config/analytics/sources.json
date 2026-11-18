@@ -305,7 +305,9 @@
     "dimensions": {
       "status": "kode_keberadaan_usaha",
       "kbli": "kbli",
-      "kategori": "kategori"
+      "kategori": "kategori",
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
     },
     "category_values": {
       "status": [
@@ -315,8 +317,22 @@
         "3",
         "4",
         "9"
+      ],
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
       ]
-    }
+    },
+    "turnover": true
   },
   "ub": {
     "view": "mart_ub_integrated",
@@ -455,7 +471,9 @@
     "dimensions": {
       "status": "status_keberadaan",
       "kbli": "kbli_akhir",
-      "kategori": "kategori_kbli"
+      "kategori": "kategori_kbli",
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
     },
     "category_values": {
       "status": [
@@ -466,9 +484,23 @@
         "6. Tidak ditemukan",
         "7. Duplikat",
         "9. Data diperoleh dari Kantor Pusat (KP)"
+      ],
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
       ]
     },
-    "response_desa": "kode_desa"
+    "response_desa": "kode_desa",
+    "turnover": true
   },
   "meteran": {
     "view": "mart_meteran",
@@ -652,8 +684,26 @@
     ],
     "system": "TGR",
     "assignment_column": "assignment_id",
-    "dimensions": {},
-    "category_values": {}
+    "dimensions": {
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
+    },
+    "category_values": {
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
+      ]
+    },
+    "turnover": true
   },
   "ub_digital": {
     "view": "mart_ub_c",
@@ -699,9 +749,27 @@
     ],
     "system": "TCZ",
     "assignment_column": "assignment_id",
-    "dimensions": {},
-    "category_values": {},
-    "response_desa": "kode_desa"
+    "dimensions": {
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
+    },
+    "category_values": {
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
+      ]
+    },
+    "response_desa": "kode_desa",
+    "turnover": true
   },
   "program_usaha": {
     "view": "mart_program_usaha",
@@ -748,8 +816,26 @@
     ],
     "system": "TGR",
     "assignment_column": "assignment_id",
-    "dimensions": {},
-    "category_values": {}
+    "dimensions": {
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
+    },
+    "category_values": {
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
+      ]
+    },
+    "turnover": true
   },
   "ub_workers": {
     "view": "mart_ub_b",
@@ -795,9 +881,27 @@
     ],
     "system": "TCZ",
     "assignment_column": "assignment_id",
-    "dimensions": {},
-    "category_values": {},
-    "response_desa": "kode_desa"
+    "dimensions": {
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
+    },
+    "category_values": {
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
+      ]
+    },
+    "response_desa": "kode_desa",
+    "turnover": true
   },
   "keluarga_details": {
     "view": "mart_keluarga_integrated",
@@ -1128,8 +1232,26 @@
     ],
     "system": "TGR",
     "assignment_column": "assignment_id",
-    "dimensions": {},
-    "category_values": {}
+    "dimensions": {
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
+    },
+    "category_values": {
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
+      ]
+    },
+    "turnover": true
   },
   "sosial_details": {
     "view": "mart_sosial_p0_p1",
@@ -1221,7 +1343,9 @@
     "dimensions": {
       "status": "kode_keberadaan_usaha",
       "kbli": "kbli",
-      "kategori": "kategori"
+      "kategori": "kategori",
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
     },
     "category_values": {
       "status": [
@@ -1231,9 +1355,23 @@
         "3",
         "4",
         "9"
+      ],
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
       ]
     },
-    "query": "enumerated_usaha"
+    "query": "enumerated_usaha",
+    "turnover": true
   },
   "ub_enumerated": {
     "view": "mart_ub_integrated",
@@ -1372,7 +1510,9 @@
     "dimensions": {
       "status": "status_keberadaan",
       "kbli": "kbli_akhir",
-      "kategori": "kategori_kbli"
+      "kategori": "kategori_kbli",
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
     },
     "category_values": {
       "status": [
@@ -1383,10 +1523,24 @@
         "6. Tidak ditemukan",
         "7. Duplikat",
         "9. Data diperoleh dari Kantor Pusat (KP)"
+      ],
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
       ]
     },
     "response_desa": "kode_desa",
-    "query": "enumerated_ub"
+    "query": "enumerated_ub",
+    "turnover": true
   },
   "qualified_usaha": {
     "view": "mart_usaha",
@@ -1436,7 +1590,9 @@
     "dimensions": {
       "status": "kode_keberadaan_usaha",
       "kbli": "kbli",
-      "kategori": "kategori"
+      "kategori": "kategori",
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
     },
     "category_values": {
       "status": [
@@ -1446,9 +1602,23 @@
         "3",
         "4",
         "9"
+      ],
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
       ]
     },
-    "query": "qualified_usaha"
+    "query": "qualified_usaha",
+    "turnover": true
   },
   "qualified_family": {
     "view": "mart_usaha",
@@ -1498,7 +1668,9 @@
     "dimensions": {
       "status": "kode_keberadaan_usaha",
       "kbli": "kbli",
-      "kategori": "kategori"
+      "kategori": "kategori",
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
     },
     "category_values": {
       "status": [
@@ -1508,9 +1680,23 @@
         "3",
         "4",
         "9"
+      ],
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
       ]
     },
-    "query": "qualified_family"
+    "query": "qualified_family",
+    "turnover": true
   },
   "qualified_bku": {
     "view": "mart_usaha",
@@ -1560,7 +1746,9 @@
     "dimensions": {
       "status": "kode_keberadaan_usaha",
       "kbli": "kbli",
-      "kategori": "kategori"
+      "kategori": "kategori",
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
     },
     "category_values": {
       "status": [
@@ -1570,9 +1758,23 @@
         "3",
         "4",
         "9"
+      ],
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
       ]
     },
-    "query": "qualified_bku"
+    "query": "qualified_bku",
+    "turnover": true
   },
   "qualified_ub": {
     "view": "mart_ub_integrated",
@@ -1711,7 +1913,9 @@
     "dimensions": {
       "status": "status_keberadaan",
       "kbli": "kbli_akhir",
-      "kategori": "kategori_kbli"
+      "kategori": "kategori_kbli",
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
     },
     "category_values": {
       "status": [
@@ -1722,10 +1926,24 @@
         "6. Tidak ditemukan",
         "7. Duplikat",
         "9. Data diperoleh dari Kantor Pusat (KP)"
+      ],
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
       ]
     },
     "response_desa": "kode_desa",
-    "query": "qualified_ub"
+    "query": "qualified_ub",
+    "turnover": true
   },
   "review_usaha": {
     "view": "mart_usaha",
@@ -1775,7 +1993,9 @@
     "dimensions": {
       "status": "kode_keberadaan_usaha",
       "kbli": "kbli",
-      "kategori": "kategori"
+      "kategori": "kategori",
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
     },
     "category_values": {
       "status": [
@@ -1785,9 +2005,23 @@
         "3",
         "4",
         "9"
+      ],
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
       ]
     },
-    "query": "review_usaha"
+    "query": "review_usaha",
+    "turnover": true
   },
   "bku_business_enumerated": {
     "view": "mart_bku",
@@ -1896,7 +2130,9 @@
     "dimensions": {
       "status": "kode_keberadaan_usaha",
       "kbli": "kbli",
-      "kategori": "kategori"
+      "kategori": "kategori",
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
     },
     "category_values": {
       "status": [
@@ -1906,9 +2142,23 @@
         "3",
         "4",
         "9"
+      ],
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
       ]
     },
-    "query": "enumerated_family"
+    "query": "enumerated_family",
+    "turnover": true
   },
   "enumerated_bku": {
     "view": "mart_usaha",
@@ -1958,7 +2208,9 @@
     "dimensions": {
       "status": "kode_keberadaan_usaha",
       "kbli": "kbli",
-      "kategori": "kategori"
+      "kategori": "kategori",
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
     },
     "category_values": {
       "status": [
@@ -1968,9 +2220,23 @@
         "3",
         "4",
         "9"
+      ],
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
       ]
     },
-    "query": "enumerated_bku"
+    "query": "enumerated_bku",
+    "turnover": true
   },
   "enumerated_unclassified": {
     "view": "mart_usaha",
@@ -2020,7 +2286,9 @@
     "dimensions": {
       "status": "kode_keberadaan_usaha",
       "kbli": "kbli",
-      "kategori": "kategori"
+      "kategori": "kategori",
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
     },
     "category_values": {
       "status": [
@@ -2030,9 +2298,23 @@
         "3",
         "4",
         "9"
+      ],
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
       ]
     },
-    "query": "enumerated_unclassified"
+    "query": "enumerated_unclassified",
+    "turnover": true
   },
   "enumerated_residential": {
     "view": "mart_usaha",
@@ -2082,7 +2364,9 @@
     "dimensions": {
       "status": "kode_keberadaan_usaha",
       "kbli": "kbli",
-      "kategori": "kategori"
+      "kategori": "kategori",
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
     },
     "category_values": {
       "status": [
@@ -2092,9 +2376,23 @@
         "3",
         "4",
         "9"
+      ],
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
       ]
     },
-    "query": "enumerated_residential"
+    "query": "enumerated_residential",
+    "turnover": true
   },
   "enumerated_mixed": {
     "view": "mart_usaha",
@@ -2144,7 +2442,9 @@
     "dimensions": {
       "status": "kode_keberadaan_usaha",
       "kbli": "kbli",
-      "kategori": "kategori"
+      "kategori": "kategori",
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
     },
     "category_values": {
       "status": [
@@ -2154,9 +2454,23 @@
         "3",
         "4",
         "9"
+      ],
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
       ]
     },
-    "query": "enumerated_mixed"
+    "query": "enumerated_mixed",
+    "turnover": true
   },
   "dashboard_umkm_workers": {
     "view": "mart_program_usaha",
@@ -2181,7 +2495,9 @@
     "assignment_column": "assignment_id",
     "system": "TGR",
     "dimensions": {
-      "worker_band": "worker_band"
+      "worker_band": "worker_band",
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
     },
     "category_values": {
       "worker_band": [
@@ -2191,8 +2507,22 @@
         "TWENTY_NINETYNINE",
         "HUNDRED_PLUS",
         "UNAVAILABLE"
+      ],
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
       ]
-    }
+    },
+    "turnover": true
   },
   "dashboard_ub_workers": {
     "view": "mart_ub_b",
@@ -2216,7 +2546,9 @@
     "assignment_column": "assignment_id",
     "system": "TCZ",
     "dimensions": {
-      "worker_band": "worker_band"
+      "worker_band": "worker_band",
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
     },
     "category_values": {
       "worker_band": [
@@ -2226,8 +2558,22 @@
         "TWENTY_NINETYNINE",
         "HUNDRED_PLUS",
         "UNAVAILABLE"
+      ],
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
       ]
-    }
+    },
+    "turnover": true
   },
   "dashboard_umkm_digital": {
     "view": "mart_digital_usaha",
@@ -2249,8 +2595,26 @@
     ],
     "assignment_column": "assignment_id",
     "system": "TGR",
-    "dimensions": {},
-    "category_values": {}
+    "dimensions": {
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
+    },
+    "category_values": {
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
+      ]
+    },
+    "turnover": true
   },
   "dashboard_ub_digital": {
     "view": "mart_ub_c",
@@ -2269,8 +2633,26 @@
     ],
     "assignment_column": "assignment_id",
     "system": "TCZ",
-    "dimensions": {},
-    "category_values": {}
+    "dimensions": {
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
+    },
+    "category_values": {
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
+      ]
+    },
+    "turnover": true
   },
   "dashboard_umkm_legal": {
     "view": "mart_legalitas_usaha",
@@ -2291,8 +2673,26 @@
     ],
     "assignment_column": "assignment_id",
     "system": "TGR",
-    "dimensions": {},
-    "category_values": {}
+    "dimensions": {
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
+    },
+    "category_values": {
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
+      ]
+    },
+    "turnover": true
   },
   "dashboard_umkm_annual": {
     "view": "mart_ekonomi_tahunan",
@@ -2314,8 +2714,26 @@
     ],
     "assignment_column": "assignment_id",
     "system": "TGR",
-    "dimensions": {},
-    "category_values": {}
+    "dimensions": {
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
+    },
+    "category_values": {
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
+      ]
+    },
+    "turnover": true
   },
   "dashboard_umkm_monthly": {
     "view": "mart_ekonomi_bulanan",
@@ -2337,7 +2755,25 @@
     ],
     "assignment_column": "assignment_id",
     "system": "TGR",
-    "dimensions": {},
-    "category_values": {}
+    "dimensions": {
+      "turnover_group": "turnover_group",
+      "turnover_basis": "turnover_basis"
+    },
+    "category_values": {
+      "turnover_group": [
+        "MIKRO",
+        "KECIL",
+        "MENENGAH",
+        "BESAR",
+        "UNAVAILABLE",
+        "REVIEW"
+      ],
+      "turnover_basis": [
+        "REPORTED_ANNUAL",
+        "ESTIMATE_MONTHLY_X12",
+        "UNAVAILABLE"
+      ]
+    },
+    "turnover": true
   }
 }

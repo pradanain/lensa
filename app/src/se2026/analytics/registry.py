@@ -43,6 +43,17 @@ class Registry:
 
     def relation(self,source):
         definition=self.sources[source]
+        relation=self._relation(source)
+        if definition.get('turnover'):
+            system="'TCZ'" if definition['system']=='TCZ' else "'TGR'"
+            version='NULL' if definition['system']=='TCZ' else 't.__version_normalized'
+            index='NULL' if definition['system']=='TCZ' else 't.index1'
+            args=','.join([system,'t.assignment_id',version,index])
+            return '(SELECT t.*,TURNOVER_GROUP('+args+') AS turnover_group,TURNOVER_BASIS('+args+') AS turnover_basis FROM '+relation+' t LIMIT -1 OFFSET 0)'
+        return relation
+
+    def _relation(self,source):
+        definition=self.sources[source]
         if definition.get('query') in ('family_rosters','social_presence','enumerated_usaha','enumerated_ub','enumerated_business_bku','enumerated_family','enumerated_bku','enumerated_unclassified','enumerated_residential','enumerated_mixed','qualified_usaha','qualified_ub','qualified_family','qualified_bku','review_usaha',
             'dashboard_umkm_workers','dashboard_ub_workers','dashboard_umkm_digital','dashboard_ub_digital','dashboard_umkm_legal','dashboard_umkm_annual','dashboard_umkm_monthly'):
             sql=(self.root/'app/sql/analytics'/(definition['query']+'.sql')).read_text(encoding='utf-8').strip().rstrip(';')

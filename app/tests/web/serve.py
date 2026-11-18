@@ -17,6 +17,7 @@ from se2026.web.security import hasher
 from se2026.web.settings import Settings
 from synthetic import (
     make_database,
+    prepare_turnover_cases,
     prepare_questionnaire_presentation_cases,
     prepare_questionnaire_scope_cases,
 )
@@ -31,9 +32,13 @@ def main():
     parser.add_argument("--no-login", action="store_true")
     parser.add_argument("--business-focus", action="store_true")
     parser.add_argument("--questionnaire-scopes", action="store_true")
+    parser.add_argument("--turnover", action="store_true")
     args = parser.parse_args()
     temporary = Path(tempfile.mkdtemp(prefix="portal-e2e-", dir=ROOT / ".cache"))
     census = make_database(temporary / "synthetic.sqlite")
+    if args.turnover:
+        with sqlite3.connect(census) as con:
+            prepare_turnover_cases(con)
     if args.questionnaire_scopes:
         with sqlite3.connect(census) as con:
             prepare_questionnaire_scope_cases(con)

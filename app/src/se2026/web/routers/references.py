@@ -15,6 +15,12 @@ class KbliExportQuery(BaseModel):
     prefix: str = Field(default="", pattern=r"^[0-9]{0,5}$")
     category: str = Field(default="", pattern=r"^[A-V]?$")
     q: str = Field(default="", max_length=120)
+    kecamatan: str = Field(default="", max_length=40)
+    desa: str = Field(default="", max_length=40)
+    sls: str = Field(default="", max_length=40)
+    subsls: str = Field(default="", max_length=40)
+    turnover_group: str = Field(default="", pattern=r"^(MIKRO|KECIL|MENENGAH|BESAR|UNAVAILABLE|REVIEW)?$")
+    turnover_basis: str = Field(default="", pattern=r"^(REPORTED_ANNUAL|ESTIMATE_MONTHLY_X12|UNAVAILABLE)?$")
 
 
 @router.post("/kbli/export")
@@ -88,6 +94,12 @@ def kbli_tree(
     request: Request,
     qualified_only: bool = False,
     enumerated_only: bool = False,
+    turnover_group: str = Query(default="", pattern=r"^(MIKRO|KECIL|MENENGAH|BESAR|UNAVAILABLE|REVIEW)?$"),
+    turnover_basis: str = Query(default="", pattern=r"^(REPORTED_ANNUAL|ESTIMATE_MONTHLY_X12|UNAVAILABLE)?$"),
+    kecamatan: str = Query(default="", max_length=40),
+    desa: str = Query(default="", max_length=40),
+    sls: str = Query(default="", max_length=40),
+    subsls: str = Query(default="", max_length=40),
     level: int = Query(default=2, ge=1, le=5),
     prefix: str = Query(default="", pattern=r"^[0-9]{0,5}$"),
     category: str = Query(default="", pattern=r"^[A-V]?$"),
@@ -103,9 +115,9 @@ def kbli_tree(
     nodes = refs.tree(category or None, prefix, level, q)
     actual = {
         system: request.app.state.aggregate_cache.get(
-            ("kbli-counts", system, qualified_only, enumerated_only),
+            ("kbli-counts", system, qualified_only, enumerated_only, turnover_group, turnover_basis, kecamatan, desa, sls, subsls),
             lambda system=system: request.app.state.directory.aggregate_counts(
-                "businesses", system, "kbli", qualified_only, enumerated_only
+                "businesses", system, "kbli", qualified_only, enumerated_only, turnover_group, turnover_basis, kecamatan, desa, sls, subsls
             ),
         )
         for system in ["dtd", "ub"]
@@ -135,16 +147,16 @@ def kbli_tree(
         population="LOCAL_AUDIT_QUALIFIED"
         if qualified_only
         else "ENUMERATED_SOURCE_RECORDS"
-        if enumerated_only
+        if enumerated_only or turnover_group or turnover_basis
         else "ALL_SOURCE_RECORDS",
         reference_unit="kode master, bukan unit usaha",
         suppression=f"k={minimum} with complementary suppression",
         unknown_buckets={
             system: suppress(
                 request.app.state.aggregate_cache.get(
-                    ("kbli-states", system, qualified_only, enumerated_only),
+                    ("kbli-states", system, qualified_only, enumerated_only, turnover_group, turnover_basis, kecamatan, desa, sls, subsls),
                     lambda system=system: request.app.state.directory.aggregate_counts(
-                        "businesses", system, "kbli_state", qualified_only, enumerated_only
+                        "businesses", system, "kbli_state", qualified_only, enumerated_only, turnover_group, turnover_basis, kecamatan, desa, sls, subsls
                     ),
                 ),
                 ["units"],

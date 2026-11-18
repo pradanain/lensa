@@ -14,6 +14,8 @@ def enrich_family_records(settings, rows, role, scope):
     condition = " WHERE assignment_id IN (" + ",".join("?" for _ in ids) + ")" if len(ids) <= 1000 else ""
     sensitive = role == "admin" and scope == "families"
     fields = "assignment_id,__version_normalized,nama_kk"
+    if role == "admin":
+        fields += ",no_kk"
     if scope == "families":
         fields += ",nomor_bangunan,jumlah_anggota_hasil_pendataan,jumlah_usaha_ditemukan"
     if sensitive:
@@ -35,6 +37,7 @@ def enrich_family_records(settings, rows, role, scope):
     for row in rows:
         matches = families[(row["assignment_id"], row["version"])]
         row["family_head"] = matches[0]["nama_kk"] or None if len(matches) == 1 else None
+        row["family_kk"] = matches[0]["no_kk"] or None if role == "admin" and len(matches) == 1 else None
         if scope != "families":
             values = members[(row["assignment_id"], row["version"], row["index1"])]
             item = values[0] if len(values) == 1 else {}

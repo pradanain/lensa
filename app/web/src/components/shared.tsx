@@ -1,5 +1,5 @@
 import {LoadingSkeleton} from './ui/skeleton'
-import {useAreaFilters} from './filter-panel'
+import {useAreaFilters,useBusinessFilters} from './filter-panel'
 import {useEffect,useRef,type ReactNode} from 'react'
 import {AlertCircle,ArrowUpRight,LockKeyhole,Info} from 'lucide-react'
 import {useQuery} from '@tanstack/react-query'
@@ -58,7 +58,8 @@ export function MetricPanel({ids,title,description}:{ids:string[];title:string;d
 }
 
 export function RegionChart({metricId,title,scopeNote='Semua status sumber tetap tercakup.',showFootnote=true,combinedTitle=false}:{metricId:string;title:string;scopeNote?:string;showFootnote?:boolean;combinedTitle?:boolean}){
-  const filters=useAreaFilters()
+  const area=useAreaFilters();const business=useBusinessFilters()
+  const filters=/^(usaha|ub)\./.test(metricId)?business:area
   const level=filters.sls?'subsls':filters.desa?'sls':filters.kecamatan?'desa':'kecamatan'
   const result=useQuery({queryKey:['region-chart',metricId,filters,level],queryFn:()=>api<Metric>('/analytics/query',{metric_id:metricId,filters,group_by:[level]})})
   if(result.isPending)return <Loading variant="chart"/>

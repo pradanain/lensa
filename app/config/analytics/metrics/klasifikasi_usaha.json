@@ -28,7 +28,9 @@
       "subsls",
       "status",
       "kbli",
-      "kategori"
+      "kategori",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -36,7 +38,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "KBLI lima digit dan kategori huruf diamati secara lokal; missing/invalid bucket tetap dihitung. Tidak memverifikasi ketepatan kegiatan atau mengubah kode.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT e.\"kbli\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"kode_keberadaan_usaha\",\"kbli\",\"kategori\" FROM \"mart_usaha\" LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"kbli\"",
+    "sql_formula": "SELECT e.\"kbli\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"kode_keberadaan_usaha\",\"kbli\",\"kategori\" FROM \"mart_usaha\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"kbli\"",
     "sql_bindings": [],
     "distribution_dimension": "kbli",
     "validation_evidence": "docs/reports/analytics/foundation_validation.json",
@@ -71,7 +73,9 @@
       "subsls",
       "status",
       "kbli",
-      "kategori"
+      "kategori",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -79,7 +83,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "KBLI lima digit dan kategori huruf diamati secara lokal; missing/invalid bucket tetap dihitung. Tidak memverifikasi ketepatan kegiatan atau mengubah kode.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT e.\"kategori\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"kode_keberadaan_usaha\",\"kbli\",\"kategori\" FROM \"mart_usaha\" LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"kategori\"",
+    "sql_formula": "SELECT e.\"kategori\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"kode_keberadaan_usaha\",\"kbli\",\"kategori\" FROM \"mart_usaha\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"kategori\"",
     "sql_bindings": [],
     "distribution_dimension": "kategori",
     "validation_evidence": "docs/reports/analytics/foundation_validation.json",
@@ -112,7 +116,9 @@
       "subsls",
       "status",
       "kbli",
-      "kategori"
+      "kategori",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment",
@@ -121,7 +127,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "KBLI lima digit dan kategori huruf diamati secara lokal; missing/invalid bucket tetap dihitung. Tidak memverifikasi ketepatan kegiatan atau mengubah kode.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT e.\"kbli_akhir\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"assignment_id\",\"status_keberadaan\",\"kbli_akhir\",\"kategori_kbli\",\"has_assignment_ub\",\"has_ub_a\",\"has_ub_b\",\"has_ub_c\" FROM \"mart_ub_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"kbli_akhir\"",
+    "sql_formula": "SELECT e.\"kbli_akhir\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT \"assignment_id\",\"status_keberadaan\",\"kbli_akhir\",\"kategori_kbli\",\"has_assignment_ub\",\"has_ub_a\",\"has_ub_b\",\"has_ub_c\" FROM \"mart_ub_integrated\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"kbli_akhir\"",
     "sql_bindings": [],
     "distribution_dimension": "kbli",
     "validation_evidence": "docs/reports/analytics/foundation_validation.json",
@@ -154,7 +160,9 @@
       "subsls",
       "status",
       "kbli",
-      "kategori"
+      "kategori",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment",
@@ -163,7 +171,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "KBLI lima digit dan kategori huruf diamati secara lokal; missing/invalid bucket tetap dihitung. Tidak memverifikasi ketepatan kegiatan atau mengubah kode.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT e.\"kategori_kbli\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"assignment_id\",\"status_keberadaan\",\"kbli_akhir\",\"kategori_kbli\",\"has_assignment_ub\",\"has_ub_a\",\"has_ub_b\",\"has_ub_c\" FROM \"mart_ub_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"kategori_kbli\"",
+    "sql_formula": "SELECT e.\"kategori_kbli\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT \"assignment_id\",\"status_keberadaan\",\"kbli_akhir\",\"kategori_kbli\",\"has_assignment_ub\",\"has_ub_a\",\"has_ub_b\",\"has_ub_c\" FROM \"mart_ub_integrated\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"kategori_kbli\"",
     "sql_bindings": [],
     "distribution_dimension": "kategori",
     "validation_evidence": "docs/reports/analytics/foundation_validation.json",
@@ -201,7 +209,9 @@
       "subsls",
       "status",
       "kbli",
-      "kategori"
+      "kategori",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -209,7 +219,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Mengukur format/ketersediaan kode, bukan validitas substantif klasifikasi.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND KBLI_VALID(e.\"kbli\")=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"kode_keberadaan_usaha\",\"kbli\",\"kategori\" FROM \"mart_usaha\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND KBLI_VALID(e.\"kbli\")=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"kode_keberadaan_usaha\",\"kbli\",\"kategori\" FROM \"mart_usaha\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [],
     "validation_evidence": "docs/reports/analytics/foundation_validation.json",
     "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"

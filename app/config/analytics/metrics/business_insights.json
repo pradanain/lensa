@@ -42,7 +42,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -50,7 +52,7 @@
     "sensitivity": "RESTRICTED_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"total_pekerja_jenis_kelamin\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"total_pekerja_jenis_kelamin\",p.\"status_konsistensi_pekerja\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.total_pekerja_jenis_kelamin,COALESCE(p.status_konsistensi_pekerja,'UNVERIFIED')) AS worker_band FROM mart_program_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"total_pekerja_jenis_kelamin\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"total_pekerja_jenis_kelamin\",p.\"status_konsistensi_pekerja\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.total_pekerja_jenis_kelamin,COALESCE(p.status_konsistensi_pekerja,'UNVERIFIED')) AS worker_band FROM mart_program_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       "SESUAI",
       "SESUAI"
@@ -102,7 +104,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -110,7 +114,7 @@
     "sensitivity": "RESTRICTED_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"pekerja_laki_laki\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"total_pekerja_jenis_kelamin\",p.\"status_konsistensi_pekerja\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.total_pekerja_jenis_kelamin,COALESCE(p.status_konsistensi_pekerja,'UNVERIFIED')) AS worker_band FROM mart_program_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"pekerja_laki_laki\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"total_pekerja_jenis_kelamin\",p.\"status_konsistensi_pekerja\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.total_pekerja_jenis_kelamin,COALESCE(p.status_konsistensi_pekerja,'UNVERIFIED')) AS worker_band FROM mart_program_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       "SESUAI",
       "SESUAI"
@@ -162,7 +166,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -170,7 +176,7 @@
     "sensitivity": "RESTRICTED_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"pekerja_perempuan\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"total_pekerja_jenis_kelamin\",p.\"status_konsistensi_pekerja\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.total_pekerja_jenis_kelamin,COALESCE(p.status_konsistensi_pekerja,'UNVERIFIED')) AS worker_band FROM mart_program_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"pekerja_perempuan\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"total_pekerja_jenis_kelamin\",p.\"status_konsistensi_pekerja\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.total_pekerja_jenis_kelamin,COALESCE(p.status_konsistensi_pekerja,'UNVERIFIED')) AS worker_band FROM mart_program_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       "SESUAI",
       "SESUAI"
@@ -222,7 +228,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -230,7 +238,7 @@
     "sensitivity": "RESTRICTED_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"total_pekerja_jenis_kelamin\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"total_pekerja_jenis_kelamin\",p.\"status_konsistensi_pekerja\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.total_pekerja_jenis_kelamin,COALESCE(p.status_konsistensi_pekerja,'UNVERIFIED')) AS worker_band FROM mart_program_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN e.\"total_pekerja_jenis_kelamin\" END) AS numerator,COALESCE(SUM(CASE WHEN (e.\"status_konsistensi_pekerja\"=? AND WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"total_pekerja_jenis_kelamin\")=1) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"total_pekerja_jenis_kelamin\",p.\"status_konsistensi_pekerja\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.total_pekerja_jenis_kelamin,COALESCE(p.status_konsistensi_pekerja,'UNVERIFIED')) AS worker_band FROM mart_program_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       "SESUAI",
       "SESUAI"
@@ -266,7 +274,9 @@
       "desa",
       "sls",
       "subsls",
-      "worker_band"
+      "worker_band",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -274,7 +284,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT e.\"worker_band\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"total_pekerja_jenis_kelamin\",p.\"status_konsistensi_pekerja\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.total_pekerja_jenis_kelamin,COALESCE(p.status_konsistensi_pekerja,'UNVERIFIED')) AS worker_band FROM mart_program_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"worker_band\"",
+    "sql_formula": "SELECT e.\"worker_band\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"total_pekerja_jenis_kelamin\",p.\"status_konsistensi_pekerja\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.total_pekerja_jenis_kelamin,COALESCE(p.status_konsistensi_pekerja,'UNVERIFIED')) AS worker_band FROM mart_program_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"worker_band\"",
     "sql_bindings": [],
     "distribution_dimension": "worker_band",
     "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
@@ -311,7 +321,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment",
@@ -320,7 +332,7 @@
     "sensitivity": "RESTRICTED_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"jumlah_pekerja\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"jumlah_pekerja\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [],
     "value_column": "jumlah_pekerja",
     "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
@@ -357,7 +369,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment",
@@ -366,7 +380,7 @@
     "sensitivity": "RESTRICTED_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"pekerja_laki_laki\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"pekerja_laki_laki\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [],
     "value_column": "pekerja_laki_laki",
     "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
@@ -403,7 +417,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment",
@@ -412,7 +428,7 @@
     "sensitivity": "RESTRICTED_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"pekerja_perempuan\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"pekerja_perempuan\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [],
     "value_column": "pekerja_perempuan",
     "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
@@ -449,7 +465,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment",
@@ -458,7 +476,7 @@
     "sensitivity": "RESTRICTED_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"jumlah_pekerja\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,DEC_SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN e.\"jumlah_pekerja\" END) AS numerator,COALESCE(SUM(CASE WHEN WORKER_VALID(e.\"pekerja_laki_laki\",e.\"pekerja_perempuan\",e.\"jumlah_pekerja\")=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [],
     "value_column": "jumlah_pekerja",
     "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
@@ -489,7 +507,9 @@
       "desa",
       "sls",
       "subsls",
-      "worker_band"
+      "worker_band",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -497,7 +517,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT e.\"worker_band\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"worker_band\"",
+    "sql_formula": "SELECT e.\"worker_band\",COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND 1=1 THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1 GROUP BY e.\"worker_band\"",
     "sql_bindings": [],
     "distribution_dimension": "worker_band",
     "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
@@ -540,7 +560,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -548,7 +570,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"kode_menggunakan_internet\" IN (?,?) AND e.\"kode_menggunakan_internet\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"kode_menggunakan_internet\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"kode_menggunakan_internet\",p.\"internet_promosi\",p.\"internet_menerima_pesanan\",p.\"__key_valid\",p.\"__conflict\" FROM mart_digital_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"kode_menggunakan_internet\" IN (?,?) AND e.\"kode_menggunakan_internet\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"kode_menggunakan_internet\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"kode_menggunakan_internet\",p.\"internet_promosi\",p.\"internet_menerima_pesanan\",p.\"__key_valid\",p.\"__conflict\" FROM mart_digital_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       "1",
       "2",
@@ -600,7 +622,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -608,7 +632,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"internet_promosi\" IN (?,?) AND e.\"internet_promosi\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"internet_promosi\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"kode_menggunakan_internet\",p.\"internet_promosi\",p.\"internet_menerima_pesanan\",p.\"__key_valid\",p.\"__conflict\" FROM mart_digital_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE e.\"kode_menggunakan_internet\"=?",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"internet_promosi\" IN (?,?) AND e.\"internet_promosi\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"internet_promosi\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"kode_menggunakan_internet\",p.\"internet_promosi\",p.\"internet_menerima_pesanan\",p.\"__key_valid\",p.\"__conflict\" FROM mart_digital_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE e.\"kode_menggunakan_internet\"=?",
     "sql_bindings": [
       "1",
       "2",
@@ -661,7 +685,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -669,7 +695,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"internet_menerima_pesanan\" IN (?,?) AND e.\"internet_menerima_pesanan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"internet_menerima_pesanan\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"kode_menggunakan_internet\",p.\"internet_promosi\",p.\"internet_menerima_pesanan\",p.\"__key_valid\",p.\"__conflict\" FROM mart_digital_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE e.\"kode_menggunakan_internet\"=?",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"internet_menerima_pesanan\" IN (?,?) AND e.\"internet_menerima_pesanan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"internet_menerima_pesanan\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"kode_menggunakan_internet\",p.\"internet_promosi\",p.\"internet_menerima_pesanan\",p.\"__key_valid\",p.\"__conflict\" FROM mart_digital_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE e.\"kode_menggunakan_internet\"=?",
     "sql_bindings": [
       "1",
       "2",
@@ -716,7 +742,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -724,7 +752,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"menggunakan_internet\" IN (?,?) AND e.\"menggunakan_internet\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"menggunakan_internet\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"menggunakan_internet\",p.\"internet_promosi\",p.\"internet_pesanan\",p.\"memiliki_nib\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ub_c p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"menggunakan_internet\" IN (?,?) AND e.\"menggunakan_internet\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"menggunakan_internet\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"menggunakan_internet\",p.\"internet_promosi\",p.\"internet_pesanan\",p.\"memiliki_nib\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ub_c p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       "1. Ya",
       "2. Tidak",
@@ -774,7 +802,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -782,7 +812,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"internet_promosi\" IN (?,?) AND e.\"internet_promosi\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"internet_promosi\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"menggunakan_internet\",p.\"internet_promosi\",p.\"internet_pesanan\",p.\"memiliki_nib\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ub_c p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE e.\"menggunakan_internet\"=?",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"internet_promosi\" IN (?,?) AND e.\"internet_promosi\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"internet_promosi\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"menggunakan_internet\",p.\"internet_promosi\",p.\"internet_pesanan\",p.\"memiliki_nib\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ub_c p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE e.\"menggunakan_internet\"=?",
     "sql_bindings": [
       "1. Ya",
       "2. Tidak",
@@ -833,7 +863,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -841,7 +873,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"internet_pesanan\" IN (?,?) AND e.\"internet_pesanan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"internet_pesanan\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"menggunakan_internet\",p.\"internet_promosi\",p.\"internet_pesanan\",p.\"memiliki_nib\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ub_c p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE e.\"menggunakan_internet\"=?",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"internet_pesanan\" IN (?,?) AND e.\"internet_pesanan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"internet_pesanan\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"menggunakan_internet\",p.\"internet_promosi\",p.\"internet_pesanan\",p.\"memiliki_nib\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ub_c p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE e.\"menggunakan_internet\"=?",
     "sql_bindings": [
       "1. Ya",
       "2. Tidak",
@@ -890,7 +922,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -898,7 +932,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"punya_nib\" IN (?,?) AND e.\"punya_nib\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"punya_nib\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"punya_nib\",p.\"mempunyai_laporan_keuangan\",p.\"__key_valid\",p.\"__conflict\" FROM mart_legalitas_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"punya_nib\" IN (?,?) AND e.\"punya_nib\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"punya_nib\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"punya_nib\",p.\"mempunyai_laporan_keuangan\",p.\"__key_valid\",p.\"__conflict\" FROM mart_legalitas_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       "1",
       "2",
@@ -944,7 +978,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -952,7 +988,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"memiliki_nib\" IN (?,?) AND e.\"memiliki_nib\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"memiliki_nib\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"menggunakan_internet\",p.\"internet_promosi\",p.\"internet_pesanan\",p.\"memiliki_nib\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ub_c p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"memiliki_nib\" IN (?,?) AND e.\"memiliki_nib\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"memiliki_nib\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"menggunakan_internet\",p.\"internet_promosi\",p.\"internet_pesanan\",p.\"memiliki_nib\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ub_c p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       "1. Ya",
       "2. Tidak",
@@ -1000,7 +1036,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -1008,7 +1046,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"mempunyai_laporan_keuangan\" IN (?,?) AND e.\"mempunyai_laporan_keuangan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"mempunyai_laporan_keuangan\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"punya_nib\",p.\"mempunyai_laporan_keuangan\",p.\"__key_valid\",p.\"__conflict\" FROM mart_legalitas_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"mempunyai_laporan_keuangan\" IN (?,?) AND e.\"mempunyai_laporan_keuangan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"mempunyai_laporan_keuangan\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"punya_nib\",p.\"mempunyai_laporan_keuangan\",p.\"__key_valid\",p.\"__conflict\" FROM mart_legalitas_usaha p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       "1",
       "2",
@@ -1054,7 +1092,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -1062,7 +1102,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Hanya rincian yang tertaut pada cohort usaha selesai/disetujui. NULL/skip tidak menjadi jawaban Tidak. Denominator per respons valid, bukan semua usaha. Tidak membuktikan keunikan fisik atau keaktifan server sekarang. Pekerja bukan orang unik lintas usaha. Interval pekerja bukan klasifikasi resmi skala usaha.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"memiliki_catatan_keuangan\" IN (?,?) AND e.\"memiliki_catatan_keuangan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"memiliki_catatan_keuangan\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN e.\"memiliki_catatan_keuangan\" IN (?,?) AND e.\"memiliki_catatan_keuangan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN e.\"memiliki_catatan_keuangan\" IN (?,?) THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       "1. Ya",
       "2. Tidak",
@@ -1102,7 +1142,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -1110,7 +1152,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Proporsi isian tercatat pada modul yang tertaut; bukan validitas nominal, nilai uang, laba atau pertumbuhan. Satuan uang belum terverifikasi sehingga nominal tidak dijumlahkan. Periode tahunan/bulanan/UB tidak digabung. Missing modul bukan jawaban nol. Cohort usaha selesai/disetujui; wilayah assignment.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_pendapatan_2025\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"total_pendapatan_2025\",p.\"total_pengeluaran_2025\",p.\"total_aset_2025\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ekonomi_tahunan p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_pendapatan_2025\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"total_pendapatan_2025\",p.\"total_pengeluaran_2025\",p.\"total_aset_2025\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ekonomi_tahunan p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [],
     "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
     "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
@@ -1144,7 +1186,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -1152,7 +1196,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Proporsi isian tercatat pada modul yang tertaut; bukan validitas nominal, nilai uang, laba atau pertumbuhan. Satuan uang belum terverifikasi sehingga nominal tidak dijumlahkan. Periode tahunan/bulanan/UB tidak digabung. Missing modul bukan jawaban nol. Cohort usaha selesai/disetujui; wilayah assignment.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_pengeluaran_2025\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"total_pendapatan_2025\",p.\"total_pengeluaran_2025\",p.\"total_aset_2025\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ekonomi_tahunan p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_pengeluaran_2025\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"total_pendapatan_2025\",p.\"total_pengeluaran_2025\",p.\"total_aset_2025\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ekonomi_tahunan p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [],
     "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
     "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
@@ -1186,7 +1230,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -1194,7 +1240,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Proporsi isian tercatat pada modul yang tertaut; bukan validitas nominal, nilai uang, laba atau pertumbuhan. Satuan uang belum terverifikasi sehingga nominal tidak dijumlahkan. Periode tahunan/bulanan/UB tidak digabung. Missing modul bukan jawaban nol. Cohort usaha selesai/disetujui; wilayah assignment.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_aset_2025\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"total_pendapatan_2025\",p.\"total_pengeluaran_2025\",p.\"total_aset_2025\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ekonomi_tahunan p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_aset_2025\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"total_pendapatan_2025\",p.\"total_pengeluaran_2025\",p.\"total_aset_2025\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ekonomi_tahunan p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [],
     "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
     "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
@@ -1228,7 +1274,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -1236,7 +1284,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Proporsi isian tercatat pada modul yang tertaut; bukan validitas nominal, nilai uang, laba atau pertumbuhan. Satuan uang belum terverifikasi sehingga nominal tidak dijumlahkan. Periode tahunan/bulanan/UB tidak digabung. Missing modul bukan jawaban nol. Cohort usaha selesai/disetujui; wilayah assignment.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_pendapatan_bln\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"total_pendapatan_bln\",p.\"total_pengeluaran_bln\",p.\"total_aset_bln\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ekonomi_bulanan p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_pendapatan_bln\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"total_pendapatan_bln\",p.\"total_pengeluaran_bln\",p.\"total_aset_bln\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ekonomi_bulanan p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [],
     "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
     "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
@@ -1270,7 +1318,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -1278,7 +1328,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Proporsi isian tercatat pada modul yang tertaut; bukan validitas nominal, nilai uang, laba atau pertumbuhan. Satuan uang belum terverifikasi sehingga nominal tidak dijumlahkan. Periode tahunan/bulanan/UB tidak digabung. Missing modul bukan jawaban nol. Cohort usaha selesai/disetujui; wilayah assignment.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_pengeluaran_bln\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"total_pendapatan_bln\",p.\"total_pengeluaran_bln\",p.\"total_aset_bln\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ekonomi_bulanan p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_pengeluaran_bln\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"total_pendapatan_bln\",p.\"total_pengeluaran_bln\",p.\"total_aset_bln\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ekonomi_bulanan p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [],
     "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
     "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
@@ -1312,7 +1362,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -1320,7 +1372,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Proporsi isian tercatat pada modul yang tertaut; bukan validitas nominal, nilai uang, laba atau pertumbuhan. Satuan uang belum terverifikasi sehingga nominal tidak dijumlahkan. Periode tahunan/bulanan/UB tidak digabung. Missing modul bukan jawaban nol. Cohort usaha selesai/disetujui; wilayah assignment.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_aset_bln\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"total_pendapatan_bln\",p.\"total_pengeluaran_bln\",p.\"total_aset_bln\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ekonomi_bulanan p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_aset_bln\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"__version_normalized\",p.\"index1\",p.\"total_pendapatan_bln\",p.\"total_pengeluaran_bln\",p.\"total_aset_bln\",p.\"__key_valid\",p.\"__conflict\" FROM mart_ekonomi_bulanan p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_usaha u WHERE u.assignment_id=p.assignment_id AND u.__version_normalized=p.__version_normalized AND u.index1=p.index1 AND u.kode_keberadaan_usaha IN ('1','2')) AND EXISTS (SELECT 1 FROM mart_assignment_tgr a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [],
     "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
     "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
@@ -1352,7 +1404,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -1360,7 +1414,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Proporsi isian tercatat pada modul yang tertaut; bukan validitas nominal, nilai uang, laba atau pertumbuhan. Satuan uang belum terverifikasi sehingga nominal tidak dijumlahkan. Periode tahunan/bulanan/UB tidak digabung. Missing modul bukan jawaban nol. Cohort usaha selesai/disetujui; wilayah assignment.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_pendapatan\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_pendapatan\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [],
     "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
     "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
@@ -1392,7 +1446,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -1400,7 +1456,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Proporsi isian tercatat pada modul yang tertaut; bukan validitas nominal, nilai uang, laba atau pertumbuhan. Satuan uang belum terverifikasi sehingga nominal tidak dijumlahkan. Periode tahunan/bulanan/UB tidak digabung. Missing modul bukan jawaban nol. Cohort usaha selesai/disetujui; wilayah assignment.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_pengeluaran\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_pengeluaran\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [],
     "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
     "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"
@@ -1432,7 +1488,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -1440,7 +1498,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Proporsi isian tercatat pada modul yang tertaut; bukan validitas nominal, nilai uang, laba atau pertumbuhan. Satuan uang belum terverifikasi sehingga nominal tidak dijumlahkan. Periode tahunan/bulanan/UB tidak digabung. Missing modul bukan jawaban nol. Cohort usaha selesai/disetujui; wilayah assignment.",
     "validation_status": "LOCAL_COMPLETED_COHORT",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_aset\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND NULLIF(TRIM(CAST(e.\"total_aset\" AS TEXT)),'') IS NOT NULL THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TCZ',t.assignment_id,NULL,NULL) AS turnover_group,TURNOVER_BASIS('TCZ',t.assignment_id,NULL,NULL) AS turnover_basis FROM (SELECT * FROM (SELECT p.\"assignment_id\",p.\"pekerja_laki_laki\",p.\"pekerja_perempuan\",p.\"jumlah_pekerja\",p.\"memiliki_catatan_keuangan\",p.\"total_pendapatan\",p.\"total_pengeluaran\",p.\"total_aset\",p.\"__key_valid\",p.\"__conflict\",WORKER_BAND(p.pekerja_laki_laki,p.pekerja_perempuan,p.jumlah_pekerja,NULL) AS worker_band FROM mart_ub_b p WHERE p.__key_valid=1 AND p.__conflict=0 AND EXISTS (SELECT 1 FROM mart_ub_a u WHERE u.assignment_id=p.assignment_id AND u.status_keberadaan='1. Ditemukan dan masih aktif') AND EXISTS (SELECT 1 FROM mart_assignment_ub a WHERE a.assignment_id=p.assignment_id AND a.status_assignment IN ('APPROVED BY Pengawas','COMPLETED BY Admin Kabupaten'))) LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [],
     "validation_evidence": "docs/reports/app/BUSINESS_INSIGHTS.md",
     "validated_database_sha256": "390a057fa8ea4d37ea67ddcab7270a1a1fb9029f1cbfd722fc370a72e710370b"

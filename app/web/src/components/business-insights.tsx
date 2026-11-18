@@ -2,19 +2,19 @@ import {useQuery} from '@tanstack/react-query'
 import {useSearch} from '@tanstack/react-router'
 import {api,type Metric,type SearchState} from '@/lib/api'
 import {number} from '@/lib/utils'
-import {useAreaFilters} from './filter-panel'
+import {useBusinessFilters} from './filter-panel'
 import {Card} from './ui/card'
 import {ErrorBox,Loading,Notice} from './shared'
 import {BandPlot,Composition,RateCard,compactNumber,type InsightDatum} from './business-insight-charts'
 
 export function useBusinessSource(){const search=useSearch({strict:false}) as SearchState;return search.source==='ub'?'ub':'usaha'}
 function useMetrics(ids:string[]){
-  const filters=useAreaFilters()
+  const filters=useBusinessFilters()
   return useQuery({queryKey:['business-insights',ids,filters],queryFn:()=>Promise.all(ids.map(metric_id=>api<Metric>('/analytics/query',{metric_id,filters})))})
 }
 
 export function BusinessSectors({onSelect}:{onSelect?:(code:string)=>void}){
-  const source=useBusinessSource();const filters=useAreaFilters()
+  const source=useBusinessSource();const filters=useBusinessFilters()
   const result=useQuery({queryKey:['business-sectors',source,filters],queryFn:()=>api<Metric>('/analytics/query',{metric_id:source==='usaha'?'usaha.enumerated_count':'ub.enumerated_count',group_by:['kategori'],filters})})
   const reference=useQuery({queryKey:['reference-summary'],queryFn:()=>api<{category_labels:Record<string,string>}>('/references/summary'),staleTime:3600000})
   if(result.isPending)return <Loading variant="chart"/>

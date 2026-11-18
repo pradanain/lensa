@@ -1339,3 +1339,20 @@ tbody tr .button { margin: -6px 0; }
   .member-directory-table .directory-open { padding: 6px; gap: 3px; max-width: 100%; }
   .member-directory-table .badge { padding: 5px; font-size: 10px; }
 }
+
+/* Turnover shares the existing compact sidebar and responsive directory cards. */
+.turnover-filters{display:grid;gap:10px;border-top:1px solid var(--border,#e2e8ee);padding-top:12px;margin-top:4px;min-width:0}
+.turnover-filters label{display:grid;gap:5px;font-size:13px}
+.turnover-filter-note,.turnover-context{font-size:12px;line-height:1.5;color:#64748b;margin:0}
+.turnover-value{display:flex;flex-direction:column;gap:4px;font-size:12px;line-height:1.4;min-width:145px}
+.turnover-value strong{font-size:13px;color:#243c50;overflow-wrap:anywhere}
+.turnover-value small{font-size:11px}
+.turnover-estimate{color:#a04416;font-weight:600}
+.turnover-distribution{display:grid;gap:16px}
+.turnover-context{padding:0 18px 14px}
+.turnover-region-table{max-height:420px}
+.turnover-form-summary{border:1px solid #e5eaf0;border-left:3px solid #db722f;border-radius:8px;padding:12px 14px;margin-bottom:14px}
+.turnover-form-summary h3{font-size:14px;margin:0 0 8px}
+.turnover-detail p{margin:3px 0;line-height:1.5}
+.business-directory-table th[data-column="turnover"],.business-directory-table td[data-column="turnover"]{min-width:170px}
+@media(max-width:900px){.business-directory-table td[data-column="turnover"]{grid-column:1/-1;min-width:0}.turnover-value{min-width:0}.turnover-context{padding:0 12px 12px}}

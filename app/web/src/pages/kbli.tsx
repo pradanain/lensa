@@ -1,3 +1,5 @@
+import {TurnoverFilters} from '@/components/turnover'
+import {useBusinessFilters} from '@/components/filter-panel'
 import {ExportXlsx} from '@/components/export-xlsx'
 import {FilterPanel} from '@/components/filter-panel'
 import {Pagination} from '@/components/pagination'
@@ -53,6 +55,7 @@ type ReferenceSummary = {
 };
 export function Kbli() {
     const search = useSearch({ strict: false }) as SearchState;
+    const businessFilters=useBusinessFilters();
     const navigate = useNavigate();
     const { session } = useAuth();
     const level = Math.min(5, Math.max(2, search.level || 2));
@@ -68,7 +71,7 @@ export function Kbli() {
     const catalog = useQuery({ queryKey: ['kbli-catalog'], queryFn: () => api<{
             rows: CatalogNode[];
         }>('/kbli/catalog'), staleTime: Infinity });
-    const params = new URLSearchParams({ level: String(level), prefix, category, q: term, page: String(page),page_size:String(pageSize),qualified_only:String(qualified),enumerated_only:String(enumerated) });
+    const params = new URLSearchParams({ ...businessFilters,level: String(level), prefix, category, q: term, page: String(page),page_size:String(pageSize),qualified_only:String(qualified),enumerated_only:String(enumerated) });
     const tree = useQuery({ queryKey: ['kbli', params.toString()], queryFn: ({signal}) => api<Tree>('/kbli/tree?' + params,undefined,undefined,{signal}),placeholderData:keepPreviousData });
     function change(values: Partial<SearchState>) { void navigate({ to: '.', search: { ...search, page: 1, ...values }, replace:true, resetScroll:false }); }
     function choose(code: string, digits: number) {
@@ -79,26 +82,26 @@ export function Kbli() {
 
     const selection = (tree.data?.selection || []).filter(node=>node.is_official);
     const selected = selection[selection.length - 1];
-    function directory(node: Node, source: 'dtd' | 'ub') { void navigate({ to: '/usaha', search: { tab: 'direktori', source, qualified:qualified?'true':undefined, enumerated:enumerated?'true':undefined, kbli_category: category || node.category || undefined, kbli_prefix: node.prefix } }); }
+    function directory(node: Node, source: 'dtd' | 'ub') { void navigate({ to: '/usaha', search: { ...search,tab: 'direktori', source, qualified:qualified?'true':undefined, enumerated:enumerated?'true':undefined, kbli_category: category || node.category || undefined, kbli_prefix: node.prefix } }); }
     return <div className="analysis-layout kbli-layout">
     <FilterPanel title="Filter klasifikasi">
 
     <Card className="filter-card">
-      <div className="kbli-hierarchy-filters">
+      <TurnoverFilters search={search} onChange={change}/><div className="kbli-hierarchy-filters">
         <label>Kategori<SearchSelect aria-label="Kategori KBLI" value={category} onValueChange={(selectedValue) => change({ category: selectedValue, prefix: '', level: 2, kbli_q: undefined })}><option value="">Semua kategori</option>{master.data?.category_codes.map(code => <option key={code} value={code}>{code} - {master.data.category_labels[code]}</option>)}</SearchSelect></label>
 
         {[2, 3, 4, 5].map(digits => <label key={digits}>KBLI {digits} Digit<SearchSelect aria-label={'KBLI '+digits+' Digit'} value={prefix.length >= digits ? prefix.slice(0, digits) : ''} disabled={digits > 2 && prefix.length < digits - 1} onValueChange={(selectedValue) => choose(selectedValue, digits)}><option value="">Semua kode {digits} digit</option>{options(digits).map(row => <option key={row.code} value={row.code}>{row.code} - {row.title}</option>)}</SearchSelect></label>)}
       </div>
 
 
-      <Button className="kbli-reset-filter" onClick={() => change({ category: undefined, prefix: undefined, level: 2, kbli_q: undefined })}><RotateCcw size={15}/>Reset filter</Button>
+      <Button className="kbli-reset-filter" onClick={() => change({ category: undefined, prefix: undefined, level: 2, kbli_q: undefined,turnover_group:undefined,turnover_basis:undefined,kecamatan:undefined,desa:undefined,sls:undefined,subsls:undefined })}><RotateCcw size={15}/>Reset filter</Button>
     </Card>
     </FilterPanel><div className="analysis-content kbli-stack">
 
     {(master.error || catalog.error) && <ErrorBox error={master.error || catalog.error}/>}
     {selection.length>0&&<nav className="kbli-breadcrumb" aria-label="Jalur klasifikasi">{selection.map(node => <button key={node.code} disabled={tree.isPlaceholderData} onClick={() => node.is_official && node.level === 1 ? change({ category: node.code, prefix: '', level: 2, kbli_q: undefined }) : choose(node.code, node.level)}>{node.code}<span>{node.title}</span><ChevronRight size={13}/></button>)}</nav>}
 
-    {tree.isPending ? <Loading variant="table" /> : tree.error ? <ErrorBox error={tree.error}/> : <Card className="table-card kbli-results"><form className="search-row kbli-search" onSubmit={event => { event.preventDefault(); }}><div className="search-input"><Search size={17}/><Input aria-label="Cari kode atau definisi KBLI" placeholder="Cari kode KBLI atau lainnya..." maxLength={120} value={draft} onChange={event => change({kbli_q:event.target.value,level:5})}/></div><Button type="submit">Cari</Button><ExportXlsx path="/kbli/export" payload={{level,prefix,category,q:draft,qualified_only:qualified,enumerated_only:enumerated}} filename="lensa-kbli-2025.xlsx"/></form>
+    {tree.isPending ? <Loading variant="table" /> : tree.error ? <ErrorBox error={tree.error}/> : <Card className="table-card kbli-results"><form className="search-row kbli-search" onSubmit={event => { event.preventDefault(); }}><div className="search-input"><Search size={17}/><Input aria-label="Cari kode atau definisi KBLI" placeholder="Cari kode KBLI atau lainnya..." maxLength={120} value={draft} onChange={event => change({kbli_q:event.target.value,level:5})}/></div><Button type="submit">Cari</Button><ExportXlsx path="/kbli/export" payload={{...businessFilters,level,prefix,category,q:draft,qualified_only:qualified,enumerated_only:enumerated}} filename="lensa-kbli-2025.xlsx"/></form>
       {selected&&(<div className="kbli-selection" aria-busy={tree.isFetching}><div className="card-heading"><div><h2>{selected.code+' - '+selected.title}</h2></div></div><details key={selected.code} className="kbli-selected-definition"><summary>Definisi dan cakupan kode</summary><p>{selected.description}</p></details></div>)}
       <div className={'table-scroll '+(tree.isPlaceholderData?'is-updating':'')} aria-busy={tree.isFetching}>
         <table className="kbli-table"><thead><tr><th>Judul dan Definisi</th><th className="kbli-numeric-column">Rincian Kode</th><th className="kbli-unit-column">UMKM</th><th className="kbli-unit-column">Usaha Besar (UB)</th></tr></thead>

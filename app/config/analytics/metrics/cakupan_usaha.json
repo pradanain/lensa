@@ -29,7 +29,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -37,7 +39,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_legalitas_usaha\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_legalitas_usaha\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       1
     ],
@@ -74,7 +76,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -82,7 +86,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_kegiatan_usaha\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_kegiatan_usaha\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       1
     ],
@@ -119,7 +123,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -127,7 +133,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_digital_usaha\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_digital_usaha\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       1
     ],
@@ -164,7 +170,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -172,7 +180,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_program_usaha\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_program_usaha\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       1
     ],
@@ -209,7 +217,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -217,7 +227,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_ekonomi_tahunan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_ekonomi_tahunan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       1
     ],
@@ -254,7 +264,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -262,7 +274,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_ekonomi_bulanan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_ekonomi_bulanan\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       1
     ],
@@ -299,7 +311,9 @@
       "kecamatan",
       "desa",
       "sls",
-      "subsls"
+      "subsls",
+      "turnover_group",
+      "turnover_basis"
     ],
     "location_concepts": [
       "assignment"
@@ -307,7 +321,7 @@
     "sensitivity": "INTERNAL_AGGREGATE",
     "interpretation_limits": "Mengukur kehadiran key modul pada induk/union, bukan jawaban lengkap setiap kolom. Rincian unmatched tetap ada pada mart mandiri; tidak latest-fill lintas versi.",
     "validation_status": "VALIDATED_LOCAL",
-    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_jaringan_usaha\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) e WHERE 1=1",
+    "sql_formula": "SELECT COUNT(*) AS eligible_rows,COALESCE(SUM(CASE WHEN 1=1 AND e.\"has_jaringan_usaha\"=? THEN 1 ELSE 0 END),0) AS numerator,COALESCE(SUM(CASE WHEN 1=1 THEN 1 ELSE 0 END),0) AS denominator FROM (SELECT t.*,TURNOVER_GROUP('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_group,TURNOVER_BASIS('TGR',t.assignment_id,t.__version_normalized,t.index1) AS turnover_basis FROM (SELECT \"__version_normalized\",\"assignment_id\",\"index1\",\"has_legalitas_usaha\",\"has_kegiatan_usaha\",\"has_digital_usaha\",\"has_program_usaha\",\"has_ekonomi_tahunan\",\"has_ekonomi_bulanan\",\"has_jaringan_usaha\" FROM \"mart_usaha_integrated\" LIMIT -1 OFFSET 0) t LIMIT -1 OFFSET 0) e WHERE 1=1",
     "sql_bindings": [
       1
     ],

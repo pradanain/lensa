@@ -85,6 +85,7 @@ def _with_header(headers, rows):
 
 
 def directory_workbook(directory, scope, payload, role):
+    from ..analytics.turnover import GROUP_LABELS, BASIS_LABELS
     result = directory.search(scope, payload, role, all_rows=True)
     fields = [
         ("Sumber", "source"),
@@ -116,9 +117,14 @@ def directory_workbook(directory, scope, payload, role):
         fields += [("Nomor bangunan", "building_number"), ("Anggota hasil pendataan", "member_count"), ("Usaha ditemukan", "business_count")]
         if role == "admin":
             fields += [("Alamat keluarga", "family_address")]
+    if scope in ("families", "members") and role == "admin":
+        fields += [("Nomor KK", "family_kk")]
     headers = [title for title, _ in fields]
     if scope == "businesses":
         headers += ["Judul KBLI"]
+        headers += ["Kelompok omzet tahunan", "Dasar omzet", "Periode omzet"]
+        if role == 'admin':
+            headers += ["Omzet tahunan (Rp)", "Omzet bulanan sumber (Rp)"]
     if scope in ("businesses", "families") and role == "admin":
         headers += ["Latitude", "Longitude"]
 
@@ -131,6 +137,13 @@ def directory_workbook(directory, scope, payload, role):
             )
             if scope == "businesses":
                 row.append(directory.references.kbli.get(item.get("kbli"), {}).get("title"))
+                turnover = item.get('turnover') or {}
+                period = turnover.get('period')
+                row.extend([GROUP_LABELS.get(turnover.get('group'),'Belum tersedia'),
+                    BASIS_LABELS.get(turnover.get('basis'),'Belum tersedia'),
+                    'Estimasi 12 bulan dari isian 2026' if period=='ESTIMATE_12_MONTHS_FROM_2026' else period])
+                if role == 'admin':
+                    row.extend([turnover.get('annual'), turnover.get('monthly')])
             if scope in ("businesses", "families") and role == "admin":
                 coordinates = item.get("map_coordinates") or {}
                 row.extend([coordinates.get("latitude"), coordinates.get("longitude")])

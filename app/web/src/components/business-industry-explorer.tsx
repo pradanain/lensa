@@ -6,7 +6,7 @@ import {api,type Geo,type Metric,type SearchState} from '@/lib/api'
 import {number} from '@/lib/utils'
 import {industryMatrix,cellDescription,type IndustryGeo} from '@/lib/industry-matrix'
 import {useAuth} from '@/auth'
-import {useAreaFilters} from './filter-panel'
+import {useBusinessFilters} from './filter-panel'
 import {useBusinessSource} from './business-insights'
 import {ErrorBox,Loading} from './shared'
 import {Pagination} from './pagination'
@@ -17,7 +17,7 @@ import {Button} from './ui/button'
 type CodeLabel={code:string;category:string;title:string;level:number}
 type Ranking={code:string;category:string;value:number|null;title:string}
 export function BusinessIndustryExplorer({view='ranking'}:{view?:'ranking'|'map'}){
-  const source=useBusinessSource();const filters=useAreaFilters();const search=useSearch({strict:false}) as SearchState
+  const source=useBusinessSource();const filters=useBusinessFilters();const search=useSearch({strict:false}) as SearchState
   const navigate=useNavigate();const {session}=useAuth()
   const [page,setPage]=useState(1);const [pageSize,setPageSize]=useState(10)
   const category=/^[A-V]$/.test(search.kbli_category||'')?search.kbli_category||'':''

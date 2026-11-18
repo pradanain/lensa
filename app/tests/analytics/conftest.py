@@ -12,10 +12,11 @@ def analytical_db(tmp_path):
     sources=json.loads((ROOT/'app/config/analytics/sources.json').read_text(encoding='utf-8'))
     path=tmp_path/'synthetic.sqlite'
     con=sqlite3.connect(path)
+    physical={"mart_"+s['id']:s['columns'] for s in json.loads((ROOT/'app/config/sources.json').read_text(encoding='utf-8'))['sources']}
     for sid,source in sources.items():
         if source.get('query') and not source['query'].startswith('dashboard_'):continue
         if con.execute("SELECT 1 FROM sqlite_master WHERE name=?",(source['view'],)).fetchone():continue
-        cols=source['columns']
+        cols=list(dict.fromkeys([*source['columns'],*physical.get(source['view'],[])]))
         con.execute('CREATE TABLE "'+source['view']+'"('+','.join('"'+col+'" TEXT' for col in cols)+')')
         for n in range(12):
             code='6502010' if n<10 else '6502000'

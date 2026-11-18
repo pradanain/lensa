@@ -11,6 +11,7 @@ from .geography import FIELDS,LEVELS,LENGTHS,bucket,geography_catalog
 from .numeric import ExactSum,ratio,worker_valid,worker_band,read_field
 from .registry import AnalyticsError,Registry
 from .business_audit import register_population
+from .turnover import register_turnover
 
 
 def kbli_valid(value):
@@ -28,8 +29,10 @@ def complementary_kbli_geo(rows, suppressed):
     hidden=set(suppressed);groups={}
     for i,row in enumerate(rows):
         dimensions=row.get('dimensions',{})
-        if 'kbli' in dimensions and any(level in dimensions for level in LEVELS):
-            groups.setdefault(dimensions['kbli'],[]).append(i)
+        if any(level in dimensions for level in LEVELS):
+            for dimension in ('kbli','turnover_group'):
+                if dimension in dimensions:
+                    groups.setdefault((dimension,dimensions[dimension]),[]).append(i)
     for indices in groups.values():
         if sum(i in hidden for i in indices)==1:
             candidates=[i for i in indices if i not in hidden and rows[i].get('eligible_rows')]
@@ -53,6 +56,7 @@ class Analytics:
         self._connection.create_function('WORKER_BAND',4,worker_band,deterministic=True)
         self._connection.create_function('KBLI_VALID',1,kbli_valid,deterministic=True)
         register_population(self._connection, path, self.root)
+        register_turnover(self._connection, path)
         self._connection.execute('BEGIN')
         self._schemas={}
         self._checked=set()
@@ -271,6 +275,14 @@ class Analytics:
             if metric['kind']=='rate':
                 small|=0<row['numerator']<5 or 0<row['denominator']-row['numerator']<5
             if small:suppressed.append(i)
+        if metric.get('distribution_dimension')=='turnover_group' and not (filters or {}).get('turnover_basis'):
+            groups=[group_by] if isinstance(group_by,str) else list(group_by or [])
+            if 'turnover_basis' not in groups and len(set([*groups,'turnover_group','turnover_basis']))<=3:
+                _,slices=self._query(metric_id,filters,[*groups,'turnover_basis'],location)
+                hidden={json.dumps({k:v for k,v in row['dimensions'].items() if k!='turnover_basis'},sort_keys=True)
+                        for row in slices if 0<row['eligible_rows']<5}
+                suppressed=list(set(suppressed)|{i for i,row in enumerate(rows)
+                    if json.dumps(row['dimensions'],sort_keys=True) in hidden})
         if grouped and len(suppressed)==1:
             candidates=[i for i in range(len(rows)) if i not in suppressed]
             if candidates:suppressed.append(min(candidates,key=lambda i:rows[i]['eligible_rows']))

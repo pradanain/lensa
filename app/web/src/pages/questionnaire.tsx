@@ -8,6 +8,7 @@ import {useAuth} from '@/auth'
 import {SearchSelect} from '@/components/ui/search-select'
 import {Button} from '@/components/ui/button'
 import {ErrorBox, Loading, Notice, Restricted} from '@/components/shared'
+import {TurnoverValue} from '@/components/turnover'
 
 export function Questionnaire() {
   const {session} = useAuth()
@@ -186,6 +187,7 @@ function QuestionnaireContent() {
         {query.error?<ErrorBox error={query.error} retry={()=>void query.refetch()}/>:changing?<p className="reader-answer-loading" role="status">Memuat jawaban pilihan...</p>:<>
         <DisclosureContext.Provider value={{scope:scrollKey,opened:openedGroups,setOpen:(key,open)=>setOpenedGroups(previous=>previous[key]===open?previous:{...previous,[key]:open})}}><div className="form-block-body">
           {section.availability_note && <p className="form-availability-note">{section.availability_note}</p>}
+          {['blokl','ub_i_3'].includes(activeBlock)&&form.turnover&&<section className="turnover-form-summary" aria-label="Ringkasan omzet tahunan"><h3>Omzet tahunan</h3><TurnoverValue value={form.turnover} detail/></section>}
           {activeBlock === 'ub_i_1' && <LocationInfo location={form.locations?.root}/>}
           {form.truncated_rosters.length > 0 && <Notice tone="warning">Pilihan dibatasi 1.000 item per modul.</Notice>}
           {rootFields.length > 0 && <QuestionFields fields={rootFields}/>}
