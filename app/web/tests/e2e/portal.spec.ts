@@ -40,7 +40,7 @@ async function login(page:Page,username='admin'){
 test('empty installations show login without a self-registration form',async({page})=>{
   await page.goto('http://127.0.0.1:8766/dashboard')
   await expect(page.getByRole('heading',{name:'Selamat datang kembali',exact:true})).toBeVisible()
-  await expect(page.getByText('Akun hanya dibuat oleh administrator.',{exact:true})).toBeVisible()
+  await expect(page).toHaveURL('http://127.0.0.1:8766/login')
   await expect(page.getByRole('button',{name:'Buat akun dan masuk',exact:true})).toHaveCount(0)
   const session=await (await page.request.get('http://127.0.0.1:8766/api/v1/auth/session')).json()
   expect(session.setup_required).toBe(false)

@@ -1,5 +1,5 @@
-import {useEffect,useState} from 'react'
-import {Link,Outlet,useLocation} from '@tanstack/react-router'
+import {useEffect,useRef,useState} from 'react'
+import {Link,Navigate,Outlet,useLocation} from '@tanstack/react-router'
 import {BarChart3,Coffee,Heart,Building2,ChevronRight,Database,Grid2X2,House,LogOut,Menu,X,Settings2,ShieldCheck} from 'lucide-react'
 import {useAuth} from '@/auth'
 import {roleNames} from '@/lib/utils'
@@ -15,6 +15,7 @@ export function Root(){return <><ActivityTracker/><RootContent/></>}
 function RootContent(){
   const {session,loading,error,refresh}=useAuth()
   const location=useLocation()
+  const returnTo=useRef('/usaha')
   const [mobile,setMobile]=useState(false)
   useEffect(()=>{setMobile(false)},[location.pathname])
   useEffect(()=>{
@@ -24,7 +25,14 @@ function RootContent(){
   },[])
   if(loading)return <div className="boot-skeleton"><div className="boot-skeleton-brand"><BarChart3 size={24}/><strong>LENSA SE2026</strong></div><Loading variant="dashboard" label="Memuat LENSA SE2026..."/></div>
   if(error)return <div className="boot-loading"><ErrorBox error={error} retry={()=>void refresh().catch(()=>{})}/></div>
-  if(!session?.user)return <Login/>
+  if(!session?.user){
+    if(location.pathname!=='/login'){
+      returnTo.current=location.href
+      return <Navigate to="/login" search={{}} replace/>
+    }
+    return <Login/>
+  }
+  if(location.pathname==='/login')return <Navigate to={returnTo.current} replace/>
   if(session.password_change_required)return <PasswordChange/>
   if(session.commitment_required)return <Commitment/>
   const current=location.pathname.split('/')[1]||'dashboard'

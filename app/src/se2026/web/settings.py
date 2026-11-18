@@ -28,7 +28,7 @@ class Settings(BaseSettings):
         "http://testserver",
     ]
     secure_cookies: bool = False
-    session_hours: int = Field(ge=1, le=24, default=8)
+    session_hours: int = Field(ge=1, le=12, default=12)
     aggregate_cache_seconds: int = Field(ge=0, le=3600, default=300)
     minimum_contributors: int = Field(ge=5, le=1000, default=5)
     build_index_on_start: bool = True

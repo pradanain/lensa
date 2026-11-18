@@ -33,7 +33,7 @@ export async function api<T>(path:string,body?:unknown,method?:string,options?:{
 }
 
 export type User={id:number|null;username:string;role:string;can_detail:boolean;can_sensitive:boolean}
-export type Session={password_change_required?:boolean;commitment_required?:boolean;commitment_version?:string;business_focus_enabled?:boolean;auth_enabled:boolean;user:User|null;csrf_token:string;setup_required:boolean}
+export type Session={expires_at?:number|null;server_time?:number;password_change_required?:boolean;commitment_required?:boolean;commitment_version?:string;business_focus_enabled?:boolean;auth_enabled:boolean;user:User|null;csrf_token:string;setup_required:boolean}
 export type MetricRow={dimensions:Record<string,unknown>;eligible_rows:number|null;numerator:number|string|null;denominator:number|null;excluded_rows:number|null;value:number|string|null;percentage:string|null;suppressed:boolean}
 export type Metric={metric_id:string;grain:string[];unit:string;period:string;interpretation_limits:string;rows:MetricRow[];location_concept:string}
 export type Summary={counts:Record<string,MetricRow[]>;indicators:Metric[];region:Metric;baseline:string;suppression_note:string}

@@ -56,10 +56,13 @@ def authenticated_user(request: Request):
         raise HTTPException(401, "LOGIN_REQUIRED")
     with request.app.state.app_db.connection() as con:
         row = con.execute(
-            "SELECT u.id,u.username,u.role,u.must_change_password,s.csrf FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>? AND u.active=1",
+            "SELECT u.id,u.username,u.role,u.must_change_password,s.csrf,s.expires_at FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>? AND u.active=1",
             (token_hash(token), int(time.time())),
         ).fetchone()
     if not row:
+        with request.app.state.app_db.connection() as con:
+            con.execute("DELETE FROM sessions WHERE token_hash=? AND expires_at<=?",
+                        (token_hash(token), int(time.time())))
         raise HTTPException(401, "SESSION_EXPIRED")
     if request.method not in ("GET", "HEAD", "OPTIONS"):
         csrf_guard(request)
@@ -130,15 +133,22 @@ def session(request: Request, response: Response):
             "commitment_version": COMMITMENT_VERSION,
             "business_focus_enabled": request.app.state.settings.business_focus_enabled,
         }
+    # Expired browser cookies may already be absent; remove their server rows too.
+    with request.app.state.app_db.connection() as con:
+        con.execute("DELETE FROM sessions WHERE expires_at<=?", (int(time.time()),))
     user = None
     try:
         user = authenticated_user(request)
         csrf = user["csrf"]
     except HTTPException:
         pass
+    if not user:
+        response.delete_cookie("portal_session", **cookie_options(request))
     response.set_cookie("portal_csrf", csrf, httponly=False, **cookie_options(request))
     return {
         "user": public_user(user) if user else None,
+        "expires_at": user["expires_at"] if user else None,
+        "server_time": int(time.time()),
         "csrf_token": csrf,
         "setup_required": False,
         "password_change_required": bool(user and user.get("must_change_password")),
@@ -233,6 +243,7 @@ def change_password(payload: PasswordChange, request: Request, response: Respons
     if payload.new_password != payload.confirm_password:
         raise HTTPException(422, "PASSWORD_CONFIRMATION_MISMATCH")
     now = int(time.time())
+    expires_at = user["expires_at"]
     token, csrf = secrets.token_urlsafe(48), secrets.token_urlsafe(32)
     with request.app.state.app_db.connection() as con:
         con.execute("BEGIN IMMEDIATE")
@@ -249,11 +260,11 @@ def change_password(payload: PasswordChange, request: Request, response: Respons
         # Revoke every session issued under the old password, including its pact.
         con.execute("DELETE FROM sessions WHERE user_id=?", (user["id"],))
         con.execute("INSERT INTO sessions VALUES(?,?,?,?)",
-                    (token_hash(token), user["id"], csrf, now + request.app.state.settings.session_hours * 3600))
+                    (token_hash(token), user["id"], csrf, expires_at))
         con.execute("INSERT INTO audit(occurred_at,user_id,action,outcome) VALUES(?,?,?,?)",
                     (now, user["id"], "PASSWORD_CHANGED", "OK"))
     response.set_cookie("portal_session", token, httponly=True,
-                        max_age=request.app.state.settings.session_hours * 3600, **cookie_options(request))
+                        max_age=expires_at - now, **cookie_options(request))
     response.set_cookie("portal_csrf", csrf, httponly=False, **cookie_options(request))
     request.state.activity_context = {"new_session_ref": request.app.state.activity.fingerprint("session", token_hash(token))}
     return {"status": "PASSWORD_CHANGED", "csrf_token": csrf, "password_change_required": False,
@@ -295,7 +306,8 @@ def logout(request: Request, response: Response, user=Depends(authenticated_user
         con.execute(
             "DELETE FROM sessions WHERE token_hash=?", (token_hash(request.cookies["portal_session"]),)
         )
-    response.delete_cookie("portal_session", path="/")
+    response.delete_cookie("portal_session", httponly=True, **cookie_options(request))
+    response.delete_cookie("portal_csrf", **cookie_options(request))
     request.app.state.app_db.audit(user["id"], "LOGOUT")
     return {"status": "SIGNED_OUT"}
 

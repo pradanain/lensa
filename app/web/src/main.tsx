@@ -16,6 +16,7 @@ import './styles.css'
 const rootRoute=createRootRoute({component:Root,validateSearch})
 const index=createRoute({getParentRoute:()=>rootRoute,path:'/',beforeLoad:()=>{throw redirect({to:'/usaha'})}})
 const routes=[index,
+  createRoute({getParentRoute:()=>rootRoute,path:'/login'}),
   createRoute({getParentRoute:()=>rootRoute,path:'/dashboard',component:Dashboard}),
   createRoute({getParentRoute:()=>rootRoute,path:'/usaha',component:Business}),
   createRoute({getParentRoute:()=>rootRoute,path:'/keluarga',component:Families}),
