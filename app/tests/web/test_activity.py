@@ -19,6 +19,7 @@ def test_server_login_search_detail_export_and_no_respondent_values(portal):
     export = client.post('/api/v1/directories/members/export', json={'source': 'dtd', 'q': 'SECRET-SEARCH-65029999'})
     assert export.status_code == 200
     login = rows(app, 'LOGIN')[-1]
+    assert json.loads(rows(app, 'USER_CREATE')[-1]['context'])['target_user_id'] > 1
     assert login['user_id'] and login['session_ref'] and login['status'] == 200
     search = rows(app, 'DIRECTORY_SEARCH')[-1]
     assert json.loads(search['context'])['has_search'] is True

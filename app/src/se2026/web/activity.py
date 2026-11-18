@@ -168,6 +168,7 @@ def filters(user_id, action, outcome, since, until, session_ref, resource_ref=""
 def events(request: Request, user_id: int | None = Query(default=None, ge=1), action: str = Query(default="", max_length=40), outcome: Literal["", "success", "failure"] = "", since: int | None = Query(default=None, ge=0), until: int | None = Query(default=None, ge=0), session_ref: str = Query(default="", max_length=32, pattern=r"^[a-f0-9]*$"), resource_ref: str = Query(default="", max_length=32, pattern=r"^[a-f0-9]*$"), page: int = Query(default=1, ge=1), page_size: int = Query(default=10, ge=1, le=100), user=Depends(require_admin)):
     where, args = filters(user_id, action, outcome, since, until, session_ref, resource_ref)
     with request.app.state.app_db.connection() as con:
+        con.execute("BEGIN")
         total = con.execute("SELECT count(*) FROM activity_events e" + where, args).fetchone()[0]
         rows = con.execute("SELECT e.*,u.username FROM activity_events e LEFT JOIN users u ON u.id=e.user_id" + where + " ORDER BY e.occurred_at DESC,e.id DESC LIMIT ? OFFSET ?", [*args, page_size, (page - 1) * page_size]).fetchall()
         summary = dict(con.execute("SELECT count(*) total,count(DISTINCT user_id) accounts,sum(CASE WHEN action='LOGIN' AND status<400 THEN 1 ELSE 0 END) logins,sum(CASE WHEN action='EXPORT' AND status<400 THEN 1 ELSE 0 END) exports,sum(CASE WHEN status>=400 THEN 1 ELSE 0 END) failures FROM activity_events e" + where, args).fetchone())
@@ -215,6 +216,7 @@ class ExportFilter(BaseModel):
 def export(payload: ExportFilter, request: Request, user=Depends(require_admin)):
     where, args = filters(**payload.model_dump())
     with request.app.state.app_db.connection() as con:
+        con.execute("BEGIN")
         count = con.execute("SELECT count(*) FROM activity_events e" + where, args).fetchone()[0]
         if count > 10000:
             raise HTTPException(422, "ACTIVITY_EXPORT_TOO_LARGE")

@@ -319,13 +319,14 @@ def add_user(payload: NewUser, request: Request, user=Depends(require_admin)):
 
     try:
         with request.app.state.app_db.connection() as con:
-            con.execute(
+            created = con.execute(
                 "INSERT INTO users(username,password_hash,role,created_at) VALUES(?,?,?,?)",
                 (payload.username, hasher.hash(payload.password), payload.role, int(time.time())),
-            )
+            ).lastrowid
     except sqlite3.IntegrityError:
         raise HTTPException(409, "USERNAME_ALREADY_EXISTS") from None
     request.app.state.app_db.audit(user["id"], "USER_CREATED")
+    request.state.activity_context = {"target_user_id": created, "target_role": payload.role}
     return {"status": "USER_CREATED"}
 
 
@@ -346,4 +347,5 @@ def update_user(user_id: int, payload: UserUpdate, request: Request, user=Depend
             raise HTTPException(404, "USER_NOT_FOUND")
         con.execute("DELETE FROM sessions WHERE user_id=?", (user_id,))
     request.app.state.app_db.audit(user["id"], "USER_UPDATED")
+    request.state.activity_context = {"target_user_id": user_id, "target_role": payload.role, "target_active": payload.active}
     return {"status": "USER_UPDATED"}
