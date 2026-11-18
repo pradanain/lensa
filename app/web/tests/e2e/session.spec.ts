@@ -103,3 +103,42 @@ test('login is visible only after logout navigation finishes before opening anot
     await expect(page.getByLabel('Kata sandi',{exact:true})).toBeVisible()
   }
 })
+
+test('password visibility works by keyboard and a pending login cannot submit twice',async({page})=>{
+  let attempts=0
+  let release=()=>{}
+  const released=new Promise<void>(resolve=>{release=resolve})
+  await page.route('**/api/v1/auth/login',async route=>{
+    attempts++
+    await released
+    await route.fulfill({status:401,json:{detail:'LOGIN_FAILED'}})
+  })
+  await page.goto('/login')
+  const username=page.getByLabel('Nama pengguna',{exact:true})
+  const password=page.getByLabel('Kata sandi',{exact:true})
+  await username.fill('admin')
+  await password.fill('Synthetic1!')
+  await username.focus()
+  await page.keyboard.press('Tab')
+  await expect(password).toBeFocused()
+  await page.keyboard.press('Tab')
+  await expect(page.getByRole('button',{name:'Tampilkan kata sandi',exact:true})).toBeFocused()
+  await page.keyboard.press('Enter')
+  await expect(password).toHaveAttribute('type','text')
+  await expect(password).toHaveValue('Synthetic1!')
+  expect(attempts).toBe(0)
+  await page.keyboard.press('Enter')
+  await expect(password).toHaveAttribute('type','password')
+  await page.keyboard.press('Tab')
+  await expect(page.getByRole('button',{name:'Masuk ke portal',exact:true})).toBeFocused()
+  await page.keyboard.press('Enter')
+  await expect(page.getByRole('button',{name:'Memproses...',exact:true})).toBeDisabled()
+  await expect(password).toBeDisabled()
+  await expect.poll(()=>attempts).toBe(1)
+  await page.keyboard.press('Enter')
+  release()
+  await expect(page.getByRole('alert')).toContainText('belum sesuai')
+  await expect(password).toBeEnabled()
+  await expect(password).toHaveValue('Synthetic1!')
+  expect(attempts).toBe(1)
+})
