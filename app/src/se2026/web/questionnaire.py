@@ -7,6 +7,7 @@ from fastapi import HTTPException
 
 from ..analytics.numeric import parse_decimal
 from ..common import q, timestamp
+from .detail_access import viewer_field_allowed
 from .business_directory import coordinates, map_link_coordinates
 from .database import census_connection
 from .questionnaire_rules import apply_display_rules
@@ -158,11 +159,10 @@ class Questionnaires:
         }.get(name)
         if roster_label:
             columns.add(roster_label)
-        if sensitive:
-            if name in {"keluarga", "bku", "usaha"}:
-                columns.update({"geotag_latitude", "geotag_longitude"})
-            elif name == "ub_a":
-                columns.add("link_google_maps")
+        if name in {"keluarga", "bku", "usaha"}:
+            columns.update({"geotag_latitude", "geotag_longitude"})
+        elif name == "ub_a":
+            columns.add("link_google_maps")
         for form in self.forms.values():
             for section in form["sections"]:
                 for field in (
@@ -171,7 +171,7 @@ class Questionnaires:
                     if (
                         field["mapping_status"] == "VERIFIED"
                         and field["source_object"] == "mart_" + name
-                        and (sensitive or not field.get("sensitive"))
+                        and (sensitive or not field.get("sensitive") or viewer_field_allowed(field))
                     ):
                         columns.add(field["source_field"])
                         columns.update(field.get("context_fields", []))
@@ -421,8 +421,6 @@ class Questionnaires:
             )
 
         def location_for(sources, roster=None):
-            if not can_sensitive:
-                return dict(status="RESTRICTED")
             if any(len(rows.get(sid, [])) > 1 for sid in sources if not roster):
                 return dict(status="SOURCE_CONFLICT")
             if roster == "businesses" and any(
@@ -492,7 +490,7 @@ class Questionnaires:
                 result["applicability"] = applicability(schema.get("assignment_scope"))
                 if schema["mapping_status"] == "NOT_EXPORTED":
                     result["status"] = "NOT_EXPORTED"
-                elif schema.get("sensitive") and not can_sensitive:
+                elif schema.get("sensitive") and not can_sensitive and not viewer_field_allowed(schema):
                     result["status"] = "RESTRICTED"
                 elif (
                     schema.get("exported_scopes")
@@ -624,7 +622,7 @@ class Questionnaires:
             apply_display_rules(form, rendered)
         from ..analytics.turnover import lookup as turnover_lookup, record as turnover_record
         turnover = turnover_record(turnover_lookup(self.settings.census_db), system, assignment_id,
-                                   version, selections.get('businesses')).public(can_sensitive)
+                                   version, selections.get('businesses')).public(sensitive=True)
         return dict(
             form=system,
             turnover=turnover,

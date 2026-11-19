@@ -59,8 +59,8 @@ def test_directory_export_respects_roles_and_search_permissions(portal, viewer, 
     assert "Latitude" in next(sheet(viewer.post("/api/v1/directories/businesses/export", json={})).values)
     ws = sheet(analyst.post("/api/v1/directories/businesses/export", json={"source": "dtd", "q": "DTD-0001"}))
     values = list(ws.values)
-    for name in ["Latitude", "Longitude", "Omzet tahunan (Rp)", "Omzet bulanan sumber (Rp)"]:
-        assert all(row[values[0].index(name)] == MASKED_VALUE for row in values[1:])
+    assert not any("NIK" in name for name in values[0])
+    assert all(row[values[0].index("Latitude")] != MASKED_VALUE for row in values[1:])
     assert portal[1].post("/api/v1/directories/unknown/export", json={}).status_code == 404
     # Extra controls cannot override internal pagination or authorization.
     assert analyst.post("/api/v1/directories/businesses/export", json={"all_rows": True}).status_code == 422
@@ -94,8 +94,8 @@ def test_viewer_exports_mask_every_sensitive_column_without_revealing_availabili
     before = sha256(settings.census_db)
     expected = {
         "members": ["NIK", "Nomor KK"],
-        "families": ["Nomor KK", "Alamat keluarga", "Latitude", "Longitude"],
-        "businesses": ["Latitude", "Longitude", "Omzet tahunan (Rp)", "Omzet bulanan sumber (Rp)"],
+        "families": ["Nomor KK"],
+        "businesses": [],
     }
     for scope, columns in expected.items():
         response = viewer.post('/api/v1/directories/' + scope + '/export', json={})

@@ -109,6 +109,10 @@ def directory_workbook(directory, scope, payload, role):
             ("Nama KK", "family_head"),
             ("Kategori", "kategori"),
             ("KBLI 2025", "kbli"),
+            ("Alamat usaha", "business_address"),
+            ("Alamat lengkap", "full_address"),
+            ("Nomor telepon", "business_phone"),
+            ("Nomor HP", "business_mobile"),
         ]
     elif scope == "members":
         fields += [("Kepala keluarga", "family_head")]
@@ -119,17 +123,20 @@ def directory_workbook(directory, scope, payload, role):
         fields += [("Alamat keluarga", "family_address")]
     if scope in ("families", "members"):
         fields += [("Nomor KK", "family_kk")]
+        if scope == "members":
+            fields += [("Alamat keluarga", "family_address")]
+        fields += [("Alamat lengkap", "full_address")]
     headers = [title for title, _ in fields]
     if scope == "businesses":
         headers += ["Judul KBLI"]
         headers += ["Kelompok omzet tahunan", "Dasar omzet", "Periode omzet"]
         headers += ["Omzet tahunan (Rp)", "Omzet bulanan sumber (Rp)"]
     if scope in ("businesses", "families"):
-        headers += ["Latitude", "Longitude"]
+        headers += ["Latitude", "Longitude", "Google Maps"]
 
     def rows():
         for item in result["rows"]:
-            row = [MASKED_VALUE if role != "admin" and field in {"member_nik", "family_kk", "family_address"} else item.get(field) for _, field in fields]
+            row = [MASKED_VALUE if role != "admin" and field in {"member_nik", "family_kk"} else item.get(field) for _, field in fields]
             row[0] = "UB" if item["source"] == "ub" else "DTD" if scope in ("families", "members") else "UMKM"
             row[11] = re.sub(
                 r"^\s*\d+\s*[.)\-:]\s*", "", str(item.get("status_label") or item.get("status") or "")
@@ -141,10 +148,12 @@ def directory_workbook(directory, scope, payload, role):
                 row.extend([GROUP_LABELS.get(turnover.get('group'),'Belum tersedia'),
                     BASIS_LABELS.get(turnover.get('basis'),'Belum tersedia'),
                     'Estimasi 12 bulan dari isian 2026' if period=='ESTIMATE_12_MONTHS_FROM_2026' else period])
-                row.extend([turnover.get('annual'), turnover.get('monthly')] if role == 'admin' else [MASKED_VALUE, MASKED_VALUE])
+                row.extend([turnover.get('annual'), turnover.get('monthly')])
             if scope in ("businesses", "families"):
                 coordinates = item.get("map_coordinates") or {}
-                row.extend([coordinates.get("latitude"), coordinates.get("longitude")] if role == "admin" else [MASKED_VALUE, MASKED_VALUE])
+                row.extend([coordinates.get("latitude"), coordinates.get("longitude")])
+                row.append("https://www.google.com/maps/search/?api=1&query="
+                           + coordinates["latitude"] + "," + coordinates["longitude"] if coordinates else None)
             yield row
 
     return workbook_response(headers, rows(), "lensa-" + scope)

@@ -81,7 +81,7 @@ class DirectoryIndex:
         if scope not in ("businesses", "families", "members"):
             return
         expected_signature, reference = self.signature, self.order_reference
-        token = f"{expected_signature}:{reference}:order-v1"
+        token = f"{expected_signature}:{reference}:order-v2"
         key = "directory_order:" + scope
         with self.completeness_lock:
             with self.db.connection() as con:
@@ -125,14 +125,13 @@ class DirectoryIndex:
                     fields.extend(present(row[name]) for name in ("family_head", "member_number", "member_relationship", "member_gender", "member_age", "member_school", "member_diploma"))
                 elif scope == "families":
                     fields.extend(present(row[name]) for name in ("building_number", "member_count", "business_count"))
+                    fields.append(present(row["family_address"]))
+                if scope in ("businesses", "families"):
+                    fields.append(bool(row["map_coordinates"]))
                 viewer_score = sum(fields)
                 admin_score = viewer_score
                 if scope == "members":
                     admin_score += present(row["member_nik"])
-                if scope == "families":
-                    admin_score += present(row["family_address"])
-                if scope in ("businesses", "families"):
-                    admin_score += bool(row["map_coordinates"])
                 scores.append((self.status_rank(scope, row["source"], row["status"]),
                                admin_score, viewer_score, row["record_key"]))
             with self.db.connection() as con:
@@ -508,7 +507,7 @@ class DirectoryIndex:
             states = turnover_lookup(self.settings.census_db)
             for row in result_rows:
                 row['turnover'] = turnover_record(states, row['source'], row['assignment_id'],
-                    row['version'], row['index1']).public(role == 'admin')
+                    row['version'], row['index1']).public(sensitive=True)
         elif scope in ("families", "members"):
             result_rows = enrich_family_records(self.settings, result_rows, role, scope)
         return dict(

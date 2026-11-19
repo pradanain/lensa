@@ -5,6 +5,7 @@ import re
 
 from .business_directory import coordinates
 from .database import census_connection
+from .detail_access import full_address
 
 
 def enrich_family_records(settings, rows, role, scope):
@@ -12,14 +13,13 @@ def enrich_family_records(settings, rows, role, scope):
         return rows
     ids = sorted({row["assignment_id"] for row in rows})
     condition = " WHERE assignment_id IN (" + ",".join("?" for _ in ids) + ")" if len(ids) <= 1000 else ""
-    sensitive = role == "admin" and scope == "families"
-    fields = "assignment_id,__version_normalized,nama_kk"
+    fields = "assignment_id,__version_normalized,nama_kk,alamat_keluarga"
     if role == "admin":
         fields += ",no_kk"
     if scope == "families":
         fields += ",nomor_bangunan,jumlah_anggota_hasil_pendataan,jumlah_usaha_ditemukan"
-    if sensitive:
-        fields += ",alamat_keluarga,geotag_latitude,geotag_longitude"
+    if scope == "families":
+        fields += ",geotag_latitude,geotag_longitude"
     families = defaultdict(list)
     members = defaultdict(list)
     education = defaultdict(list)
@@ -38,6 +38,8 @@ def enrich_family_records(settings, rows, role, scope):
         matches = families[(row["assignment_id"], row["version"])]
         row["family_head"] = matches[0]["nama_kk"] or None if len(matches) == 1 else None
         row["family_kk"] = matches[0]["no_kk"] or None if role == "admin" and len(matches) == 1 else None
+        row["family_address"] = matches[0]["alamat_keluarga"] if len(matches) == 1 else None
+        row["full_address"] = full_address(row["family_address"], row.get("desa_label"), row.get("kecamatan_label"))
         if scope != "families":
             values = members[(row["assignment_id"], row["version"], row["index1"])]
             item = values[0] if len(values) == 1 else {}
@@ -58,10 +60,7 @@ def enrich_family_records(settings, rows, role, scope):
             continue
         for name, column in [("building_number", "nomor_bangunan"), ("member_count", "jumlah_anggota_hasil_pendataan"), ("business_count", "jumlah_usaha_ditemukan")]:
             row[name] = matches[0][column] if len(matches) == 1 else None
-        row["family_address"] = matches[0]["alamat_keluarga"] if sensitive and len(matches) == 1 else None
-        row.update(map_coordinates=None, map_status="RESTRICTED", map_provenance="FAMILY_QUESTIONNAIRE_TAG")
-        if not sensitive:
-            continue
+        row.update(map_coordinates=None, map_provenance="FAMILY_QUESTIONNAIRE_TAG")
         row["map_status"] = "SOURCE_CONFLICT" if len(matches) > 1 else "UNAVAILABLE"
         if len(matches) == 1:
             row["map_coordinates"] = coordinates(matches[0]["geotag_latitude"], matches[0]["geotag_longitude"])

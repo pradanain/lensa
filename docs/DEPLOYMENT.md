@@ -174,7 +174,7 @@ Pastikan LENSA_TRUSTED_PROXIES hanya proxy tepercaya sehingga IP ASGI benar. Jan
 
 ## Pembaruan akun dan tampilan
 
-Peran UI/API kini hanya Administrator dan Viewer. Viewer dapat membuka direktori/kuesioner dan mengunduh Excel. NIK/KK, kontak, alamat rinci, koordinat, kesehatan dan nominal sensitif tetap dibatasi backend; tampilan menggunakan delapan bulatan tetap. Kolom sensitif pada ekspor direktori dipertahankan dengan penanda yang sama, tanpa nilai asli atau informasi panjang/ketersediaan isian. Administrator tetap memperoleh nilai sesuai mapping dan hak akses existing.
+Peran UI/API kini hanya Administrator dan Viewer. Viewer dapat membuka direktori/kuesioner dan mengunduh Excel, termasuk nominal omzet usaha, Maps, alamat keluarga/usaha dan telepon/HP usaha sesuai sumber terverifikasi. NIK/KK, NIB, kesehatan, PLN dan nominal sensitif lain tetap dibatasi backend; tampilan menggunakan delapan bulatan tetap. Ekspor Usaha memuat nama penanggung jawab, telepon/HP, alamat lengkap dan tautan Maps, tanpa kolom NIK untuk semua peran. Ekspor Keluarga/Anggota mempertahankan penyamaran nomor identitas untuk Viewer. Administrator tetap memperoleh nilai sesuai mapping dan hak akses existing pada form.
 
 Akun lama analyst_detail/aggregate_viewer dipetakan sebagai Viewer tanpa migrasi tabel akun. Kata sandi sementara menerima 1-256 karakter tanpa syarat kombinasi; kewajiban mengganti sandi dan kebijakan sandi baru tetap berlaku. Pakta lebih ringkas dengan tanggung jawab penuh atas data. Halaman pengguna/monitoring dirapikan untuk desktop dan ponsel. Nama KK/PJ berada di bawah nama usaha pada direktori.
 

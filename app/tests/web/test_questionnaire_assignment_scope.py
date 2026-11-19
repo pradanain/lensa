@@ -112,13 +112,14 @@ def test_bku_with_orphan_family_module_keeps_family_scope(scoped):
     assert next(s for s in form["sections"] if s["section_id"] == "b_ak")["applicability"] == "APPLICABLE"
 
 
-def test_analyst_cannot_read_new_shared_address_variants(scoped, analyst):
+def test_viewer_reads_shared_address_variants_but_not_nik(scoped, analyst):
     for aid in ("DTD-0002", "DTD-0003"):
         response = analyst.get("/api/v1/questionnaires/dtd/" + aid, params={"version": V1})
         answer = fields(response.json())
-        assert answer["b5.jalan_domisili"]["status"] == "RESTRICTED"
-        assert answer["b5.jalan_domisili"]["value"] is None
-        assert "SYNTHETIC_PRIVATE" not in response.text
+        assert answer["b5.jalan_domisili"]["status"] == "ANSWERED"
+        assert answer["b5.jalan_domisili"]["value"] is not None
+        assert answer["b5.nik"]["status"] == "RESTRICTED"
+        assert "SYNTHETIC_PRIVATE_NIK" not in response.text
 
 
 def test_alternate_source_schema_is_checked_at_startup(scoped):

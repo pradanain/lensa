@@ -124,12 +124,14 @@ def test_invalid_coordinates_never_become_map_links(portal, lat, lon):
     assert location == {"status": "UNAVAILABLE"}
 
 
-def test_analyst_receives_no_coordinate_or_map_link(portal, analyst):
+def test_viewer_receives_verified_coordinates_without_network_access(portal, analyst):
     with sqlite3.connect(portal[2].census_db) as con:
         prepare_questionnaire_presentation_cases(con)
     for system, aid in [("dtd", "DTD-0002"), ("ub", "UB-0002")]:
         location = analyst.get("/api/v1/questionnaires/" + system + "/" + aid).json()["locations"]
-        assert location == {"root": {"status": "RESTRICTED"}, "business": {"status": "RESTRICTED"}}
+        expected = portal[1].get("/api/v1/questionnaires/" + system + "/" + aid).json()["locations"]
+        assert location == expected
+        assert any(point["status"] == "AVAILABLE" for point in location.values())
 
 
 def test_ub_reads_exported_coordinates_without_trusting_arbitrary_urls(portal):

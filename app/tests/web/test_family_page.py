@@ -144,20 +144,18 @@ def test_family_maps_and_member_heads_use_exact_version_and_access(portal, analy
     assert any(row["version"] == V2 for row in result["rows"])
     assert all(row["map_coordinates"] is None for row in result["rows"] if row["version"] != V1)
     restricted = analyst.post("/api/v1/directories/families/search", json=body).json()
-    assert all(row["map_coordinates"] is None and row["map_status"] == "RESTRICTED" for row in restricted["rows"])
-    assert "117.25" not in str(restricted)
+    assert [row["map_coordinates"] for row in restricted["rows"]] == [row["map_coordinates"] for row in result["rows"]]
     members = client.post("/api/v1/directories/members/search", json=body).json()["rows"]
     assert all(row["family_head"] == "SYNTHETIC EXACT HEAD" for row in members if row["version"] == V1)
     unmatched = client.post("/api/v1/directories/members/search", json={"source": "dtd", "q": "DTD-0002"}).json()["rows"]
     assert unmatched and all(row["family_head"] is None for row in unmatched)
     assert len({row["record_key"] for row in members}) == len(members)
     assert viewer.post("/api/v1/directories/families/search", json=body).status_code == 200
-    for user, has_coordinates in [(client, True), (analyst, False)]:
+    for user in [client, analyst]:
         workbook = sheet(user.post("/api/v1/directories/families/export", json=body))
         headers = [cell.value for cell in workbook[1]]
         assert "Latitude" in headers
-        if not has_coordinates:
-            assert all(row[headers.index("Latitude")] == MASKED_VALUE for row in list(workbook.values)[1:])
+        assert any(row[headers.index("Latitude")] == "2.125" for row in list(workbook.values)[1:])
         assert workbook.cell(2, 1).value == "DTD"
     assert sha256(settings.census_db) == before
 
@@ -189,14 +187,12 @@ def test_family_columns_preserve_zero_text_numbers_version_and_restrictions(port
     other = next(row for row in rows if row['version']==V2)
     assert other['building_number'] is None and other['member_count'] is None
     restricted = analyst.post(endpoint+'search',json=body).json()['rows']
-    assert all(row['family_address'] is None for row in restricted)
-    assert 'SYNTHETIC ADDRESS' not in str(restricted)
-    for user,allowed in [(client,True),(analyst,False)]:
+    assert any(row['family_address'] == 'SYNTHETIC ADDRESS' for row in restricted)
+    for user in [client,analyst]:
         workbook = sheet(user.post(endpoint+'export',json=body))
         headers = [cell.value for cell in workbook[1]]
         assert 'Alamat keluarga' in headers
-        if not allowed:
-            assert all(row[headers.index('Alamat keluarga')] == MASKED_VALUE for row in list(workbook.values)[1:])
+        assert any(row[headers.index('Alamat keluarga')] == 'SYNTHETIC ADDRESS' for row in list(workbook.values)[1:])
         assert 'Nomor bangunan' in headers and 'Anggota hasil pendataan' in headers
 
 
@@ -249,8 +245,8 @@ def test_family_completeness_precedes_name_and_uses_only_visible_fields(portal, 
     admin_rows = client.post(endpoint, json=body).json()["rows"]
     analyst_rows = analyst.post(endpoint, json=body).json()["rows"]
     assert admin_rows[0]["title"] == "ZZZ COMPLETE"
-    # A hidden family tag must not influence analyst order. The visible parent
-    # name on member rows can influence both roles, without using member tags.
-    assert analyst_rows[0]["title"] == ("AAA LESS COMPLETE" if scope == "families" else "ZZZ COMPLETE")
-    assert all(row.get("map_coordinates") is None for row in analyst_rows)
+    # Tags are visible to both roles; member rows still carry no member tag.
+    assert analyst_rows[0]["title"] == "ZZZ COMPLETE"
+    if scope == "members":
+        assert all(row.get("map_coordinates") is None for row in analyst_rows)
     assert sha256(settings.census_db) == before

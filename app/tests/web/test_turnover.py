@@ -99,14 +99,14 @@ def test_versions_conflicts_missing_and_snapshot_invalidation(portal):
     assert record(states,'ub','UB-0001','ignored-version','ignored-index').group=='KECIL'
 
 
-def test_nominal_is_admin_only_but_aggregate_categories_remain_accessible(portal,analyst,viewer):
+def test_viewer_reads_turnover_and_aggregate_categories(portal,analyst,viewer):
     _,admin,settings=portal
     configure(settings)
     row=search(analyst,turnover_group='KECIL')['rows'][0]
-    assert row['turnover']['amount_status']=='RESTRICTED'
-    assert 'annual' not in row['turnover'] and 'monthly' not in row['turnover']
+    assert row['turnover']['amount_status']=='AVAILABLE'
+    assert row['turnover']['annual'] is not None
     form=analyst.get('/api/v1/questionnaires/dtd/DTD-0008',params={'business':'001'}).json()
-    assert 'annual' not in form['turnover'] and 'monthly' not in form['turnover']
+    assert form['turnover']['annual'] is not None
     assert viewer.post('/api/v1/directories/businesses/search',json={'source':'dtd'}).status_code==200
     assert viewer.post('/api/v1/analytics/query',json={'metric_id':'usaha.turnover_distribution'}).status_code==200
     assert search(admin,turnover_group='KECIL')['rows'][0]['turnover']['amount_status']=='AVAILABLE'
@@ -116,14 +116,13 @@ def test_excel_and_kbli_keep_filters_and_sensitive_column_policy(portal,analyst)
     _,client,settings=portal
     configure(settings)
     payload={'source':'dtd','turnover_group':'KECIL','turnover_basis':'ESTIMATE_MONTHLY_X12','page_size':1}
-    for user,sensitive in [(client,True),(analyst,False)]:
+    for user in [client,analyst]:
         response=user.post('/api/v1/directories/businesses/export',json=payload)
         assert response.status_code==200
         rows=list(load_workbook(BytesIO(response.content)).active.values)
         assert len(rows)==3  # all matches, beyond the first page
         assert 'Omzet tahunan (Rp)' in rows[0]
-        if not sensitive:
-            assert all(row[rows[0].index('Omzet tahunan (Rp)')] == '\u2022' * 8 for row in rows[1:])
+        assert all(row[rows[0].index('Omzet tahunan (Rp)')] in ('2400000000','15000000000') for row in rows[1:])
         assert all(row[rows[0].index('Dasar omzet')]=='Estimasi bulanan × 12' for row in rows[1:])
     response=client.get('/api/v1/kbli/tree',params={'level':5,'prefix':'01111',
         'turnover_group':'KECIL','turnover_basis':'ESTIMATE_MONTHLY_X12'})

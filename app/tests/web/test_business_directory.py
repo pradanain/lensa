@@ -74,10 +74,8 @@ def test_business_people_and_tagging_use_exact_version_roster_and_role(portal, a
     ).json()["rows"][0]
     assert fallback["family_head"] is None and fallback["person_in_charge"] == "SYNTHETIC FALLBACK"
     restricted = analyst.post("/api/v1/directories/businesses/search", json=body).json()
-    assert all(
-        row["map_coordinates"] is None and row["map_status"] == "RESTRICTED" for row in restricted["rows"]
-    )
-    assert "117.25" not in str(restricted)
+    assert [row["map_coordinates"] for row in restricted["rows"]] == [row["map_coordinates"] for row in result["rows"]]
+    assert all(row["map_status"] != "RESTRICTED" for row in restricted["rows"])
     ub = client.post("/api/v1/directories/businesses/search", json={"source": "ub", "q": "UB-0001"}).json()[
         "rows"
     ][0]
