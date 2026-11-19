@@ -40,6 +40,7 @@ export function exportDescription(path:string,filters:ExportFilters,areas:Export
   if(filters.qualified_only)summary.push({label:'Cakupan',value:'Sesuai pemeriksaan lokal'})
   if(text(filters.q))summary.push({label:'Pencarian',value:text(filters.q)})
   const nameBase=kbli?'kbli':path.includes('/businesses/')?source.toLowerCase():path.includes('/families/')?'keluarga':path.includes('/members/')?'anggota':'assignment-'+source.toLowerCase()
-  const name=['lensa',nameBase,...(prefix?[prefix]:category?['kategori',category]:[]),...areaNames].map(exportSlug).filter(Boolean).join('-')+'.xlsx'
+  const turnoverGroup=Object.entries(turnoverGroups).find(([code])=>code===text(filters.turnover_group))?.[1]
+  const name=['lensa',nameBase,...(prefix?[prefix]:category?['kategori',category]:[]),...areaNames,...(turnoverGroup?[turnoverGroup]:[])].map(exportSlug).filter(Boolean).join('-')+'.xlsx'
   return {question:'Unduh '+selectedSubject+' dengan filter berikut?',filename:name,summary,regionCodes}
 }
