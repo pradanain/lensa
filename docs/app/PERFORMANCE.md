@@ -32,7 +32,7 @@ Pustaka grafik dipisahkan dari komponen umum dan halaman analitik dimuat ketika 
 
 Halaman domain umum tetap tersedia langsung agar kembali dari form tidak tertunda oleh pengambilan kode halaman. Cache detail kuesioner tetap berlaku hanya selama kunjungan form dan dibuang ketika meninggalkan form. Logout, sesi kedaluwarsa dan perubahan akses tetap membersihkan state privat. Tidak ada penyimpanan responden pada localStorage, service worker, URL pencarian atau cache HTTP publik.
 
-Pada ponsel, jarak antarbagian kartu diperkecil dan status omzet tidak diulang. Nominal nol, tidak tersedia, perlu diperiksa, estimasi bulanan ×12 dan nilai yang dibatasi tetap dibedakan. Logo utama tetap memakai aset existing; favicon memakai SVG kecil.
+Pada ponsel, jarak antarbagian kartu diperkecil dan status omzet tidak diulang. Nominal nol, tidak tersedia, perlu diperiksa, estimasi bulanan ×12 dan nilai yang dibatasi tetap dibedakan. Ikon tab memakai logo SE2026 yang sama dengan header, sehingga identitas existing dipertahankan tanpa menambah aset gambar lain.
 
 ## Pemeriksaan setelah perubahan berikutnya
 
