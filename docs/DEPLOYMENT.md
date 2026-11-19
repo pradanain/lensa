@@ -71,6 +71,43 @@ docker run --rm -it --network none --user 10001:10001 --read-only \
 
 Perintah menolak mengganti akun existing. Jangan memakai password contoh atau menaruh password dalam `.env`. Aplikasi tidak memerlukan secret global tambahan: sesi memakai token acak dan hash yang disimpan pada SQLite aplikasi.
 
+## Akun bersama untuk kegiatan: Matcher
+
+Role `Matcher` hanya membuka Direktori Usaha: melihat daftar DTD/UB, mencari,
+memfilter, dan berpindah halaman. Informasi dan masking sama dengan Viewer.
+Form/kuesioner, semua unduhan, ringkasan, KBLI analitik, Keluarga, Raw Data,
+pengaturan akun, dan monitoring ditolak di API. Master KBLI dan geografi
+tetap tersedia sebagai pilihan filter direktori. Maps mengikuti akses Viewer.
+
+Setiap perangkat mendapat sesi dan persetujuan pakta sendiri. Logout satu
+perangkat tidak mengakhiri sesi perangkat lain. Penonaktifan atau perubahan
+role oleh Administrator mencabut seluruh sesi akun tersebut.
+
+Setelah image yang mendukung Matcher terpasang dan sehat, buat tepat satu
+akun melalui terminal server (kata sandi tidak masuk argumen atau log):
+
+```bash
+cd /srv/stacks/lensa
+docker compose --project-name lensa --file compose.yml exec lensa \
+  python -m se2026.web.matcher_account \
+  --database /srv/data/app/portal.sqlite --username matcher
+```
+
+Masukkan dan ulangi kata sandi bersama (minimal 8 karakter, huruf besar,
+angka dan simbol). Perintah memerlukan Administrator existing dan menolak
+menimpa username existing. Kata sandi ini merupakan sandi final yang dipilih
+pengelola; tidak ada pergantian sandi pertama. Setiap peserta tetap menyetujui
+pakta setelah login. Akun juga dapat dibuat melalui Users dengan role Matcher;
+jalur Users memakai sandi sementara, sehingga pengelola perlu menyelesaikan
+pergantian sandi pertama sebelum membagikannya.
+
+Migrasi app DB hanya menambah kolom `users.role_override`, tanpa mengganti
+akun, hash, ID, sesi atau constraint role legacy. Matcher disimpan dengan
+override `matcher`; role legacy tetap tersedia untuk kompatibilitas akun lama.
+Database sensus tetap read-only. Sebelum rollback ke image yang belum mendukung
+Matcher, nonaktifkan akun Matcher dan cabut sesinya dengan image saat ini melalui
+Users. Image lama belum mengenali pembatasan role baru.
+
 ## Autentikasi GHCR
 
 Jika image bisa di-pull anonim, login registry tidak diperlukan. Jika private, gunakan token read:packages melalui password-stdin; jangan menaruh token dalam command line atau `.env` Compose. Pakai konfigurasi Docker khusus LENSA agar kredensial stack lain tidak berubah:

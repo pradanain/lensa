@@ -66,6 +66,10 @@ def main():
                     "INSERT INTO users(username,password_hash,role,created_at,must_change_password) VALUES(?,?,?,?,0)",
                     (username, hasher.hash("Synthetic-only-password-2026!"), role, int(time.time())),
                 )
+            con.execute(
+                "INSERT INTO users(username,password_hash,role,role_override,created_at,must_change_password) VALUES(?,?,'analyst_detail','matcher',?,0)",
+                ("matcher", hasher.hash("Synthetic-only-password-2026!"), int(time.time())),
+            )
     uvicorn.run(
         app, host="127.0.0.1", port=args.port, access_log=False, proxy_headers=False, log_level="warning"
     )

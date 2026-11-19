@@ -56,7 +56,7 @@ class ActivityLog:
         if not token:
             return {}
         with self.db.connection() as con:
-            row = con.execute("SELECT u.id,u.role FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>? AND u.active=1", (token_hash(token), int(time.time()))).fetchone()
+            row = con.execute("SELECT u.id,COALESCE(u.role_override,u.role) AS role FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>? AND u.active=1", (token_hash(token), int(time.time()))).fetchone()
         return {"id": row["id"], "role": row["role"], "session_ref": self.fingerprint("session", token_hash(token))} if row else {}
 
     def append(self, **values):

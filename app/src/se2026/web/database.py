@@ -54,6 +54,9 @@ class AppDatabase:
             user_columns = {row[1] for row in con.execute("PRAGMA table_info(users)")}
             if "must_change_password" not in user_columns:
                 con.execute("ALTER TABLE users ADD COLUMN must_change_password INTEGER NOT NULL DEFAULT 1 CHECK(must_change_password IN (0,1))")
+            if "role_override" not in user_columns:
+                # Keep legacy role constraints, account IDs, hashes and session FKs.
+                con.execute("ALTER TABLE users ADD COLUMN role_override TEXT CHECK(role_override IS NULL OR role_override='matcher')")
             columns = {row[1] for row in con.execute("PRAGMA table_info(directory_rows)")}
             if "subsls" not in columns:
                 con.execute("ALTER TABLE directory_rows ADD COLUMN subsls TEXT")

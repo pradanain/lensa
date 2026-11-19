@@ -10,11 +10,16 @@ import {api,type SearchState} from '@/lib/api'
 import {Directory} from '@/components/directory'
 import {PageHead,TabBar,StatCard,useBusinessSummary,ErrorBox,Loading} from '@/components/shared'
 import {Kbli} from './kbli'
+import {useAuth} from '@/auth'
 
 const businessTabs=[{id:'ringkasan',label:'Ringkasan'},{id:'direktori',label:'Direktori'},{id:'kbli',label:'KBLI 2025'}]
 const familyTabs=[{id:'ringkasan',label:'Ringkasan'},{id:'direktori',label:'Direktori'},{id:'anggota',label:'Anggota'}]
 
 export function Business(){
+  const {session}=useAuth()
+  return session?.user?.role==='matcher'?<><div className="domain-navigation"><PageHead eyebrow="" title="Direktori Usaha Kabupaten Bulungan" description=""/></div><Directory scope="businesses"/></>:<BusinessContent/>
+}
+function BusinessContent(){
   const navigate=useNavigate();const search=useSearch({strict:false}) as SearchState;const tab=businessTabs.some(item=>item.id===search.tab)?(search.tab||'ringkasan'):'ringkasan';const filters=useBusinessFilters();const summary=useBusinessSummary(filters,tab==='ringkasan')
   const section:BusinessAnalysis=['komposisi','sebaran-kbli','sebaran-usaha','omzet'].includes(search.section||'')?search.section as BusinessAnalysis:'komposisi'
   return <><div className="domain-navigation"><PageHead eyebrow="" title="Direktori Usaha Kabupaten Bulungan" description=""/><TabBar tabs={businessTabs} value={tab} onChange={id=>void navigate({to:'/usaha',search:{...search,tab:id,page:1}})}/></div>

@@ -165,7 +165,7 @@ def test_legacy_accounts_are_viewers_without_rewriting_account_rows(portal, lega
 
 
 @pytest.mark.parametrize('role', ['analyst_detail', 'aggregate_viewer', 'unknown'])
-def test_only_two_roles_can_be_assigned(portal, role):
+def test_legacy_and_unknown_roles_cannot_be_assigned(portal, role):
     admin = portal[1]
     assert admin.post('/api/v1/auth/users', json={
         'username': 'unsupported.role', 'password': 'a', 'role': role,

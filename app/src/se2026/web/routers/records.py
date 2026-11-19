@@ -19,7 +19,9 @@ def export_directory(scope: str, payload: DirectoryQuery, request: Request, user
 
 
 @router.post("/directories/{scope}/search")
-def search(scope: str, payload: DirectoryQuery, request: Request, user=Depends(require_detail)):
+def search(scope: str, payload: DirectoryQuery, request: Request, user=Depends(current_user)):
+    if user["role"] == "matcher" and scope != "businesses":
+        raise HTTPException(403, "MATCHER_DIRECTORY_ONLY")
     request.state.activity_context = {"source": payload.source, "page": payload.page, "page_size": payload.page_size, "has_search": bool(payload.q)}
     request.state.activity_context["filter_ref"] = request.app.state.activity.fingerprint("filter", payload.model_dump_json())
     request.app.state.app_db.audit(
@@ -28,7 +30,7 @@ def search(scope: str, payload: DirectoryQuery, request: Request, user=Depends(r
         if scope in ("assignments", "businesses", "families", "members")
         else "DIRECTORY_UNKNOWN",
     )
-    result = request.app.state.directory.search(scope, payload, user["role"])
+    result = request.app.state.directory.search(scope, payload, "viewer" if user["role"] == "matcher" else user["role"])
     request.state.activity_context.update(returned_rows=len(result.get("rows", [])), total_matches=result.get("total"))
     return result
 
@@ -99,7 +101,9 @@ def geography(
 
 
 @router.get("/directory-statuses")
-def statuses(request: Request, source: str = "dtd", scope: str = "assignments", user=Depends(require_detail)):
+def statuses(request: Request, source: str = "dtd", scope: str = "assignments", user=Depends(current_user)):
+    if user["role"] == "matcher" and scope != "businesses":
+        raise HTTPException(403, "MATCHER_DIRECTORY_ONLY")
     if source not in ("dtd", "ub") or scope not in ("assignments", "businesses", "families", "members"):
         raise HTTPException(422, "SOURCE_NOT_ALLOWED")
     # Preserve existing code list; provide source-backed display labels separately.

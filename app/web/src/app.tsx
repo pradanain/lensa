@@ -32,6 +32,8 @@ function RootContent(){
     }
     return <Login/>
   }
+  const matcher=session.user.role==='matcher'
+  if(matcher&&(location.pathname!=='/usaha'||location.search.tab!=='direktori'))return <Navigate to="/usaha" search={{tab:'direktori'}} replace/>
   if(location.pathname==='/login')return <Navigate to={returnTo.current} replace/>
   if(session.password_change_required)return <PasswordChange/>
   if(session.commitment_required)return <Commitment/>
@@ -42,17 +44,17 @@ function RootContent(){
     <header className="portal-header"><div className="portal-header-inner">
       <Link className="brand" to="/usaha" aria-label="Beranda LENSA SE2026"><img src={censusLogo} alt="Sensus Ekonomi 2026" width="48" height="60"/><span className="brand-title"><strong title="LENSA SE2026"><span className="brand-name-full">LENSA SE2026</span><span className="brand-name-short">LENSA</span></strong><small>Eksplorasi dan Analisis SE2026</small></span></Link>
       <nav id="primary-navigation" className={'primary-navigation '+(mobile?'is-open':'')} aria-label="Menu utama">
-        <Link className="nav-item" to="/dashboard"><Grid2X2 size={17}/><span>Dashboard</span></Link>
+        {matcher?<Link className="nav-item" to="/usaha" search={{tab:'direktori'}}><Building2 size={17}/><span>Direktori Usaha</span></Link>:<><Link className="nav-item" to="/dashboard"><Grid2X2 size={17}/><span>Dashboard</span></Link>
         <Link className="nav-item" to="/usaha"><Building2 size={17}/><span>Usaha</span></Link>
         <Link className="nav-item" to="/keluarga"><House size={17}/><span>Keluarga</span></Link>
-        <Link className={'nav-item '+(['data','questionnaire'].includes(current)?'current':'')} to="/data/$system" params={{system:'dtd'}}><Database size={17}/><span>Raw Data</span></Link>
+        <Link className={'nav-item '+(['data','questionnaire'].includes(current)?'current':'')} to="/data/$system" params={{system:'dtd'}}><Database size={17}/><span>Raw Data</span></Link></>}
       </nav>
       <UserMenu/>
       <Button variant="ghost" size="icon" className="mobile-menu" aria-label={mobile?'Tutup menu':'Buka menu'} aria-expanded={mobile} aria-controls="primary-navigation" onClick={()=>setMobile(!mobile)}>{mobile?<X size={22}/>:<Menu size={22}/>}</Button>
     </div></header>
     {mobile&&<button className="navigation-backdrop" aria-label="Tutup navigasi" onClick={()=>setMobile(false)}/>}
     <main id="main-content" className={'content '+(current==='questionnaire'?'content-wide':['dashboard','usaha','keluarga','data'].includes(current)?'content-domain':'')}>
-      {!['questionnaire','monitoring','pengaturan'].includes(current)&&<nav className="page-breadcrumb" aria-label="Jejak navigasi"><Link to="/dashboard">Beranda</Link><ChevronRight size={13}/><span aria-current="page">{titles[current]||'Halaman tidak ditemukan'}</span></nav>}
+      {!matcher&&!['questionnaire','monitoring','pengaturan'].includes(current)&&<nav className="page-breadcrumb" aria-label="Jejak navigasi"><Link to="/dashboard">Beranda</Link><ChevronRight size={13}/><span aria-current="page">{titles[current]||'Halaman tidak ditemukan'}</span></nav>}
       <Outlet/>
     </main>
     <footer className="app-footer"><p>Made with <Heart size={14} aria-label="love" className="footer-heart"/> and <Coffee size={14} aria-label="coffee"/> by <span>Novanni Indi Pradana</span></p></footer>

@@ -11,7 +11,8 @@ from .database import token_hash
 router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
 hasher = PasswordHash.recommended()
 dummy_hash = hasher.hash(secrets.token_urlsafe(24))
-ROLES = {"admin", "viewer"}
+ROLES = {"admin", "viewer", "matcher"}
+DETAIL_ROLES = {"admin", "viewer"}
 COMMITMENT_VERSION = "privacy_commitment_v1"
 
 
@@ -21,7 +22,7 @@ def public_role(role):
 
 
 def stored_role(role):
-    return "analyst_detail" if role == "viewer" else role
+    return "analyst_detail" if role in {"viewer", "matcher"} else role
 
 
 class Credentials(BaseModel):
@@ -65,7 +66,7 @@ def authenticated_user(request: Request):
         raise HTTPException(401, "LOGIN_REQUIRED")
     with request.app.state.app_db.connection() as con:
         row = con.execute(
-            "SELECT u.id,u.username,u.role,u.must_change_password,s.csrf,s.expires_at FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>? AND u.active=1",
+            "SELECT u.id,u.username,COALESCE(u.role_override,u.role) AS role,u.must_change_password,s.csrf,s.expires_at FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>? AND u.active=1",
             (token_hash(token), int(time.time())),
         ).fetchone()
     if not row:
@@ -99,11 +100,23 @@ def current_user(request: Request):
     user = password_ready_user(request)
     if request.app.state.settings.auth_enabled and not commitment_accepted(request):
         raise HTTPException(403, "COMMITMENT_REQUIRED")
+    if user["role"] == "matcher":
+        # Fail closed: only directory data and its filter options are permitted.
+        allowed = {
+            ("GET", "/api/v1/auth/session"),
+            ("POST", "/api/v1/directories/businesses/search"),
+            ("GET", "/api/v1/geography"),
+            ("GET", "/api/v1/directory-statuses"),
+            ("GET", "/api/v1/kbli/catalog"),
+            ("POST", "/api/v1/activity/events"),
+        }
+        if (request.method, request.url.path) not in allowed:
+            raise HTTPException(403, "MATCHER_DIRECTORY_ONLY")
     return user
 
 
 def require_detail(user=Depends(current_user)):
-    if public_role(user["role"]) not in ROLES:
+    if public_role(user["role"]) not in DETAIL_ROLES:
         raise HTTPException(403, "DETAIL_ACCESS_REQUIRED")
     return user
 
@@ -121,7 +134,7 @@ def public_user(user):
         "id": user["id"],
         "username": user["username"],
         "role": public_role(user["role"]),
-        "can_detail": public_role(user["role"]) in ROLES,
+        "can_detail": public_role(user["role"]) in DETAIL_ROLES,
         "can_sensitive": user["role"] == "admin",
         "must_change_password": bool(user.get("must_change_password")),
     }
@@ -198,7 +211,7 @@ def login(payload: Credentials, request: Request, response: Response):
         if attempt and attempt["failures"] >= 5 and now - attempt["window_start"] < 300:
             raise HTTPException(429, "LOGIN_RATE_LIMIT")
         user = con.execute(
-            "SELECT id,username,password_hash,role,active,must_change_password FROM users WHERE username=?", (payload.username,)
+            "SELECT id,username,password_hash,COALESCE(role_override,role) AS role,active,must_change_password FROM users WHERE username=?", (payload.username,)
         ).fetchone()
     valid = hasher.verify(payload.password, user["password_hash"] if user else dummy_hash)
     if user:
@@ -326,7 +339,7 @@ def users(request: Request, user=Depends(require_admin)):
     with request.app.state.app_db.connection() as con:
         return {
             "rows": [
-                {**dict(row), "role": public_role(row["role"])} for row in con.execute("SELECT id,username,role,active,must_change_password FROM users ORDER BY id")
+                {**dict(row), "role": public_role(row["role"])} for row in con.execute("SELECT id,username,COALESCE(role_override,role) AS role,active,must_change_password FROM users ORDER BY id")
             ]
         }
 
@@ -340,8 +353,8 @@ def add_user(payload: NewUser, request: Request, user=Depends(require_admin)):
     try:
         with request.app.state.app_db.connection() as con:
             created = con.execute(
-                "INSERT INTO users(username,password_hash,role,created_at) VALUES(?,?,?,?)",
-                (payload.username, hasher.hash(payload.password), stored_role(payload.role), int(time.time())),
+                "INSERT INTO users(username,password_hash,role,role_override,created_at) VALUES(?,?,?,?,?)",
+                (payload.username, hasher.hash(payload.password), stored_role(payload.role), "matcher" if payload.role == "matcher" else None, int(time.time())),
             ).lastrowid
     except sqlite3.IntegrityError:
         raise HTTPException(409, "USERNAME_ALREADY_EXISTS") from None
@@ -361,7 +374,7 @@ def update_user(user_id: int, payload: UserUpdate, request: Request, user=Depend
         raise HTTPException(422, "ROLE_CHANGE_NOT_ALLOWED")
     with request.app.state.app_db.connection() as con:
         changed = con.execute(
-            "UPDATE users SET role=?,active=? WHERE id=?", (stored_role(payload.role), int(payload.active), user_id)
+            "UPDATE users SET role=?,role_override=?,active=? WHERE id=?", (stored_role(payload.role), "matcher" if payload.role == "matcher" else None, int(payload.active), user_id)
         ).rowcount
         if not changed:
             raise HTTPException(404, "USER_NOT_FOUND")

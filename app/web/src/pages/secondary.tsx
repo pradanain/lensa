@@ -83,13 +83,13 @@ function Accounts(){
       </>}
     </Card>
     <p className="account-footnote">Perubahan peran atau status mengakhiri sesi akun tersebut.</p>
-    <details className="account-access-note"><summary>Tentang hak akses</summary><p>Viewer dapat melihat ringkasan, direktori dan kuesioner serta mengunduh Excel. NIK/KK, kontak, koordinat, nominal keuangan dan kondisi kesehatan tetap khusus Administrator. Administrator tidak dapat mengubah perannya sendiri.</p></details>
+    <details className="account-access-note"><summary>Tentang hak akses</summary><p>Matcher hanya dapat melihat, mencari dan memfilter Direktori Usaha dengan informasi setara Viewer, tanpa form dan unduhan. Viewer dapat melihat ringkasan, direktori dan kuesioner serta mengunduh Excel. Data sensitif tetap dibatasi sesuai hak akses. Administrator tidak dapat mengubah perannya sendiri.</p></details>
     <Modal open={open} onOpenChange={changeOpen} busy={pending} title="Tambah pengguna" description="Pengguna mengganti sandi sementara saat login pertama.">
       <form className="account-form" onSubmit={event=>void add(event)}>
         <label>Nama pengguna<Input value={username} onChange={event=>setUsername(event.target.value)} required minLength={3} pattern="[A-Za-z0-9_.@+\-]+" maxLength={128} autoComplete="off" disabled={pending}/></label>
         <label>Kata sandi sementara<span className="account-password"><Input aria-label="Kata sandi sementara" type={showPassword?'text':'password'} value={password} onChange={event=>setPassword(event.target.value)} required minLength={1} maxLength={256} autoComplete="new-password" disabled={pending} aria-describedby="temporary-password-hint"/><Button type="button" variant="ghost" size="icon" aria-label={showPassword?'Sembunyikan kata sandi':'Tampilkan kata sandi'} aria-pressed={showPassword} onClick={()=>setShowPassword(!showPassword)}>{showPassword?<EyeOff size={17}/>:<Eye size={17}/>}</Button></span><small id="temporary-password-hint">Bebas, minimal 1 karakter.</small></label>
         <label>Peran<SearchSelect aria-label="Peran pengguna baru" value={role} disabled={pending} onValueChange={setRole}>{Object.entries(roleNames).map(([key,label])=><option key={key} value={key}>{label}</option>)}</SearchSelect></label>
-        <p className="account-role-hint">{role==='viewer'?'Viewer dapat melihat data dan mengunduh Excel.':'Administrator juga dapat mengelola akun dan monitoring aktivitas.'}</p>
+        <p className="account-role-hint">{role==='matcher'?'Matcher dapat dipakai bersama untuk melihat, mencari dan memfilter Direktori Usaha. Form, unduhan dan halaman lain ditutup. Ganti sandi saat login pertama sebelum membagikan akun.':role==='viewer'?'Viewer dapat melihat data dan mengunduh Excel.':'Administrator juga dapat mengelola akun dan monitoring aktivitas.'}</p>
         {error&&<p className="form-error" role="alert">{error}</p>}
         <div className="admin-modal-actions"><Button type="button" variant="outline" disabled={pending} onClick={()=>changeOpen(false)}>Batal</Button><Button disabled={busy} type="submit">{pending?'Menyimpan...':'Tambah pengguna'}</Button></div>
       </form>
