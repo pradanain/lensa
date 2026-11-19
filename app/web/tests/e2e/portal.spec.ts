@@ -1787,7 +1787,7 @@ for (const tab of ['direktori','anggota']) {
 }
 
 
-test('temporary password accepts one character and role menu has only Administrator and Viewer',async({page})=>{
+test('temporary password accepts one character and role menu includes Matcher',async({page})=>{
   await login(page)
   await page.locator('.account-trigger').click()
   await page.getByRole('link',{name:'Users',exact:true}).click()
@@ -1795,8 +1795,10 @@ test('temporary password accepts one character and role menu has only Administra
   const role=page.getByRole('combobox',{name:'Peran pengguna baru',exact:true})
   await expect(role).toHaveAttribute('data-value','viewer')
   await role.click()
-  await expect(page.getByRole('listbox').getByRole('option')).toHaveText(['Administrator','Viewer'])
-  await page.keyboard.press('Escape')
+  await expect(page.getByRole('listbox').getByRole('option')).toHaveText(['Administrator','Viewer','Matcher'])
+  await page.getByRole('option',{name:'Matcher',exact:true}).click()
+  await expect(page.locator('.account-role-hint')).toContainText('Form, unduhan dan halaman lain ditutup.')
+  await selectValue(page,'Peran pengguna baru','viewer')
   await page.getByLabel('Nama pengguna',{exact:true}).fill('simple.temporary')
   await page.getByLabel('Kata sandi sementara',{exact:true}).fill('a')
   await page.getByRole('dialog',{name:'Tambah pengguna'}).getByRole('button',{name:'Tambah pengguna',exact:true}).click()
