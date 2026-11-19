@@ -10,12 +10,12 @@ import {BandPlot,Composition,RateCard,compactNumber,type InsightDatum} from './b
 export function useBusinessSource(){const search=useSearch({strict:false}) as SearchState;return search.source==='ub'?'ub':'usaha'}
 function useMetrics(ids:string[]){
   const filters=useBusinessFilters()
-  return useQuery({queryKey:['business-insights',ids,filters],queryFn:()=>Promise.all(ids.map(metric_id=>api<Metric>('/analytics/query',{metric_id,filters})))})
+  return useQuery({queryKey:['business-insights',ids,filters],queryFn:({signal})=>Promise.all(ids.map(metric_id=>api<Metric>('/analytics/query',{metric_id,filters},undefined,{signal})))})
 }
 
 export function BusinessSectors({onSelect}:{onSelect?:(code:string)=>void}){
   const source=useBusinessSource();const filters=useBusinessFilters()
-  const result=useQuery({queryKey:['business-sectors',source,filters],queryFn:()=>api<Metric>('/analytics/query',{metric_id:source==='usaha'?'usaha.enumerated_count':'ub.enumerated_count',group_by:['kategori'],filters})})
+  const result=useQuery({queryKey:['business-sectors',source,filters],queryFn:({signal})=>api<Metric>('/analytics/query',{metric_id:source==='usaha'?'usaha.enumerated_count':'ub.enumerated_count',group_by:['kategori'],filters},undefined,{signal})})
   const reference=useQuery({queryKey:['reference-summary'],queryFn:()=>api<{category_labels:Record<string,string>}>('/references/summary'),staleTime:3600000})
   if(result.isPending)return <Loading variant="chart"/>
   if(result.error)return <ErrorBox error={result.error}/>

@@ -2,6 +2,9 @@ let csrf=''
 export function setCsrf(value:string) {csrf=value}
 
 const messages:Record<string,string>={
+  SERVICE_UNAVAILABLE:'Layanan data sedang tidak tersedia. Tunggu sebentar, lalu coba lagi.',
+  ENDPOINT_NOT_FOUND:'Data atau layanan yang diminta tidak ditemukan. Coba kembali ke Dashboard.',
+  INVALID_RESPONSE:'Respons layanan belum dapat dibaca. Coba lagi dalam beberapa saat.',
   ACTIVITY_RECORD_UNAVAILABLE:'Pencatatan aktivitas tidak tersedia. Periksa koneksi sebelum melanjutkan.',ACTIVITY_EXPORT_TOO_LARGE:'Hasil melebihi 10.000 catatan. Persempit rentang tanggal atau filter.',
   COMMITMENT_REQUIRED:'Setujui pakta integritas untuk melanjutkan.',COMMITMENT_VERSION_CHANGED:'Pakta integritas diperbarui. Silakan baca dan setujui kembali.',COMMITMENT_ACCEPTANCE_REQUIRED:'Persetujuan diperlukan untuk membuka portal.',
   LOGIN_REQUIRED:'Silakan masuk untuk melanjutkan.',SESSION_EXPIRED:'Sesi berakhir. Silakan masuk kembali.',
@@ -14,9 +17,25 @@ const messages:Record<string,string>={
 }
 export class ApiError extends Error {constructor(public status:number,public code:string){super(messages[code]||'Permintaan belum dapat diproses.')}}
 
+async function readResponse(response:Response,path:string):Promise<unknown>{
+  let data:unknown
+  try{data=await response.json()}catch(error){
+    if(error instanceof Error&&error.name==='AbortError')throw error
+    if(response.ok)throw new ApiError(response.status,'INVALID_RESPONSE')
+  }
+  if(!response.ok){
+    const detail=data&&typeof data==='object'&&'detail' in data&&typeof data.detail==='string'?data.detail:''
+    if(response.status===403&&detail==='PASSWORD_CHANGE_REQUIRED')window.dispatchEvent(new Event('portal-password-change-required'))
+    if(response.status===403&&detail==='COMMITMENT_REQUIRED')window.dispatchEvent(new Event('portal-commitment-required'))
+    if(response.status===401&&(!path.startsWith('/auth/')||['SESSION_EXPIRED','LOGIN_REQUIRED'].includes(detail)))window.dispatchEvent(new Event('portal-session-expired'))
+    throw new ApiError(response.status,detail||(response.status===404?'ENDPOINT_NOT_FOUND':response.status>=500?'SERVICE_UNAVAILABLE':'REQUEST_FAILED'))
+  }
+  return data
+}
+
 export async function downloadXlsx(path:string,body:unknown,filename:string){
   const response=await fetch('/api/v1'+path,{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify(body)})
-  if(!response.ok){const data=await response.json();if(response.status===403&&data.detail==='PASSWORD_CHANGE_REQUIRED')window.dispatchEvent(new Event('portal-password-change-required'));if(response.status===403&&data.detail==='COMMITMENT_REQUIRED')window.dispatchEvent(new Event('portal-commitment-required'));if(response.status===401)window.dispatchEvent(new Event('portal-session-expired'));throw new ApiError(response.status,data.detail||'REQUEST_FAILED')}
+  if(!response.ok)await readResponse(response,path)
   const blob=await response.blob();const url=URL.createObjectURL(blob)
   try{const anchor=document.createElement('a');anchor.href=url;anchor.download=filename;document.body.appendChild(anchor);anchor.click();anchor.remove()}finally{setTimeout(()=>URL.revokeObjectURL(url),1000)}
 }
@@ -27,8 +46,7 @@ export async function api<T>(path:string,body?:unknown,method?:string,options?:{
     headers:{'Content-Type':'application/json',...(body!==undefined||method?{'X-CSRF-Token':csrf}:{})},
     ...(body===undefined?{}:{body:JSON.stringify(body)}),
   })
-  const data=await response.json()
-  if(!response.ok){if(response.status===403&&data.detail==='PASSWORD_CHANGE_REQUIRED')window.dispatchEvent(new Event('portal-password-change-required'));if(response.status===403&&data.detail==='COMMITMENT_REQUIRED')window.dispatchEvent(new Event('portal-commitment-required'));if(response.status===401 && (!path.startsWith('/auth/')||['SESSION_EXPIRED','LOGIN_REQUIRED'].includes(data.detail)))window.dispatchEvent(new Event('portal-session-expired'));throw new ApiError(response.status,data.detail||'REQUEST_FAILED')}
+  const data=await readResponse(response,path)
   return data as T
 }
 
@@ -38,7 +56,7 @@ export type MetricRow={dimensions:Record<string,unknown>;eligible_rows:number|nu
 export type Metric={metric_id:string;grain:string[];unit:string;period:string;interpretation_limits:string;rows:MetricRow[];location_concept:string}
 export type Summary={counts:Record<string,MetricRow[]>;indicators:Metric[];region:Metric;baseline:string;suppression_note:string}
 export type Geo={code:string;label:string}
-export type DirectoryRow={turnover?:import('./turnover').Turnover;member_number?:string|null;member_relationship?:string|null;member_gender?:string|null;member_age?:string|null;member_school?:string|null;member_diploma?:string|null;member_nik?:string|null;building_number?:string|null;member_count?:string|null;business_count?:string|null;family_address?:string|null;person_in_charge?:string|null;family_head?:string|null;family_kk?:string|null;map_coordinates?:{latitude:string;longitude:string}|null;map_status?:string;record_key:string;source:'dtd'|'ub';assignment_id:string;version:string|null;index1:string|null;title:string;status:string;status_label:string;kbli:string|null;kategori:string|null;kecamatan:string;desa:string;kecamatan_label:string;desa_label:string;sls?:string;subsls?:string;sls_label?:string|null;subsls_label?:string|null;rt?:string|null;rw?:string|null;geography_reference_status?:string;kind:string;kbli_state:string}
+export type DirectoryRow={kbli_title?:string|null;turnover?:import('./turnover').Turnover;member_number?:string|null;member_relationship?:string|null;member_gender?:string|null;member_age?:string|null;member_school?:string|null;member_diploma?:string|null;member_nik?:string|null;building_number?:string|null;member_count?:string|null;business_count?:string|null;family_address?:string|null;person_in_charge?:string|null;family_head?:string|null;family_kk?:string|null;map_coordinates?:{latitude:string;longitude:string}|null;map_status?:string;record_key:string;source:'dtd'|'ub';assignment_id:string;version:string|null;index1:string|null;title:string;status:string;status_label:string;kbli:string|null;kategori:string|null;kecamatan:string;desa:string;kecamatan_label:string;desa_label:string;sls?:string;subsls?:string;sls_label?:string|null;subsls_label?:string|null;rt?:string|null;rw?:string|null;geography_reference_status?:string;kind:string;kbli_state:string}
 export type DirectoryResult={rows:DirectoryRow[];total:number;page:number;page_size:number;pages:number;grain:string}
 export type QuestionnaireLocation={status:'AVAILABLE'|'UNAVAILABLE'|'RESTRICTED'|'UNMATCHED_VERSION'|'SOURCE_CONFLICT';latitude?:string;longitude?:string;source_object?:string;provenance?:string}
 export type Question={question_id:string;question_text:string;mapping_status:string;source_object:string|null;source_field:string|null;roster:string|null;converter:string;value:string|null;label:string|null;status:string;reference_label?:string;parse_status:string|null;unit:string;period:string;note?:string;applicability?:'APPLICABLE'|'NOT_APPLICABLE'|'UNKNOWN';source_conflict?:boolean;display_format?:'number'|'text';numeric_value?:string|null;label_status?:string|null;display_state?:'VISIBLE'|'HIDDEN'|'UNKNOWN';availability_group?:string;availability_note?:string}

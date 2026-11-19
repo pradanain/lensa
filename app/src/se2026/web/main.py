@@ -29,7 +29,14 @@ def create_app(settings=None):
                 if not con.execute("SELECT 1 FROM users WHERE role='admin' AND active=1 LIMIT 1").fetchone():
                     raise RuntimeError("PRODUCTION_ADMIN_NOT_PROVISIONED")
         if settings.build_index_on_start:
-            app.state.directory.ensure()
+            app.state.directory.prepare_order()
+            if settings.aggregate_cache_seconds:
+                try:
+                    analytics.warm_common_metrics(app)
+                except AnalyticsError:
+                    # A failed metric remains rejected by its normal API gate;
+                    # warming must not prevent access to unrelated directories.
+                    logging.getLogger(__name__).warning("ANALYTICS_WARMUP_SKIPPED")
         yield
 
     app = FastAPI(

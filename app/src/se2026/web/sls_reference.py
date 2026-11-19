@@ -8,6 +8,7 @@ from collections import defaultdict
 class SlsReference:
     def __init__(self, root, path=None):
         path = path or root / "app/config/references/subsls-2025-2-6502.json"
+        self.path = path
         document = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {"rows": []}
         self.period = document.get("period")
         self.by_subsls = {}

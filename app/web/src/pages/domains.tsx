@@ -1,4 +1,6 @@
-import {BusinessOverview,type BusinessAnalysis} from '@/components/business-overview'
+import {lazy,Suspense} from 'react'
+import type {BusinessAnalysis} from '@/components/business-overview'
+const BusinessOverview=lazy(()=>import('@/components/business-overview').then(module=>({default:module.BusinessOverview})))
 import {FamilyOverview} from '@/components/family-overview'
 import {AnalysisLayout,useBusinessFilters} from '@/components/filter-panel'
 import {useNavigate,useParams,useSearch} from '@tanstack/react-router'
@@ -6,7 +8,7 @@ import {useQuery} from '@tanstack/react-query'
 import {Building2,House,Layers3} from 'lucide-react'
 import {api,type SearchState} from '@/lib/api'
 import {Directory} from '@/components/directory'
-import {PageHead,TabBar,StatCard,useBusinessSummary,ErrorBox} from '@/components/shared'
+import {PageHead,TabBar,StatCard,useBusinessSummary,ErrorBox,Loading} from '@/components/shared'
 import {Kbli} from './kbli'
 
 const businessTabs=[{id:'ringkasan',label:'Ringkasan'},{id:'direktori',label:'Direktori'},{id:'kbli',label:'KBLI 2025'}]
@@ -19,7 +21,7 @@ export function Business(){
     {tab==='ringkasan'&&<AnalysisLayout businessSource><div className="business-summary"><div className="stats-grid three"><StatCard label="Usaha Keluarga" value={summary.data?.counts['usaha.enumerated_family_count']?.[0]?.value} note="UMKM dalam bangunan tempat tinggal atau bangunan campuran." icon={<House size={20}/>}/><StatCard label="Bangunan Usaha" value={summary.data?.counts['usaha.enumerated_bku_count']?.[0]?.value} note="UMKM dalam bangunan khusus usaha (BKU)." icon={<Building2 size={20}/>}/><StatCard label="Usaha Besar" value={summary.data?.counts['ub.enumerated_count']?.[0]?.value} note="Usaha Besar (UB)" icon={<Layers3 size={20}/>} accent/></div>
     {summary.error&&<ErrorBox error={summary.error}/>}
     <div className="summary-topic-switch" role="group" aria-label="Topik ringkasan usaha">{[{id:'omzet',label:'Distribusi Omzet'},{id:'komposisi',label:'Komposisi Sektor'},{id:'sebaran-kbli',label:'Distribusi KBLI'},{id:'sebaran-usaha',label:search.source==='ub'?'Distribusi UB':'Distribusi UMKM'}].map(item=><button key={item.id} aria-pressed={section===item.id} onClick={()=>void navigate({to:'/usaha',search:{...search,tab:'ringkasan',section:item.id},replace:true,resetScroll:false})}>{item.label}</button>)}</div>
-    <BusinessOverview section={section}/>
+    <Suspense fallback={<Loading variant="chart"/>}><BusinessOverview section={section}/></Suspense>
     </div></AnalysisLayout>}
     {tab==='kbli'&&<Kbli/>}{tab==='direktori'&&<Directory scope="businesses"/>}
   </>

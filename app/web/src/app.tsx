@@ -52,7 +52,7 @@ function RootContent(){
     </div></header>
     {mobile&&<button className="navigation-backdrop" aria-label="Tutup navigasi" onClick={()=>setMobile(false)}/>}
     <main id="main-content" className={'content '+(current==='questionnaire'?'content-wide':['dashboard','usaha','keluarga','data'].includes(current)?'content-domain':'')}>
-      {current!=='questionnaire'&&<nav className="page-breadcrumb" aria-label="Jejak navigasi"><Link to="/dashboard">Beranda</Link><ChevronRight size={13}/><span aria-current="page">{titles[current]||'Dashboard'}</span></nav>}
+      {!['questionnaire','monitoring','pengaturan'].includes(current)&&<nav className="page-breadcrumb" aria-label="Jejak navigasi"><Link to="/dashboard">Beranda</Link><ChevronRight size={13}/><span aria-current="page">{titles[current]||'Halaman tidak ditemukan'}</span></nav>}
       <Outlet/>
     </main>
     <footer className="app-footer"><p>Made with <Heart size={14} aria-label="love" className="footer-heart"/> and <Coffee size={14} aria-label="coffee"/> by <span>Novanni Indi Pradana</span></p></footer>
@@ -62,6 +62,22 @@ function RootContent(){
 function UserMenu(){
   const {session,logout}=useAuth()
   const [error,setError]=useState(false)
+  const menu=useRef<HTMLDetailsElement>(null)
+  useEffect(()=>{
+    const close=(event:PointerEvent)=>{if(!menu.current?.contains(event.target as Node)&&menu.current)menu.current.open=false}
+    const escape=(event:KeyboardEvent)=>{if(event.key==='Escape'&&menu.current?.open){menu.current.open=false;menu.current.querySelector('summary')?.focus()}}
+    document.addEventListener('pointerdown',close)
+    document.addEventListener('keydown',escape)
+    return()=>{document.removeEventListener('pointerdown',close);document.removeEventListener('keydown',escape)}
+  },[])
   if(!session?.auth_enabled)return null
-  return <div className="user-menu">{session.user?.role==='admin'&&<Link to="/monitoring" className="button button-ghost button-icon" aria-label="Monitoring aktivitas" title="Monitoring aktivitas"><ShieldCheck size={17}/></Link>}{session.user?.role==='admin'&&<Link to="/pengaturan" className="button button-ghost button-icon" aria-label="Kelola pengguna" title="Kelola pengguna"><Settings2 size={17}/></Link>}<div className="user-label"><strong>{session.user?.username}</strong><small>{roleNames[session.user?.role||'']}</small></div><Button variant="ghost" size="icon" aria-label="Keluar dari portal" onClick={()=>void logout().catch(()=>setError(true))}><LogOut size={17}/></Button>{error&&<span role="alert">Belum berhasil keluar.</span>}</div>
+  const close=()=>{if(menu.current)menu.current.open=false}
+  return <details className="user-menu account-dropdown" ref={menu}>
+    <summary className="account-trigger" aria-label={'Menu akun '+session.user?.username}><span className="user-label"><strong>{session.user?.username}</strong><small>{roleNames[session.user?.role||'']}</small></span></summary>
+    <nav className="account-dropdown-panel" aria-label="Menu akun">
+      {session.user?.role==='admin'&&<><Link to="/monitoring" onClick={close}><ShieldCheck size={17}/>Logs</Link><Link to="/pengaturan" onClick={close}><Settings2 size={17}/>Users</Link></>}
+      <button type="button" className="account-logout" aria-label="Keluar dari portal" onClick={()=>{setError(false);void logout().catch(()=>setError(true))}}><LogOut size={17}/>Logout</button>
+      {error&&<p role="alert">Belum berhasil keluar. Coba lagi.</p>}
+    </nav>
+  </details>
 }

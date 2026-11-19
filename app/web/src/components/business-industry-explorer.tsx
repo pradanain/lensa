@@ -25,7 +25,7 @@ export function BusinessIndustryExplorer({view='ranking'}:{view?:'ranking'|'map'
   const metric=source==='usaha'?'usaha.enumerated_count':'ub.enumerated_count'
   const queryFilters={...filters,...(category?{kategori:category}:{})}
   const catalog=useQuery({queryKey:['kbli-catalog'],queryFn:()=>api<{rows:CodeLabel[]}>('/kbli/catalog'),staleTime:Infinity})
-  const result=useQuery({queryKey:['business-kbli-ranking',source,queryFilters],queryFn:()=>api<Metric>('/analytics/query',{metric_id:metric,filters:queryFilters,group_by:['kbli']})})
+  const result=useQuery({queryKey:['business-kbli-ranking',source,queryFilters],queryFn:({signal})=>api<Metric>('/analytics/query',{metric_id:metric,filters:queryFilters,group_by:['kbli']},undefined,{signal})})
   const labels=new Map(catalog.data?.rows.filter(r=>r.level===5).map(r=>[r.code,r.title]))
   const categories=new Map(catalog.data?.rows.filter(r=>r.level===5&&/^[A-V]$/.test(r.category)).map(r=>[r.code,r.category]))
   const rows:Ranking[]=(result.data?.rows||[]).filter(r=>/^[0-9]{5}$/.test(String(r.dimensions.kbli))&&labels.has(String(r.dimensions.kbli))).map(r=>({code:String(r.dimensions.kbli),category:categories.get(String(r.dimensions.kbli))||'\u2014',value:r.value==null?null:Number(r.value),title:labels.get(String(r.dimensions.kbli))!})).sort((a,b)=>(b.value??-1)-(a.value??-1)||a.code.localeCompare(b.code))
@@ -64,7 +64,7 @@ function IndustryHeatmap({metric,filters,codes,labels,categories,controls,select
   const source=metric.startsWith('usaha')?'dtd':'ub'
   const parent=level==='subsls'?filters.sls:level==='sls'?filters.desa:''
   const geographicLabels=useQuery({queryKey:['geo',source,level,parent],queryFn:()=>api<{rows:Geo[]}>('/geography?source='+source+'&level='+level+'&parent='+encodeURIComponent(parent||'')),enabled:level==='sls'||level==='subsls'})
-  const result=useQuery({queryKey:['industry-map',metric,filters,codes,level],queryFn:()=>api<Metric>('/analytics/query',{metric_id:metric,filters:{...filters,kbli:codes},group_by:['kbli',level]})})
+  const result=useQuery({queryKey:['industry-map',metric,filters,codes,level],queryFn:({signal})=>api<Metric>('/analytics/query',{metric_id:metric,filters:{...filters,kbli:codes},group_by:['kbli',level]},undefined,{signal})})
   const data=industryMatrix(result.data?.rows||[],level)
   const current=Math.min(page,Math.max(1,Math.ceil(data.regions.length/pageSize)))
   const referenceLabels=new Map(geographicLabels.data?.rows.map(g=>[g.code,g.label]))

@@ -88,6 +88,6 @@ export function SearchSelect({value='',onValueChange,children,disabled=false,sea
       {searchable&&<div className="search-select-search"><Search size={16}/><input ref={search} aria-label={'Cari pilihan '+label} aria-controls={listId} aria-activedescendant={filtered[active]?uid+'-option-'+active:undefined} autoComplete="off" spellCheck={false} placeholder={searchPlaceholder||'Cari '+label.toLocaleLowerCase('id-ID')} value={query} onChange={event=>{setQuery(event.target.value);setActive(0)}}/></div>}
       <div ref={list} id={listId} role="listbox" tabIndex={searchable?undefined:-1} aria-activedescendant={!searchable&&filtered[active]?uid+'-option-'+active:undefined} aria-label={'Pilihan '+label} className="search-select-options">{filtered.map((option,index)=><button type="button" tabIndex={-1} role="option" id={uid+'-option-'+index} key={option.value} data-value={option.value} aria-selected={option.value===String(value)} aria-disabled={option.disabled} className={index===active?'is-active':''} onPointerMove={()=>setActive(index)} onClick={()=>choose(option)}><span>{option.label}</span>{option.value===String(value)&&<Check size={15}/>}</button>)}{filtered.length===0&&<div className="search-select-empty" role="status">Tidak ada pilihan yang sesuai.</div>}</div>
       {searchable&&<div className="search-select-count">{filtered.length} pilihan</div>}
-    </div>,document.body)}
+    </div>,trigger.current?.closest('[role="dialog"]')||document.body)}
   </span>
 }

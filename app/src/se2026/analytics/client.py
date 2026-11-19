@@ -12,6 +12,11 @@ from .numeric import ExactSum,ratio,worker_valid,worker_band,read_field
 from .registry import AnalyticsError,Registry
 from .business_audit import register_population
 from .turnover import register_turnover
+from .snapshot import SnapshotMemo,snapshot_token
+
+
+_verified_sources=SnapshotMemo(256)
+_geographies=SnapshotMemo(4)
 
 
 def kbli_valid(value):
@@ -44,6 +49,8 @@ class Analytics:
     def __init__(self,database=None,root=None):
         self.root=Path(root or Path(__file__).resolve().parents[4])
         path=Path(database or self.root/'data/processed/se2026.sqlite').resolve()
+        self._database=path
+        self._snapshot=snapshot_token(path,self.root)
         self.registry=Registry(self.root)
         policy=json.loads((self.root/'app/config/analytics/dimensions/geography.json').read_text(encoding='utf-8'))
         if (policy['fields']!=list(FIELDS) or policy['levels']!=list(LEVELS) or policy['code_type']!='TEXT'
@@ -67,6 +74,7 @@ class Analytics:
         if self._connection.execute("SELECT COUNT(*) FROM sqlite_master WHERE name='imported_files'").fetchone()[0]:
             self._provenance=[dict(source_id=sid,source_sha256=checksum,batch_id=batch) for sid,checksum,batch in
                 self._connection.execute('SELECT f.source_id,f.sha256,f.batch_id FROM imported_files f JOIN active_imports a ON a.import_id=f.import_id ORDER BY f.source_id')]
+        self._cacheable=snapshot_token(path,self.root)==self._snapshot
 
     def __enter__(self):return self
 
@@ -83,6 +91,14 @@ class Analytics:
 
     def _check_source(self,source):
         if source in self._checked:return
+        if self._cacheable:
+            _verified_sources.get((self._snapshot,source),lambda:self._validate_source(source),
+                                  lambda:snapshot_token(self._database,self.root)==self._snapshot)
+        else:
+            self._validate_source(source)
+        self._checked.add(source)
+
+    def _validate_source(self,source):
         definition=self.registry.sources[source]
         schema=self._schema(source)
         if not set([*definition['grain_key'],definition['assignment_column']]).issubset(schema):
@@ -95,7 +111,6 @@ class Analytics:
             raise AnalyticsError('SOURCE_GRAIN_KEY_INVALID')
         duplicate=self._connection.execute('SELECT COUNT(*) FROM (SELECT '+columns+' FROM '+relation+' GROUP BY '+columns+' HAVING COUNT(*)>1)').fetchone()[0]
         if duplicate:raise AnalyticsError('SOURCE_GRAIN_NOT_UNIQUE')
-        self._checked.add(source)
 
     def _check_master(self,system):
         if system in self._masters:return
@@ -299,7 +314,9 @@ class Analytics:
 
     def geography(self):
         self._check_master('TGR');self._check_master('TCZ')
-        return geography_catalog(self._connection)
+        if not self._cacheable:return geography_catalog(self._connection)
+        return _geographies.get(self._snapshot,lambda:geography_catalog(self._connection),
+                                lambda:snapshot_token(self._database,self.root)==self._snapshot)
 
     def ub_geography_comparison(self):
         self._check_source('ub');self._check_master('TCZ')

@@ -87,6 +87,8 @@ Tanpa konfigurasi, lokasi default dataset privat adalah `data/processed/se2026.s
 
 ## Pengujian
 
+Catatan pemuatan bertahap, persiapan cache pertama dan pembatasan cache privat tersedia pada [panduan performa](docs/app/PERFORMANCE.md).
+
 ```powershell
 python -m pytest app/tests -q
 cd app/web

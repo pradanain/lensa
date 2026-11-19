@@ -38,6 +38,7 @@ async function login(page:Page,username='admin'){
 }
 
 async function logoutAndWait(page:Page,buttonName='Keluar dari portal'){
+  if(buttonName==='Keluar dari portal')await page.locator('.account-trigger').click()
   await page.getByRole('button',{name:buttonName,exact:true}).click()
   await page.waitForURL('**/login',{waitUntil:'load'})
   await expect(page.getByLabel('Nama pengguna',{exact:true})).toBeVisible()
@@ -1582,9 +1583,13 @@ test('Raw Data is available in focused mode and keeps assignment cards and exact
 
 
 test('Dashboard uses completed business metrics, responsive cards and filtered drill-through',async({page})=>{
-  await page.route('**/api/v1/analytics/summary?*',async route=>{
+  await page.route('**/api/v1/analytics/business-summary?*',async route=>{
     const response=await route.fetch();const payload=await response.json()
     for(const [key,value] of Object.entries({'usaha.enumerated_family_count':1234,'usaha.enumerated_bku_count':2345,'ub.enumerated_count':3456,'usaha.count':9999,'ub.count':8888}))payload.counts[key]=[{value}]
+    await route.fulfill({response,json:payload})
+  })
+  await page.route('**/api/v1/analytics/dashboard?part=internet&*',async route=>{
+    const response=await route.fetch();const payload=await response.json()
     payload.indicators=payload.indicators.map((metric:Record<string,unknown>)=>({...metric,rows:[{percentage:null,numerator:null,denominator:null,suppressed:true}]}))
     await route.fulfill({response,json:payload})
   })
@@ -1721,11 +1726,13 @@ async function replaceTemporaryPassword(page:Page){
 
 test('admin creates a temporary account that must change password before pact or data',async({page})=>{
   await login(page)
-  await page.getByRole('link',{name:'Kelola pengguna',exact:true}).click()
+  await page.locator('.account-trigger').click()
+  await page.getByRole('link',{name:'Users',exact:true}).click()
+  await page.getByRole('button',{name:'Tambah pengguna',exact:true}).click()
   await page.getByLabel('Nama pengguna',{exact:true}).fill('first.user@example.test')
   await page.getByLabel('Kata sandi sementara',{exact:true}).fill(password)
   await selectValue(page,'Peran pengguna baru','viewer')
-  await page.getByRole('button',{name:'Tambah pengguna',exact:true}).click()
+  await page.getByRole('dialog',{name:'Tambah pengguna'}).getByRole('button',{name:'Tambah pengguna',exact:true}).click()
   await expect(page.getByRole('status')).toContainText('Pengguna dibuat.')
   await expect(page.locator('.account-row').filter({hasText:'first.user@example.test'})).toContainText('Wajib ganti kata sandi')
   await logoutAndWait(page)
@@ -1782,7 +1789,9 @@ for (const tab of ['direktori','anggota']) {
 
 test('temporary password accepts one character and role menu has only Administrator and Viewer',async({page})=>{
   await login(page)
-  await page.getByRole('link',{name:'Kelola pengguna',exact:true}).click()
+  await page.locator('.account-trigger').click()
+  await page.getByRole('link',{name:'Users',exact:true}).click()
+  await page.getByRole('button',{name:'Tambah pengguna',exact:true}).click()
   const role=page.getByRole('combobox',{name:'Peran pengguna baru',exact:true})
   await expect(role).toHaveAttribute('data-value','viewer')
   await role.click()
@@ -1790,7 +1799,7 @@ test('temporary password accepts one character and role menu has only Administra
   await page.keyboard.press('Escape')
   await page.getByLabel('Nama pengguna',{exact:true}).fill('simple.temporary')
   await page.getByLabel('Kata sandi sementara',{exact:true}).fill('a')
-  await page.getByRole('button',{name:'Tambah pengguna',exact:true}).click()
+  await page.getByRole('dialog',{name:'Tambah pengguna'}).getByRole('button',{name:'Tambah pengguna',exact:true}).click()
   await expect(page.getByRole('status')).toContainText('Pengguna dibuat.')
   await logoutAndWait(page)
   await page.getByLabel('Nama pengguna',{exact:true}).fill('simple.temporary')

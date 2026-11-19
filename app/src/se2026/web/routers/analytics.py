@@ -7,6 +7,7 @@ from fastapi import APIRouter, Depends, Query, Request
 from pydantic import BaseModel, Field
 
 from ...analytics import Analytics
+from ...analytics.snapshot import snapshot_token
 from ..disclosure import protect_metric
 from ..security import current_user
 
@@ -21,18 +22,13 @@ class AggregateCache:
         self.lock = threading.Lock()
 
     def token(self):
-        paths = [self.settings.census_db]
-        for folder in ("app/config/analytics", "app/sql/analytics"):
-            paths.extend(sorted(p for p in (self.settings.root / folder).rglob("*") if p.is_file()))
-        return (
-            self.settings.minimum_contributors,
-            tuple((str(p), p.stat().st_size, p.stat().st_mtime_ns) for p in paths),
-        )
+        return (self.settings.minimum_contributors,
+                snapshot_token(self.settings.census_db, self.settings.root))
 
-    def get(self, key, build):
+    def get(self, key, build, token=None):
         if self.settings.aggregate_cache_seconds == 0:
             return build()
-        token = self.token()
+        token = self.token() if token is None else token
         while True:
             with self.lock:
                 item = self.entries.get(key)
@@ -69,6 +65,62 @@ class MetricRequest(BaseModel):
     location: str = "assignment"
 
 
+def cached_metric(request, metric_id, filters=None, group_by=None, location="assignment", api=None):
+    payload = MetricRequest(metric_id=metric_id, filters=filters or {}, group_by=group_by or [], location=location)
+
+    def build():
+        def query(client):
+            return protect_metric(client.query(metric_id, payload.filters, payload.group_by, location),
+                                  request.app.state.settings.minimum_contributors)
+        if api is not None:
+            return query(api)
+        settings = request.app.state.settings
+        with Analytics(settings.census_db, settings.root) as client:
+            return query(client)
+
+    key = ("metric", json.dumps(payload.model_dump(), sort_keys=True, separators=(",", ":")))
+    if api is not None and not api._cacheable:
+        return build()
+    # An existing SQLite read transaction can outlive a file update. Its result
+    # belongs to that transaction's generation, never the newer on-disk token.
+    token = (request.app.state.settings.minimum_contributors, api._snapshot) if api is not None else None
+    return request.app.state.aggregate_cache.get(key, build, token=token)
+
+
+def warm_common_metrics(app):
+    """Prepare public, suppressed landing-page results before accepting traffic."""
+    settings = app.state.settings
+    request = Request({"type": "http", "app": app})
+    with Analytics(settings.census_db, settings.root) as api:
+        for key in ("usaha.enumerated_family_count", "usaha.enumerated_bku_count", "ub.enumerated_count",
+                    "keluarga.count", "anggota.count", "usaha.internet_yes_rate", "ub.internet_yes_rate"):
+            cached_metric(request, key, api=api)
+
+
+@router.get("/dashboard")
+def dashboard(
+    request: Request,
+    part: str = Query(default="counts", pattern="^(counts|internet|notes)$"),
+    kecamatan: str = Query(default="", max_length=40),
+    desa: str = Query(default="", max_length=40),
+    sls: str = Query(default="", max_length=40),
+    subsls: str = Query(default="", max_length=40),
+    user=Depends(current_user),
+):
+    filters = {k: v for k, v in dict(kecamatan=kecamatan, desa=desa, sls=sls, subsls=subsls).items() if v}
+    metrics = {
+        "counts": ("usaha.enumerated_family_count", "usaha.enumerated_bku_count", "ub.enumerated_count",
+                   "keluarga.count", "anggota.count"),
+        "internet": ("usaha.internet_yes_rate", "ub.internet_yes_rate"),
+        "notes": ("assignment_tgr.count", "assignment_ub.count", "bku.count", "usaha.enumerated_count"),
+    }[part]
+    settings = request.app.state.settings
+    with Analytics(settings.census_db, settings.root) as api:
+        results = [cached_metric(request, key, filters, api=api) for key in metrics]
+    return dict(counts={item["metric_id"]: item["rows"] for item in results} if part != "internet" else {},
+                indicators=results if part == "internet" else [], filters=filters)
+
+
 @router.get("/business-summary")
 def business_summary(
     request: Request,
@@ -86,9 +138,7 @@ def business_summary(
     def build():
         with Analytics(request.app.state.settings.census_db, request.app.state.settings.root) as api:
             counts = {
-                key: protect_metric(
-                    api.query(key, filters=filters), request.app.state.settings.minimum_contributors
-                )["rows"]
+                key: cached_metric(request, key, filters, api=api)["rows"]
                 for key in (
                     "usaha.enumerated_family_count",
                     "usaha.enumerated_bku_count",
@@ -114,9 +164,7 @@ def family_summary(
     def build():
         with Analytics(request.app.state.settings.census_db, request.app.state.settings.root) as api:
             counts = {
-                key: protect_metric(
-                    api.query(key, filters=filters), request.app.state.settings.minimum_contributors
-                )["rows"]
+                key: cached_metric(request, key, filters, api=api)["rows"]
                 for key in ("keluarga.count", "anggota.count")
             }
         return {"counts": counts, "filters": filters, "grains_not_added_together": True}
@@ -139,7 +187,7 @@ def summary(
         minimum = request.app.state.settings.minimum_contributors
         with Analytics(request.app.state.settings.census_db, request.app.state.settings.root) as api:
             counts = [
-                (key, protect_metric(api.query(key, filters=filters), minimum)["rows"])
+                (key, cached_metric(request, key, filters, api=api)["rows"])
                 for key in [
                     "assignment_tgr.count",
                     "assignment_ub.count",
@@ -164,7 +212,7 @@ def summary(
                 ]
             ]
             extras = [
-                protect_metric(api.query(key, filters=filters), minimum)
+                cached_metric(request, key, filters, api=api)
                 for key in [
                     "usaha.internet_yes_rate",
                     "ub.internet_yes_rate",
@@ -173,9 +221,7 @@ def summary(
                     "ub.complete_module_coverage",
                 ]
             ]
-            region = protect_metric(
-                api.query("assignment_tgr.count", filters=filters, group_by="kecamatan"), minimum
-            )
+            region = cached_metric(request, "assignment_tgr.count", filters, ["kecamatan"], api=api)
         return dict(
             counts=dict(counts),
             indicators=extras,
@@ -194,15 +240,7 @@ def summary(
 def metric(payload: MetricRequest, request: Request, user=Depends(current_user)):
     # The established public semantic API enforces metric/dimension whitelists,
     # bound values, exact grains and disclosure control.
-    def build():
-        with Analytics(request.app.state.settings.census_db, request.app.state.settings.root) as api:
-            return protect_metric(
-                api.query(payload.metric_id, payload.filters, payload.group_by, payload.location),
-                request.app.state.settings.minimum_contributors,
-            )
-
-    key = ("metric", json.dumps(payload.model_dump(), sort_keys=True, separators=(",", ":")))
-    return request.app.state.aggregate_cache.get(key, build)
+    return cached_metric(request, payload.metric_id, payload.filters, payload.group_by, payload.location)
 
 
 @router.get("/metrics")

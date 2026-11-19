@@ -57,6 +57,21 @@ class AppDatabase:
             columns = {row[1] for row in con.execute("PRAGMA table_info(directory_rows)")}
             if "subsls" not in columns:
                 con.execute("ALTER TABLE directory_rows ADD COLUMN subsls TEXT")
+            for column in ("status_rank", "score_admin", "score_viewer"):
+                if column not in columns:
+                    con.execute("ALTER TABLE directory_rows ADD COLUMN " + column + " INTEGER")
+            for access in ("admin", "viewer"):
+                con.execute(
+                    "CREATE INDEX IF NOT EXISTS directory_order_" + access +
+                    " ON directory_rows(scope,source,status_rank,score_" + access +
+                    " DESC,title COLLATE NOCASE,assignment_id,version,index1,id)"
+                )
+            con.execute("""CREATE TRIGGER IF NOT EXISTS directory_order_changed
+                AFTER UPDATE OF scope,source,record_key,assignment_id,version,index1,title,status,
+                    desa,desa_label,sls,subsls,kbli,kategori ON directory_rows
+                BEGIN DELETE FROM cache_meta
+                    WHERE key IN ('directory_order:' || OLD.scope,'directory_order:' || NEW.scope);
+                END""")
             con.execute(
                 "CREATE INDEX IF NOT EXISTS directory_subsls ON directory_rows(scope,source,subsls)"
             )

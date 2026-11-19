@@ -11,6 +11,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from ..common import q
 from ..analytics.business_audit import register_population
+from ..analytics.snapshot import file_stamp
 from ..analytics.turnover import register_turnover, lookup as turnover_lookup, record as turnover_record
 from .business_directory import enrich_businesses
 from .family_directory import enrich_family_records
@@ -49,27 +50,57 @@ class DirectoryIndex:
         self.signature = None
         self.verified_at = 0.0
         self.completeness_lock = threading.Lock()
-        self.completeness = {}
+        self.reference_stamp = file_stamp(self.sls_reference.path)
+        self._set_order_reference()
+
+    def _set_order_reference(self):
+        self.order_reference = hashlib.sha256(json.dumps(
+            [self.sls_reference.by_subsls, sorted(self.references.kbli)], sort_keys=True
+        ).encode()).hexdigest()
 
     def completeness_scores(self, role, scope="businesses"):
-        # Only integer scores are retained, separated by visible-field permissions.
-        access = "admin" if role == "admin" else "analyst_detail"
-        token = (self.signature, access, scope)
+        """Compatibility accessor; normal searches order by persisted integers."""
+        self.ensure()
+        self.ensure_order(scope)
+        column = "score_admin" if role == "admin" else "score_viewer"
+        with self.db.connection() as con:
+            return {row[0]: row[1] for row in con.execute(
+                "SELECT record_key," + column + " FROM directory_rows WHERE scope=?", (scope,))}
+
+    @staticmethod
+    def status_rank(scope, source, status):
+        if scope == "businesses":
+            if source == "dtd":
+                return {"1": 0, "2": 1, "4": 2, "3": 3, "9": 4, "00": 5, "0": 5}.get(status, 6)
+            return next((rank for prefix, rank in (("1.", 0), ("7.", 2), ("5.", 3), ("6.", 5))
+                         if (status or "").startswith(prefix)), 6)
+        codes = ("1", "2", "3", "4", "5", "6", "0") if scope == "families" else ("1", "5", "2", "3", "4", "6", "7")
+        return codes.index(status) if status in codes else 7
+
+    def ensure_order(self, scope):
+        if scope not in ("businesses", "families", "members"):
+            return
+        expected_signature, reference = self.signature, self.order_reference
+        token = f"{expected_signature}:{reference}:order-v1"
+        key = "directory_order:" + scope
         with self.completeness_lock:
-            if token in self.completeness:
-                return self.completeness[token]
             with self.db.connection() as con:
+                stored = con.execute("SELECT value FROM cache_meta WHERE key=?", (key,)).fetchone()
+                if stored and stored[0] == token:
+                    return
                 rows = [
                     dict(row)
                     for row in con.execute(
                         "SELECT record_key,source,assignment_id,version,index1,title,desa,desa_label,"
-                        "sls,subsls,kbli,kategori FROM directory_rows WHERE scope=?",
+                        "sls,subsls,kbli,kategori,status FROM directory_rows WHERE scope=?",
                         (scope,),
                     )
                 ]
-            rows = enrich_businesses(self.settings, rows, access) if scope == "businesses" else enrich_family_records(self.settings, rows, access, scope)
+            # Enrich once, compute two independent visible-column scores. Hidden
+            # values never contribute to Viewer order and are not copied to UI.
+            rows = enrich_businesses(self.settings, rows, "admin") if scope == "businesses" else enrich_family_records(self.settings, rows, "admin", scope)
             turnover_states = turnover_lookup(self.settings.census_db) if scope == 'businesses' else None
-            scores = {}
+            scores = []
             for row in rows:
                 geo = self.sls_reference.describe(row["sls"], row["subsls"])
 
@@ -92,24 +123,40 @@ class DirectoryIndex:
                         row['version'], row['index1']).group in ('MIKRO','KECIL','MENENGAH','BESAR'))
                 elif scope == "members":
                     fields.extend(present(row[name]) for name in ("family_head", "member_number", "member_relationship", "member_gender", "member_age", "member_school", "member_diploma"))
-                    if access == "admin":
-                        fields.append(present(row["member_nik"]))
                 elif scope == "families":
                     fields.extend(present(row[name]) for name in ("building_number", "member_count", "business_count"))
-                    if access == "admin":
-                        fields.append(present(row["family_address"]))
-                if access == "admin" and scope in ("businesses", "families"):
-                    fields.append(bool(row["map_coordinates"]))
-                scores[row["record_key"]] = sum(fields)
-            self.completeness = {
-                key: value for key, value in self.completeness.items() if key[0] == self.signature
-            }
-            self.completeness[token] = scores
-            return scores
+                viewer_score = sum(fields)
+                admin_score = viewer_score
+                if scope == "members":
+                    admin_score += present(row["member_nik"])
+                if scope == "families":
+                    admin_score += present(row["family_address"])
+                if scope in ("businesses", "families"):
+                    admin_score += bool(row["map_coordinates"])
+                scores.append((self.status_rank(scope, row["source"], row["status"]),
+                               admin_score, viewer_score, row["record_key"]))
+            with self.db.connection() as con:
+                con.execute("BEGIN IMMEDIATE")
+                signature = con.execute("SELECT value FROM cache_meta WHERE key='directory_signature'").fetchone()
+                if (not signature or signature[0] != expected_signature
+                    or self.source_signature() != expected_signature or self.order_reference != reference):
+                    raise HTTPException(503, "DIRECTORY_SNAPSHOT_CHANGED")
+                con.executemany("UPDATE directory_rows SET status_rank=?,score_admin=?,score_viewer=? WHERE record_key=?", scores)
+                con.execute("INSERT INTO cache_meta VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value", (key, token))
+
+    def prepare_order(self):
+        self.ensure()
+        for scope in ("businesses", "families", "members"):
+            self.ensure_order(scope)
 
     def ensure(self):
-        stat = self.settings.census_db.stat()
-        signature = f"{self.settings.census_db}:{stat.st_size}:{stat.st_mtime_ns}:directory-v7"
+        reference_stamp = file_stamp(self.sls_reference.path)
+        if reference_stamp != self.reference_stamp:
+            with self.lock:
+                self.sls_reference = SlsReference(self.settings.root, self.settings.sls_reference)
+                self.reference_stamp = reference_stamp
+                self._set_order_reference()
+        signature = self.source_signature()
         if self.signature == signature:
             return
         with self.lock:
@@ -122,11 +169,20 @@ class DirectoryIndex:
             self.signature = signature
             self.verified_at = time.monotonic()
 
+    def source_signature(self):
+        stat = self.settings.census_db.stat()
+        signature = f"{self.settings.census_db}:{stat.st_size}:{stat.st_mtime_ns}:directory-v7"
+        wal = file_stamp(str(self.settings.census_db) + "-wal")
+        if wal[1] is not None:
+            signature += ":wal:" + hashlib.sha256(json.dumps(wal).encode()).hexdigest()
+        return signature
+
     def _build(self, signature):
         with census_connection(self.settings) as source, self.db.connection() as target:
             target.execute("BEGIN IMMEDIATE")
             target.execute("DELETE FROM directory_rows")
             target.execute("DELETE FROM directory_fts")
+            target.execute("DELETE FROM cache_meta WHERE key LIKE 'directory_order:%'")
             context = defaultdict(lambda: {"names": [], "title": None, "kind": "ASSIGNMENT", "version": None})
             geo = {}
             masters = {}
@@ -149,6 +205,17 @@ class DirectoryIndex:
                 for row in masters[system]:
                     geo[(system, row["assignment_id"])] = row
 
+            records, search_records = [], []
+            row_number = 0
+
+            def flush():
+                target.executemany(
+                    "INSERT INTO directory_rows(id,scope,source,record_key,assignment_id,version,index1,title,status,status_label,kecamatan,desa,sls,subsls,kecamatan_label,desa_label,kbli,kategori,kind,kbli_state) VALUES("
+                    + ",".join("?" for _ in range(20)) + ")", records)
+                target.executemany("INSERT INTO directory_fts(rowid,search_text,restricted_text) VALUES(?,?,?)", search_records)
+                records.clear()
+                search_records.clear()
+
             def add(
                 scope,
                 system,
@@ -161,6 +228,8 @@ class DirectoryIndex:
                 kind="",
                 restricted="",
             ):
+                nonlocal row_number
+                row_number += 1
                 aid = str(row["assignment_id"])
                 version = row.get("__version_normalized")
                 index = row.get("index1")
@@ -191,17 +260,11 @@ class DirectoryIndex:
                     kind,
                     self.references.kbli_state(kbli),
                 )
-                cursor = target.execute(
-                    "INSERT INTO directory_rows(scope,source,record_key,assignment_id,version,index1,title,status,status_label,kecamatan,desa,sls,subsls,kecamatan_label,desa_label,kbli,kategori,kind,kbli_state) VALUES("
-                    + ",".join("?" for _ in record)
-                    + ")",
-                    record,
-                )
+                records.append((row_number, *record))
                 search = " ".join(str(v or "") for v in [aid, title, kbli, *row.get("search_names", [])])
-                target.execute(
-                    "INSERT INTO directory_fts(rowid,search_text,restricted_text) VALUES(?,?,?)",
-                    (cursor.lastrowid, search, restricted),
-                )
+                search_records.append((row_number, search, restricted))
+                if len(records) >= 1000:
+                    flush()
 
             family_numbers = defaultdict(list)
             for family in source.execute("SELECT assignment_id,__version_normalized,no_kk FROM mart_keluarga"):
@@ -340,6 +403,9 @@ class DirectoryIndex:
                     "UB",
                     row.get("nib") or "",
                 )
+            flush()
+            if self.source_signature() != signature:
+                raise HTTPException(503, "DIRECTORY_SNAPSHOT_CHANGED")
             target.execute(
                 "INSERT INTO cache_meta VALUES('directory_signature',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",
                 (signature,),
@@ -405,35 +471,22 @@ class DirectoryIndex:
         self.ensure()
         where, values = self.where(scope, payload, role)
         order = "d." + q(payload.sort) + (" DESC" if payload.direction == "desc" else " ASC") + ",d.id ASC"
-        if scope == "businesses" and payload.sort in ("id", "business_priority"):
+        priority = ((scope == "businesses" and payload.sort in ("id", "business_priority"))
+                    or (scope in ("families", "members") and payload.sort in ("id", "family_priority")))
+        if priority:
+            self.ensure_order(scope)
+            column = "score_admin" if role == "admin" else "score_viewer"
             order = (
-                "CASE WHEN d.source='dtd' THEN CASE d.status "
-                "WHEN '1' THEN 0 WHEN '2' THEN 1 WHEN '4' THEN 2 WHEN '3' THEN 3 "
-                "WHEN '9' THEN 4 WHEN '00' THEN 5 WHEN '0' THEN 5 ELSE 6 END "
-                "ELSE CASE WHEN d.status LIKE '1.%' THEN 0 WHEN d.status LIKE '7.%' THEN 2 "
-                "WHEN d.status LIKE '5.%' THEN 3 WHEN d.status LIKE '6.%' THEN 5 ELSE 6 END END,"
-                "directory_completeness(d.record_key) DESC,"
-                "d.title COLLATE NOCASE ASC,d.assignment_id ASC,d.version ASC,d.index1 ASC,d.id ASC"
-            )
-        elif scope in ("families", "members") and payload.sort in ("id", "family_priority"):
-            # Family and member statuses have distinct source codes. Member 2
-            # means deceased; a new member is 5, not the family/business code 2.
-            codes = ("1", "2", "3", "4", "5", "6", "0") if scope == "families" else ("1", "5", "2", "3", "4", "6", "7")
-            order = (
-                "CASE d.status " + " ".join(f"WHEN '{code}' THEN {rank}" for rank, code in enumerate(codes)) + " ELSE 7 END,"
-                "directory_completeness(d.record_key) DESC,"
+                "d.status_rank ASC,d." + column + " DESC,"
                 "d.title COLLATE NOCASE ASC,d.assignment_id ASC,d.version ASC,d.index1 ASC,d.id ASC"
             )
         elif payload.sort in ("business_priority", "family_priority"):
             order = "d.id ASC"
-        scores = (
-            self.completeness_scores(role, scope)
-            if (scope == "businesses" and payload.sort in ("id", "business_priority"))
-            or (scope in ("families", "members") and payload.sort in ("id", "family_priority"))
-            else {}
-        )
         with self.db.connection() as con:
-            con.create_function("directory_completeness", 1, lambda key: scores.get(key, 0))
+            con.execute("BEGIN")
+            active = con.execute("SELECT value FROM cache_meta WHERE key='directory_signature'").fetchone()
+            if not active or active[0] != self.signature:
+                raise HTTPException(503, "DIRECTORY_SNAPSHOT_CHANGED")
             if payload.turnover_group or payload.turnover_basis:
                 register_turnover(con, self.settings.census_db)
             if payload.qualified_only and scope == 'businesses':
@@ -449,6 +502,8 @@ class DirectoryIndex:
             ).fetchall()
         result_rows = [dict(r) | self.sls_reference.describe(r["sls"], r["subsls"]) for r in rows]
         if scope == "businesses":
+            for row in result_rows:
+                row["kbli_title"] = self.references.hierarchy.nodes.get(str(row["kbli"] or "").strip(), {}).get("title")
             result_rows = enrich_businesses(self.settings, result_rows, role)
             states = turnover_lookup(self.settings.census_db)
             for row in result_rows:

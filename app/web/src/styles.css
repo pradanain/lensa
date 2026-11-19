@@ -1056,16 +1056,16 @@ tbody tr .button { margin: -6px 0; }
   .record-directory-table .record-title > span { min-width: 0; }
   .record-directory-table .record-title { text-align: left; width: 100%; font-size: 16px; line-height: 1.45; font-weight: 650; }
   .record-directory-table .record-title small { font-size: 11px; line-height: 1.5; margin-top: 6px; }
-  .record-directory-table tbody tr { gap: 16px 12px; padding: 16px; box-shadow: 0 2px 6px #17334705; }
+  .record-directory-table tbody tr { gap: 12px; padding: 14px; box-shadow: 0 2px 6px #17334705; }
   .record-directory-table tbody td { font-size: 13px; line-height: 1.55; }
-  .record-directory-table tbody td[data-column="title"], .record-directory-table tbody td[data-column="status_label"] { padding-bottom: 12px; border-bottom: 1px solid var(--line); align-self: stretch; }
+  .record-directory-table tbody td[data-column="title"], .record-directory-table tbody td[data-column="status_label"] { padding-bottom: 8px; border-bottom: 1px solid var(--line); align-self: stretch; }
   .record-directory-table .badge { font-size: 11px; line-height: 1.45; padding: 5px 8px; max-width: 100%; text-align: center; }
   .record-directory-table .table-location strong, .record-directory-table .directory-person strong { font-size: 13px; }
   .record-directory-table .directory-person small, .record-directory-table .directory-village { font-size: 12px; line-height: 1.5; }
   .record-directory-table .directory-region-code { font-size: 11px; margin-top: 4px; color: var(--muted); }
   .record-directory-table .directory-kbli code { font-size: 13px; }
-  .record-directory-table .directory-kbli-title { font-size: 13px; line-height: 1.6; margin-top: 6px; }
-  .record-directory-table tbody td[data-column="kbli"], .record-directory-table tbody td[data-column="member_education"] { padding-top: 12px; border-top: 1px solid var(--line); }
+  .record-directory-table .directory-kbli-title { font-size: 13px; line-height: 1.5; margin-top: 4px; }
+  .record-directory-table tbody td[data-column="kbli"], .record-directory-table tbody td[data-column="member_education"] { padding-top: 8px; border-top: 1px solid var(--line); }
   .record-directory-table .directory-open, .record-directory-table .directory-map { min-height: 44px; height: 44px; width: 100%; margin: 0; justify-content: center; font-size: 13px; }
   .record-directory-table .directory-open { background: var(--pale); border-color: #efcbb3; color: var(--accent-dark); }
   .member-directory-table tbody td[data-column="open"] { grid-column: 1 / -1; }
@@ -1361,41 +1361,42 @@ tbody tr .button { margin: -6px 0; }
 .business-directory-table .record-title:hover > .business-title-person { color: var(--muted); }
 .business-directory-table .business-title-person strong { font-weight: 600; }
 
-/* Account management: compact cards with independent heights. */
-.accounts-page { display: grid; gap: 20px; min-width: 0; }
-.accounts-page .page-head { margin: 0; }
-.accounts-page .settings-layout { grid-template-columns: minmax(0,1.6fr) minmax(300px,1fr); align-items: start; gap: 20px; }
-.accounts-card, .add-account-card { padding: 22px; min-width: 0; }
-.account-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
-.account-section-heading h2 { font-size: 17px; margin: 0; }
-.account-section-heading > span { font-size: 12px; color: var(--muted); }
-.account-search { margin-bottom: 12px; }
-.accounts-page .account-row { flex-wrap: nowrap; padding: 14px 0; gap: 10px; }
-.account-row .avatar { width: 32px; height: 32px; font-size: 12px; flex-shrink: 0; }
-.accounts-page .account-identity { min-width: 0; flex: 1; overflow-wrap: anywhere; }
-.account-actions { display: flex; align-items: center; justify-content: end; gap: 4px; flex-shrink: 0; }
-.account-actions .search-select { width: 150px; min-height: 36px; font-size: 12px; }
-.account-actions .button { font-size: 12px; }
-.account-form-intro, .account-footnote, .account-role-hint, .account-access-note { font-size: 12px; color: var(--muted); line-height: 1.6; }
-.account-form-intro { margin: -6px 0 18px; }
-.account-footnote { border-top: 1px solid var(--line); padding-top: 12px; margin: 0; }
-.account-form { gap: 16px; }
-.account-form label { font-size: 13px; gap: 6px; }
-.account-form label > small { font-size: 11px; font-weight: 400; color: var(--muted); }
-.account-password { position: relative; display: flex; }
-.account-password input { padding-right: 44px; }
-.account-password .button { position: absolute; top: 2px; right: 2px; min-height: 36px; width: 36px; }
-.account-role-hint { margin: -8px 0 0; }
-.account-access-note summary, .activity-about summary { cursor: pointer; width: fit-content; }
-.account-access-note p { margin: 10px 0 0; max-width: 90ch; }
-.account-empty { color: var(--muted); font-size: 13px; padding: 20px 0; }
-@media (max-width: 1000px) {
-  .accounts-page .settings-layout { grid-template-columns: minmax(0,1fr); }
-  .add-account-card { max-width: none; }
+/* Shared recovery state for API, session and route failures. */
+.error-state { position: relative; display: flex; align-items: center; gap: 28px; width: 100%; padding: clamp(24px, 4vw, 48px); border: 1px solid var(--line); border-radius: 18px; background: linear-gradient(120deg, #fff8f2 0, #fff 48%); box-shadow: 0 8px 30px #172d3d05; overflow: hidden; }
+.error-state-art { position: relative; display: grid; place-items: center; flex: 0 0 116px; height: 116px; }
+.error-state-orbit { position: absolute; inset: 0; border: 1px dashed #dfba9c; border-radius: 50%; transform: rotate(-18deg); }
+.error-state-symbol { display: grid; place-items: center; width: 82px; height: 82px; background: #ffecd9; border: 1px solid #f4d5ba; border-radius: 25px; color: var(--accent); transform: rotate(-6deg); }
+.error-state-symbol svg { transform: rotate(6deg); }
+.error-state-dot { position: absolute; width: 12px; height: 12px; border: 3px solid #fff; border-radius: 50%; background: var(--accent); top: 9px; right: 10px; }
+.error-state-content { min-width: 0; max-width: 560px; }
+.error-state-label { display: block; color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: 1.4px; margin-bottom: 9px; }
+.error-state h1, .error-state h2 { color: var(--ink); font-size: clamp(21px, 2.5vw, 29px); line-height: 1.25; letter-spacing: -.6px; }
+.error-state p { color: var(--muted); font-size: 14px; margin-top: 12px; }
+.error-state-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+.error-state-page { max-width: 880px; min-height: 360px; margin: clamp(24px, 6vh, 72px) auto; }
+.boot-loading:has(.error-state) { width: 100%; min-height: 100dvh; padding: 24px; display: grid; place-items: center; }
+.boot-loading > .error-state { max-width: 800px; }
+@media (max-width: 600px) {
+  .error-state { flex-direction: column; align-items: flex-start; gap: 22px; }
+  .error-state-art { flex-basis: auto; width: 88px; height: 88px; }
+  .error-state-symbol { width: 64px; height: 64px; border-radius: 20px; }
+  .error-state-symbol svg { width: 29px; }
+  .error-state-actions { width: 100%; }
+  .error-state-actions .button { flex: 1 1 auto; white-space: normal; }
+  .error-state-page { min-height: 0; margin: 16px auto; }
 }
-@media (max-width: 540px) {
-  .accounts-card, .add-account-card { padding: 16px; }
-  .accounts-page .account-row { display: grid; grid-template-columns: 32px minmax(0,1fr); }
-  .account-actions { grid-column: 2; justify-content: start; flex-wrap: wrap; }
-  .account-actions .search-select { width: 140px; }
-}
+
+/* Account disclosure keeps the header focused on username and role. */
+.user-menu.account-dropdown { position: relative; display: block; flex-shrink: 0; }
+.account-trigger { display: flex; align-items: center; min-height: 44px; padding: 5px 8px; border-radius: 8px; list-style: none; }
+.account-trigger::-webkit-details-marker { display: none; }
+.account-trigger:hover, .account-dropdown[open] .account-trigger { background: #f5f7f9; }
+.account-trigger .user-label { display: block; max-width: 140px; text-align: left; }
+.account-trigger .user-label strong { font-size: 13px; }
+.account-trigger .user-label small { font-size: 11px; }
+.account-dropdown-panel { position: absolute; top: calc(100% + 12px); right: 0; z-index: 80; width: 190px; max-width: calc(100vw - 32px); padding: 6px; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 32px #172d3d1a; }
+.account-dropdown-panel a, .account-dropdown-panel button { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 10px 12px; border: 0; border-radius: 7px; background: transparent; color: var(--ink); text-align: left; font-size: 13px; }
+.account-dropdown-panel a:hover, .account-dropdown-panel button:hover { background: var(--pale); color: var(--accent); }
+.account-dropdown-panel .account-logout { border-top: 1px solid var(--line); border-radius: 0 0 7px 7px; color: #a53724; }
+.account-dropdown-panel p { padding: 8px 12px; font-size: 12px; color: #a53724; }
+@media (max-width: 600px) { .account-trigger .user-label { max-width: 90px; } .user-menu.account-dropdown { padding-left: 6px; } }

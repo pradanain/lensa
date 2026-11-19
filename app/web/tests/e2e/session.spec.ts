@@ -23,6 +23,7 @@ test('logout revokes access in every tab and Back cannot reopen protected pages'
   const other=await context.newPage()
   await other.goto('/usaha')
   await expect(other.getByRole('navigation',{name:'Menu utama'})).toBeVisible()
+  await page.locator('.account-trigger').click()
   await page.getByRole('button',{name:'Keluar dari portal',exact:true}).click()
   for(const tab of [page,other]){
     await expect(tab).toHaveURL(/\/login$/)
@@ -43,6 +44,7 @@ test('Back from another document revalidates after logout in another tab',async(
   await page.goto('/api/health')
   const other=await context.newPage()
   await other.goto('/usaha')
+  await other.locator('.account-trigger').click()
   await other.getByRole('button',{name:'Keluar dari portal',exact:true}).click()
   await expect(other).toHaveURL(/\/login$/)
   await page.goBack()
@@ -94,6 +96,7 @@ test('login is visible only after logout navigation finishes before opening anot
   await page.goto('/dashboard')
   for(let cycle=0;cycle<3;cycle++){
     await signIn(page)
+    await page.locator('.account-trigger').click()
     await page.getByRole('button',{name:'Keluar dari portal',exact:true}).click()
     await expect(page.getByLabel('Nama pengguna',{exact:true})).toBeVisible()
     // Starting another navigation as soon as the form is visible must not race

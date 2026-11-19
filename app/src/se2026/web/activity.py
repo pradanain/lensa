@@ -19,6 +19,7 @@ router = APIRouter(prefix="/api/v1/activity", tags=["activity"], dependencies=[D
 FIELDS = ("occurred_at", "user_id", "role", "session_ref", "request_id", "action", "evidence", "endpoint", "method", "status", "duration_ms", "response_bytes", "ip", "agent", "context", "previous_hash")
 ACTIONS = {"LOGIN", "LOGOUT", "PASSWORD_CHANGE", "COMMITMENT", "USER_CREATE", "USER_UPDATE", "DIRECTORY_SEARCH", "DETAIL_VIEW", "EXPORT", "API_ACCESS", "PAGE_VIEW", "CONTROL_CLICK", "MONITOR_VIEW", "MONITOR_EXPORT", "INTEGRITY_CHECK"}
 SCREENS = {"dashboard", "usaha", "keluarga", "data", "questionnaire", "pengaturan", "monitoring", "referensi", "kualitas", "login", "password", "commitment"}
+AccountScope = Literal["non_admin", "admin", "all"]
 
 
 class ActivityLog:
@@ -143,8 +144,16 @@ def browser_event(payload: BrowserEvent, request: Request, user=Depends(authenti
     return {"status": "RECORDED"}
 
 
-def filters(user_id, action, outcome, since, until, session_ref, resource_ref=""):
+def filters(user_id, action, outcome, since, until, session_ref, resource_ref="", account_scope="non_admin"):
     terms, args = [], []
+    # Preserve the recorded role, including for accounts whose role later changes.
+    # Failed logins have no authenticated actor; classify known attempted admins
+    # without claiming that the account owner made the attempt.
+    admin_event = "(e.role='admin' OR (e.user_id IS NULL AND e.action='LOGIN' AND EXISTS (SELECT 1 FROM users attempted WHERE attempted.id=json_extract(e.context,'$.attempted_user_id') AND attempted.role='admin')))"
+    if account_scope == "non_admin":
+        terms.append("NOT " + admin_event)
+    elif account_scope == "admin":
+        terms.append(admin_event)
     if user_id is not None:
         terms.append("(e.user_id=? OR (e.action='LOGIN' AND json_extract(e.context,'$.attempted_user_id')=?))")
         args.extend([user_id, user_id])
@@ -165,8 +174,8 @@ def filters(user_id, action, outcome, since, until, session_ref, resource_ref=""
 
 
 @router.get("")
-def events(request: Request, user_id: int | None = Query(default=None, ge=1), action: str = Query(default="", max_length=40), outcome: Literal["", "success", "failure"] = "", since: int | None = Query(default=None, ge=0), until: int | None = Query(default=None, ge=0), session_ref: str = Query(default="", max_length=32, pattern=r"^[a-f0-9]*$"), resource_ref: str = Query(default="", max_length=32, pattern=r"^[a-f0-9]*$"), page: int = Query(default=1, ge=1), page_size: int = Query(default=10, ge=1, le=100), user=Depends(require_admin)):
-    where, args = filters(user_id, action, outcome, since, until, session_ref, resource_ref)
+def events(request: Request, account_scope: AccountScope = "non_admin", user_id: int | None = Query(default=None, ge=1), action: str = Query(default="", max_length=40), outcome: Literal["", "success", "failure"] = "", since: int | None = Query(default=None, ge=0), until: int | None = Query(default=None, ge=0), session_ref: str = Query(default="", max_length=32, pattern=r"^[a-f0-9]*$"), resource_ref: str = Query(default="", max_length=32, pattern=r"^[a-f0-9]*$"), page: int = Query(default=1, ge=1), page_size: int = Query(default=10, ge=1, le=100), user=Depends(require_admin)):
+    where, args = filters(user_id, action, outcome, since, until, session_ref, resource_ref, account_scope)
     with request.app.state.app_db.connection() as con:
         con.execute("BEGIN")
         total = con.execute("SELECT count(*) FROM activity_events e" + where, args).fetchone()[0]
@@ -177,11 +186,12 @@ def events(request: Request, user_id: int | None = Query(default=None, ge=1), ac
 
 
 @router.get("/sessions")
-def sessions(request: Request, user=Depends(require_admin)):
+def sessions(request: Request, account_scope: AccountScope = "non_admin", user_id: int | None = Query(default=None, ge=1), user=Depends(require_admin)):
+    where, args = filters(user_id, "", "", None, None, "", account_scope=account_scope)
     log = request.app.state.activity
     with log.db.connection() as con:
         active = {log.fingerprint("session", r[0]) for r in con.execute("SELECT token_hash FROM sessions WHERE expires_at>?", (int(time.time()),))}
-        rows = con.execute("SELECT e.user_id,u.username,e.session_ref,min(e.occurred_at) first_seen,max(e.occurred_at) last_seen,count(*) events,sum(CASE WHEN e.action='EXPORT' AND e.status<400 THEN 1 ELSE 0 END) exports FROM activity_events e LEFT JOIN users u ON u.id=e.user_id WHERE e.session_ref<>'' GROUP BY e.user_id,e.session_ref ORDER BY last_seen DESC LIMIT 100").fetchall()
+        rows = con.execute("SELECT e.user_id,u.username,e.session_ref,min(e.occurred_at) first_seen,max(e.occurred_at) last_seen,count(*) events,sum(CASE WHEN e.action='EXPORT' AND e.status<400 THEN 1 ELSE 0 END) exports FROM activity_events e LEFT JOIN users u ON u.id=e.user_id WHERE e.session_ref<>''" + (" AND " + where.removeprefix(" WHERE ") if where else "") + " GROUP BY e.user_id,e.session_ref ORDER BY last_seen DESC LIMIT 100", args).fetchall()
     return {"rows": [dict(row, active=row["session_ref"] in active) for row in rows], "limit": 100}
 
 
@@ -202,6 +212,7 @@ def integrity(request: Request, user=Depends(require_admin)):
 
 
 class ExportFilter(BaseModel):
+    account_scope: AccountScope = "non_admin"
     model_config = ConfigDict(extra="forbid")
     user_id: int | None = Field(default=None, ge=1)
     action: str = Field(default="", max_length=40)
