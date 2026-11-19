@@ -1,6 +1,33 @@
 import {test,expect,type Page} from '@playwright/test'
 
 const origin='http://127.0.0.1:8770'
+
+test('KBLI uses classification filters only even when an old link includes turnover',async({page})=>{
+  const requests:string[]=[]
+  page.on('request',request=>{if(request.url().includes('/kbli/tree?'))requests.push(request.url())})
+  await page.goto(origin+'/usaha?tab=kbli&turnover_group=KECIL&turnover_basis=ESTIMATE_MONTHLY_X12&kecamatan=%226502010%22')
+  await expect(page.locator('.kbli-results')).toBeVisible()
+  await expect(page.getByRole('combobox',{name:'Kelompok omzet tahunan',exact:true})).toHaveCount(0)
+  await expect(page.getByRole('combobox',{name:'Dasar omzet',exact:true})).toHaveCount(0)
+  await expect(page.getByRole('combobox',{name:'Kategori KBLI',exact:true})).toBeVisible()
+  expect(requests.length).toBeGreaterThan(0)
+  for(const url of requests)for(const key of ['turnover_group','turnover_basis','kecamatan'])expect(new URL(url).searchParams.has(key)).toBe(false)
+  await page.getByRole('button',{name:'Unduh Excel sesuai pencarian dan filter',exact:true}).click()
+  await expect(page.locator('.export-filename')).toHaveText('lensa-kbli.xlsx')
+  await expect(page.getByRole('dialog')).not.toContainText('Kelompok omzet')
+  const exported=page.waitForRequest(request=>request.url().endsWith('/kbli/export'))
+  const download=page.waitForEvent('download')
+  await page.getByRole('button',{name:'Ya, unduh',exact:true}).click()
+  const body=(await exported).postDataJSON()
+  expect(body.turnover_group).toBeUndefined()
+  expect(body.turnover_basis).toBeUndefined()
+  expect(body.kecamatan).toBeUndefined()
+  expect((await download).suggestedFilename()).toBe('lensa-kbli.xlsx')
+  await page.getByRole('button',{name:'Lihat UMKM 01',exact:true}).click()
+  await expect(page).toHaveURL(/tab=direktori/)
+  expect(new URL(page.url()).searchParams.has('turnover_group')).toBe(false)
+  expect(new URL(page.url()).searchParams.has('turnover_basis')).toBe(false)
+})
 async function select(page:Page,label:string,value:string){
   await page.getByRole('combobox',{name:label,exact:true}).click()
   await page.getByRole('listbox').locator('[role="option"][data-value="'+value+'"]').click()
@@ -14,8 +41,8 @@ test('turnover filters survive tabs, questionnaire and export context',async({pa
   await expect(row).toContainText('≈ Rp2.400.000.000')
   await expect(row).toContainText('Estimasi bulanan × 12')
   await page.getByRole('tab',{name:'KBLI 2025',exact:true}).click()
-  await expect(page.getByRole('combobox',{name:'Kelompok omzet tahunan',exact:true})).toContainText('Kecil')
-  await expect(page.getByRole('combobox',{name:'Dasar omzet',exact:true})).toContainText('Estimasi')
+  await expect(page.getByRole('combobox',{name:'Kelompok omzet tahunan',exact:true})).toHaveCount(0)
+  await expect(page.getByRole('combobox',{name:'Dasar omzet',exact:true})).toHaveCount(0)
   await expect(page.locator('.kbli-results')).toBeVisible()
   await page.getByRole('tab',{name:'Direktori',exact:true}).click()
   await page.getByRole('button',{name:'Buka kuesioner USAHA SINTETIS 8',exact:true}).click()
